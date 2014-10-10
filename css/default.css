@@ -1,0 +1,26 @@
+.menu {
+	text-decoration:underline;
+	margin-left:30px; 
+	color:blue;
+}
+.menu:hover {
+	cursor: pointer;
+	
+}
+.tbl {
+	border:1px solid;
+	border-collapse:collapse;
+}
+.tbl td, th {
+	border:1px solid;
+	padding:5px;
+}
+.btnSave, .btnDuplicate {
+	cursor:pointer;
+}
+.btnEdit {
+	cursor:pointer;
+}
+.btnDelete {
+	cursor:pointer;
+}
