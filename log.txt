@@ -2,3 +2,202 @@ Start:2014/10/09 19:22:43
 select * from m_user
 Start:2014/10/09 19:22:58
 select user_name from m_user
+Start:2014/10/13 22:46:24
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:47:24
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:48:00
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:48:42
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:48:55
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:50:29
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:50:34
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:50:41
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:50:47
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:51:03
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:52:28
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:52:41
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:56:17
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 22:59:36
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 23:01:19
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 23:07:25
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 23:07:34
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 23:07:51
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 23:09:55
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 23:35:09
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 23:36:01
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 23:36:41
+select user_name=? and pwd=? from m_user  order by Array
+Start:2014/10/13 23:38:13
+select user_name, pwd from m_user where user_name=? and pwd=? 
+a
+a
+Start:2014/10/13 23:38:18
+select user_name, pwd from m_user where user_name=? and pwd=? 
+a
+a
+Start:2014/10/13 23:38:25
+select user_name, pwd from m_user where user_name=? and pwd=? 
+a
+a
+Start:2014/10/13 23:38:58
+select user_name, pwd from m_user where user_name=? and pwd=? 
+a
+a
+Start:2014/10/13 23:39:11
+select user_name, pwd from m_user where user_name=? and pwd=? 
+a
+a
+Start:2014/10/13 23:39:56
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/13 23:41:51
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/13 23:41:55
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/13 23:42:18
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/13 23:44:26
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/13 23:44:34
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a1
+Start:2014/10/13 23:44:54
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a1
+Start:2014/10/13 23:45:06
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+iskandar.tio@gmail.com
+test
+Start:2014/10/13 23:52:29
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/13 23:54:28
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/13 23:54:39
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/13 23:59:35
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/13 23:59:41
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+dd
+Start:2014/10/14 00:00:46
+select user_name from m_user where user_name=? order by Array
+Start:2014/10/14 00:00:46
+insert into m_user(user_name, pwd) values(?,sha2(?,512)
+a
+a
+Start:2014/10/14 00:01:10
+select user_name from m_user where user_name=? order by Array
+Start:2014/10/14 00:01:10
+insert into m_user(user_name, pwd) values(?,sha2(?,512)
+a
+a
+Start:2014/10/14 00:02:26
+select user_name from m_user where user_name=? 
+a
+Start:2014/10/14 00:02:34
+select user_name from m_user where user_name=? 
+iskandar.tio@gmail.com
+Start:2014/10/14 00:02:34
+insert into m_user(user_name, pwd) values(?,sha2(?,512)
+iskandar.tio@gmail.com
+a
+Start:2014/10/14 00:02:57
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/14 00:03:06
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/14 00:09:44
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/14 00:10:02
+select user_name from m_user where user_name=? 
+iskandar.tio@gmail.com
+Start:2014/10/14 00:10:02
+insert into m_user(user_name, pwd) values(?,sha2(?,512)
+iskandar.tio@gmail.com
+a
+Start:2014/10/14 00:10:02
+select role_id from m_role where role_name=? 
+applicant
+Start:2014/10/14 00:10:02
+insert into m_user_role(user_id, role_id) values(?,?)
+0
+
+Start:2014/10/14 00:11:54
+select user_name from m_user where user_name=? 
+iskandar.tio@gmail.com
+Start:2014/10/14 00:11:54
+insert into m_user(user_name, pwd) values(?,sha2(?,512))
+iskandar.tio@gmail.com
+a
+Start:2014/10/14 00:11:54
+select role_id from m_role where role_name=? 
+applicant
+Start:2014/10/14 00:11:54
+insert into m_user_role(user_id, role_id) values(?,?)
+6
+
+Start:2014/10/14 00:16:13
+select user_name from m_user where user_name=? 
+iskandar.tio@gmail.com
+Start:2014/10/14 00:16:13
+insert into m_user(user_name, pwd) values(?,sha2(?,512))
+iskandar.tio@gmail.com
+a
+Start:2014/10/14 00:16:13
+select role_id v from m_role where role_name=? 
+applicant
+Start:2014/10/14 00:16:13
+insert into m_user_role(user_id, role_id) values(?,?)
+7
+1
+Start:2014/10/14 00:18:09
+select user_name from m_user where user_name=? 
+iskandar.tio@gmail.com
+Start:2014/10/14 00:18:15
+select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+iskandar.tio@gmail.com
+a

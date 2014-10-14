@@ -79,13 +79,12 @@ class URLParse
     private static $ACCEPTED_HOSTS = array(
                                             "localhost",
                                             "helloworld.localhost",
-                                            "helloworld",
-                                            "helloworld.h.defuse.ca",
+                                            
                                             );
     private static $FORCE_HTTPS = false;
-    private static $DEFAULT_TITLE = "Defuse Cyber-Security's HelloWorld CMS";
-    private static $DEFAULT_META_DESC = "Powered by Defuse Cyber-Security's HelloWorld CMS";
-    private static $DEFAULT_META_KEYWORDS = "helloworld, cms";
+    private static $DEFAULT_TITLE = "GIZ HRMS";
+    private static $DEFAULT_META_DESC = "GIZ HRMS";
+    private static $DEFAULT_META_KEYWORDS = "giz, hrms, erecruit, e-recruit";
     // If you're running HelloWorld! from a subfolder, set $DIRS_TO_IGNORE to 
     // the number of directories in the URL of the subfolder after the root
     // directory. For example, if the URL to HelloWorld's index.php is...
@@ -107,6 +106,9 @@ class URLParse
                 ),
             "index.php" =>  array(
                 P_RDIR => "",
+                ),
+            "index_ajax" =>  array(
+                P_FILE => "indexAjax.php",
                 ),
 			"applicant" => array(
 				P_FILE => "applicant.php",
@@ -138,6 +140,7 @@ class URLParse
         self::checkHTTPS();
 
         $page_info_key = self::getPageArrayKey();
+		
         if($page_info_key === false)
         {
             self::send404Headers();
