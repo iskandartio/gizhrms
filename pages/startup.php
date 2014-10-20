@@ -24,7 +24,23 @@
 		return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
 	}
 	function _t($name, $value='', $size='', $type='text', $class='') {
-		_p("<input type='$type' id='$name' name='$name' value='$value'".($size==''?'':"size='$size'")."/>");
+		if ($value!='' && count($value)>0) $value=$value[$name];
+		_p("<input type='$type' id='$name' name='$name' class='$name' value='$value'".($size==''?'':"size='$size'")."/>");
+	}
+	function month_options() {
+		$month_options='<option value=1>January</option>';
+		$month_options.='<option value=2>February</option>';
+		$month_options.='<option value=3>March</option>';
+		$month_options.='<option value=4>April</option>';
+		$month_options.='<option value=5>May</option>';
+		$month_options.='<option value=6>June</option>';
+		$month_options.='<option value=7>July</option>';
+		$month_options.='<option value=8>August</option>';
+		$month_options.='<option value=9>September</option>';
+		$month_options.='<option value=10>October</option>';
+		$month_options.='<option value=11>November</option>';
+		$month_options.='<option value=12>December</option>';
+		return $month_options;
 	}
 	function _l($link, $key, $val) {
 		_p("<a href='$link?key=$key'>$val</a>&nbsp;");

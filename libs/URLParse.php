@@ -110,9 +110,19 @@ class URLParse
             "index_ajax" =>  array(
                 P_FILE => "indexAjax.php",
                 ),
+			"position_applied" => array(
+				P_FILE => "position_applied.php",
+				P_TITL => "Position Applied",
+				P_METD => "Applicant Registratin ",
+				P_METK => "Applicant, Apply, Registration"),
 			"applicant" => array(
 				P_FILE => "applicant.php",
-				P_TITL => "Applicant Registration",
+				P_TITL => "Personal Details",
+				P_METD => "Applicant Registratin ",
+				P_METK => "Applicant, Apply, Registration"),
+			"education" => array(
+				P_FILE => "education.php",
+				P_TITL => "Education",
 				P_METD => "Applicant Registratin ",
 				P_METK => "Applicant, Apply, Registration"),
             "about" => array(
@@ -153,6 +163,7 @@ class URLParse
             self::checkRedirectRequest($page_array);
             self::ensureHTMOrSlashExtension($page_array, $page_info_key);
             self::$to_show = $page_array;
+			
             return $page_info_key;
         }
     }

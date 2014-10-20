@@ -1,203 +1,1122 @@
-Start:2014/10/09 19:22:43
-select * from m_user
-Start:2014/10/09 19:22:58
-select user_name from m_user
-Start:2014/10/13 22:46:24
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:47:24
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:48:00
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:48:42
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:48:55
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:50:29
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:50:34
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:50:41
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:50:47
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:51:03
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:52:28
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:52:41
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:56:17
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 22:59:36
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 23:01:19
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 23:07:25
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 23:07:34
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 23:07:51
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 23:09:55
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 23:35:09
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 23:36:01
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 23:36:41
-select user_name=? and pwd=? from m_user  order by Array
-Start:2014/10/13 23:38:13
-select user_name, pwd from m_user where user_name=? and pwd=? 
-a
-a
-Start:2014/10/13 23:38:18
-select user_name, pwd from m_user where user_name=? and pwd=? 
-a
-a
-Start:2014/10/13 23:38:25
-select user_name, pwd from m_user where user_name=? and pwd=? 
-a
-a
-Start:2014/10/13 23:38:58
-select user_name, pwd from m_user where user_name=? and pwd=? 
-a
-a
-Start:2014/10/13 23:39:11
-select user_name, pwd from m_user where user_name=? and pwd=? 
-a
-a
-Start:2014/10/13 23:39:56
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/13 23:41:51
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/13 23:41:55
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/13 23:42:18
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/13 23:44:26
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/13 23:44:34
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a1
-Start:2014/10/13 23:44:54
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a1
-Start:2014/10/13 23:45:06
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-iskandar.tio@gmail.com
-test
-Start:2014/10/13 23:52:29
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/13 23:54:28
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/13 23:54:39
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/13 23:59:35
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/13 23:59:41
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-dd
-Start:2014/10/14 00:00:46
-select user_name from m_user where user_name=? order by Array
-Start:2014/10/14 00:00:46
-insert into m_user(user_name, pwd) values(?,sha2(?,512)
-a
-a
-Start:2014/10/14 00:01:10
-select user_name from m_user where user_name=? order by Array
-Start:2014/10/14 00:01:10
-insert into m_user(user_name, pwd) values(?,sha2(?,512)
-a
-a
-Start:2014/10/14 00:02:26
-select user_name from m_user where user_name=? 
-a
-Start:2014/10/14 00:02:34
-select user_name from m_user where user_name=? 
-iskandar.tio@gmail.com
-Start:2014/10/14 00:02:34
-insert into m_user(user_name, pwd) values(?,sha2(?,512)
-iskandar.tio@gmail.com
-a
-Start:2014/10/14 00:02:57
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/14 00:03:06
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/14 00:09:44
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/14 00:10:02
-select user_name from m_user where user_name=? 
-iskandar.tio@gmail.com
-Start:2014/10/14 00:10:02
-insert into m_user(user_name, pwd) values(?,sha2(?,512)
-iskandar.tio@gmail.com
-a
-Start:2014/10/14 00:10:02
-select role_id from m_role where role_name=? 
-applicant
-Start:2014/10/14 00:10:02
-insert into m_user_role(user_id, role_id) values(?,?)
-0
-
-Start:2014/10/14 00:11:54
-select user_name from m_user where user_name=? 
-iskandar.tio@gmail.com
-Start:2014/10/14 00:11:54
-insert into m_user(user_name, pwd) values(?,sha2(?,512))
-iskandar.tio@gmail.com
-a
-Start:2014/10/14 00:11:54
-select role_id from m_role where role_name=? 
-applicant
-Start:2014/10/14 00:11:54
-insert into m_user_role(user_id, role_id) values(?,?)
-6
-
-Start:2014/10/14 00:16:13
-select user_name from m_user where user_name=? 
-iskandar.tio@gmail.com
-Start:2014/10/14 00:16:13
-insert into m_user(user_name, pwd) values(?,sha2(?,512))
-iskandar.tio@gmail.com
-a
-Start:2014/10/14 00:16:13
-select role_id v from m_role where role_name=? 
-applicant
-Start:2014/10/14 00:16:13
-insert into m_user_role(user_id, role_id) values(?,?)
-7
+Start:2014/10/19 22:39:14
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:39:14
+select a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:39:22
+insert into applicants_education(user_id, education_id, major, place, year_from, year_to, country) values(?,?,?,?,?,?)
+5
 1
-Start:2014/10/14 00:18:09
-select user_name from m_user where user_name=? 
-iskandar.tio@gmail.com
-Start:2014/10/14 00:18:15
-select user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-iskandar.tio@gmail.com
+IPA
+Ricci
+1996
+1999
+Start:2014/10/19 22:39:23
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:39:23
+select a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:39:50
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:39:50
+select a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:39:57
+insert into applicants_education(user_id, education_id, major, place, year_from, year_to, country) values(?,?,?,?,?,?,?)
+5
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+Start:2014/10/19 22:47:06
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:47:06
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:47:34
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:47:34
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:47:59
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:47:59
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:50:53
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:50:53
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:53:21
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:53:21
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:54:06
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:54:06
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:56:29
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:56:29
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:56:52
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:56:52
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:57:00
+insert into applicants_education(user_id, education_id, major, place, year_from, year_to, country) values(?,?,?,?,?,?,?)
+5
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+Start:2014/10/19 22:57:21
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:57:21
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:57:35
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where user_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+5
+Start:2014/10/19 22:57:51
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where user_id=?
+1
+
+Ricci
+1996
+1999
+Germany
+5
+Start:2014/10/19 22:57:51
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where user_id=?
+1
+
+Ricci
+1996
+1999
+Germany
+5
+Start:2014/10/19 22:57:53
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:57:53
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:58:41
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:58:41
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:58:49
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+
+Ricci
+1996
+1999
+Indoneisa
+1
+Start:2014/10/19 22:58:51
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 22:58:51
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 22:59:00
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:01:14
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:01:15
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:01:49
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:01:49
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:02:21
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:02:21
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:04:51
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:04:51
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:04:54
+delete from applicants_education where applicants_education_id=?
+2
+Start:2014/10/19 23:05:34
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:05:34
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:05:36
+delete from applicants_education where applicants_education_id=?
+3
+Start:2014/10/19 23:05:39
+delete from applicants_education where applicants_education_id=?
+4
+Start:2014/10/19 23:05:58
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:05:58
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:07:59
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:07:59
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
 a
+Start:2014/10/19 23:08:01
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:08:01
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:08:02
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:08:02
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:08:42
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:08:42
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:08:42
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:08:42
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:08:47
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:08:47
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:08:49
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:08:49
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:08:55
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:08:55
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:08:59
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:08:59
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:09:12
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:09:12
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:09:13
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:09:13
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:09:13
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:09:13
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:09:14
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:09:14
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:09:24
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:09:24
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+a
+Start:2014/10/19 23:09:48
+select user_id, user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+a
+a
+Start:2014/10/19 23:09:50
+select a.vacation_id, b.vacation_name from job_applied a
+left join vacation b on a.vacation_id=b.vacation_id where user_id=?
+5
+Start:2014/10/19 23:09:50
+select a.vacation_id, concat(a.vacation_name,"(",a.vacation_code,")") vacation from vacation a
+where now() between vacation_start and vacation_end
+order by vacation_code
+5
+Start:2014/10/19 23:09:51
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:09:51
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:10:12
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:10:12
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:10:43
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:10:43
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:11:32
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:11:32
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:11:38
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:11:38
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:12:08
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:12:08
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:12:26
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:12:26
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:12:32
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:12:32
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:13:14
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:13:14
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:13:21
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:13:21
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:14:01
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:14:01
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:14:05
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:14:34
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:14:34
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:14:40
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:14:40
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:15:02
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:15:02
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:15:34
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:15:34
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:15:43
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:15:43
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:16:00
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:16:00
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:16:10
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:16:10
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:16:23
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:16:23
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:16:34
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:16:34
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:16:34
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:16:51
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:16:51
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:17:11
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:17:11
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:17:15
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:17:25
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:17:25
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:18:18
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:18:18
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:18:32
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:18:32
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:20:41
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:20:41
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:20:47
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:20:47
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:21:14
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:21:14
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:21:18
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:21:18
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:22:16
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:22:16
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:22:23
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:22:24
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:22:41
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:22:41
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:22:47
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:22:48
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:23:13
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:23:13
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:23:20
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:23:21
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:23:45
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:23:45
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:23:55
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:23:56
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:24:02
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:24:02
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:24:14
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:24:15
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:24:45
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:24:45
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:25:00
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:25:00
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:25:26
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:25:26
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:27:01
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:27:01
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:27:07
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:27:09
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:27:26
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:27:26
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:27:33
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:27:34
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:27:41
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:27:41
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:27:46
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:28:09
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:28:09
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:28:10
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:28:10
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:28:18
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:28:19
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:28:20
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:28:21
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:29:15
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:29:15
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:29:23
+insert into applicants_education(user_id, education_id, major, place, year_from, year_to, country) values(?,?,?,?,?,?,?)
+5
+undefined
+
+
+
+
+
+Start:2014/10/19 23:29:29
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:29:30
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:29:34
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:29:34
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:29:46
+insert into applicants_education(user_id, education_id, major, place, year_from, year_to, country) values(?,?,?,?,?,?,?)
+5
+undefined
+
+
+1992
+1995
+
+Start:2014/10/19 23:29:48
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:29:48
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:30:47
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:30:47
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:30:47
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:30:47
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:30:47
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:30:47
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:30:57
+insert into applicants_education(user_id, education_id, major, place, year_from, year_to, country) values(?,?,?,?,?,?,?)
+5
+undefined
+
+
+
+
+
+Start:2014/10/19 23:31:40
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:31:40
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:31:53
+insert into applicants_education(user_id, education_id, major, place, year_from, year_to, country) values(?,?,?,?,?,?,?)
+5
+undefined
+
+
+
+
+
+Start:2014/10/19 23:32:31
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:32:31
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:32:38
+insert into applicants_education(user_id, education_id, major, place, year_from, year_to, country) values(?,?,?,?,?,?,?)
+5
+undefined
+
+
+
+
+
+Start:2014/10/19 23:34:02
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:34:02
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:34:07
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+undefined
+
+
+
+
+
+undefined
+Start:2014/10/19 23:34:15
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:34:15
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:34:38
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:34:38
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:34:45
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+undefined
+
+
+
+
+
+undefined
+Start:2014/10/19 23:34:54
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+undefined
+Start:2014/10/19 23:34:55
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+undefined
+Start:2014/10/19 23:35:23
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:35:23
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:35:31
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+3
+IPA
+Ricci
+1996
+1999
+Indonesia
+undefined
+Start:2014/10/19 23:35:40
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+undefined
+
+
+
+
+
+undefined
+Start:2014/10/19 23:35:55
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:35:55
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:36:00
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+5
+
+
+
+
+
+undefined
+Start:2014/10/19 23:36:33
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:36:33
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:36:44
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+5
+
+Bons
+1999
+2004
+
+undefined
+Start:2014/10/19 23:37:56
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:37:56
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:38:05
+insert into applicants_education(user_id, education_id, major, place, year_from, year_to, country) values(?,?,?,?,?,?,?)
+5
+5
+
+
+1999
+2004
+
+Start:2014/10/19 23:38:28
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+5
+Information Technology
+Binus
+1999
+2004
+Indonesia
+5
+Start:2014/10/19 23:38:36
+select city_id, province_id, city_val from city  order by province_id, city_val
+Start:2014/10/19 23:38:36
+select * from applicants where user_id=? 
+5
+Start:2014/10/19 23:38:36
+select gender_val from gender  order by gender_id
+Start:2014/10/19 23:38:36
+select nationality_id, nationality_val from nationality  order by nationality_id
+Start:2014/10/19 23:38:36
+select country_id, country_val from country  order by country_id
+Start:2014/10/19 23:38:36
+select province_id, province_val from province  order by province_id
+Start:2014/10/19 23:38:37
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:38:37
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:38:47
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+5
+Information Technology
+Binus
+1999
+2004
+Indonesia
+5
+Start:2014/10/19 23:38:54
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:38:54
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:38:55
+select city_id, province_id, city_val from city  order by province_id, city_val
+Start:2014/10/19 23:38:55
+select * from applicants where user_id=? 
+5
+Start:2014/10/19 23:38:55
+select gender_val from gender  order by gender_id
+Start:2014/10/19 23:38:55
+select nationality_id, nationality_val from nationality  order by nationality_id
+Start:2014/10/19 23:38:55
+select country_id, country_val from country  order by country_id
+Start:2014/10/19 23:38:55
+select province_id, province_val from province  order by province_id
+Start:2014/10/19 23:38:56
+select a.vacation_id, b.vacation_name from job_applied a
+left join vacation b on a.vacation_id=b.vacation_id where user_id=?
+5
+Start:2014/10/19 23:38:56
+select a.vacation_id, concat(a.vacation_name,"(",a.vacation_code,")") vacation from vacation a
+where now() between vacation_start and vacation_end
+order by vacation_code
+5
+Start:2014/10/19 23:38:58
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:38:58
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:39:11
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+1
+IPA
+Ricci
+1996
+1999
+Indonesia
+1
+Start:2014/10/19 23:39:27
+delete from applicants_education where applicants_education_id=?
+1
+Start:2014/10/19 23:39:45
+insert into applicants_education(user_id, education_id, major, place, year_from, year_to, country) values(?,?,?,?,?,?,?)
+5
+1
+
+Ricci
+1996
+1999
+Jakarta
+Start:2014/10/19 23:49:00
+select city_id, province_id, city_val from city  order by province_id, city_val
+Start:2014/10/19 23:49:00
+select * from applicants where user_id=? 
+5
+Start:2014/10/19 23:49:00
+select gender_val from gender  order by gender_id
+Start:2014/10/19 23:49:00
+select nationality_id, nationality_val from nationality  order by nationality_id
+Start:2014/10/19 23:49:00
+select country_id, country_val from country  order by country_id
+Start:2014/10/19 23:49:00
+select province_id, province_val from province  order by province_id
+Start:2014/10/19 23:49:01
+select education_id, education_val from education  order by sort_id
+Start:2014/10/19 23:49:01
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/19 23:49:07
+delete from applicants_education where applicants_education_id=?
+6
+Start:2014/10/19 23:49:07
+delete from applicants_education where applicants_education_id=?
+6
+Start:2014/10/19 23:49:09
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+5
+Information Technology
+Binus
+1999
+2004
+Indonesia
+5
+Start:2014/10/20 10:10:49
+select city_id, province_id, city_val from city  order by province_id, city_val
+Start:2014/10/20 10:10:49
+select * from applicants where user_id=? 
+5
+Start:2014/10/20 10:10:49
+select gender_val from gender  order by gender_id
+Start:2014/10/20 10:10:49
+select nationality_id, nationality_val from nationality  order by nationality_id
+Start:2014/10/20 10:10:49
+select country_id, country_val from country  order by country_id
+Start:2014/10/20 10:10:49
+select province_id, province_val from province  order by province_id
+Start:2014/10/20 10:10:51
+select education_id, education_val from education  order by sort_id
+Start:2014/10/20 10:10:51
+select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc
+5
+Start:2014/10/20 10:10:53
+select a.vacation_id, b.vacation_name from job_applied a
+left join vacation b on a.vacation_id=b.vacation_id where user_id=?
+5
+Start:2014/10/20 10:10:53
+select a.vacation_id, concat(a.vacation_name,"(",a.vacation_code,")") vacation from vacation a
+where now() between vacation_start and vacation_end
+order by vacation_code
+5
+Start:2014/10/20 10:15:40
+select a.question_id, b.question, d.choice_id from vacation_question a left join question b on a.question_id=b.question_id
+		left join job_applied c on c.vacation_id=a.vacation_id and c.user_id=?
+		left join applicants_answer d on d.job_applied_id=c.job_applied_id and d.question_id=a.question_id
+		where a.vacation_id=?
+5
+1
+Start:2014/10/20 10:15:40
+select choice_id, choice from choice where question_id=? order by sort_id
+1
+Start:2014/10/20 10:15:40
+select choice_id, choice from choice where question_id=? order by sort_id
+2

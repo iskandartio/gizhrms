@@ -5,6 +5,7 @@ require "pages/startup.php";
 require_once('libs/URLParse.php'); 
 
 $name = URLParse::ProcessURL();
+
 if (endsWith($name,'ajax')) {
 
 	URLParse::IncludePageContents();
@@ -17,7 +18,7 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <title><?php 
                 $title = URLParse::getPageTitle($name);
-                echo htmlspecialchars($title, ENT_QUOTES);
+                echo "GIZ HRMS";
     ?></title>
     <meta name="description" content="<?php 
                 $metd = URLParse::getPageMetaDescription($name);
@@ -64,6 +65,7 @@ header('Content-Type: text/html; charset=utf-8');
 						alert(msg);
 						return;
 					}
+					alert(msg);
 					location.href=msg;
 				}				
 			});
@@ -134,27 +136,24 @@ header('Content-Type: text/html; charset=utf-8');
 <?php
 		die;
 	}?>
-	<?php _p($name)?>
-	<table>
-	<tr><td valign="top">
-		
-		<table>
-		<tr><td>
-        <a href="/gizhrms/applicant">Applicant</a></td></tr>
-		<tr><td>
-        <a href="/gizhrms/about">About</a></td></tr>
-		<tr><td>
-        <a href="/gizhrms/skadlfjasdklfjsdklaf">404 page</a></td></tr>
+	
+
+	<div id="menu">
+		<span>Application Data</span>
+		<table style="margin:5px">
+		<tr><td><a href="/gizhrms/position_applied">Position Applied</a></td></tr>
+		<tr><td><a href="/gizhrms/applicant">Personal Details</a></td></tr>
+		<tr><td><a href="/gizhrms/education">Education</a></td></tr>
 		</table>
-    </div>
-	</td><td>
+	</div>
     <div id="pagecontent">
+		<h3 id='title'><?php _p($title)?></h3>
+		<table style="margin:5px"><tr><td>
         <?php
             URLParse::IncludePageContents();
         ?>
+		</td></tr></table>
     </div>
-	</td></tr>
-	</table>
 	
 </body>
 </html>

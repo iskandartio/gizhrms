@@ -14,7 +14,7 @@
 		echo '<br/>';
 	}
 	function _t($name, $value='', $size='', $type='text', $class='') {
-		_p("<input type='$type' id='$name' name='$name' value='$value'".($size==''?'':"size='$size'")."/>");
+		_p("<input type='$type' id='$name' class='$name' name='$name' value='$value'".($size==''?'':"size='$size'")."/>");
 	}
 	function _l($link, $key, $val) {
 		_p("<a href='$link?key=$key'>$val</a>&nbsp;");

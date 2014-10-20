@@ -1,17 +1,31 @@
 .menu {
-	text-decoration:underline;
-	margin-left:30px; 
-	color:blue;
-}
-.menu:hover {
-	cursor: pointer;
+	border:1px solid black;
+	border-radius:5px 5px 0 0;
+	border-spacing:0px;
+	line-height:28px;
 	
 }
+.menu th  {
+	
+	
+	background-color:#447CB5;
+	border-radius:5px 5px 0 0;
+	padding:0px 3px 0px 5px;
+	line-height:28px;
+	
+}
+.menu td  {
+	
+	
+	padding:3px;
+	
+}
+
 .tbl {
 	border:1px solid;
 	border-collapse:collapse;
 }
-.tbl td, th {
+.tbl td, .tbl th {
 	border:1px solid;
 	padding:5px;
 }
@@ -48,4 +62,83 @@
 	background-image: -ms-linear-gradient(top, #26759e, #133d5b);
 	background-image: -o-linear-gradient(top, #26759e, #133d5b);
 	background-image: linear-gradient(to bottom, #26759e, #133d5b);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#26759e, endColorstr=#133d5b);
+}
+
+input, select, textarea {
+	padding : 3px;
+	border: solid 1px #ddd;
+	border-radius: 3px;
+	cursor : pointer;
+	box-shadow: 2px 2px 2px #999;
+}
+.tbl img {
+	cursor:pointer;
+}
+
+#pagecontent {
+	position: relative;
+	float: left;
+	text-align: left;
+	top: 0px;
+	height: auto;
+	padding: 0 0 10px 0;
+	background-color: #FFF;
+	left: 3%;
+	border: solid 1px #E9EAF2;
+	border-radius: 5px;
+	list-style-type: square;
+	border-top: none;
+	list-style-position: outside;
+	margin-left:10px;
+}
+
+#pagecontent h3 {
+font-family: Helvetica, Arial, sans-serif;
+color: #fff !important;
+background-color: #447CB5;
+line-height: 28px;
+text-align: left;
+font-size: 12px;
+font-weight: bold;
+text-transform: uppercase;
+text-align: left;
+margin: 0;
+background-repeat: repeat-x;
+padding: 0 0 0 5px;
+border-radius: 5px 5px 0 0;
+border-bottom: none;
+}
+#menu {
+	position: relative;
+	float: left;
+	text-align: left;
+	top: 0px;
+	height: auto;
+	padding: 0 0 10px 0;
+	background-color: #FFF;
+	left: 3%;
+	border: solid 1px #E9EAF2;
+	border-radius: 5px;
+	list-style-type: square;
+	border-top: none;
+	list-style-position: outside;
+	
+}
+
+#menu span {
+font-family: Helvetica, Arial, sans-serif;
+color: #fff !important;
+background-color: #447CB5;
+line-height: 28px;
+text-align: left;
+font-size: 12px;
+font-weight: bold;
+text-transform: uppercase;
+text-align: left;
+margin: 0;
+background-repeat: repeat-x;
+padding: 0px 5px 0px 5px;
+display:block;
+border-radius: 5px 5px 0 0;
+border-bottom: none;
 }
