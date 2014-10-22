@@ -56,26 +56,29 @@ header('Content-Type: text/html; charset=utf-8');
 			$('#btn_login').css('display','');
 		}
 		function Login() {
+			$('#freeze').show();
 			$.ajax({
 				type : "post",
 				url : "indexAjax.php",
 				data : "type=login&email="+$('#email').val()+"&password="+$('#password').val(),
 				success: function(msg) {
+					$('#freeze').hide();
 					if (msg=='Wrong User Name or Password!')  {
 						alert(msg);
 						return;
 					}
-					alert(msg);
 					location.href=msg;
 				}				
 			});
 		}
 		function Register() {
+			$('#freeze').show();
 			$.ajax({
 				type : "post",
 				url : "indexAjax.php",
 				data : "type=register&email="+$('#email').val()+"&password="+$('#password').val()+"&confirm_password="+$('#confirm_password').val(),
 				success: function(msg) {
+					$('#freeze').hide();
 					if (msg=='Confirm password not matched!')  {
 						alert(msg);
 						return;
@@ -112,10 +115,16 @@ header('Content-Type: text/html; charset=utf-8');
 		} 
 	</script>
 <?php } ?>
+	<script>
+		$(function() {
+			$('#freeze').hide();
+		});
+	</script>
 </head>
 <body>
 	
     <h1>GIZ PAKLIM HRMS</h1>
+	<div id="freeze" style="position: absolute; top: 0px; left: 0px; z-index: 1000; opacity: 0.6; width: 100%; height: 100%; color: white; background-color: black;"></div>
 <?php if ($name=='') {?>
 	<table id="tbl_login">
 		<tbody>
@@ -144,6 +153,9 @@ header('Content-Type: text/html; charset=utf-8');
 		<tr><td><a href="/gizhrms/position_applied">Position Applied</a></td></tr>
 		<tr><td><a href="/gizhrms/applicant">Personal Details</a></td></tr>
 		<tr><td><a href="/gizhrms/education">Education</a></td></tr>
+		<tr><td><a href="/gizhrms/working">Working Experience</a></td></tr>
+		<tr><td><a href="/gizhrms/language">Language</a></td></tr>
+		<tr><td><a href="/gizhrms/references">References</a></td></tr>
 		</table>
 	</div>
     <div id="pagecontent">

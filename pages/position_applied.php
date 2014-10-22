@@ -9,19 +9,49 @@ order by vacation_code',array($_SESSION['uid']));
 		$combo_position_applied=shared::select_combo($res,'vacation_id','vacation');
 		return $combo_position_applied;
 	}
-	$pos=db::DoQuery('select a.vacation_id, b.vacation_name from job_applied a
+	$pos=db::DoQuery('select a.job_applied_id, a.vacation_id, b.vacation_name from job_applied a
 left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SESSION['uid']));
 	
 ?>
 <script>
 	var fields={'question_id':1};
+	var main_fields={'job_applied_id':1, 'vacation_id':2, 'btn':3};
+	var table='tbl_job_applied';
 	$(function() {
 		$('#position_applied').bind("change", ChangeQuestion);
-		Hide();
 		$('#btn_apply').css('display','none');
-		$('.btn_edit').bind("click", Edit);
 		$('#btn_apply').bind('click',Apply);
+		<?php if (count($pos)==0) {
+			_p("$('#tbl_job_applied').hide()");
+		}?>
+		
+		bindAll();
 	});
+	function Save() {};
+	function Cancel() {};
+	function Delete() {
+		if (!confirm("Are you sure to delete?")) return;
+		var par=$(this).parent().parent();
+		data='type=delete&job_applied_id='+getChild(par,'job_applied_id', main_fields);
+		
+		$('#freeze').show();
+		$.ajax({
+			type:'post',
+			url:'applicantAjax.php',
+			data:data,
+			success:function(msg) {
+				$('#freeze').hide();
+				$('#questions').html('');
+				$('#btn_apply').css('display','none');
+				$('#position_applied').val(0);
+				
+				par.remove();
+				if ($('#tbl_job_applied tbody tr').length==0) {
+					$('#tbl_job_applied').hide();
+				}
+			}
+		});
+	};
 	function Apply() {
 		var data='type=apply&vacation_id='+$('#position_applied').val();
 		$('#tbl_question .question_id').each(function() {
@@ -30,25 +60,28 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 		$('#tbl_question .cls_choice').each(function() {
 			data+='&answer[]='+$(this).val();
 		});	
-		
+		$('#freeze').show();		
 		$.ajax({
 			type:'post',
 			url:'applicantAjax.php',
 			data:data,
 			success: function(msg) {
+				$('#freeze').hide();
 				alert('Success');
+				
 				if (msg) {
-					$('#tbl_position_applied').append(msg);
+					$('#tbl_job_applied').append(msg);
 				}
-				$('.btn_edit').bind("click", Edit);
-				Hide();
+				bindAll();
+				$('#tbl_job_applied').show();
 			}
 		});
 		
 	}
 	function Edit() {
 		var par=$(this).parent().parent();
-		var id=getChildHtmlVal(par, 'question_id');
+		var id=getChildHtmlSpanVal(par, 'vacation_id', main_fields);
+		
 		$('#position_applied').val(id);
 		ajaxChangeQuestion(id);
 		
@@ -58,22 +91,20 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 		
 	}
 	function ajaxChangeQuestion(val) {
+		$('#freeze').show();
 		$.ajax({
 			type : 'post',
 			url : 'applicantAjax.php',
 			data : 'type=change_question&vacation_id='+val, 
 			success : function(msg) {
+				$('#freeze').hide();
 				$('#questions').html(msg);
-				Hide();
+				hideColumns('tbl_question');
 				After();
 			}
 		});
 	}
-	function Hide() {
-		$('.tbl td:nth-child(1)').hide();
-		$('.tbl th:nth-child(1)').hide();
-		
-	}
+	
 	function After() {
 		$('.cls_choice').bind("change", ToggleApplyButton);
 		
@@ -100,14 +131,19 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 	}
 	
 </script>
-<?php if (count($pos)>0) {?>
-<table class='tbl' id='tbl_position_applied'>
-	<tr><th></th><th colspan="2">Position Applied</th></tr>
+
+<table class='tbl' id='tbl_job_applied'>
+	<thead>
+	<tr><th></th><th>Position Applied</th><th></th></tr>
+	</thead>
+	<tbody>
 	<?php foreach ($pos as $row) {
-		_p("<tr><td>".$row['vacation_id']."</td><td>".$row['vacation_name']."</td><td><img src='images/edit.png' class='btn_edit'/></td></tr>");
+		_p("<tr><td>".$row['job_applied_id']."</td><td><span style='display:none'>".$row['vacation_id']."</span>".$row['vacation_name']."</td>");
+		_p("<td>".getImageTags(array('edit','delete'))."</td></tr>");
 	} ?>
+	</tbody>
 </table>
-<?php }?>
+
 <table>
 <tr><td>Apply for</td><td>:</td><td><select id='position_applied'><option value=0> - Position Applied - </option><?php _p(combo_position_applied())?></select></td></tr>
 </table>

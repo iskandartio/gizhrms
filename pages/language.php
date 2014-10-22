@@ -1,0 +1,177 @@
+<?php
+
+	$res=db::select('language','language_id, language_val','','sort_id');
+	$combo_language=shared::select_combo($res,'language_id', 'language_val');
+	$res=db::select('language_skill','language_skill_id, language_skill_val','','sort_id');
+	$combo_language_skill=shared::select_combo($res,'language_skill_id','language_skill_val');
+	$language=db::DoQuery('select b.applicants_language_id, a.language_id, a.language_val, b.language_skill_id, c.language_skill_val from language a
+left join applicants_language b on a.language_id=b.language_id and b.user_id=?
+left join language_skill c on b.language_skill_id=c.language_skill_id', array($_SESSION['uid']));
+	$other_language=db::DoQuery('select a.applicants_other_language_id, a.language_val, a.language_skill_id, b.language_skill_val from applicants_other_language a
+	left join language_skill b on b.language_skill_id=a.language_skill_id
+	where a.user_id=?', array($_SESSION['uid']));
+	
+?>
+<script>
+	var fields={'applicants_language_id':1,'language_id':2, 'language_skill_id':3, 'btn':4}
+	var other_fields={'applicants_other_language_id':1,'language_val':2, 'language_skill_id':3, 'btn':4}
+	var table='tbl_language';
+	var other_table='tbl_other_language';
+	$(function() {
+		$('#btn_add').bind("click", AddNew);
+		bindAll();
+		bindAll(other_table);
+		
+	});
+	
+	function Delete() {
+		if (!confirm("Are you sure to delete?")) return;
+		var par=$(this).parent().parent();
+		var v=par.parent().parent().attr('id')=='tbl_other_language';
+		if (v) {
+			data='type=delete_other&applicants_other_language_id='+getChild(par,'applicants_other_language_id',other_fields);
+		} else {
+			data='type=delete&applicants_language_id='+getChild(par,'applicants_language_id');
+		}
+		$('#freeze').show();
+		$.ajax({
+			type:'post',
+			url:'languageAjax.php',
+			data:data,
+			success:function(msg) {
+				$('#freeze').hide();
+				par.remove();
+			}
+		});
+	}
+
+	function Save() {
+		var par=$(this).parent().parent();
+		if (getChild(par, 'language_id')==0) {
+			alert('failed');
+			return;
+		}
+		var v=par.parent().parent().attr('id')=='tbl_other_language';
+		if (v) {
+			f=other_fields;
+			data='type=save_other';
+		} else {
+			f=fields;
+			data='type=save';
+		}
+		
+		for (key in f) {
+			
+			if (key!='btn') data+="&"+key+"="+getChild(par, key, f);
+		}
+		$('#freeze').show();
+		$.ajax({
+			type:'post',
+			url:'languageAjax.php',
+			data: data,
+			success: function(msg) {
+				$('#freeze').hide();
+				if (v) {
+					
+					setHtmlText(par, 'applicants_other_language_id', msg, f);
+					textToLabel(par,'language_val', f);
+					selectedToLabel(par,'language_skill_id', f);
+					btnChange(par, ['edit','delete']);
+				} else {
+					setHtmlText(par, 'applicants_language_id', msg, f);
+					
+					selectedToLabel(par,'language_id');
+					selectedToLabel(par,'language_skill_id', f);
+					btnChange(par, ['edit']);
+				
+				}
+				
+				bindAll();
+			}
+		});
+		
+		
+	}
+	function AddNew() {
+		var a='';
+		a+='<tr><td></td>';
+		a+="<td><?php _t("language_val")?></td>";
+		a+='<td><select id="language_skill_id"><option value=0> - Language Skill -</option>';
+		a+="<?php _p($combo_language_skill)?>";
+		a+='</select></td>';
+		a+="<td>"+getImageTags(['save','delete'])+"</td>";
+		a+="</tr>";
+		
+		$('#tbl_other_language tbody').append(a);
+		bindAll(other_table);
+	}
+
+	function Edit() {
+		var par=$(this).parent().parent();
+		var v=par.parent().parent().attr('id')=='tbl_other_language';
+		if (v) {
+			labelToText(par, 'language_val', '', other_fields);
+		} else {
+			labelToSelect(par, 'language_id', ' - Language Level -', "<?php _p($combo_language)?>")
+		}
+		labelToSelect(par, 'language_skill_id', ' - Language Skill Level -', "<?php _p($combo_language_skill)?>")
+		btnChange(par, ['save','cancel']);
+			
+		
+		bindAll();
+		
+	}
+	function Cancel() {
+		var par=$(this).parent().parent();
+		var v=par.parent().parent().attr('id')=='tbl_other_language';
+		f=fields;
+		if (v) {
+			f=other_fields;
+			
+			textToDefaultLabel(par,'language_val',  f);
+			btnChange(par, ['edit','delete']);
+		} else {
+			
+			selectedToDefaultLabel(par,'language_id');
+			btnChange(par, ['edit']);
+		}
+		selectedToDefaultLabel(par,'language_skill_id',f);
+		
+		
+		bindAll();
+	}
+	
+</script>
+
+<table class='tbl' id='tbl_language'>
+	<thead>
+	<tr><th>ID<th>Language</th><th>Skill Level</th><th></th></tr>
+	</thead>
+	<tbody>
+	<?php foreach($language as $row) {
+		_p('<tr><td>'.$row['applicants_language_id'].'</td>');
+		_p('<td><span style="display:none">'.$row['language_id'].'</span>'.$row['language_val'].'</td>');
+		_p('<td><span style="display:none">'.$row['language_skill_id'].'</span>'.$row['language_skill_val'].'</td>');
+		_p("<td>".getImageTags(array('edit'))."</td>");
+		_p("</tr>");
+		
+	}?>
+	</tbody>
+</table>
+
+<button class="button_link" id="btn_add">Add Other Language</button>
+<table class='tbl' id='tbl_other_language'>
+	<thead>
+	<tr><th>ID<th>Language</th><th>Skill Level</th><th></th></tr>
+	</thead>
+	<tbody>
+	<?php foreach($other_language as $row) {
+		_p('<tr><td>'.$row['applicants_other_language_id'].'</td>');
+		_p('<td>'.$row['language_val'].'</td>');
+		_p('<td><span style="display:none">'.$row['language_skill_id'].'</span>'.$row['language_skill_val'].'</td>');
+		_p("<td>".getImageTags(array('edit','delete'))."</td>");
+		_p("</tr>");
+		
+	}?>
+	</tbody>
+</table>

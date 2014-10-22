@@ -1,5 +1,5 @@
 <?php
-	
+
 	$res=db::select('education','education_id, education_val','','sort_id');
 	$combo_education=shared::select_combo($res,'education_id', 'education_val');
 	$education=db::DoQuery('select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc', array($_SESSION['uid']));
@@ -7,41 +7,32 @@
 ?>
 <script>
 	var fields={'applicants_education_id':1,'education_id':2, 'major':3, 'place':4, 'year_from':5, 'year_to':6, 'country':7, 'btn':8}
+	var table='tbl_education';
 	$(function() {
 		$('#btn_add').bind("click", AddNew);
+		
 		bindAll();
 		
 	});
-	function bindAll()  {
-		$('.btn_edit').bind("click", Edit);
-		$('.btn_save').bind("click", Save);
-		$('.btn_delete').bind("click", Delete);
-		hideColumns();
-	}
-	function hideColumns() {
-		$.each($('#tbl_education tbody tr'), function(index) {
-			$(this).children('td:nth-child(1)').css('display','none');
-		});
-		$.each($('#tbl_education thead tr'), function(index) {
-			$(this).children('th:nth-child(1)').css('display','none');
-		});
-	}
+	
 	function Delete() {
+		if (!confirm("Are you sure to delete?")) return;
+		
 		var par=$(this).parent().parent();
 		data='type=delete&applicants_education_id='+getChild(par,'applicants_education_id');
+		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'educationAjax.php',
 			data:data,
 			success:function(msg) {
+				$('#freeze').hide();
 				par.remove();
 			}
 		});
 	}
 	function Save() {
-		
 		var par=$(this).parent().parent();
-		
 		if (getChild(par, 'education_id')==0) {
 			alert('failed');
 			return;
@@ -50,13 +41,13 @@
 		for (key in fields) {
 			if (key!='btn') data+="&"+key+"="+getChild(par, key);
 		}
-		
+		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'educationAjax.php',
 			data: data,
 			success: function(msg) {
-				
+				$('#freeze').hide();
 				setHtmlText(par, 'applicants_education_id', msg);
 				selectedToLabel(par,'education_id');
 				textToLabel(par,'major');
@@ -82,7 +73,7 @@
 		a+="<td><?php _t("year_from","","3")?></td>";
 		a+="<td><?php _t("year_to","","3")?></td>";
 		a+="<td><?php _t("country")?></td>";
-		a+="<td><img src='images/save.png' class='btn_save'/></td>";
+		a+="<td>"+getImageTags(['save','delete'])+"</td>";
 		a+="</tr>";
 		
 		$('#tbl_education tbody').append(a);
@@ -94,10 +85,25 @@
 		labelToSelect(par, 'education_id', ' - Education Level -', "<?php _p($combo_education)?>")
 		labelToText(par, 'major');
 		labelToText(par, 'place');
-		labelToText(par, 'year_from');
-		labelToText(par, 'year_to');
+		labelToText(par, 'year_from',3);
+		labelToText(par, 'year_to',3);
 		labelToText(par, 'country');
-		btnChange(par, ['save']);
+		
+		btnChange(par, ['save','cancel']);
+			
+		
+		bindAll();
+		
+	}
+	function Cancel() {
+		var par=$(this).parent().parent();
+		selectedToDefaultLabel(par,'education_id');
+		textToDefaultLabel(par,'major');
+		textToDefaultLabel(par,'place');
+		textToDefaultLabel(par,'year_from');
+		textToDefaultLabel(par,'year_to');
+		textToDefaultLabel(par,'country');
+		btnChange(par, ['edit','delete']);
 		bindAll();
 	}
 	
@@ -116,9 +122,9 @@
 		_p("<td>".$row["year_from"]."</td>");
 		_p("<td>".$row["year_to"]."</td>");
 		_p("<td>".$row["country"]."</td>");
-		_p("<td><img src='images/edit.png' class='btn_edit'/> <img src='images/delete.png' class='btn_delete'/></td>");
+		_p("<td>".getImageTags(array('edit','delete'))."</td>");
 		_p("</tr>");
-
+		
 	}?>
 	</tbody>
 </table>

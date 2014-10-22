@@ -35,6 +35,7 @@ class db {
 	static function Log($logs) {
 		if (is_array($logs)) {
 			foreach ($logs as $log) {
+				if (!isset($log)) $log='null';
 				file_put_contents("log.txt", $log."\n", FILE_APPEND | LOCK_EX);
 			}	
 		} else {
@@ -42,17 +43,38 @@ class db {
 		}
 		
 	}
+	static function execMeDebug($query, $params=array(), $con=null) {
+		if (!isset($con)) $con= db::Connect();
+	 	foreach ($params as &$v) { 
+			if (isset($v)) {
+				$v = str_replace("'","''",$v);
+				$v="'$v'";
+			} else {
+				$v="null";
+			}
+		} 
+	    $query = vsprintf(str_replace("?","%s",$query), $params );
+		$res = $con->exec($query);
+		db::Log($query);
+		if (substr($query,0,6)=='insert') {
+			return $con->lastInsertId();
+		}
+		return $res->rowCount();
+	}
 	static function ExecMe($query, $params=array(), $con=null) {
+		
 		if (!isset($con)) $con= db::Connect();
 	 	$res=$con->prepare($query);
 		$res->execute($params);
 		db::Log("Start:".date('Y/m/d H:i:s'));
 		db::Log($query);
 		db::Log($params);
+		
 		if (substr($query,0,6)=='insert') {
 			return $con->lastInsertId();
 		}
 		return $res->rowCount();
+		
 	}
 
 	
@@ -86,6 +108,57 @@ class db {
 		$s="insert into $tbl($fields) values(".substr(str_repeat(',?', count($params)),1).")";
 		return db::ExecMe($s, $params, $con);
 	}
+	function insertEasy($tbl, $post, $con=null) {
+		
+		$fields="";
+		$count=0;
+		$params=array();
+		foreach($post as $key=>$value) {
+			if ($key=='type') {
+				continue;
+			}
+			if ($key==$tbl.'_id') {
+				continue;
+			}
+			$fields.=",".$key;
+			$count++;
+			if ($value=='') {
+				array_push($params, null);
+			} else {
+			array_push($params, $value);
+			}
+		}
+		$fields=substr($fields,1);
+		$s="insert into $tbl($fields) values(".substr(str_repeat(',?', $count),1).")";
+		return db::ExecMe($s, $params, $con);
+	}
+	
+	function updateEasy($tbl, $post, $con=null) {
+		
+		$fields="";
+		$count=0;
+		$params=array();
+		foreach($post as $key=>$value) {
+			if ($key=='type') {
+				continue;
+			}
+			if ($key==$tbl.'_id') {
+				$where="$key=".$value;
+				continue;
+			}
+			$fields.=",".$key;
+			$count++;
+			if ($value=='') {
+				array_push($params, null);
+			} else {
+			array_push($params, $value);
+			}
+		}
+		$fields=substr($fields,1);
+		$s="update $tbl set ".str_replace(',','=?,', $fields)."=? where $where";
+		return db::ExecMe($s, $params, $con);
+	}
+	
 	function update($tbl, $fields, $where, $params=array(), $con=null) {
 		$s="update $tbl set ".str_replace(',','=?,', $fields)."=? where $where";
 		

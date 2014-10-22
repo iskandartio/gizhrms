@@ -1,0 +1,61 @@
+Recruitment Module:
+1. Input Recruitment
+- Email, password n confirm password to create login account.
+- Position. * Use combobox
+- First Name*, Last Name*. If only have one name then first name= last name
+- Place/Date of birth*, Gender*, Nationality*, Address*, Country*, Province*, City*, Post Code*, Phone1*, Phone2
+- Currently GIZ Staff checkbox *
+- Working Experience:
+	- Month+ Year From*, Month+Year To*
+	- Employer*
+	- Position/Title*
+	- Nature of Employer Business (combobox: NGO, Private Sector, Government, International Organization, University, Self-Employed, Others) *
+	- May we contact your employer? *
+	- Employer contact
+	- Leave Reason
+- Education Background
+	- Education (Senior High School, College, University, Master, Ph.D) *
+	- Major, required for other education beside Senior High School
+	- Place *
+	- Year *
+	- Country *
+- Language Skills
+	- Language (Indonesian, English, Germany, Other (combobox)
+	- Level (Mother Tongue, Advanced, Intermediate, Basic, None)
+- Computer Skills
+- Professional Skills
+- References
+	Please  list 3 references we may contact as your referees
+	- Job Title*
+	- Name *
+	- Email/Phone (one of them is required)
+- Use captcha to prevent robot attack
+
+2. Search Applicants
+- Search By Name, City (combobox), Nature of Employer Business (combobox), Computer Skills, Professional Skills, Education (combobox)
+
+
+
+
+- Position. (combobox)
+(kasih keterangan kalau nama depan sama dengan belakang diisi sama)
+- First Name*, Last Name*, Gender*, Email Address*, confirm email*, Nationality*, Address*, Country*, Province*, City*, Post Code*, Phone1*, Phone2
+- Tempat/Tgl Lahir*. Please attach your covering letter and cv only. Attach Document (Accept pdf n word with maximum size allowed)
+- Currently GIZ staff?
+- Working Experience Year+Month*, Employer*, Position/Title*, Nature of Employer Business*.(NGO, Private Sector, Government, International Organization, University, Self-Employed, Others)
+- May we contact your employer? * Employer Contact, Leaving Reason.
+- Education Background (Senior High School, College, University, Master/Equivalent, PHD/Equivalent)*, Major (Senior high gak perlu isi), Place*, Year*, Country*
+- Language Skills (Indonesia, English, Germany, Other (bisa pilih) (Mother Tongue, Advanced, Intermediate, Basic, None)
+- Computer Skills (input bebas 1 field)
+- Profesional Skills (input bebas 1 field)
+- Please list three references we may contact as your referees, References(Job Title*, Name*, Email*, Phone*(salah satu email atau phone wajib)) minimal 3
+- Password/confirm password.
+- captcha
+
+e-recruit.who.int/public/
+
+- Bisa search: Name, City, Nature of Employer Business, Computer Skills, Profesional Skill, Education Level (with combobox)
+- Email standard to applicant with parameters
+- Evaluation Form for all candidates. Interview With: (input bebas). Interview bisa berkali2.
+
+Email yang rapi.

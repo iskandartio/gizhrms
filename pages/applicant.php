@@ -44,9 +44,12 @@
 	var city_list=new Object();
 	$(function() {
 		$('#province').bind("change",ChangeProvince);
-		$('#btn_save').bind("click",Save);
+		$('.btn_save').bind("click",Save);
+		
+		//setDatePicker(['date_of_birth']);
+		setDatePicker();
 		build_city();
-		ChangeProvinces($('#province').val(), <?php _p($applicant['city'])?>);
+		ChangeProvinces($('#province').val(), '<?php _p($applicant['city'])?>');
 	});
 	function build_city() {
 		var h = new Object();
@@ -82,12 +85,13 @@
 		$.each( $('textarea'), function( key, value ) {
 			data+="&"+$(value).attr("id")+ "=" + $(value).val();
 		});
-		
+		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'applicantAjax.php',
 			data: data,
 			success: function(msg) {
+				$('#freeze').hide();
 				alert('Success');
 			}
 		});

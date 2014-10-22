@@ -4,8 +4,11 @@ require "pages/startup.php";
 		$$key=$value;
 	}
 	if ($type=='save') {
-		
-		if ($date_of_birth=='') $date_of_birth=null;
+		if ($date_of_birth=='') {
+			$date_of_birth=null;
+		} else {
+			$date_of_birth=dbDate($date_of_birth);
+		}
 		$res=db::select_one('applicants','user_id','user_id=?','', array($_SESSION['uid']));
 		if (count($res)==0) {
 			db::insert('applicants','user_id, first_name, last_name, place_of_birth, date_of_birth, gender, nationality, address, country, province, city, post_code, phone1, phone2', array($_SESSION['uid'], $first_name, $last_name, $place_of_birth, $date_of_birth, $gender, $nationality, $address, $country, $province, $city, $post_code, $phone1, $phone2));
@@ -15,6 +18,10 @@ require "pages/startup.php";
 
 		die;
 	}
+	if ($type=='delete') {
+		db::delete('job_applied','job_applied_id=?', array($job_applied_id));
+		die;
+	}
 	if ($type=='change_question') {
 		$res= db::DoQuery('select a.question_id, b.question, d.choice_id from vacation_question a left join question b on a.question_id=b.question_id
 		left join job_applied c on c.vacation_id=a.vacation_id and c.user_id=?
@@ -22,11 +29,11 @@ require "pages/startup.php";
 		where a.vacation_id=?', array($_SESSION['uid'], $vacation_id));
 		if (count($res)==0)	die;
 		
-		$r='<table class="tbl" id="tbl_question"><tr><th>Question ID</th><th>Question</th><th>Answer</th></tr>';
+		$r='<table class="tbl" id="tbl_question"><thead><tr><th>Question ID</th><th>Question</th><th>Answer</th></tr></thead><tbody>';
 		foreach ($res as $row) {
 			$r.="<tr><td class='question_id'>".$row['question_id']."</td><td>".$row['question']."</td><td class='answer'>".get_choice($row['question_id'], $row['choice_id'])."</td></tr>";
 		}
-		$r.="</table>";
+		$r.="</tbody></table>";
 		
 		die ($r);
 	}
@@ -50,7 +57,7 @@ require "pages/startup.php";
 		$vacation_name=db::select_single('vacation','vacation_name v','vacation_id=?','', array($vacation_id));
 		db::commitTrans($con);
 		if ($insert) {
-			_p("<tr><td>$vacation_id</td><td>$vacation_name</td><td><img src='images/edit.png' class='btn_edit'/></td></tr>");
+			_p("<tr><td>$job_applied_id</td><td><span style='display:none'>$vacation_id</span>$vacation_name</td><td>".getImageTags(array('edit','delete'))."</td></tr>");
 		}
 		die;
 	}

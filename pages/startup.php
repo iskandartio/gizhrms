@@ -25,6 +25,9 @@
 	}
 	function _t($name, $value='', $size='', $type='text', $class='') {
 		if ($value!='' && count($value)>0) $value=$value[$name];
+		if (startsWith($name,'date')) {
+			$value=formatDate($value);
+		}
 		_p("<input type='$type' id='$name' name='$name' class='$name' value='$value'".($size==''?'':"size='$size'")."/>");
 	}
 	function month_options() {
@@ -41,6 +44,20 @@
 		$month_options.='<option value=11>November</option>';
 		$month_options.='<option value=12>December</option>';
 		return $month_options;
+	}
+	function get_month_name($m) {
+		if ($m==1) return 'January';
+		if ($m==2) return 'February';
+		if ($m==3) return 'March';
+		if ($m==4) return 'April';
+		if ($m==5) return 'May';
+		if ($m==6) return 'June';
+		if ($m==7) return 'July';
+		if ($m==8) return 'August';
+		if ($m==9) return 'September';
+		if ($m==10) return 'October';
+		if ($m==11) return 'November';
+		if ($m==12) return 'December';
 	}
 	function _l($link, $key, $val) {
 		_p("<a href='$link?key=$key'>$val</a>&nbsp;");
@@ -144,5 +161,13 @@
 			$r.=".".$z[1];
 		}
 		return $r;
+	}
+	function getImageTags($types) {
+		$s='';
+		foreach($types as $t) {
+			$s.='<img src="images/'.$t.'.png" class="btn_'.$t.'"/> ';
+		}
+		return $s;
+		
 	}
 ?>
