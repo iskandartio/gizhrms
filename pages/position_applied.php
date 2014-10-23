@@ -11,7 +11,22 @@ order by vacation_code',array($_SESSION['uid']));
 	}
 	$pos=db::DoQuery('select a.job_applied_id, a.vacation_id, b.vacation_name from job_applied a
 left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SESSION['uid']));
-	
+	$required=db::select_required('applicants', array('first_name','last_name','place_of_birth','date_of_birth'), array($_SESSION['uid']));
+	$err='';
+	if (count($required)>0) {
+		$err="You must complete the required field(s):<br/>";
+	}
+	foreach($required as $r) {
+		if ($r=='first_name') {
+			$err.="First Name<br/>";
+		} else if ($r=='last_name') {
+			$err.="Last Name<br/>";
+		} else if ($r=='place_of_birth') {
+			$err.="Place of Birth<br/>";
+		} else if ($r=='date_of_birth') {
+			$err.="Date of Birth<br/>";
+		}
+	}
 ?>
 <script>
 	var fields={'question_id':1};
@@ -131,7 +146,7 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 	}
 	
 </script>
-
+<?php _p($err)?>
 <table class='tbl' id='tbl_job_applied'>
 	<thead>
 	<tr><th></th><th>Position Applied</th><th></th></tr>

@@ -44,9 +44,7 @@
 	var city_list=new Object();
 	$(function() {
 		$('#province').bind("change",ChangeProvince);
-		$('.btn_save').bind("click",Save);
-		
-		//setDatePicker(['date_of_birth']);
+		$('#btn_save').bind("click",Save);
 		setDatePicker();
 		build_city();
 		ChangeProvinces($('#province').val(), '<?php _p($applicant['city'])?>');
@@ -74,17 +72,14 @@
 		ChangeProvinces($(this).val());
 		
 	}
+	
 	function Save() {
 		var data = 'type=save&user_id=<?php _p($_SESSION['uid'])?>';
-		$.each( $('input'), function( key, value ) {
-			data+="&"+$(value).attr("id")+ "=" + $(value).val();
-		});
-		$.each( $('select'), function( key, value ) {
-			data+="&"+$(value).attr("id")+ "=" + $(value).val();
-		});
-		$.each( $('textarea'), function( key, value ) {
-			data+="&"+$(value).attr("id")+ "=" + $(value).val();
-		});
+		var fields=['applicants_id','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','nationality','address','country','province','city','post_code','phone1','phone2','computer_skills','professional_skills'];
+		for (f in fields) {
+			data+="&"+fields[f]+"="+$('#'+fields[f]).val();
+		}
+		
 		$('#freeze').show();
 		$.ajax({
 			type:'post',
@@ -93,17 +88,20 @@
 			success: function(msg) {
 				$('#freeze').hide();
 				alert('Success');
+				$('#applicants_id').val(msg);
 			}
 		});
 		
 	}
+	
 </script>
 
 <table>
-	<tr><td>First Name</td><td>:</td><td><?php _t("first_name",$applicant)?></td></tr>
-	<tr><td>Last Name</td><td>:</td><td><?php _t("last_name", $applicant)?></td></tr>
-	<tr><td>Place of Birth</td><td>:</td><td><?php _t("place_of_birth", $applicant)?></td></tr>
-	<tr><td>Date of Birth</td><td>:</td><td><?php _t("date_of_birth", $applicant)?></td></tr>
+	<tr style='display:none'><td>Applicants ID</td><td>:</td><td><?php _t("applicants_id",$applicant)?></td></tr>
+	<tr><td>First Name *</td><td>:</td><td><?php _t("first_name",$applicant)?></td></tr>
+	<tr><td>Last Name *</td><td>:</td><td><?php _t("last_name", $applicant)?></td></tr>
+	<tr><td>Place of Birth *</td><td>:</td><td><?php _t("place_of_birth", $applicant)?></td></tr>
+	<tr><td>Date of Birth *</td><td>:</td><td><?php _t("date_of_birth", $applicant)?></td></tr>
 	<tr><td>Gender</td><td>:</td><td><select id='gender'><?php _p(combo_gender($applicant['gender']))?></select></td></tr>
 	<tr><td>Nationality</td><td>:</td><td><select id='nationality'><?php _p(combo_nationality($applicant['nationality']))?></select></td></tr>
 	<tr><td valign='top'>Address</td><td>:</td><td><textarea id='address' cols='30' rows='3'><?php _p($applicant['address'])?></textarea><br/>
@@ -113,5 +111,8 @@
 	<tr><td>Post Code</td><td>:</td><td><?php _t("post_code", $applicant)?></td></tr>
 	<tr><td>Phone1</td><td>:</td><td><?php _t("phone1", $applicant)?></td></tr>
 	<tr><td>Phone2</td><td>:</td><td><?php _t("phone2", $applicant)?></td></tr>
+	<tr><td>Computer Skills</td><td>:</td><td><textarea id="computer_skills" cols='30' rows='3'><?php _p($applicant['computer_skills'])?></textarea></td></tr>
+	<tr><td>Professionals Skills</td><td>:</td><td><textarea id="professional_skills" cols='30' rows='3'><?php _p($applicant['professional_skills'])?></textarea></td></tr>
+	
 </table>
 <button class='button_link' id='btn_save'>Save</button>

@@ -137,3 +137,11 @@ function setHtmlText(par, name, val, f) {
 function setText(par, name, val) {
 	var td=par.children("td:nth-child("+fields[name]+")").children("input[type=text]").val(val);
 }
+function validateRequired(arr) {
+	for (i=0;i<arr.length;i++) {
+		if ($('#'+arr[i]).val()=='') {
+			alert('Please input the required data');
+			$('#'+arr[i]).focus();
+		}
+	}
+}

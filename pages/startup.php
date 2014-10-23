@@ -115,7 +115,7 @@
 		return substr($s,7) . "-" . month_to_int(substr($s,3,3)) . "-" . substr($s,0, 2);
 	}
 	function formatDate($d) {
-		
+		if (strlen($d)<8) return "";
 		return substr($d,8,2)."-".substr($d,5,2)."-".substr($d,0,4);
 	}
 	function dbDate($d) {

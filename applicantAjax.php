@@ -6,17 +6,22 @@ require "pages/startup.php";
 	if ($type=='save') {
 		if ($date_of_birth=='') {
 			$date_of_birth=null;
+			$_POST['date_of_birth']=null;
 		} else {
 			$date_of_birth=dbDate($date_of_birth);
+			$_POST['date_of_birth']=$date_of_birth;
 		}
+		
 		$res=db::select_one('applicants','user_id','user_id=?','', array($_SESSION['uid']));
 		if (count($res)==0) {
-			db::insert('applicants','user_id, first_name, last_name, place_of_birth, date_of_birth, gender, nationality, address, country, province, city, post_code, phone1, phone2', array($_SESSION['uid'], $first_name, $last_name, $place_of_birth, $date_of_birth, $gender, $nationality, $address, $country, $province, $city, $post_code, $phone1, $phone2));
+			//db::insert('applicants','user_id, first_name, last_name, place_of_birth, date_of_birth, gender, nationality, address, country, province, city, post_code, phone1, phone2', array($_SESSION['uid'], $first_name, $last_name, $place_of_birth, $date_of_birth, $gender, $nationality, $address, $country, $province, $city, $post_code, $phone1, $phone2));
+			$applicants_id=db::insertEasy('applicants', $_POST);
 		} else {
-			db::update('applicants','first_name,last_name, place_of_birth, date_of_birth, gender, nationality, address, country, province, city, post_code, phone1, phone2', 'user_id=?', array($first_name, $last_name, $place_of_birth, $date_of_birth, $gender, $nationality, $address, $country, $province, $city, $post_code, $phone1, $phone2, $user_id));
+			//db::update('applicants','first_name,last_name, place_of_birth, date_of_birth, gender, nationality, address, country, province, city, post_code, phone1, phone2', 'user_id=?', array($first_name, $last_name, $place_of_birth, $date_of_birth, $gender, $nationality, $address, $country, $province, $city, $post_code, $phone1, $phone2, $user_id));
+			db::updateEasy('applicants', $_POST);
 		}
 
-		die;
+		die($applicants_id);
 	}
 	if ($type=='delete') {
 		db::delete('job_applied','job_applied_id=?', array($job_applied_id));

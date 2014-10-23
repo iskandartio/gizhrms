@@ -5,6 +5,7 @@
 		, a.may_contact, a.leave_reason from applicants_working a
 		left join business b on a.business_id=b.business_id where a.user_id=?', array($_SESSION['uid']));
 	$month_options=month_options();
+
 ?>
 <script>
 	var fields={'applicants_working_id':1,'month_from':2,'year_from':3, 'month_to':4, 'year_to':5, 'employer':6

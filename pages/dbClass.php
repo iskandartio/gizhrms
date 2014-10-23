@@ -78,20 +78,20 @@ class db {
 	}
 
 	
-	function select($tbl, $fields, $where='', $order='', $params=array(), $con=null) {
+	static function select($tbl, $fields, $where='', $order='', $params=array(), $con=null) {
 		if($where!='') $where="where $where";
 		if($order!='') $order="order by $order";
 		$s="select $fields from $tbl $where $order";
 		return db::DoQuery($s, $params, $con);
 	}
-	function select_with_count($tbl, $where='', $params=array(), $con=null) {
+	static function select_with_count($tbl, $where='', $params=array(), $con=null) {
 		if($where!='') $where="where $where";
 		$s="select count(*) c from $tbl $where";
 		$rs=db::DoQuery($s, $params, $con);
 		
 		return $rs[0]['c'];
 	}
-	function select_one($tbl, $fields, $where='', $order='', $params=array(), $con=null) {
+	static function select_one($tbl, $fields, $where='', $order='', $params=array(), $con=null) {
 		if($where!='') $where="where $where";
 		if($order!='') $order="order by $order";
 		$s="select $fields from $tbl $where $order";
@@ -99,16 +99,16 @@ class db {
 		if (count($res)>0) return $res[0]; else return null;
 	}
 	
-	function select_single($tbl, $fields, $where='', $order='', $params=array(), $con=null) {
+	static function select_single($tbl, $fields, $where='', $order='', $params=array(), $con=null) {
 		$res = db::select_one($tbl, $fields, $where, $order, $params, $con);
 		if (isset($res['v'])) return $res['v']; else return null;
 	}
 	
-	function insert($tbl, $fields, $params=array(), $con=null) {
+	static function insert($tbl, $fields, $params=array(), $con=null) {
 		$s="insert into $tbl($fields) values(".substr(str_repeat(',?', count($params)),1).")";
 		return db::ExecMe($s, $params, $con);
 	}
-	function insertEasy($tbl, $post, $con=null) {
+	static function insertEasy($tbl, $post, $con=null) {
 		
 		$fields="";
 		$count=0;
@@ -133,7 +133,7 @@ class db {
 		return db::ExecMe($s, $params, $con);
 	}
 	
-	function updateEasy($tbl, $post, $con=null) {
+	static function updateEasy($tbl, $post, $con=null) {
 		
 		$fields="";
 		$count=0;
@@ -159,13 +159,13 @@ class db {
 		return db::ExecMe($s, $params, $con);
 	}
 	
-	function update($tbl, $fields, $where, $params=array(), $con=null) {
+	static function update($tbl, $fields, $where, $params=array(), $con=null) {
 		$s="update $tbl set ".str_replace(',','=?,', $fields)."=? where $where";
 		
 		return db::ExecMe($s, $params, $con);
 	}
 	
-	function delete($tbl, $where, $params=array(), $con=null) {
+	static function delete($tbl, $where, $params=array(), $con=null) {
 		$s="delete from $tbl where $where";
 		return db::ExecMe($s, $params, $con);
 		
@@ -182,6 +182,24 @@ class db {
 	static function rollbackTrans($con) {
 		$con->rollBack();
 		$con=null;
+	}
+	static function select_required($tbl, $fields=array(), $params=array()) {
+		$result=array();
+		$filter='(1=0';
+		foreach($fields as $field) {
+			$filter.=" or trim(ifnull($field,''))=''"; 
+		}
+		$filter.=") and user_id=?";
+		$s="select * from $tbl where $filter";
+		$res= db::DoQuery($s, $params);
+		foreach ($res as $row) {
+			foreach($fields as $field) {
+				if ($row[$field]=='') {
+					array_push($result, $field);
+				}
+			}
+		}
+		return $result;
 	}
 }
 
