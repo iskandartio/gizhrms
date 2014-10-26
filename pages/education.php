@@ -32,11 +32,16 @@
 		});
 	}
 	function Save() {
+		
 		var par=$(this).parent().parent();
-		if (getChild(par, 'education_id')==0) {
-			alert('failed');
+		if (!validate_empty_tbl(par, ['education_id','place','year_from','year_to','country'],['Education Level','Institution Name','From Year','To Year','Country'])) {
+			
 			return;
 		}
+		if (getChild(par,'education_id')>1) {
+			if (!validate_empty_tbl(par,['major'])) return;
+		}
+		
 		data='type=save';
 		for (key in fields) {
 			if (key!='btn') data+="&"+key+"="+getChild(par, key);
@@ -65,7 +70,7 @@
 	function AddNew() {
 		var a='';
 		a+='<tr><td></td><td>';
-		a+='<select id="education_id"><option value=0> - Education Level -</option>';
+		a+='<select id="education_id"><option value=""> - Education Level -</option>';
 		a+="<?php _p($combo_education)?>";
 		a+='</select>';
 		a+="</td><td><?php _t("major")?></td>";
@@ -78,6 +83,7 @@
 		
 		$('#tbl_education tbody').append(a);
 		bindAll();
+		fixSelect();
 	}
 
 	function Edit() {
@@ -93,7 +99,7 @@
 			
 		
 		bindAll();
-		
+		fixSelect();
 	}
 	function Cancel() {
 		var par=$(this).parent().parent();
@@ -111,7 +117,7 @@
 <button class="button_link" id="btn_add">Add New</button>
 <table class='tbl' id='tbl_education'>
 	<thead>
-	<tr><th>ID<th>Education Level</th><th>Major</th><th>Place</th><th>From Year</th><th>To Year</th><th>Country</th><th></th></tr>
+	<tr><th>ID<th>Education Level *</th><th>Major</th><th>Name of Education Institution *</th><th>From Year *</th><th>To Year *</th><th>Country *</th><th></th></tr>
 	</thead>
 	<tbody>
 	<?php foreach($education as $row) {

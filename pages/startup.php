@@ -28,7 +28,9 @@
 		if (startsWith($name,'date')) {
 			$value=formatDate($value);
 		}
-		_p("<input type='$type' id='$name' name='$name' class='$name' value='$value'".($size==''?'':"size='$size'")."/>");
+		$placeholder=ucwords(str_replace('_',' ',$name));
+		
+		_p("<input type='$type' id='$name' name='$name' class='$name' placeholder='$placeholder' value='$value'".($size==''?'':"size='$size'")."/>");
 	}
 	function month_options() {
 		$month_options='<option value=1>January</option>';

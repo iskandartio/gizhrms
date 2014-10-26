@@ -96,7 +96,7 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 		var a='';
 		a+='<tr><td></td>';
 		a+="<td><?php _t("language_val")?></td>";
-		a+='<td><select id="language_skill_id"><option value=0> - Language Skill -</option>';
+		a+='<td><select id="language_skill_id"><option value=> - Language Skill -</option>';
 		a+="<?php _p($combo_language_skill)?>";
 		a+='</select></td>';
 		a+="<td>"+getImageTags(['save','delete'])+"</td>";

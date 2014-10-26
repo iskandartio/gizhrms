@@ -1,9 +1,17 @@
+Place->Name of Education Institution
+May We contact->Email and phone appear
+Remove Kab./Kota
+Reference, Company Name
+Upload CV+Cover Letter (must be doc and pdf maximum 300kb)
+Applied Job: Add job description
+
+
 Recruitment Module:
 1. Input Recruitment
 - Email, password n confirm password to create login account.
 - Position. * Use combobox
 - First Name*, Last Name*. If only have one name then first name= last name
-- Place/Date of birth*, Gender*, Nationality*, Address*, Country*, Province*, City*, Post Code*, Phone1*, Phone2
+- Place/Date of birth*, Gender, Nationality*, Address*, Country*, Province*, City*, Post Code*, Phone1*, Phone2
 - Currently GIZ Staff checkbox *
 - Working Experience:
 	- Month+ Year From*, Month+Year To*

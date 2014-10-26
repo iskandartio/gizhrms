@@ -160,7 +160,7 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 </table>
 
 <table>
-<tr><td>Apply for</td><td>:</td><td><select id='position_applied'><option value=0> - Position Applied - </option><?php _p(combo_position_applied())?></select></td></tr>
+<tr><td>Apply for</td><td>:</td><td><select id='position_applied'><option value=> - Position Applied - </option><?php _p(combo_position_applied())?></select></td></tr>
 </table>
 <span id='questions'></span>
 <button class='button_link' id='btn_apply'>Apply</button>

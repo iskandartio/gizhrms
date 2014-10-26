@@ -6,7 +6,7 @@
 	}
 	
 	function combo_nationality($selected='') {
-		$res=db::select('nationality','nationality_id, nationality_val','','nationality_id');
+		$res=db::select('nationality','nationality_id, nationality_val','','ifnull(sort_id,1000), nationality_val');
 		$combo_nationality=shared::select_combo($res,'nationality_id','nationality_val', $selected);
 		return $combo_nationality;
 	}
@@ -44,20 +44,48 @@
 	var city_list=new Object();
 	$(function() {
 		$('#province').bind("change",ChangeProvince);
+		$('#country').bind("change",ChangeCountry);
 		$('#btn_save').bind("click",Save);
 		setDatePicker();
 		build_city();
+		
 		ChangeProvinces($('#province').val(), '<?php _p($applicant['city'])?>');
+		<?php if ($applicant['country']==-1) {
+			_p("$('#country').val('-1');");
+			_p("$('#country_name').css('display','');");
+			_p("$('#province').css('display','none');");
+			_p("$('#city').css('display','none');");
+		} else {
+			_p("$('#country_name').css('display','none');");
+			_p("$('#province').css('display','');");
+			_p("$('#city').css('display','');");
+		}?>
+		
+		fixSelect();
+		
 	});
 	function build_city() {
 		var h = new Object();
 		<?php _p($js_city)?>
 		
 	}
+	function ChangeCountry() {
+		if ($(this).val()==-1) {
+			$('#country_name').css('display','');
+			$('#province').css('display','none');
+			$('#city').css('display','none');
+		} else {
+			$('#country_name').css('display','none');
+			$('#province').css('display','');
+			$('#city').css('display','');
+		}
+	}
 	function ChangeProvinces(province, selected) {
 		
 		$('#city').empty();
-		$('#city').append("<option value=0>-City-</option>");
+			
+		$('#city').append("<option value='' selected disabled>-City-</option>");
+		
 		
 		var city=city_list[province];
 		for  (c in city){
@@ -66,6 +94,7 @@
 				
 			}
 		}
+		fixSelect();
 		
 	}
 	function ChangeProvince() {
@@ -74,8 +103,14 @@
 	}
 	
 	function Save() {
+		if (!validate_empty(['first_name','last_name', 'place_of_birth','date_of_birth','nationality','address','country','post_code','phone1'])) return;
+		if ($('#country').val()==-1) {
+			if (!validate_empty(['country_name'])) return;
+		} else {
+			if (!validate_empty(['province','city'])) return;
+		}
 		var data = 'type=save&user_id=<?php _p($_SESSION['uid'])?>';
-		var fields=['applicants_id','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','nationality','address','country','province','city','post_code','phone1','phone2','computer_skills','professional_skills'];
+		var fields=['applicants_id','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','nationality','address','country','country_name','province','city','post_code','phone1','phone2','computer_skills','professional_skills'];
 		for (f in fields) {
 			data+="&"+fields[f]+"="+$('#'+fields[f]).val();
 		}
@@ -93,7 +128,7 @@
 		});
 		
 	}
-	
+
 </script>
 
 <table>
@@ -102,14 +137,14 @@
 	<tr><td>Last Name *</td><td>:</td><td><?php _t("last_name", $applicant)?></td></tr>
 	<tr><td>Place of Birth *</td><td>:</td><td><?php _t("place_of_birth", $applicant)?></td></tr>
 	<tr><td>Date of Birth *</td><td>:</td><td><?php _t("date_of_birth", $applicant)?></td></tr>
-	<tr><td>Gender</td><td>:</td><td><select id='gender'><?php _p(combo_gender($applicant['gender']))?></select></td></tr>
-	<tr><td>Nationality</td><td>:</td><td><select id='nationality'><?php _p(combo_nationality($applicant['nationality']))?></select></td></tr>
-	<tr><td valign='top'>Address</td><td>:</td><td><textarea id='address' cols='30' rows='3'><?php _p($applicant['address'])?></textarea><br/>
-	<select id='country'><?php _p(combo_country($applicant['country']))?></select><br/>
-	<select id='province'><option value=0>-Province-</option><?php _p(combo_province($applicant['province']))?></select><br/>
-	<select id='city'><option value=0>-City-</option></select></td></tr>
-	<tr><td>Post Code</td><td>:</td><td><?php _t("post_code", $applicant)?></td></tr>
-	<tr><td>Phone1</td><td>:</td><td><?php _t("phone1", $applicant)?></td></tr>
+	<tr><td>Gender</td><td>:</td><td><select id='gender'><option value='' selected>-Gender-</option><?php _p(combo_gender($applicant['gender']))?></select></td></tr>
+	<tr><td>Nationality *</td><td>:</td><td><select id='nationality'><option value='' selected disabled>-Nationality-</option><?php _p(combo_nationality($applicant['nationality']))?></select></td></tr>
+	<tr><td valign='top'>Address *</td><td>:</td><td><textarea id='address' cols='30' rows='3'><?php _p($applicant['address'])?></textarea><br/>
+	<select id='country'><option value='' disabled selected>-Country-</option><?php _p(combo_country($applicant['country']))?><option value=-1>Other *</option></select> <?php _t("country_name", $applicant)?><br/>
+	<select id='province'><option value='' disabled selected>-Province-</option><?php _p(combo_province($applicant['province']))?></select>
+	<select id='city'><option value='' disabled selected>-City-</option></select></td></tr>
+	<tr><td>Post Code *</td><td>:</td><td><?php _t("post_code", $applicant)?></td></tr>
+	<tr><td>Phone1 *</td><td>:</td><td><?php _t("phone1", $applicant)?></td></tr>
 	<tr><td>Phone2</td><td>:</td><td><?php _t("phone2", $applicant)?></td></tr>
 	<tr><td>Computer Skills</td><td>:</td><td><textarea id="computer_skills" cols='30' rows='3'><?php _p($applicant['computer_skills'])?></textarea></td></tr>
 	<tr><td>Professionals Skills</td><td>:</td><td><textarea id="professional_skills" cols='30' rows='3'><?php _p($applicant['professional_skills'])?></textarea></td></tr>

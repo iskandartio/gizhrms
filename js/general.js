@@ -42,6 +42,16 @@ function getChild(par, name, f) {
 	}
 	return par.children("td:nth-child("+f[name]+")").children("#"+name).val();
 }
+function getChildObj(par, name, f) {
+	if (!f) {
+		f=fields;
+		
+	}
+	if (par.children("td:nth-child("+f[name]+")").children().length==0) {
+		return par.children("td:nth-child("+f[name]+")");
+	}
+	return par.children("td:nth-child("+f[name]+")").children("#"+name);
+}
 function getChildHtmlVal(par, name, f) {
 	if (!f) f=fields;
 	return par.children("td:nth-child("+f[name]+")").html();
@@ -61,15 +71,24 @@ function inputText(obj, arr) {
 function inputSelect(obj, arr) {
 	var par=$(obj).parent().parent();
 	for (i=0;i<arr.length;i++) {
-		$('#'+arr[i]).val(par.children('td:nth-child('+fields[arr[i]]+')').children('span').html());
+		
+		$('#'+arr[i]).val(getChildHtmlSpanVal(par, arr[i], fields));
 	}
+}
+function inputFromOther(obj, f1, arr) {
+	var par=$(obj).parent().parent();
+	for (i=0;i<arr.length;i++) {
+		$('#'+arr[i]).val(getChildHtmlSpanVal(par, f1, fields, '#_'+arr[i]));
+	}
+	
 }
 function getChildHtmlValById(par, id) {	
 	return par.children("td:nth-child("+id+")").html();
 }
-function getChildHtmlSpanVal(par, name, f) {
+function getChildHtmlSpanVal(par, name, f, span_name) {
 	if (!f) f=fields;
-	return par.children("td:nth-child("+f[name]+")").children('span').html();
+	if (!span_name) span_name='';
+	return par.children("td:nth-child("+f[name]+")").children('span'+span_name).html();
 }
 function textToLabel(par, name, f) {
 	if (!f) f=fields;
@@ -95,7 +114,7 @@ function selectedToDefaultLabel(par, name, f) {
 }
 function labelToSelect(par, name, def, options) {
 	var a='';
-	a+='<select id="'+name+'"><option value=0> '+def+'</option>';
+	a+='<select id="'+name+'"><option value="" disabled> '+def+'</option>';
 	i=getChildHtmlSpanVal(par, name);
 	a+=options;
 	a+='</select>';
@@ -109,10 +128,10 @@ function labelToText(par, name, size, f) {
 	if (!f) f=fields;
 	
 	def=getChildHtmlVal(par, name, f);
-	a+='<input type="text" class="'+name+'" id="'+name+'" value="'+def+'"';
+	a+='<input type="text" placehoder="'+toggleCase(name)+'" class="'+name+'" id="'+name+'" value="'+def+'"';
 	if (size) a+=' size="3"';
 	a+='/>';
-	
+	alert(a);
 	var td=par.children('td:nth-child('+f[name]+')');
 	td.html(a);
 	
@@ -144,4 +163,148 @@ function validateRequired(arr) {
 			$('#'+arr[i]).focus();
 		}
 	}
+}
+
+function setHtmlAllSelect(tbl, arr) {
+	for (i=0;i<arr.length;i++) {
+		if ($('#'+arr[i]).val()>0) {
+			setHtmlText($('#'+tbl+' tr:eq('+(currentRow+1)+')'), arr[i], '<span style="display:none">'+$('#'+arr[i]).val()+'</span> '+$('#'+arr[i]+' option:selected').html());
+		} else {
+			setHtmlText($('#'+tbl+' tr:eq('+(currentRow+1)+')'), arr[i], '');
+		}
+	}
+}
+function setHtmlAllText(tbl, arr) {
+	for (i=0;i<arr.length;i++) {
+		setHtmlText($('#'+tbl+' tr:eq('+(currentRow+1)+')'), arr[i], $('#'+arr[i]).val());
+	}
+}
+
+function setHtmlAllOther(tbl, f1 , arr) {
+	
+	v='';
+	if ($('#'+f1).prop('checked')) {
+		for (i=0;i<arr.length;i++) {
+			v+='<span id="_'+arr[i]+'">'+$('#'+arr[i]).val()+'</span> '
+		}
+	} else {
+		v='None';
+	}
+	setHtmlText($('#'+tbl+' tr:eq('+(currentRow+1)+')'), f1, v);
+}
+
+function toggleCaseArr(arr) {
+	r=new Array(arr.length-1);
+	for (i=0;i<arr.length;i++) {
+		r[i]=toggleCase(arr[i]);
+	}
+	
+	return r;
+}
+function toggleCase(s) {
+	z=s.split("_");
+	for (j=0;j<z.length;j++) {
+		z[j]=z[j][0].toUpperCase()+z[j].substr(1);
+	}
+	return z.join(" ");
+}
+function validate_empty(arr, header) {
+	if (!header) {
+		header=toggleCaseArr(arr);
+	}
+	
+	v=true;
+	for (i=0;i<arr.length;i++) {
+		if ($('#'+arr[i]).val()=='') v=false;
+		
+		if (!v) {
+			if (header[i]=='') header[i]= toggleCase(arr[i]);
+			alert(header[i]+" is required");
+			$('#'+arr[i]).focus();
+			return false;
+		}
+	}
+	return true;
+}
+function validate_one_required(arr, header) {
+	if (!header) {
+		header=toggleCaseArr(arr);
+	}
+	
+	v=false;
+	for (i=0;i<arr.length;i++) {
+		
+		if ($('#'+arr[i]).val()!='' && $('#'+arr[i]).val()!=0) v=true;
+		
+	}
+	if (!v) {
+		if (header[i]=='') header[i]= toggleCase(arr[i]);
+		err='';
+		for (i=0;i<header.length;i++) {
+			if (i>0) err+=" or ";
+			err+=header[i];
+		}
+		err+=" is required";
+		alert(err);
+		$('#'+arr[0]).focus();
+		return false;
+	}
+	return true;
+}
+function validate_empty_tbl(par, arr, header) {
+	if (!header) {
+		header=toggleCaseArr(arr);
+	}
+	v=true;
+	for (i=0;i<arr.length;i++) {
+		if (getChild(par, arr[i])=='') {
+			v=false;
+		}
+		if (!v) {
+			alert(header[i]+" is required");
+			getChildObj(par, arr[i]).focus();
+			return false;
+		}
+	}
+	return true;
+}
+function validate_one_required_tbl(par, arr, header) {
+	if (!header) {
+		header=toggleCaseArr(arr);
+	}
+	
+	v=false;
+	for (i=0;i<arr.length;i++) {
+		
+		if (getChild(par, arr[i])!='' && getChild(par, arr[i])!=0) v=true;
+		
+	}
+	if (!v) {
+		if (header[i]=='') header[i]= toggleCase(arr[i]);
+		err='';
+		for (i=0;i<header.length;i++) {
+			if (i>0) err+=" or ";
+			err+=header[i];
+		}
+		err+=" is required";
+		alert(err);
+		getChildObj(par, arr[0]).focus();
+		
+		return false;
+	}
+	return true;
+}
+function fixSelect() {
+	$('select').each(function(idx) {
+		if ($(this).val()==null || $(this).val()=='') {
+			$(this).css('color','#ddd');
+		}
+		$(this).change(function() {
+			if ($(this).val()=='') {
+				$(this).css('color','#ddd');
+			} else { 
+				$(this).css('color','black');
+			}
+		});
+	});
 }

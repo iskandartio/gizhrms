@@ -164,3 +164,33 @@ border-bottom: none;
 	
 	
 }
+
+select option {
+	color: black;
+}
+select option:first-child {
+	color: #ddd;
+}
+select.empty {
+	color: #ddd;
+}
+/* Hidden placeholder */
+select option[disabled]:first-child {
+	display: none;
+}
+
+::-webkit-input-placeholder {
+   color: #ddd;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #ddd;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #ddd;  
+}
+
+:-ms-input-placeholder {  
+   color: #ddd;  
+}
