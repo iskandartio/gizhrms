@@ -140,6 +140,16 @@ class URLParse
 				P_TITL => "References",
 				P_METD => "Applicant Registration ",
 				P_METK => "Applicant, Apply, Registration"),
+			"uploadcv" => array(
+				P_FILE => "uploadcv.php",
+				P_TITL => "Upload CV",
+				P_METD => "Applicant Registration ",
+				P_METK => "Applicant, Apply, Registration"),
+			"uploadajax" => array(
+				P_FILE => "upload.php",
+				P_TITL => "Upload CV",
+				P_METD => "Applicant Registration ",
+				P_METK => "Applicant, Apply, Registration"),
             "about" => array(
                 P_FILE => "about.html",
                 P_TITL => "About Page",
@@ -175,6 +185,8 @@ class URLParse
         else
         {
             $page_array = self::$PAGE_INFO[$page_info_key];
+			
+			
             self::checkRedirectRequest($page_array);
             self::ensureHTMOrSlashExtension($page_array, $page_info_key);
             self::$to_show = $page_array;
@@ -230,17 +242,21 @@ class URLParse
     public static function IncludePageContents()
     {
         $included = "";
+		
         if(isset(self::$to_show) && array_key_exists(P_FILE, self::$to_show) && 
                         file_exists(self::$ROOT_FOLDER . self::$to_show[P_FILE]))
         {
             $included = self::$ROOT_FOLDER . self::$to_show[P_FILE]; 
+			
             include($included);
         }
         else
         {
             $included = self::$ROOT_FOLDER . self::$FILE_NOT_FOUND[P_FILE]; 
+			
             include($included); 
         }
+		
         return $included;
     }
 
@@ -286,6 +302,7 @@ class URLParse
     private static function getPageArrayKey()
     {
         $page_name = strtolower(self::getUrlCmsPage());
+		
         $htm_removed = false;
 
         // Remove the .htm extension if present

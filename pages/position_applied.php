@@ -9,7 +9,7 @@ order by vacation_code',array($_SESSION['uid']));
 		$combo_position_applied=shared::select_combo($res,'vacation_id','vacation');
 		return $combo_position_applied;
 	}
-	$pos=db::DoQuery('select a.job_applied_id, a.vacation_id, b.vacation_name from job_applied a
+	$pos=db::DoQuery('select a.job_applied_id, a.description, a.vacation_id, b.vacation_name from job_applied a
 left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SESSION['uid']));
 	$required=db::select_required('applicants', array('first_name','last_name','place_of_birth','date_of_birth'), array($_SESSION['uid']));
 	$err='';
@@ -149,11 +149,12 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 <?php _p($err)?>
 <table class='tbl' id='tbl_job_applied'>
 	<thead>
-	<tr><th></th><th>Position Applied</th><th></th></tr>
+	<tr><th></th><th>Position Applied</th><th>Job Description</th><th></th></tr>
 	</thead>
 	<tbody>
 	<?php foreach ($pos as $row) {
 		_p("<tr><td>".$row['job_applied_id']."</td><td><span style='display:none'>".$row['vacation_id']."</span>".$row['vacation_name']."</td>");
+		_p("<td>".$row['description']."</td>");
 		_p("<td>".getImageTags(array('edit','delete'))."</td></tr>");
 	} ?>
 	</tbody>

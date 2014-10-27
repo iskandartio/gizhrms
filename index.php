@@ -156,6 +156,7 @@ header('Content-Type: text/html; charset=utf-8');
 		<tr><td><a href="/gizhrms/working">Working Experience</a></td></tr>
 		<tr><td><a href="/gizhrms/language">Language</a></td></tr>
 		<tr><td><a href="/gizhrms/references">References</a></td></tr>
+		<tr><td><a href="/gizhrms/uploadcv">Upload CV + Covering Letter</a></td></tr>
 		</table>
 	</div>
     <div id="pagecontent">
