@@ -6,10 +6,12 @@
 	
 ?>
 <script>
-	var fields={'applicants_education_id':1,'education_id':2, 'major':3, 'place':4, 'year_from':5, 'year_to':6, 'country':7, 'btn':8}
+	
+	var fields=generate_assoc(['applicants_education_id','education_id','major','place','year_from','year_to','country','btn']);
 	var table='tbl_education';
+
 	$(function() {
-		$('#btn_add').bind("click", AddNew);
+		bind('#btn_add', 'click', AddNew);
 		
 		bindAll();
 		
@@ -18,7 +20,7 @@
 	function Delete() {
 		if (!confirm("Are you sure to delete?")) return;
 		
-		var par=$(this).parent().parent();
+		var par=$(this).closest("tr");
 		data='type=delete&applicants_education_id='+getChild(par,'applicants_education_id');
 		$('#freeze').show();
 		$.ajax({
@@ -33,7 +35,7 @@
 	}
 	function Save() {
 		
-		var par=$(this).parent().parent();
+		var par=$(this).closest("tr");
 		if (!validate_empty_tbl(par, ['education_id','place','year_from','year_to','country'],['Education Level','Institution Name','From Year','To Year','Country'])) {
 			
 			return;
@@ -87,7 +89,7 @@
 	}
 
 	function Edit() {
-		var par=$(this).parent().parent();
+		var par=$(this).closest("tr");
 		labelToSelect(par, 'education_id', ' - Education Level -', "<?php _p($combo_education)?>")
 		labelToText(par, 'major');
 		labelToText(par, 'place');
@@ -102,7 +104,7 @@
 		fixSelect();
 	}
 	function Cancel() {
-		var par=$(this).parent().parent();
+		var par=$(this).closest("tr");
 		selectedToDefaultLabel(par,'education_id');
 		textToDefaultLabel(par,'major');
 		textToDefaultLabel(par,'place');

@@ -4,12 +4,12 @@
 	
 ?>
 <script>
-	var fields={'applicants_reference_id':1,'job_title':2, 'reference_name':3, 'company_name':4, 'email':5, 'phone':6, 'description':7, 'btn':8}
-	var other_fields={'applicants_other_reference_id':1,'job_title':2, 'reference_name':3, 'company_name':4, 'email':5, 'phone':6, 'description':7, 'btn':8}
+	var fields=generate_assoc(['applicants_reference_id','job_title', 'reference_name', 'company_name', 'emailphone', 'description', 'btn']);
+	var other_fields=generate_assoc(['applicants_other_reference_id','job_title', 'reference_name', 'company_name', 'email', 'phone', 'description', 'btn']);
 	var table='tbl_reference';
 	var other_table='tbl_other_reference';
 	$(function() {
-		$('#btn_add').bind("click", AddNew);
+		bind('#btn_add',"click", AddNew);
 		bindAll();
 		bindAll(other_table);
 		
@@ -17,8 +17,8 @@
 	
 	function Delete() {
 		if (!confirm("Are you sure to delete?")) return;
-		var par=$(this).parent().parent();
-		var v=par.parent().parent().attr('id')=='tbl_other_reference';
+		var par=$(this).closest("tr");
+		var v=par.closest("tr").attr('id')=='tbl_other_reference';
 		if (v) {
 			data='type=delete_other&applicants_other_reference_id='+getChild(par,'applicants_other_reference_id',other_fields);
 		} else {
@@ -37,13 +37,13 @@
 	}
 
 	function Save() {
-		var par=$(this).parent().parent();
+		var par=$(this).closest("tr");
 		if (!validate_empty_tbl(par, ['job_title','reference_name','company_name'])) {
 			return;
 		}
 		if (!validate_one_required_tbl(par, ['email','phone'])) return;
 		
-		var v=par.parent().parent().attr('id')=='tbl_other_reference';
+		var v=par.closest("tr").attr('id')=='tbl_other_reference';
 		if (v) {
 			f=other_fields;
 			data='type=save_other';
@@ -53,8 +53,13 @@
 		}
 		
 		for (key in f) {
-			
-			if (key!='btn') data+="&"+key+"="+getChild(par, key, f);
+			if (key=='emailphone') {
+				var def=getChildObj(par, key, f, true);
+				data+="&email="+$(def).children("#email").val();
+				data+="&phone="+$(def).children("#phone").val();
+			} else {
+				if (key!='btn') data+="&"+key+"="+getChild(par, key, f);
+			}
 		}
 		
 		$('#freeze').show();
@@ -74,8 +79,8 @@
 				textToLabel(par,'job_title', f);
 				textToLabel(par,'reference_name', f);
 				textToLabel(par,'company_name', f);
-				textToLabel(par,'email', f);
-				textToLabel(par,'phone', f);
+				textToLabelArr(par,'emailphone', ['email','phone'], f);
+				
 				textToLabel(par,'description', f);
 				btnChange(par, ['edit','delete']);
 				
@@ -102,26 +107,26 @@
 	}
 
 	function Edit() {
-		var par=$(this).parent().parent();
+		var par=$(this).closest("tr");
 		labelToText(par, 'job_title');
 		labelToText(par, 'reference_name');
 		labelToText(par, 'company_name');
-		labelToText(par, 'email');
-		labelToText(par, 'phone');
+		labelToTextArr(par, 'emailphone',['email','phone']);
+		
 		labelToText(par, 'description');
 		btnChange(par, ['save','cancel']);
 		bindAll();
 		
 	}
 	function Cancel() {
-		var par=$(this).parent().parent();
+		var par=$(this).closest("tr");
 		textToDefaultLabel(par,'job_title');
 		textToDefaultLabel(par,'reference_name');
 		textToDefaultLabel(par,'company_name');
-		textToDefaultLabel(par,'email');
-		textToDefaultLabel(par,'phone');
+		textToDefaultLabelArr(par,'emailphone',['email','phone']);
+		
 		textToDefaultLabel(par,'description');
-		var v=par.parent().parent().attr('id')=='tbl_other_reference';
+		var v=par.closest("tr").attr('id')=='tbl_other_reference';
 		if (v) {
 			btnChange(par, ['edit']);
 		} else {
@@ -134,7 +139,7 @@
 Please  list 3 references we may contact as your referees
 <table class='tbl' id='tbl_reference'>
 	<thead>
-	<tr><th>ID<th>Job Title *</th><th>Reference Name *</th><th>Company Name *</th><th>Email</th><th>Phone</th><th>Description</th><th></th></tr>
+	<tr><th>ID<th>Job Title *</th><th>Reference Name *</th><th>Company Name *</th><th>Email/Phone</th><th>Description</th><th></th></tr>
 	</thead>
 	<tbody>
 	<?php foreach($reference as $row) {
@@ -142,15 +147,15 @@ Please  list 3 references we may contact as your referees
 		_p('<td>'.$row['job_title'].'</td>');
 		_p('<td>'.$row['reference_name'].'</td>');
 		_p('<td>'.$row['company_name'].'</td>');
-		_p('<td>'.$row['email'].'</td>');
-		_p('<td>'.$row['phone'].'</td>');
+		_p('<td>'.$row['email'].'<br/>');
+		_p($row['phone'].'</td>');
 		_p('<td>'.$row['description'].'</td>');
 		_p("<td>".getImageTags(array('edit'))."</td>");
 		_p("</tr>");
 		
 	}
 	for ($i=count($reference);$i<3;$i++) {
-		_p("<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>");
+		_p("<tr><td></td><td></td><td></td><td></td><td></td><td></td>");
 		_p("<td>".getImageTags(array('edit'))."</td>");
 		_p("</tr>");
 	}
@@ -161,7 +166,7 @@ Please  list 3 references we may contact as your referees
 <button class="button_link" id="btn_add">Add Other reference</button>
 <table class='tbl' id='tbl_other_reference'>
 	<thead>
-	<tr><th>ID<th>Job Title *</th><th>Reference Name *</th><th>Company Name *</th><th>Email</th><th>Phone</th><th>Description</th></tr>
+	<tr><th>ID<th>Job Title *</th><th>Reference Name *</th><th>Company Name *</th><th>Email/Phone</th><th>Description</th></tr>
 	</thead>
 	<tbody>
 	<?php foreach($other_reference as $row) {
@@ -169,8 +174,8 @@ Please  list 3 references we may contact as your referees
 		_p('<td>'.$row['job_title'].'</td>');
 		_p('<td>'.$row['reference_name'].'</td>');
 		_p('<td>'.$row['company_name'].'</td>');
-		_p('<td>'.$row['email'].'</td>');
-		_p('<td>'.$row['phone'].'</td>');
+		_p('<td>'.$row['email'].'<br/>');
+		_p($row['phone'].'</td>');
 		_p('<td>'.$row['description'].'</td>');
 		_p("<td>".getImageTags(array('edit','delete'))."</td>");
 		_p("</tr>");

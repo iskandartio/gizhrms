@@ -8,30 +8,30 @@
 
 ?>
 <script>
-	var fields={'applicants_working_id':1,'month_from':2,'year_from':3, 'month_to':4, 'year_to':5, 'employer':6
-	, 'job_title':7, 'business_id':8, 'may_contact':9, 'leave_reason':10, 'btn':11}
+	var fields=generate_assoc(['applicants_working_id','month_from','year_from', 'month_to', 'year_to', 'employer', 'job_title', 'business_id', 'may_contact', 'leave_reason', 'btn']);
+	
 	var table='tbl_working';
 	var currentRow=-1;
 	$(function() {
-		$('#btn_add').bind("click", AddNew);
-		$('#btn_save').bind("click", Save);
-		$('#may_contact').bind("change", MayContactChange);
+		bind('#btn_add'),"click", AddNew);
+		bind('#btn_save',"click", Save);
+		bind('#may_contact',"change", MayContactChange);
 		fixSelect();
 		bindAll();
 		
 	});
 	function MayContactChange() {
 		if ($('#may_contact').prop('checked')) {
-			$('#email').css('display','');
-			$('#phone').css('display','');
+			$('#email').show();
+			$('#phone').show();
 		} else {
-			$('#email').css('display','none');
-			$('#phone').css('display','none');
+			$('#email').hide();
+			$('#phone').hide();
 		}
 	}
 	function Delete() {
 		if (!confirm("Are you sure to delete?")) return;
-		var par=$(this).parent().parent();
+		var par=$(this).closest("tr");
 		data='type=delete&applicants_working_id='+getChild(par,'applicants_working_id');
 		$('#freeze').show();
 		$.ajax({
@@ -44,18 +44,7 @@
 			}
 		});
 	}
-	function prepareDataText(data, arr) {
-		for (i=0;i<arr.length;i++) {
-			data+="&"+arr[i]+"="+$('#'+arr[i]).val();
-		}
-		return data;
-	}
-	function prepareDataCheckBox(data, arr) {
-		for (i=0;i<arr.length;i++) {
-			data+="&"+arr[i]+"="+($('#'+arr[i]).prop('checked') ? 1 : 0);
-		}
-		return data;
-	}
+
 	function Save() {
 		if (!validate_empty(['month_from','year_from', 'month_to','year_to','employer','job_title','business_id'],['','','','','','','Nature Of Business'])) return;
 		if ($('#may_contact').prop('checked')) {
@@ -121,12 +110,19 @@
 		inputText(this, ['applicants_working_id','year_from','year_to','employer','job_title','leave_reason']);
 		inputSelect(this, ['month_from','month_to','business_id']);
 		
-		if (getChildHtmlVal($(this).parent().parent(), 'may_contact')!='None') {
+		if (getChildHtmlVal($(this).closest("tr"), 'may_contact')!='None') {
 			$('#may_contact').prop("checked",true);
 			inputFromOther(this, 'may_contact', ['email','phone']);
+			$('#email').show();
+			$('#phone').show();
+		} else {
+			$('#email').hide();
+			$('#phone').hide();
+			
 		}
 		$('#btn_save').html('Update');
-		currentRow=$(this).parent().parent().index();
+		currentRow=$(this).closest("tr").index();
+		fixSelect();
 		
 	}
 	

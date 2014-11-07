@@ -1,491 +1,62 @@
-Start:2014/10/27 22:02:18
-select cv from applicants where user_id=? 
-5
-Start:2014/10/27 22:03:08
-select cv from applicants where user_id=? 
-5
-Start:2014/10/27 22:04:17
-select cv from applicants where user_id=? 
-5
-Start:2014/10/27 22:04:53
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:05:17
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:05:55
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:07:43
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:09:22
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:09:34
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:09:46
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:09:53
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:09:53
-select city_id, province_id, city_val from city  order by province_id, city_val
-Start:2014/10/27 22:09:53
-select * from applicants where user_id=? 
-5
-Start:2014/10/27 22:09:53
-select gender_val from gender  order by gender_id
-Start:2014/10/27 22:09:53
-select nationality_id, nationality_val from nationality  order by ifnull(sort_id,1000), nationality_val
-Start:2014/10/27 22:09:53
-select country_id, country_val from country  order by country_id
-Start:2014/10/27 22:09:53
-select province_id, province_val from province  order by province_id
-Start:2014/10/27 22:16:42
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:16:59
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:17:16
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:17:16
-select city_id, province_id, city_val from city  order by province_id, city_val
-Start:2014/10/27 22:17:16
-select * from applicants where user_id=? 
-5
-Start:2014/10/27 22:17:16
-select gender_val from gender  order by gender_id
-Start:2014/10/27 22:17:16
-select nationality_id, nationality_val from nationality  order by ifnull(sort_id,1000), nationality_val
-Start:2014/10/27 22:17:16
-select country_id, country_val from country  order by country_id
-Start:2014/10/27 22:17:16
-select province_id, province_val from province  order by province_id
-Start:2014/10/27 22:18:16
+Start:2014/11/07 11:07:06
 select user_id, user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
 a
 a
-Start:2014/10/27 22:18:16
-select a.job_applied_id, a.description, a.vacation_id, b.vacation_name from job_applied a
-left join vacation b on a.vacation_id=b.vacation_id where user_id=?
-5
-Start:2014/10/27 22:18:16
-select * from applicants where (1=0 or trim(ifnull(first_name,''))='' or trim(ifnull(last_name,''))='' or trim(ifnull(place_of_birth,''))='' or trim(ifnull(date_of_birth,''))='') and user_id=?
-5
-Start:2014/10/27 22:18:16
-select a.vacation_id, concat(a.vacation_name,"(",a.vacation_code,")") vacation from vacation a
-where now() between vacation_start and vacation_end
-order by vacation_code
-5
-Start:2014/10/27 22:18:20
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:18:20
-select city_id, province_id, city_val from city  order by province_id, city_val
-Start:2014/10/27 22:18:20
-select * from applicants where user_id=? 
-5
-Start:2014/10/27 22:18:20
-select gender_val from gender  order by gender_id
-Start:2014/10/27 22:18:20
-select nationality_id, nationality_val from nationality  order by ifnull(sort_id,1000), nationality_val
-Start:2014/10/27 22:18:20
-select country_id, country_val from country  order by country_id
-Start:2014/10/27 22:18:20
-select province_id, province_val from province  order by province_id
-Start:2014/10/27 22:18:45
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:18:45
-select city_id, province_id, city_val from city  order by province_id, city_val
-Start:2014/10/27 22:18:45
-select * from applicants where user_id=? 
-5
-Start:2014/10/27 22:18:45
-select gender_val from gender  order by gender_id
-Start:2014/10/27 22:18:45
-select nationality_id, nationality_val from nationality  order by ifnull(sort_id,1000), nationality_val
-Start:2014/10/27 22:18:45
-select country_id, country_val from country  order by country_id
-Start:2014/10/27 22:18:45
-select province_id, province_val from province  order by province_id
-Start:2014/10/27 22:19:05
-select city_id, province_id, city_val from city  order by province_id, city_val
-Start:2014/10/27 22:19:05
-select * from applicants where user_id=? 
-5
-Start:2014/10/27 22:19:05
-select gender_val from gender  order by gender_id
-Start:2014/10/27 22:19:06
-select nationality_id, nationality_val from nationality  order by ifnull(sort_id,1000), nationality_val
-Start:2014/10/27 22:19:06
-select country_id, country_val from country  order by country_id
-Start:2014/10/27 22:19:06
-select province_id, province_val from province  order by province_id
-Start:2014/10/27 22:19:09
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:19:52
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:19:52
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:20:16
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:20:16
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:20:57
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:20:58
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:23:51
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:23:52
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:34:36
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:34:41
-select letter v from applicants where user_id=? 
-5
-Start:2014/10/27 22:35:33
-update applicants set cv=?,letter=? where user_id=?
-.pdf
-.docx
-5
-Start:2014/10/27 22:35:36
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:35:41
-select letter v from applicants where user_id=? 
-5
-Start:2014/10/27 22:36:01
-select letter v from applicants where user_id=? 
-5
-Start:2014/10/27 22:36:10
-select applicants_reference_id, job_title, reference_name, company_name, email, phone, description from applicants_reference where user_id=? 
-5
-Start:2014/10/27 22:36:10
-select applicants_other_reference_id, job_title, reference_name, company_name, email, phone, description from applicants_other_reference where user_id=? 
-5
-Start:2014/10/27 22:36:12
-select language_id, language_val from language  order by sort_id
-Start:2014/10/27 22:36:12
-select language_skill_id, language_skill_val from language_skill  order by sort_id
-Start:2014/10/27 22:36:12
-select b.applicants_language_id, a.language_id, a.language_val, b.language_skill_id, c.language_skill_val from language a
-left join applicants_language b on a.language_id=b.language_id and b.user_id=?
-left join language_skill c on b.language_skill_id=c.language_skill_id
-5
-Start:2014/10/27 22:36:12
-select a.applicants_other_language_id, a.language_val, a.language_skill_id, b.language_skill_val from applicants_other_language a
-	left join language_skill b on b.language_skill_id=a.language_skill_id
-	where a.user_id=?
-5
-Start:2014/10/27 22:36:20
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:36:34
-select  v from applicants where user_id=? 
-5
-Start:2014/10/27 22:36:36
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:36:49
-select  v from applicants where user_id=? 
-5
-Start:2014/10/27 22:38:15
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:38:21
-select  v from applicants where user_id=? 
-5
-Start:2014/10/27 22:38:40
-select user_id, user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-
-
-Start:2014/10/27 22:41:47
-select user_id, user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/27 22:41:47
-select a.job_applied_id, a.description, a.vacation_id, b.vacation_name from job_applied a
-left join vacation b on a.vacation_id=b.vacation_id where user_id=?
-5
-Start:2014/10/27 22:41:47
-select * from applicants where (1=0 or trim(ifnull(first_name,''))='' or trim(ifnull(last_name,''))='' or trim(ifnull(place_of_birth,''))='' or trim(ifnull(date_of_birth,''))='') and user_id=?
-5
-Start:2014/10/27 22:41:47
-select a.vacation_id, concat(a.vacation_name,"(",a.vacation_code,")") vacation from vacation a
-where now() between vacation_start and vacation_end
-order by vacation_code
-5
-Start:2014/10/27 22:43:41
-select  v from applicants where user_id=? 
-5
-Start:2014/10/27 22:43:46
-select  v from applicants where user_id=? 
-5
-Start:2014/10/27 22:45:16
-select  v from applicants where user_id=? 
-5
-Start:2014/10/27 22:45:33
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:45:43
-select  v from applicants where user_id=? 
-5
-Start:2014/10/27 22:46:18
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:46:31
-select user_id, user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-a
-a
-Start:2014/10/27 22:46:31
-select a.job_applied_id, a.description, a.vacation_id, b.vacation_name from job_applied a
-left join vacation b on a.vacation_id=b.vacation_id where user_id=?
-5
-Start:2014/10/27 22:46:31
-select * from applicants where (1=0 or trim(ifnull(first_name,''))='' or trim(ifnull(last_name,''))='' or trim(ifnull(place_of_birth,''))='' or trim(ifnull(date_of_birth,''))='') and user_id=?
-5
-Start:2014/10/27 22:46:31
-select a.vacation_id, concat(a.vacation_name,"(",a.vacation_code,")") vacation from vacation a
-where now() between vacation_start and vacation_end
-order by vacation_code
-5
-Start:2014/10/27 22:46:47
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 22:47:46
-select a.job_applied_id, a.description, a.vacation_id, b.vacation_name from job_applied a
-left join vacation b on a.vacation_id=b.vacation_id where user_id=?
-5
-Start:2014/10/27 22:47:46
-select * from applicants where (1=0 or trim(ifnull(first_name,''))='' or trim(ifnull(last_name,''))='' or trim(ifnull(place_of_birth,''))='' or trim(ifnull(date_of_birth,''))='') and user_id=?
-5
-Start:2014/10/27 22:47:46
-select a.vacation_id, concat(a.vacation_name,"(",a.vacation_code,")") vacation from vacation a
-where now() between vacation_start and vacation_end
-order by vacation_code
-5
-Start:2014/10/27 22:49:29
-update applicants set cv=?,letter=? where user_id=?
-.pdf
-.docx
-5
-Start:2014/10/27 22:50:46
-select city_id, province_id, city_val from city  order by province_id, city_val
-Start:2014/10/27 22:50:46
-select * from applicants where user_id=? 
-5
-Start:2014/10/27 22:50:46
-select gender_val from gender  order by gender_id
-Start:2014/10/27 22:50:46
-select nationality_id, nationality_val from nationality  order by ifnull(sort_id,1000), nationality_val
-Start:2014/10/27 22:50:46
-select country_id, country_val from country  order by country_id
-Start:2014/10/27 22:50:46
-select province_id, province_val from province  order by province_id
-Start:2014/10/27 23:04:56
-update applicants set cv=?,letter=? where user_id=?
-.pdf
-.pdf
-5
-Start:2014/10/27 23:05:03
-select applicants_reference_id, job_title, reference_name, company_name, email, phone, description from applicants_reference where user_id=? 
-5
-Start:2014/10/27 23:05:03
-select applicants_other_reference_id, job_title, reference_name, company_name, email, phone, description from applicants_other_reference where user_id=? 
-5
-Start:2014/10/27 23:09:23
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:09:57
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:10:21
-select letter v from applicants where user_id=? 
-5
-Start:2014/10/27 23:10:27
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:13:47
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:00
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:07
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:21
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:37
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:39
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:42
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:43
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:43
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:43
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:43
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:43
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:44
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:44
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:44
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:44
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:14:44
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:15:01
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:15:01
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:15:18
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:16:10
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:16:22
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:16:28
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:16:39
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:16:48
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:17:11
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:17:26
-update applicants set cv=?,letter=? where user_id=?
-.pdf
-.pdf
-5
-Start:2014/10/27 23:17:38
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:17:39
-select letter v from applicants where user_id=? 
-5
-Start:2014/10/27 23:18:32
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:18:43
-update applicants set cv=?,letter=? where user_id=?
-.pdf
-.pdf
-5
-Start:2014/10/27 23:18:47
-select letter v from applicants where user_id=? 
-5
-Start:2014/10/27 23:19:08
-select applicants_reference_id, job_title, reference_name, company_name, email, phone, description from applicants_reference where user_id=? 
-5
-Start:2014/10/27 23:19:08
-select applicants_other_reference_id, job_title, reference_name, company_name, email, phone, description from applicants_other_reference where user_id=? 
-5
-Start:2014/10/27 23:19:10
-select language_id, language_val from language  order by sort_id
-Start:2014/10/27 23:19:10
-select language_skill_id, language_skill_val from language_skill  order by sort_id
-Start:2014/10/27 23:19:10
-select b.applicants_language_id, a.language_id, a.language_val, b.language_skill_id, c.language_skill_val from language a
-left join applicants_language b on a.language_id=b.language_id and b.user_id=?
-left join language_skill c on b.language_skill_id=c.language_skill_id
-5
-Start:2014/10/27 23:19:10
-select a.applicants_other_language_id, a.language_val, a.language_skill_id, b.language_skill_val from applicants_other_language a
-	left join language_skill b on b.language_skill_id=a.language_skill_id
-	where a.user_id=?
-5
-Start:2014/10/27 23:19:11
-select business_id, business_val from business  order by sort_id
-Start:2014/10/27 23:19:11
-select a.applicants_working_id, a.user_id, a.month_from, a.year_from, a.month_to, a.year_to, a.employer, a.job_title, a.business_id, b.business_val
-		, a.may_contact, a.leave_reason, a.email, a.phone from applicants_working a
-		left join business b on a.business_id=b.business_id where a.user_id=?
-5
-Start:2014/10/27 23:19:33
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:20:25
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:20:44
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:26:37
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:27:29
-update applicants set cv=?,letter=? where user_id=?
-.pdf
-.pdf
-5
-Start:2014/10/27 23:27:32
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:27:33
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:28:42
-select letter v from applicants where user_id=? 
-5
-Start:2014/10/27 23:28:45
-select cv v from applicants where user_id=? 
-5
-Start:2014/10/27 23:29:05
-update applicants set cv=?,letter=? where user_id=?
-.pdf
-.pdf
-5
-Start:2014/10/27 23:29:10
-select letter v from applicants where user_id=? 
-5
-Start:2014/10/27 23:29:10
-select letter v from applicants where user_id=? 
-5
+Start:2014/11/07 11:07:06
+select b.role_name from m_user_role a
+		left join m_role b on a.role_id=b.role_id
+		where a.user_id=?
+5
+Start:2014/11/07 11:07:06
+select question_id, question from question  order by question
+Start:2014/11/07 11:07:06
+select vacancy_id,vacancy_code,vacancy_name,vacancy_description, vacancy_startdate, vacancy_enddate, vacancy_closedate from vacancy where ? between vacancy_startdate and vacancy_enddate order by vacancy_code
+2014-11-07
+Start:2014/11/07 11:07:09
+select a.user_id, a.first_name, a.last_name from applicants a
+left join  m_user_role b on a.user_id=b.user_id 
+left join m_role c on c.role_id=b.role_id 
+where role_name='employee' order by a.first_name, a.last_name
+Start:2014/11/07 11:07:09
+select business_id,business_val from business  order by sort_id
+Start:2014/11/07 11:07:09
+select vacancy_progress_id, status_val, sort_id from vacancy_progress  order by sort_id
+Start:2014/11/07 11:07:09
+select vacancy_id, vacancy_code, vacancy_name, vacancy_progress_id from vacancy where curdate() between vacancy_startdate and vacancy_closedate order by vacancy_code
+Start:2014/11/07 11:07:13
+select a.user_id, a.first_name, a.last_name from applicants a
+left join  m_user_role b on a.user_id=b.user_id 
+left join m_role c on c.role_id=b.role_id 
+where role_name='employee' order by a.first_name, a.last_name
+Start:2014/11/07 11:07:13
+select a.vacancy_employee_id, a.vacancy_id, a.employee_id, concat(b.first_name,' ',b.last_name) as name from vacancy_employee a
+left join applicants b on a.employee_id=b.user_id
+where a.vacancy_id=? and a.vacancy_progress_id=?
+2
+2
+Start:2014/11/07 11:07:17
+select ranking_id, ranking_val from ranking  order by ranking_id
+Start:2014/11/07 11:07:17
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else null end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,0)=? and a.vacancy_id=?
+2
+2
+1
+2
+Start:2014/11/07 11:07:17
+select a.user_id, c.business_val from filter a
+inner join applicants_working b on a.user_id=b.user_id
+left join business c on c.business_id=b.business_id
+Start:2014/11/07 11:07:17
+select a.user_id, b.first_name, b.last_name, c.city_val, b.computer_skills, b.professional_skills, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist from filter a
+inner join applicants b on a.user_id=b.user_id
+left join city c on c.city_id=b.city
+Start:2014/11/07 11:07:17
+select b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val from user_ranking a
+left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+left join applicants d on d.user_id=b.employee_id
+left join ranking e on e.ranking_id=a.ranking_id
+Start:2014/11/07 11:07:17
+select ranking_id, ranking_val from ranking  

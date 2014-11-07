@@ -150,6 +150,21 @@ class URLParse
 				P_TITL => "Upload CV",
 				P_METD => "Applicant Registration ",
 				P_METK => "Applicant, Apply, Registration"),
+			"vacancy" => array(
+				P_FILE => "vacancy.php",
+				P_TITL => "Vacancy",
+				P_METD => "",
+				P_METK => ""),
+			"question" => array(
+				P_FILE => "question.php",
+				P_TITL => "Question",
+				P_METD => "",
+				P_METK => ""),
+			"filter" => array(
+				P_FILE => "filter_applicant.php",
+				P_TITL => "Filter Applicant",
+				P_METD => "",
+				P_METK => ""),		
             "about" => array(
                 P_FILE => "about.html",
                 P_TITL => "About Page",
@@ -184,6 +199,7 @@ class URLParse
         }
         else
         {
+			
             $page_array = self::$PAGE_INFO[$page_info_key];
 			
 			
@@ -265,8 +281,9 @@ class URLParse
     private static function checkHost()
     {
         $http_host = $_SERVER['HTTP_HOST'];
-        if($http_host != self::$MASTER_HOST && !in_array($http_host, self::$ACCEPTED_HOSTS))
+		if($http_host != self::$MASTER_HOST && !in_array($http_host, self::$ACCEPTED_HOSTS))
         {
+			
             // We anticipate the HTTPS requirement here so that we can avoid a 
             // second redirect from checkHTTPS()
             // Use https:// protocol if:
@@ -337,18 +354,19 @@ class URLParse
     // the specified page if so.
     private static function checkRedirectRequest($page_array)
     {
+		
         if(array_key_exists(P_RDIR, $page_array))
         {
             $redir = $page_array[P_RDIR];
-
+			
             // Anticipate the need for .htm extension to avoid a second redirect
             // All pages that don't end in a / must end in .htm
             if(!empty($redir) && $redir[strlen($redir) - 1] != "/")
             {
                 $redir .= ".htm";
             }
-			echo self::getUrlFront();
-            // Redirect, keeping the URL parameters.
+			echo self::getUrlFront() . $redir . self::getUrlParams();
+			// Redirect, keeping the URL parameters.
             //self::permRedirect(self::getUrlFront() . $redir . self::getUrlParams());
         }
     }

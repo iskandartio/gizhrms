@@ -977,7 +977,7 @@ INSERT INTO `gender` (`gender_id`, `gender_val`) VALUES
 DROP TABLE IF EXISTS `job_applied`;
 CREATE TABLE IF NOT EXISTS `job_applied` (
   `job_applied_id` int(11) NOT NULL AUTO_INCREMENT,
-  `vacation_id` int(11) DEFAULT NULL,
+  `vacancy_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `date_applied` datetime DEFAULT NULL,
   PRIMARY KEY (`job_applied_id`)
@@ -985,7 +985,7 @@ CREATE TABLE IF NOT EXISTS `job_applied` (
 
 -- Dumping data for table hrms.job_applied: ~2 rows (approximately)
 /*!40000 ALTER TABLE `job_applied` DISABLE KEYS */;
-INSERT INTO `job_applied` (`job_applied_id`, `vacation_id`, `user_id`, `date_applied`) VALUES
+INSERT INTO `job_applied` (`job_applied_id`, `vacancy_id`, `user_id`, `date_applied`) VALUES
 	(25, 2, 5, '2014-10-23 00:25:09'),
 	(26, 1, 5, '2014-10-23 00:25:20');
 /*!40000 ALTER TABLE `job_applied` ENABLE KEYS */;
@@ -1203,41 +1203,41 @@ CREATE TABLE IF NOT EXISTS `training` (
 /*!40000 ALTER TABLE `training` ENABLE KEYS */;
 
 
--- Dumping structure for table hrms.vacation
-DROP TABLE IF EXISTS `vacation`;
-CREATE TABLE IF NOT EXISTS `vacation` (
-  `vacation_id` int(11) NOT NULL AUTO_INCREMENT,
-  `vacation_code` varchar(50) DEFAULT NULL,
-  `vacation_name` varchar(50) DEFAULT NULL,
-  `vacation_start` datetime DEFAULT NULL,
-  `vacation_end` datetime DEFAULT NULL,
-  `vacation_description` varchar(1000) DEFAULT NULL,
-  PRIMARY KEY (`vacation_id`)
+-- Dumping structure for table hrms.vacancy
+DROP TABLE IF EXISTS `vacancy`;
+CREATE TABLE IF NOT EXISTS `vacancy` (
+  `vacancy_id` int(11) NOT NULL AUTO_INCREMENT,
+  `vacancy_code` varchar(50) DEFAULT NULL,
+  `vacancy_name` varchar(50) DEFAULT NULL,
+  `vacancy_start` datetime DEFAULT NULL,
+  `vacancy_end` datetime DEFAULT NULL,
+  `vacancy_description` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`vacancy_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.vacation: ~2 rows (approximately)
-/*!40000 ALTER TABLE `vacation` DISABLE KEYS */;
-INSERT INTO `vacation` (`vacation_id`, `vacation_code`, `vacation_name`, `vacation_start`, `vacation_end`, `vacation_description`) VALUES
+-- Dumping data for table hrms.vacancy: ~2 rows (approximately)
+/*!40000 ALTER TABLE `vacancy` DISABLE KEYS */;
+INSERT INTO `vacancy` (`vacancy_id`, `vacancy_code`, `vacancy_name`, `vacancy_start`, `vacancy_end`, `vacancy_description`) VALUES
 	(1, 'IT', 'IT Programmer', '2014-10-01 00:00:00', '2014-10-31 00:00:00', NULL),
 	(2, 'ACT', 'Accounting', '2014-10-01 00:00:00', '2014-10-31 00:00:00', NULL);
-/*!40000 ALTER TABLE `vacation` ENABLE KEYS */;
+/*!40000 ALTER TABLE `vacancy` ENABLE KEYS */;
 
 
--- Dumping structure for table hrms.vacation_question
-DROP TABLE IF EXISTS `vacation_question`;
-CREATE TABLE IF NOT EXISTS `vacation_question` (
-  `vacation_question_id` int(11) NOT NULL AUTO_INCREMENT,
+-- Dumping structure for table hrms.vacancy_question
+DROP TABLE IF EXISTS `vacancy_question`;
+CREATE TABLE IF NOT EXISTS `vacancy_question` (
+  `vacancy_question_id` int(11) NOT NULL AUTO_INCREMENT,
   `question_id` int(11) DEFAULT NULL,
-  `vacation_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`vacation_question_id`)
+  `vacancy_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`vacancy_question_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.vacation_question: ~3 rows (approximately)
-/*!40000 ALTER TABLE `vacation_question` DISABLE KEYS */;
-INSERT INTO `vacation_question` (`vacation_question_id`, `question_id`, `vacation_id`) VALUES
+-- Dumping data for table hrms.vacancy_question: ~3 rows (approximately)
+/*!40000 ALTER TABLE `vacancy_question` DISABLE KEYS */;
+INSERT INTO `vacancy_question` (`vacancy_question_id`, `question_id`, `vacancy_id`) VALUES
 	(1, 1, 1),
 	(2, 2, 1),
 	(3, 2, 2);
-/*!40000 ALTER TABLE `vacation_question` ENABLE KEYS */;
+/*!40000 ALTER TABLE `vacancy_question` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

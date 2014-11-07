@@ -7,7 +7,19 @@
 	
 	$timezone = "Asia/Bangkok";
 	if(function_exists('date_default_timezone_set')) date_default_timezone_set($timezone);
+	
+	foreach ($_POST as $key=>$value) {
 
+		if (startsWith($key,'date')||endsWith($key,'date')) {
+			
+			$$key=dbDate($value);	
+			$_POST[$key]=$$key;
+		} else {
+			$$key=$value;
+		}
+		
+	}
+	
 	function _p($s) {
 		echo $s;
 	}
@@ -30,7 +42,7 @@
 		}
 		$placeholder=ucwords(str_replace('_',' ',$name));
 		
-		_p("<input type='$type' id='$name' name='$name' class='$name' placeholder='$placeholder' value='$value'".($size==''?'':"size='$size'")."/>");
+		_p("<input type='$type' id='$name' name='$name' class='$name' placeholder='$placeholder' value='$value'".($size=='' ? '' : "size='$size'")."/>");
 	}
 	function month_options() {
 		$month_options='<option value=1>January</option>';
@@ -121,14 +133,14 @@
 		return substr($d,8,2)."-".substr($d,5,2)."-".substr($d,0,4);
 	}
 	function dbDate($d) {
-		if ($d=='') return '';
+		if ($d=='') return null;
 		$y=substr($d,6,4);
-		if (!checkNumeric($y)) return '';
+		if (!checkNumeric($y)) return null;
 		$m=substr($d,3,2);
-		if (!checkNumeric($m)) return '';
+		if (!checkNumeric($m)) return null;
 		$dt=substr($d,0,2);
 		
-		if (!checkNumeric($dt)) return '';
+		if (!checkNumeric($dt)) return null;
 		
 		return substr($d, 6, 4)."-".substr($d,3,2)."-".substr($d,0,2);
 	}

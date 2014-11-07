@@ -5,12 +5,11 @@ require "pages/startup.php";
 require_once('libs/URLParse.php'); 
 
 $name = URLParse::ProcessURL();
-
-if (endsWith($name,'ajax')) {
-
-	URLParse::IncludePageContents();
-	die;
+if ($name=='') {
+	unset($_SESSION);
+	file_put_contents("log.txt", "");
 }
+
 header('Content-Type: text/html; charset=utf-8');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -37,23 +36,24 @@ header('Content-Type: text/html; charset=utf-8');
 <?php if ($name=='') {?>
 	<script>
 		$(function() {
-			$('#btn_login').bind("click", Login);
-			$('#btn_register').bind("click", Register);
+			bind('#btn_login','click',Login);
+			bind('#btn_register','click', Register);
+			
 			
 		});
 		function new_registrant() {
-			$('#tr_confirm_password').css('display','');
-			$('#tr_new_applicant').css('display','none');
-			$('#tr_already_registered').css('display','');
-			$('#btn_register').css('display','');
-			$('#btn_login').css('display','none');
+			$('#tr_confirm_password').show();
+			$('#tr_new_applicant').hide();
+			$('#tr_already_registered').show();
+			$('#btn_register').show();
+			$('#btn_login').hide();
 		}
 		function already_registered() {
-			$('#tr_confirm_password').css('display','none');
-			$('#tr_new_applicant').css('display','');
-			$('#tr_already_registered').css('display','none');
-			$('#btn_register').css('display','none');
-			$('#btn_login').css('display','');
+			$('#tr_confirm_password').hide();
+			$('#tr_new_applicant').show();
+			$('#tr_already_registered').hide();
+			$('#btn_register').hide();
+			$('#btn_login').show();
 		}
 		function Login() {
 			$('#freeze').show();
@@ -122,8 +122,10 @@ header('Content-Type: text/html; charset=utf-8');
 	</script>
 </head>
 <body>
+	<div align="center">
+	<img class="logoimg" src="images/logo.png" alt="PAKLIM">
+    <img class="logoimg" src="images/logo_web.jpg" alt="">
 	
-    <h1>GIZ PAKLIM HRMS</h1>
 	<div id="freeze" style="position: absolute; top: 0px; left: 0px; z-index: 1000; opacity: 0.6; width: 100%; height: 100%; color: white; background-color: black;"></div>
 <?php if ($name=='') {?>
 	<table id="tbl_login">
@@ -145,8 +147,10 @@ header('Content-Type: text/html; charset=utf-8');
 <?php
 		die;
 	}?>
+</div>
 	
-
+<div align="center">
+<?php if ($_SESSION['role_name']=='applicant') {?>
 	<div id="menu">
 		<span>Application Data</span>
 		<table style="margin:5px">
@@ -157,8 +161,28 @@ header('Content-Type: text/html; charset=utf-8');
 		<tr><td><a href="/gizhrms/language">Language</a></td></tr>
 		<tr><td><a href="/gizhrms/references">References</a></td></tr>
 		<tr><td><a href="/gizhrms/uploadcv">Upload CV + Covering Letter</a></td></tr>
+		<tr><td><a href="/gizhrms">Logout</a></td></tr>
 		</table>
 	</div>
+<?php } else if ($_SESSION['role_name']=='admin') {?>
+	<div id="menu">
+		<span>Administration</span>
+		<table style="margin:5px">
+		<tr><td><a href="/gizhrms/vacancy">Vacancy</a></td></tr>
+		<tr><td><a href="/gizhrms/question">Question</a></td></tr>
+		<tr><td><a href="/gizhrms/filter">Filter Applicants</a></td></tr>
+		<tr><td><a href="/gizhrms">Logout</a></td></tr>
+		</table>
+	</div>
+<?php } else if ($_SESSION['role_name']=='employee') {?>
+	<div id="menu">
+		<span>Administration</span>
+		<table style="margin:5px">
+		<tr><td><a href="/gizhrms/filter">Filter Applicants</a></td></tr>
+		<tr><td><a href="/gizhrms">Logout</a></td></tr>
+		</table>
+	</div>
+<?php }?>
     <div id="pagecontent">
 		<h3 id='title'><?php _p($title)?></h3>
 		<table style="margin:5px"><tr><td>
@@ -167,6 +191,6 @@ header('Content-Type: text/html; charset=utf-8');
         ?>
 		</td></tr></table>
     </div>
-	
+</div>
 </body>
 </html>

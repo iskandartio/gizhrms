@@ -9,7 +9,17 @@ require "pages/startup.php";
 		$_SESSION['uid']=$res['user_id'];
 		$_SESSION['email']=$_POST['email'];
 		$_SESSION['pwd']=$_POST['password'];
-		echo "position_applied";
+		$res=db::DoQuery('select b.role_name from m_user_role a
+		left join m_role b on a.role_id=b.role_id
+		where a.user_id=?',array($_SESSION['uid']));
+		$_SESSION['role_name']=$res[0]['role_name'];
+		if ($_SESSION['role_name']=='applicant') {
+			echo "position_applied";
+		} else if ($_SESSION['role_name']=='admin') {
+			echo "vacancy";
+		} else if ($_SESSION['role_name']=='employee') {
+			echo "filter";
+		}
 		die;
 	}
 	if ($_POST['type']=='register') {
@@ -28,7 +38,7 @@ require "pages/startup.php";
 		$_SESSION['pwd']=$_POST['password'];
 		$role_id=db::select_single('m_role','role_id v','role_name=?','',array('applicant'));
 		db::insert('m_user_role','user_id, role_id', array($user_id, $role_id));
-		echo "position_applied";
+		echo "";
 		die;
 	}
 ?>

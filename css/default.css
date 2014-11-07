@@ -1,3 +1,13 @@
+body {
+	font-family: 'Times New Roman';
+}
+.logoimg {
+	width:322px;
+	vertical-align:middle;
+	max-width:100%;
+	display:inline;
+	margin-left:3%;
+}
 .menu {
 	border:1px solid black;
 	border-radius:5px 5px 0 0;
@@ -22,13 +32,51 @@
 }
 
 .tbl {
-	border:1px solid;
-	border-collapse:collapse;
+	border:1px;
+	border-spacing:0px;
+	border-style:outset;
 }
-.tbl td, .tbl th {
-	border:1px solid;
+.tbl td {
+	border:1px;
 	padding:5px;
+	border-style:outset;
 }
+.tbl th {
+	border:1px;
+	padding:5px;
+	border-style:outset;
+	background-color:lightgrey;
+}
+
+
+.tbl tr:nth-child(2n) {
+    background-color: #EEFFFF;
+}
+
+.tbl_inside {
+	border:1px;
+	border-spacing:0px;
+	border-style:outset;
+
+}
+.tbl_inside td {
+	border:1px;
+	padding:5px;
+	border-style:outset;
+	
+}
+.tbl_inside th {
+	border:1px;
+	padding:5px;
+	border-style:outset;
+	background-color:lightgrey;
+}
+
+
+.tbl_inside tr:nth-child(2n+1) {
+    background-color: #FFFFFF;
+}
+
 .btnSave, .btnDuplicate {
 	cursor:pointer;
 }
@@ -52,6 +100,7 @@
 	background-image: -o-linear-gradient(top, #3093c7, #1c5a85);
 	background-image: linear-gradient(to bottom, #3093c7, #1c5a85);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#3093c7, endColorstr=#1c5a85);
 	cursor: pointer;
+	margin:5px 3px;
 }
 
 .button_link:hover{
@@ -76,9 +125,9 @@ input, select, textarea {
 	height : 20px;
 }
 
-img {
+img[class^="btn"] {
 	cursor:pointer;
-	height :30px;
+	height :20px;
 }
 
 #pagecontent {
@@ -96,6 +145,7 @@ img {
 	border-top: none;
 	list-style-position: outside;
 	margin-left:10px;
+	width:80%;
 }
 
 #pagecontent h3 {

@@ -43,22 +43,23 @@
 <script>
 	var city_list=new Object();
 	$(function() {
-		$('#province').bind("change",ChangeProvince);
-		$('#country').bind("change",ChangeCountry);
-		$('#btn_save').bind("click",Save);
+		bind('#province','change', ChangeProvince);
+		bind('#country','change', ChangeCountry);
+		bind('#btn_save','click', Save);
+		
 		setDatePicker();
 		build_city();
 		
 		ChangeProvinces($('#province').val(), '<?php _p($applicant['city'])?>');
 		<?php if ($applicant['country']==-1) {
 			_p("$('#country').val('-1');");
-			_p("$('#country_name').css('display','');");
-			_p("$('#province').css('display','none');");
-			_p("$('#city').css('display','none');");
+			_p("$('#country_name').show();");
+			_p("$('#province').hide();");
+			_p("$('#city').hide();");
 		} else {
-			_p("$('#country_name').css('display','none');");
-			_p("$('#province').css('display','');");
-			_p("$('#city').css('display','');");
+			_p("$('#country_name').hide();");
+			_p("$('#province').show();");
+			_p("$('#city').show();");
 		}?>
 		
 		fixSelect();
@@ -71,13 +72,13 @@
 	}
 	function ChangeCountry() {
 		if ($(this).val()==-1) {
-			$('#country_name').css('display','');
-			$('#province').css('display','none');
-			$('#city').css('display','none');
+			$('#country_name').show();
+			$('#province').hide();
+			$('#city').hide();
 		} else {
-			$('#country_name').css('display','none');
-			$('#province').css('display','');
-			$('#city').css('display','');
+			$('#country_name').hide();
+			$('#province').show();
+			$('#city').show();
 		}
 	}
 	function ChangeProvinces(province, selected) {

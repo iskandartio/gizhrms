@@ -103,7 +103,7 @@ jQuery.fn.slideViewerPro = function(settings) {
 			jQuery("div#thumbSlider" + j + " a").each(function(z) {			
 				jQuery(this).bind("click", function(){
 					jQuery(this).find("p.tmbrdr").css({borderColor: settings.thumbsActiveBorderColor, opacity: settings.thumbsActiveBorderOpacity});
-					jQuery(this).parent().parent().find("p.tmbrdr").not(jQuery(this).find("p.tmbrdr")).css({borderColor: settings.thumbsBorderColor, opacity: settings.thumbsBorderOpacity});
+					jQuery(this).closest("tr").find("p.tmbrdr").not(jQuery(this).find("p.tmbrdr")).css({borderColor: settings.thumbsBorderColor, opacity: settings.thumbsBorderOpacity});
 					var cnt = -(pictWidth*z);
 					(cnt != container.find("ul").css("left").replace(/px/, "")) ? container.find("span.typo").animate({"opacity": 0}, 250) : null ;
 					container.find("ul").animate({ left: cnt}, settings.easeTime, settings.easeFunc, function(){container.find("span.typo").animate({"opacity": settings.typoFullOpacity}, 250)});					
@@ -207,7 +207,7 @@ jQuery.fn.slideViewerPro = function(settings) {
 						jQuery(this).prev().stopTime("asld");	
 					});
 					jQuery("div#thumbSlider" + j + " a").bind("mouseup", function(){
-						jQuery(this).parent().parent().parent().stopTime("asld");
+						jQuery(this).closest("tr").parent().stopTime("asld");
 					});
 			}
 			var uiDisplay = (settings.thumbsVis)? "block":"none";

@@ -2,15 +2,15 @@
 
 
 	function combo_position_applied($selected='') {
-		$res=db::DoQuery('select a.vacation_id, concat(a.vacation_name,"(",a.vacation_code,")") vacation from vacation a
-where now() between vacation_start and vacation_end
-order by vacation_code',array($_SESSION['uid']));
+		$res=db::DoQuery('select a.vacancy_id, concat(a.vacancy_name,"(",a.vacancy_code,")") vacancy from vacancy a
+where now() between vacancy_startdate and vacancy_enddate
+order by vacancy_code',array($_SESSION['uid']));
 		
-		$combo_position_applied=shared::select_combo($res,'vacation_id','vacation');
+		$combo_position_applied=shared::select_combo($res,'vacancy_id','vacancy');
 		return $combo_position_applied;
 	}
-	$pos=db::DoQuery('select a.job_applied_id, a.description, a.vacation_id, b.vacation_name from job_applied a
-left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SESSION['uid']));
+	$pos=db::DoQuery('select a.job_applied_id, a.description, a.vacancy_id, b.vacancy_name from job_applied a
+left join vacancy b on a.vacancy_id=b.vacancy_id where user_id=?',array($_SESSION['uid']));
 	$required=db::select_required('applicants', array('first_name','last_name','place_of_birth','date_of_birth'), array($_SESSION['uid']));
 	$err='';
 	if (count($required)>0) {
@@ -29,13 +29,13 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 	}
 ?>
 <script>
-	var fields={'question_id':1};
-	var main_fields={'job_applied_id':1, 'vacation_id':2, 'btn':3};
+	var fields=generate_assoc(['question_id']);
+	var main_fields=generate_assoc(['job_applied_id', 'vacancy_id', 'btn']);
 	var table='tbl_job_applied';
 	$(function() {
-		$('#position_applied').bind("change", ChangeQuestion);
-		$('#btn_apply').css('display','none');
-		$('#btn_apply').bind('click',Apply);
+		bind('#position_applied',"change", ChangeQuestion);
+		$('#btn_apply').hide();
+		bind('#btn_apply','click',Apply);
 		<?php if (count($pos)==0) {
 			_p("$('#tbl_job_applied').hide()");
 		}?>
@@ -46,7 +46,7 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 	function Cancel() {};
 	function Delete() {
 		if (!confirm("Are you sure to delete?")) return;
-		var par=$(this).parent().parent();
+		var par=$(this).closest("tr");
 		data='type=delete&job_applied_id='+getChild(par,'job_applied_id', main_fields);
 		
 		$('#freeze').show();
@@ -57,7 +57,7 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 			success:function(msg) {
 				$('#freeze').hide();
 				$('#questions').html('');
-				$('#btn_apply').css('display','none');
+				$('#btn_apply').hide();
 				$('#position_applied').val(0);
 				
 				par.remove();
@@ -68,7 +68,7 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 		});
 	};
 	function Apply() {
-		var data='type=apply&vacation_id='+$('#position_applied').val();
+		var data='type=apply&vacancy_id='+$('#position_applied').val();
 		$('#tbl_question .question_id').each(function() {
 			data+='&question[]='+$(this).html();
 		});	
@@ -94,8 +94,8 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 		
 	}
 	function Edit() {
-		var par=$(this).parent().parent();
-		var id=getChildHtmlSpanVal(par, 'vacation_id', main_fields);
+		var par=$(this).closest("tr");
+		var id=getChildHtmlSpanVal(par, 'vacancy_id', main_fields);
 		
 		$('#position_applied').val(id);
 		ajaxChangeQuestion(id);
@@ -110,7 +110,7 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 		$.ajax({
 			type : 'post',
 			url : 'applicantAjax.php',
-			data : 'type=change_question&vacation_id='+val, 
+			data : 'type=change_question&vacancy_id='+val, 
 			success : function(msg) {
 				$('#freeze').hide();
 				$('#questions').html(msg);
@@ -121,7 +121,7 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 	}
 	
 	function After() {
-		$('.cls_choice').bind("change", ToggleApplyButton);
+		bind('.cls_choice',"change", ToggleApplyButton);
 		
 		ToggleApplyButton();
 	}
@@ -129,7 +129,7 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 	function ToggleApplyButton() {
 		
 		flag=false;
-		$('#btn_apply').css('display','none');
+		$('#btn_apply').hide();
 		$( "select[id^='choice']" ).each(function(index) {
 		
 			
@@ -142,7 +142,7 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 			
 		});
 		
-		if (flag) $('#btn_apply').css('display','');
+		if (flag) $('#btn_apply').show();
 	}
 	
 </script>
@@ -153,7 +153,7 @@ left join vacation b on a.vacation_id=b.vacation_id where user_id=?',array($_SES
 	</thead>
 	<tbody>
 	<?php foreach ($pos as $row) {
-		_p("<tr><td>".$row['job_applied_id']."</td><td><span style='display:none'>".$row['vacation_id']."</span>".$row['vacation_name']."</td>");
+		_p("<tr><td>".$row['job_applied_id']."</td><td><span style='display:none'>".$row['vacancy_id']."</span>".$row['vacancy_name']."</td>");
 		_p("<td>".$row['description']."</td>");
 		_p("<td>".getImageTags(array('edit','delete'))."</td></tr>");
 	} ?>

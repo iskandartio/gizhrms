@@ -13,12 +13,12 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 	
 ?>
 <script>
-	var fields={'applicants_language_id':1,'language_id':2, 'language_skill_id':3, 'btn':4}
-	var other_fields={'applicants_other_language_id':1,'language_val':2, 'language_skill_id':3, 'btn':4}
+	var fields=generate_assoc(['applicants_language_id','language_id', 'language_skill_id', 'btn']);
+	var other_fields=generate_assoc(['applicants_other_language_id','language_val', 'language_skill_id', 'btn']);
 	var table='tbl_language';
 	var other_table='tbl_other_language';
 	$(function() {
-		$('#btn_add').bind("click", AddNew);
+		bind('#btn_add',"click", AddNew);
 		bindAll();
 		bindAll(other_table);
 		
@@ -26,8 +26,8 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 	
 	function Delete() {
 		if (!confirm("Are you sure to delete?")) return;
-		var par=$(this).parent().parent();
-		var v=par.parent().parent().attr('id')=='tbl_other_language';
+		var par=$(this).closest("tr");
+		var v=par.closest("tr").attr('id')=='tbl_other_language';
 		if (v) {
 			data='type=delete_other&applicants_other_language_id='+getChild(par,'applicants_other_language_id',other_fields);
 		} else {
@@ -46,12 +46,12 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 	}
 
 	function Save() {
-		var par=$(this).parent().parent();
+		var par=$(this).closest("tr");
 		if (getChild(par, 'language_id')==0) {
 			alert('failed');
 			return;
 		}
-		var v=par.parent().parent().attr('id')=='tbl_other_language';
+		var v=par.closest("tr").attr('id')=='tbl_other_language';
 		if (v) {
 			f=other_fields;
 			data='type=save_other';
@@ -107,8 +107,8 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 	}
 
 	function Edit() {
-		var par=$(this).parent().parent();
-		var v=par.parent().parent().attr('id')=='tbl_other_language';
+		var par=$(this).closest("tr");
+		var v=par.closest("tr").attr('id')=='tbl_other_language';
 		if (v) {
 			labelToText(par, 'language_val', '', other_fields);
 		} else {
@@ -122,8 +122,8 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 		
 	}
 	function Cancel() {
-		var par=$(this).parent().parent();
-		var v=par.parent().parent().attr('id')=='tbl_other_language';
+		var par=$(this).closest("tr");
+		var v=par.closest("tr").attr('id')=='tbl_other_language';
 		f=fields;
 		if (v) {
 			f=other_fields;
@@ -158,8 +158,8 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 	}?>
 	</tbody>
 </table>
-
 <button class="button_link" id="btn_add">Add Other Language</button>
+
 <table class='tbl' id='tbl_other_language'>
 	<thead>
 	<tr><th>ID<th>Language</th><th>Skill Level</th><th></th></tr>

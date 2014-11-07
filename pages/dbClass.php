@@ -17,7 +17,16 @@ class db {
 		db::Log("Start:".date('Y/m/d H:i:s'));
 		db::Log($query);
 		db::Log($params);
-		return $res->fetchAll(PDO::FETCH_ASSOC);
+		$result= $res->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($result as $k=>$row) {
+			
+			foreach ($row as $key=>$value) {
+				$result[$k][$key]=str_replace("'","&#39;", $row[$key]);
+				$result[$k][$key]=str_replace('"',"&#34;", $result[$k][$key]);
+				$result[$k][$key]=str_replace('<',"&lt;", $result[$k][$key]);
+			}
+		}
+		return $result;
 	}
 	
 	static function DoQueryOne($query, $params=array(), $con=null) {
@@ -62,19 +71,16 @@ class db {
 		return $res->rowCount();
 	}
 	static function ExecMe($query, $params=array(), $con=null) {
-		
 		if (!isset($con)) $con= db::Connect();
 	 	$res=$con->prepare($query);
 		$res->execute($params);
 		db::Log("Start:".date('Y/m/d H:i:s'));
 		db::Log($query);
 		db::Log($params);
-		
 		if (substr($query,0,6)=='insert') {
 			return $con->lastInsertId();
 		}
 		return $res->rowCount();
-		
 	}
 
 	
@@ -114,6 +120,9 @@ class db {
 		$count=0;
 		$params=array();
 		foreach($post as $key=>$value) {
+			if (is_array($post[$key])) {
+				continue;
+			}
 			if ($key=='type') {
 				continue;
 			}
@@ -140,6 +149,9 @@ class db {
 		$params=array();
 		foreach($post as $key=>$value) {
 			if ($key=='type') {
+				continue;
+			}
+			if (is_array($post[$key])) {
 				continue;
 			}
 			if ($key==$tbl.'_id') {

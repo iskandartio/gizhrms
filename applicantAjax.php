@@ -1,16 +1,8 @@
 <?php
 require "pages/startup.php";
-	foreach ($_POST as $key=>$value) {
-		$$key=$value;
-	}
+	
+	
 	if ($type=='save') {
-		if ($date_of_birth=='') {
-			$date_of_birth=null;
-			$_POST['date_of_birth']=null;
-		} else {
-			$date_of_birth=dbDate($date_of_birth);
-			$_POST['date_of_birth']=$date_of_birth;
-		}
 		
 		$res=db::select_one('applicants','user_id','user_id=?','', array($_SESSION['uid']));
 		if (count($res)==0) {
@@ -28,10 +20,10 @@ require "pages/startup.php";
 		die;
 	}
 	if ($type=='change_question') {
-		$res= db::DoQuery('select a.question_id, b.question, d.choice_id from vacation_question a left join question b on a.question_id=b.question_id
-		left join job_applied c on c.vacation_id=a.vacation_id and c.user_id=?
+		$res= db::DoQuery('select a.question_id, b.question, d.choice_id from vacancy_question a left join question b on a.question_id=b.question_id
+		left join job_applied c on c.vacancy_id=a.vacancy_id and c.user_id=?
 		left join applicants_answer d on d.job_applied_id=c.job_applied_id and d.question_id=a.question_id
-		where a.vacation_id=?', array($_SESSION['uid'], $vacation_id));
+		where a.vacancy_id=?', array($_SESSION['uid'], $vacancy_id));
 		if (count($res)==0)	die;
 		
 		$r='<table class="tbl" id="tbl_question"><thead><tr><th>Question ID</th><th>Question</th><th>Answer</th></tr></thead><tbody>';
@@ -45,9 +37,9 @@ require "pages/startup.php";
 	if ($type=='apply') {
 		$con=db::beginTrans();
 		$insert=false;
-		$job_applied_id=db::select_single('job_applied','job_applied_id v','vacation_id=? and user_id=?','',array($vacation_id, $_SESSION['uid']));
+		$job_applied_id=db::select_single('job_applied','job_applied_id v','vacancy_id=? and user_id=?','',array($vacancy_id, $_SESSION['uid']));
 		if (!isset($job_applied_id)) {
-			$job_applied_id=db::insert('job_applied','vacation_id, user_id, date_applied',array($vacation_id, $_SESSION['uid'], date('Y-m-d H:i:s')));
+			$job_applied_id=db::insert('job_applied','vacancy_id, user_id, date_applied',array($vacancy_id, $_SESSION['uid'], date('Y-m-d H:i:s')));
 			$insert=true;
 		}
 		
@@ -59,10 +51,10 @@ require "pages/startup.php";
 				db::insert('applicants_answer','job_applied_id, question_id, choice_id', array($job_applied_id, $question[$i], $answer[$i]), $con);
 			}
 		}
-		$vacation_name=db::select_single('vacation','vacation_name v','vacation_id=?','', array($vacation_id));
+		$vacancy_name=db::select_single('vacancy','vacancy_name v','vacancy_id=?','', array($vacancy_id));
 		db::commitTrans($con);
 		if ($insert) {
-			_p("<tr><td>$job_applied_id</td><td><span style='display:none'>$vacation_id</span>$vacation_name</td><td>".getImageTags(array('edit','delete'))."</td></tr>");
+			_p("<tr><td>$job_applied_id</td><td><span style='display:none'>$vacancy_id</span>$vacancy_name</td><td>".getImageTags(array('edit','delete'))."</td></tr>");
 		}
 		die;
 	}
