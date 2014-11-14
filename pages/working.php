@@ -13,7 +13,7 @@
 	var table='tbl_working';
 	var currentRow=-1;
 	$(function() {
-		bind('#btn_add'),"click", AddNew);
+		bind('#btn_add',"click", AddNew);
 		bind('#btn_save',"click", Save);
 		bind('#may_contact',"change", MayContactChange);
 		fixSelect();
@@ -32,12 +32,14 @@
 	function Delete() {
 		if (!confirm("Are you sure to delete?")) return;
 		var par=$(this).closest("tr");
-		data='type=delete&applicants_working_id='+getChild(par,'applicants_working_id');
+		var data={};
+		data['type']='delete';
+		data['applicants_working_id']=getChild(par,'applicants_working_id');
 		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'workingAjax.php',
-			data:data,
+			data:$.param(data),
 			success:function(msg) {
 				$('#freeze').hide();
 				par.remove();
@@ -50,7 +52,8 @@
 		if ($('#may_contact').prop('checked')) {
 			if (!validate_one_required(['email','phone'])) return;
 		}
-		data='type=save';
+		var data={};
+		data['type']='save';
 		data=prepareDataText(data,['applicants_working_id','month_from','year_from','month_to','year_to','employer','job_title','business_id','leave_reason','email','phone']);
 		data=prepareDataCheckBox(data, ['may_contact']);
 		
@@ -58,7 +61,7 @@
 		$.ajax({
 			type:'post',
 			url:'workingAjax.php',
-			data: data,
+			data: $.param(data),
 			success: function(msg) {
 				$('#freeze').hide();
 				alert('Success');
@@ -104,13 +107,14 @@
 		clearText(['applicants_working_id','year_from','year_to','employer','job_title','leave_reason','month_from','month_to','business_id']);
 		$('#may_contact').prop("checked", false);
 		$('#btn_save').html('Save as New');
+		fixSelect();
 	}
 
 	function Edit() {
 		inputText(this, ['applicants_working_id','year_from','year_to','employer','job_title','leave_reason']);
 		inputSelect(this, ['month_from','month_to','business_id']);
 		
-		if (getChildHtmlVal($(this).closest("tr"), 'may_contact')!='None') {
+		if (getChild($(this).closest("tr"), 'may_contact')!='None') {
 			$('#may_contact').prop("checked",true);
 			inputFromOther(this, 'may_contact', ['email','phone']);
 			$('#email').show();
@@ -160,7 +164,7 @@
 <tr><td>To *</td><td>:</td><td><select id="month_to"><option value='' selected disabled>-Month-</option><?php _p($month_options)?></select> <?php _t("year_to","",3)?></td></tr>
 <tr><td>Employer *</td><td>:</td><td><?php _t("employer","",50)?></td></tr>
 <tr><td>Job Title *</td><td>:</td><td><?php _t("job_title","",50)?></td></tr>
-<tr><td>Nature of Business *</td><td>:</td><td><select id="business_id"><option value='' selected disabled>-Business-</option><?php _p($combo_business)?></select></td></tr>
+<tr><td>Nature of Business *</td><td>:</td><td><select id="business_id" title='Nature of Business'><option value='' selected disabled>-Nature of Business-</option><?php _p($combo_business)?></select></td></tr>
 <tr><td>May Contact</td><td>:</td><td><input type="checkbox" id="may_contact"><label for="may_contact">May we contact your employer?</label>
 <?php _t("email")?> <?php _t("phone")?></td></tr>
 <tr><td>Leave Reason</td><td>:</td><td><textarea id="leave_reason" cols="50"></textarea></td></tr>

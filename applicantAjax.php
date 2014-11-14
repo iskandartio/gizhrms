@@ -20,7 +20,7 @@ require "pages/startup.php";
 		die;
 	}
 	if ($type=='change_question') {
-		$res= db::DoQuery('select a.question_id, b.question, d.choice_id from vacancy_question a left join question b on a.question_id=b.question_id
+		$res= db::DoQuery('select a.question_id, b.question_val, d.choice_id from vacancy_question a left join question b on a.question_id=b.question_id
 		left join job_applied c on c.vacancy_id=a.vacancy_id and c.user_id=?
 		left join applicants_answer d on d.job_applied_id=c.job_applied_id and d.question_id=a.question_id
 		where a.vacancy_id=?', array($_SESSION['uid'], $vacancy_id));
@@ -28,7 +28,7 @@ require "pages/startup.php";
 		
 		$r='<table class="tbl" id="tbl_question"><thead><tr><th>Question ID</th><th>Question</th><th>Answer</th></tr></thead><tbody>';
 		foreach ($res as $row) {
-			$r.="<tr><td class='question_id'>".$row['question_id']."</td><td>".$row['question']."</td><td class='answer'>".get_choice($row['question_id'], $row['choice_id'])."</td></tr>";
+			$r.="<tr><td class='question_id'>".$row['question_id']."</td><td>".$row['question_val']."</td><td class='answer'>".get_choice($row['question_id'], $row['choice_id'])."</td></tr>";
 		}
 		$r.="</tbody></table>";
 		
@@ -58,11 +58,15 @@ require "pages/startup.php";
 		}
 		die;
 	}
+	if ($type=='show_job_desc') {
+		$vacancy_description=db::select_single('vacancy','vacancy_description v','vacancy_id=?','',array($vacancy_id));
+		die ($vacancy_description);
+	}
 	function get_choice($question_id, $choice_id) {
-		$res=db::select('choice','choice_id, choice', 'question_id=?', 'sort_id', array($question_id));
-		$r="<select id='choice".$question_id."' class='cls_choice'><option value=0> - Choose Your Answer  - </option>";
+		$res=db::select('choice','choice_id, choice_val', 'question_id=?', 'sort_id', array($question_id));
+		$r="<select id='choice".$question_id."' class='cls_choice' title='Choose Your Answer'><option value=0> - Choose Your Answer  - </option>";
 		foreach ($res as $row) {
-			$r.="<option value=".$row['choice_id']." ".($choice_id==$row['choice_id'] ? 'selected' : '').">".$row['choice']."</option>";
+			$r.="<option value=".$row['choice_id']." ".($choice_id==$row['choice_id'] ? 'selected' : '').">".$row['choice_val']."</option>";
 		}
 		$r.="</select>";
 		return $r;

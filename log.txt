@@ -1,62 +1,30 @@
-Start:2014/11/07 11:07:06
+Start:2014/11/14 12:11:59
 select user_id, user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
+kevin
 a
-a
-Start:2014/11/07 11:07:06
+Start:2014/11/14 12:11:59
 select b.role_name from m_user_role a
 		left join m_role b on a.role_id=b.role_id
 		where a.user_id=?
-5
-Start:2014/11/07 11:07:06
-select question_id, question from question  order by question
-Start:2014/11/07 11:07:06
-select vacancy_id,vacancy_code,vacancy_name,vacancy_description, vacancy_startdate, vacancy_enddate, vacancy_closedate from vacancy where ? between vacancy_startdate and vacancy_enddate order by vacancy_code
-2014-11-07
-Start:2014/11/07 11:07:09
+2
+Start:2014/11/14 12:11:59
 select a.user_id, a.first_name, a.last_name from applicants a
 left join  m_user_role b on a.user_id=b.user_id 
 left join m_role c on c.role_id=b.role_id 
 where role_name='employee' order by a.first_name, a.last_name
-Start:2014/11/07 11:07:09
+Start:2014/11/14 12:11:59
 select business_id,business_val from business  order by sort_id
-Start:2014/11/07 11:07:09
-select vacancy_progress_id, status_val, sort_id from vacancy_progress  order by sort_id
-Start:2014/11/07 11:07:09
-select vacancy_id, vacancy_code, vacancy_name, vacancy_progress_id from vacancy where curdate() between vacancy_startdate and vacancy_closedate order by vacancy_code
-Start:2014/11/07 11:07:13
-select a.user_id, a.first_name, a.last_name from applicants a
-left join  m_user_role b on a.user_id=b.user_id 
-left join m_role c on c.role_id=b.role_id 
-where role_name='employee' order by a.first_name, a.last_name
-Start:2014/11/07 11:07:13
-select a.vacancy_employee_id, a.vacancy_id, a.employee_id, concat(b.first_name,' ',b.last_name) as name from vacancy_employee a
-left join applicants b on a.employee_id=b.user_id
-where a.vacancy_id=? and a.vacancy_progress_id=?
+Start:2014/11/14 12:11:59
+select vacancy_progress_id, vacancy_progress_val, sort_id from vacancy_progress  order by sort_id
+Start:2014/11/14 12:11:59
+select distinct a.vacancy_id, concat(b.vacancy_name, ' (', b.vacancy_code, '-', b.vacancy_code2, ')') vacancy, b.vacancy_progress_id from vacancy_employee a
+left join vacancy b on b.vacancy_id=a.vacancy_id 
+left join vacancy_progress c on c.vacancy_progress_id=b.vacancy_progress_id 
+where a.employee_id=? and ifnull(c.vacancy_progress_val,'')!='Closing'
 2
+Start:2014/11/14 12:12:01
+select distinct concat(b.vacancy_name,' (',b.vacancy_code,'-',b.vacancy_code2,')') vacancy, c.process_name from vacancy_employee a
+left join vacancy b on a.vacancy_id=b.vacancy_id
+left join vacancy_progress c on c.vacancy_progress_id=b.vacancy_progress_id 
+where c.vacancy_progress_val !='Closing' and a.employee_id=?
 2
-Start:2014/11/07 11:07:17
-select ranking_id, ranking_val from ranking  order by ranking_id
-Start:2014/11/07 11:07:17
-create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
-			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else null end vacancy_shortlist from job_applied a
-			where ifnull(a.vacancy_progress_id,0)=? and a.vacancy_id=?
-2
-2
-1
-2
-Start:2014/11/07 11:07:17
-select a.user_id, c.business_val from filter a
-inner join applicants_working b on a.user_id=b.user_id
-left join business c on c.business_id=b.business_id
-Start:2014/11/07 11:07:17
-select a.user_id, b.first_name, b.last_name, c.city_val, b.computer_skills, b.professional_skills, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist from filter a
-inner join applicants b on a.user_id=b.user_id
-left join city c on c.city_id=b.city
-Start:2014/11/07 11:07:17
-select b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val from user_ranking a
-left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
-inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
-left join applicants d on d.user_id=b.employee_id
-left join ranking e on e.ranking_id=a.ranking_id
-Start:2014/11/07 11:07:17
-select ranking_id, ranking_val from ranking  

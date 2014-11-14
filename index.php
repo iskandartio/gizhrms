@@ -6,7 +6,9 @@ require_once('libs/URLParse.php');
 
 $name = URLParse::ProcessURL();
 if ($name=='') {
-	unset($_SESSION);
+	
+	unset($_SESSION);	
+	
 	file_put_contents("log.txt", "");
 }
 
@@ -57,10 +59,13 @@ header('Content-Type: text/html; charset=utf-8');
 		}
 		function Login() {
 			$('#freeze').show();
+			var data={};
+			data['type']='login';
+			data=prepareDataText(data,['email','password']);
 			$.ajax({
 				type : "post",
 				url : "indexAjax.php",
-				data : "type=login&email="+$('#email').val()+"&password="+$('#password').val(),
+				data : $.param(data),
 				success: function(msg) {
 					$('#freeze').hide();
 					if (msg=='Wrong User Name or Password!')  {
@@ -73,10 +78,13 @@ header('Content-Type: text/html; charset=utf-8');
 		}
 		function Register() {
 			$('#freeze').show();
+			var data={};
+			data['type']='register';
+			data=prepareDataText(data,['email','password','confirm_password']);
 			$.ajax({
 				type : "post",
 				url : "indexAjax.php",
-				data : "type=register&email="+$('#email').val()+"&password="+$('#password').val()+"&confirm_password="+$('#confirm_password').val(),
+				data : $.param(data),
 				success: function(msg) {
 					$('#freeze').hide();
 					if (msg=='Confirm password not matched!')  {
@@ -160,7 +168,7 @@ header('Content-Type: text/html; charset=utf-8');
 		<tr><td><a href="/gizhrms/working">Working Experience</a></td></tr>
 		<tr><td><a href="/gizhrms/language">Language</a></td></tr>
 		<tr><td><a href="/gizhrms/references">References</a></td></tr>
-		<tr><td><a href="/gizhrms/uploadcv">Upload CV + Covering Letter</a></td></tr>
+		<tr><td><a href="/gizhrms/uploadcv">Upload CV + Cover Letter</a></td></tr>
 		<tr><td><a href="/gizhrms">Logout</a></td></tr>
 		</table>
 	</div>
@@ -171,6 +179,7 @@ header('Content-Type: text/html; charset=utf-8');
 		<tr><td><a href="/gizhrms/vacancy">Vacancy</a></td></tr>
 		<tr><td><a href="/gizhrms/question">Question</a></td></tr>
 		<tr><td><a href="/gizhrms/filter">Filter Applicants</a></td></tr>
+		<tr><td><a href="/gizhrms/summary">Recruitment Summary</a></td></tr>
 		<tr><td><a href="/gizhrms">Logout</a></td></tr>
 		</table>
 	</div>
@@ -179,11 +188,12 @@ header('Content-Type: text/html; charset=utf-8');
 		<span>Administration</span>
 		<table style="margin:5px">
 		<tr><td><a href="/gizhrms/filter">Filter Applicants</a></td></tr>
+		<tr><td><a href="/gizhrms/recruitment_report">Recruitment Report</a></td></tr>
 		<tr><td><a href="/gizhrms">Logout</a></td></tr>
 		</table>
 	</div>
 <?php }?>
-    <div id="pagecontent">
+    <div id="pagecontent" style="width:1000px">
 		<h3 id='title'><?php _p($title)?></h3>
 		<table style="margin:5px"><tr><td>
         <?php

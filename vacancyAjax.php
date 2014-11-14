@@ -3,27 +3,27 @@
 	if (isset($_POST)) {
 		
 		if ($type=='search') {
-			$res=db::select('vacancy','vacancy_id,vacancy_code,vacancy_name,vacancy_description, vacancy_startdate, vacancy_enddate, vacancy_closedate','? between vacancy_startdate and vacancy_enddate'
-			,'vacancy_code', array($date_filter));
+			$res=db::select('vacancy','vacancy_id,vacancy_code,vacancy_code2,vacancy_name,vacancy_description, vacancy_startdate, vacancy_enddate, vacancy_closedate','? between vacancy_startdate and vacancy_enddate'
+			,'vacancy_code, vacancy_code2', array($date_filter));
 			$r='<table id="tbl_vacancy" class="tbl">';
-			$r.="<thead><tr><th>Vacancy ID</th><th>Vacancy Code</th><th>Vacancy Name</th><th>Vacancy Description</th><th>Start</th><th>End</th><th>Close</th><th></th></tr></thead>";
+			$r.="<thead><tr><th>Vacancy ID</th><th>Vacancy Code</th><th>Vacancy Code2</th><th>Vacancy Name</th><th>Vacancy Description</th><th>Start</th><th>End</th><th></th></tr></thead>";
 			foreach ($res as $row) {
-				$r.="<tr><td>".$row['vacancy_id']."</td><td>".$row['vacancy_code']."</td><td>".$row['vacancy_name']."</td><td width='250px'>".$row['vacancy_description']."</td><td>".formatDate($row['vacancy_startdate'])."</td><td>".formatDate($row['vacancy_enddate'])."</td><td>".formatDate($row['vacancy_closedate'])."</td>";
+				$r.="<tr><td>".$row['vacancy_id']."</td><td>".$row['vacancy_code']."</td><td>".$row['vacancy_code2']."</td><td>".$row['vacancy_name']."</td><td width='250px'>".$row['vacancy_description']."</td><td>".formatDate($row['vacancy_startdate'])."</td><td>".formatDate($row['vacancy_enddate'])."</td>";
 				$r.="<td>".getImageTags(array('edit','delete'))."</td></tr>";
 			}
 			$r.="</table>";
 			die($r);
 		}
 		if ($type=='get_questions') {
-			$sql="select a.question_id, b.question from vacancy_question a left join question b on a.question_id=b.question_id where a.vacancy_id=?";
+			$sql="select a.question_id, b.question_val from vacancy_question a left join question b on a.question_id=b.question_id where a.vacancy_id=?";
 			$res=db::DoQuery($sql, array($vacancy_id));
-			$r='';
+			$r=array();
 			
 			foreach($res as $row) {
-				$r.="<tr><td><span style='display:none'>".$row['question_id']."</span> ".$row['question']."</td>";
-				$r.="<td><img src='images/delete.png' class='btn_delete_question'/></td></tr>";
+				array_push($r, $row['question_id']);
+				
 			}
-			die($r);
+			die(json_encode($r));
 		}
 		if ($type=='delete_question') {
 			$res=db::delete('vacancy_question','vacancy_id=? and question_id=?', array($vacancy_id,$question_id));

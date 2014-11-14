@@ -3,8 +3,8 @@
 ?>
 
 <script>
-	var fields=generate_assoc(['question_id','question','btn']);
-	var field_choice=generate_assoc(['choice_id','choice','btn']);
+	var fields=generate_assoc(['question_id','question_val','btn']);
+	var field_choice=generate_assoc(['choice_id','choice_val','btn']);
 	var table='tbl_question';
 	var currentRow=-1;
 	$(function() {
@@ -12,6 +12,7 @@
 		bind('#btn_save',"click", Save);
 		bind('#btn_search',"click", Search);
 		bind('#btn_add_choice',"click", AddChoice);
+		
 		setDatePicker();
 		$('#question_filter').change(function()  {
 			Search();
@@ -20,6 +21,7 @@
 		$('#input_question tr:eq(0)').hide();
 		hideColumns('tbl_choice');
 	});
+	
 	function Add() {
 		currentRow=-1;
 		clearText(['question_id','question']);
@@ -27,13 +29,16 @@
 	}
 	function edit_data() {
 		var obj=$('#tbl_question tbody tr:eq('+currentRow+') td:eq(1)');
-		inputText(obj, ['question_id','question']);
+		inputText(obj, ['question_id','question_val']);
 		$('#btn_save').html('Update');
+		var data={};
+		data['type']='get_choices';
+		data['question_id']=$('#question_id').val();
 		
 		$.ajax({
 			type:'post',
 			url:'questionAjax.php',
-			data:'type=get_choices&question_id='+$('#question_id').val(),
+			data: $.param(data),
 			success: function(msg) {
 				$('#tbl_choice tbody').empty();
 				$('#tbl_choice tbody').append(msg);
@@ -49,14 +54,14 @@
 	}
 	function EditChoice() {
 		var par=$(this).closest("tr");
-		labelToText(par, 'choice', '', field_choice);
+		labelToText(par, 'choice_val', '', field_choice);
 		setHtmlText(par, 'btn', '<img src="images/save.png" class="btn_save_choice"/> <img src="images/cancel.png" class="btn_cancel_choice"/>', field_choice);
 		bind('.btn_save_choice',"click", SaveChoice);
 		bind('.btn_cancel_choice',"click", CancelChoice);
 	}
 	function CancelChoice() {
 		var par=$(this).closest("tr");
-		textToDefaultLabel(par,'choice', field_choice);
+		textToDefaultLabel(par,'choice_val', field_choice);
 		setHtmlText(par, 'btn', '<img src="images/edit.png" class="btn_edit_choice"/> <img src="images/delete.png" class="btn_delete_choice"/>', field_choice);
 		bind('.btn_edit_choice',"click", EditChoice);
 		bind('.btn_delete_choice',"click", DeleteChoice);
@@ -72,24 +77,25 @@
 			return;
 		}
 		par=$(this).closest("tr");
-		if (getChild(par,'choice', field_choice)=='') {
+		if (getChild(par,'choice_val', field_choice)=='') {
 			par.remove();
 			return;
 		}
-		textToLabel(par, 'choice', field_choice);
+		textToLabel(par, 'choice_val', field_choice);
 		setHtmlText(par, 'btn', "<img src='images/edit.png' class='btn_edit_choice'/> <img src='images/delete.png' class='btn_delete_choice'/>", field_choice);
 		bind('.btn_edit_choice',"click", EditChoice);
 		bind('.btn_delete_choice',"click", DeleteChoice);
 	}
 	function AddChoice() {
 		var a="<tr><td></td><td>";
-		a+="<?php _t("choice")?>";
+		a+="<?php _t("choice_val")?>";
 		a+="</td><td><img src='images/save.png' class='btn_save_choice'/> <img src='images/delete.png' class='btn_delete_choice'/></td></tr>";
 		$('#tbl_choice tbody').append(a);
 		
 		bind('.choice','change',ValidateChoice);
 		bind('.btn_save_choice',"click", SaveChoice);
 		bind('.btn_delete_choice',"click", DeleteChoice);
+		hideColumns('tbl_choice');
 	}
 	function ValidateChoice() {
 		validate_choice(this);
@@ -101,12 +107,12 @@
 		var f=true;
 		current_idx=par.index();
 		
-		current_val=getChild(par, 'choice', field_choice);
+		current_val=getChild(par, 'choice_val', field_choice);
 		par=$('#tbl_choice tbody tr');
 		$.each(par, function(idx) {
 			
 			if (idx!=current_idx) {
-				v=getChild($(this), 'choice', field_choice);
+				v=getChild($(this), 'choice_val', field_choice);
 				if (v) {
 					if (v==current_val) {
 						alert('Choice already exists!');
@@ -114,7 +120,7 @@
 						return false;
 					}
 				} else {
-					v=getChild($(this), 'choice', field_choice);
+					v=getChild($(this), 'choice_val', field_choice);
 					if (v==current_val) {
 						alert('Choice already exists!');
 						f=false;
@@ -129,10 +135,13 @@
 	}
 	function Delete() {
 		var par=$(this).closest("tr");
+		var data={};
+		data['type']='delete';
+		data['question_id']=getChild(par, 'question_id');
 		$.ajax({
 			type:'post',
 			url:'questionAjax.php',
-			data:'type=delete&question_id='+getChild(par, 'question_id'),
+			data:$.param(data),
 			success: function(msg) {
 				alert("Success");
 				par.remove();
@@ -142,28 +151,32 @@
 	function Cancel() {
 	}
 	function Save() {
-		
-		data='type=save';
-		data=prepareDataText(data,['question_id','question']);
+		data={};
+		data['type']='save';
+		data=prepareDataText(data,['question_id','question_val']);
+		var choice_val=new Array();
+		var choice_id=new Array();
 		$.each($('#tbl_choice tbody tr'), function(idx) {
-			v=getChild($(this), 'choice', field_choice);
-			data+="&choice[]="+v;
+			v=getChild($(this), 'choice_val', field_choice);
+			choice_val.push(v);
 			v=getChild($(this), 'choice_id', field_choice);
-			data+="&choice_id[]="+v;
+			choice_id.push(v);
 		});
+		data['choice_val']=choice_val;
+		data['choice_id']=choice_id;
 		
 		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'questionAjax.php',
-			data:data,
+			data:$.param(data),
 			success: function(msg) {
 				$('#freeze').hide();
 				alert('Success');
 				
 				tbl='tbl_question';
 				if (currentRow>=0) {
-					setHtmlAllText(tbl, ['question_id','question']);
+					setHtmlAllText(tbl, ['question_id','question_val']);
 					
 					
 				} else {
@@ -188,10 +201,13 @@
 		
 	}
 	function Search() {
+		var data={};
+		data['type']='search';
+		data['question_filter']=$('#question_filter').val();
 		$.ajax({
 			type:'post',
 			url:'questionAjax.php',
-			data:'type=search&question_filter='+$('#question_filter').val(),
+			data:$.param(data),
 			success: function(msg) {
 				$('#search_result').html(msg);
 				bindAll();
@@ -201,12 +217,13 @@
 	}
 </script>
 <?php _t("question_filter") ?>
+
 <button class="button_link" id="btn_search">Search</button>
 <div id="search_result"></div>
 <button class="button_link" id="btn_add">Add New</button>
 <table id='input_question'>
 <tr><td>Question ID</td><td>:</td><td><?php _t("question_id")?></td></tr>
-<tr><td>Question</td><td>:</td><td><?php _t("question","","30")?></td></tr>
+<tr><td>Question</td><td>:</td><td><?php _t("question_val","","30")?></td></tr>
 <tr><td>Choices</td><td>:</td><td>
 <button class="button_link" id="btn_add_choice">Add Choice</button>
 <table id="tbl_choice" class="tbl">

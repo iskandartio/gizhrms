@@ -5,7 +5,7 @@
 ?>
 <script>
 	var fields=generate_assoc(['applicants_reference_id','job_title', 'reference_name', 'company_name', 'emailphone', 'description', 'btn']);
-	var other_fields=generate_assoc(['applicants_other_reference_id','job_title', 'reference_name', 'company_name', 'email', 'phone', 'description', 'btn']);
+	var other_fields=generate_assoc(['applicants_other_reference_id','job_title', 'reference_name', 'company_name', 'emailphone', 'description', 'btn']);
 	var table='tbl_reference';
 	var other_table='tbl_other_reference';
 	$(function() {
@@ -19,16 +19,19 @@
 		if (!confirm("Are you sure to delete?")) return;
 		var par=$(this).closest("tr");
 		var v=par.closest("tr").attr('id')=='tbl_other_reference';
+		var data={};
 		if (v) {
-			data='type=delete_other&applicants_other_reference_id='+getChild(par,'applicants_other_reference_id',other_fields);
+			data['type']='delete_other';
+			data['applicants_other_reference_id']=getChild(par,'applicants_other_reference_id',other_fields);
 		} else {
-			data='type=delete&applicants_reference_id='+getChild(par,'applicants_reference_id');
+			data['type']='delete';
+			data['applicants_reference_id']=getChild(par,'applicants_reference_id');
 		}
 		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'referenceAjax.php',
-			data:data,
+			data:$.param(data),
 			success:function(msg) {
 				$('#freeze').hide();
 				par.remove();
@@ -41,24 +44,26 @@
 		if (!validate_empty_tbl(par, ['job_title','reference_name','company_name'])) {
 			return;
 		}
-		if (!validate_one_required_tbl(par, ['email','phone'])) return;
-		
-		var v=par.closest("tr").attr('id')=='tbl_other_reference';
+		var v=par.closest("table").attr('id')=='tbl_other_reference';
+		var data={};
 		if (v) {
 			f=other_fields;
-			data='type=save_other';
+			data['type']='save_other';
 		} else {
 			f=fields;
-			data='type=save';
+			data['type']='save';
 		}
+		if (!validate_one_required_tbl(par, ['email','phone'], null, f, 'emailphone')) return;
+		
+		
 		
 		for (key in f) {
 			if (key=='emailphone') {
 				var def=getChildObj(par, key, f, true);
-				data+="&email="+$(def).children("#email").val();
-				data+="&phone="+$(def).children("#phone").val();
+				data['email']=$(def).children("#email").val();
+				data['phone']=$(def).children("#phone").val();
 			} else {
-				if (key!='btn') data+="&"+key+"="+getChild(par, key, f);
+				if (key!='btn') data[key]=getChild(par, key, f);
 			}
 		}
 		
@@ -66,7 +71,7 @@
 		$.ajax({
 			type:'post',
 			url:'referenceAjax.php',
-			data: data,
+			data: $.param(data),
 			success: function(msg) {
 				$('#freeze').hide();
 				if (v) {
@@ -96,8 +101,7 @@
 		a+="<td><?php _t("job_title")?></td>";
 		a+="<td><?php _t("reference_name")?></td>";
 		a+="<td><?php _t("company_name")?></td>";
-		a+="<td><?php _t("email")?></td>";
-		a+="<td><?php _t("phone")?></td>";
+		a+="<td><?php _t("email")?><br><?php _t("phone")?></td>";
 		a+="<td><?php _t("description")?></td>";
 		a+="<td>"+getImageTags(['save','delete'])+"</td>";
 		a+="</tr>";
@@ -139,7 +143,7 @@
 Please  list 3 references we may contact as your referees
 <table class='tbl' id='tbl_reference'>
 	<thead>
-	<tr><th>ID<th>Job Title *</th><th>Reference Name *</th><th>Company Name *</th><th>Email/Phone</th><th>Description</th><th></th></tr>
+	<tr><th>ID<th>Job Title *</th><th>Reference Name *</th><th>Company Name *</th><th>Email/Phone *</th><th>Description</th><th></th></tr>
 	</thead>
 	<tbody>
 	<?php foreach($reference as $row) {
@@ -166,7 +170,7 @@ Please  list 3 references we may contact as your referees
 <button class="button_link" id="btn_add">Add Other reference</button>
 <table class='tbl' id='tbl_other_reference'>
 	<thead>
-	<tr><th>ID<th>Job Title *</th><th>Reference Name *</th><th>Company Name *</th><th>Email/Phone</th><th>Description</th></tr>
+	<tr><th>ID<th>Job Title *</th><th>Reference Name *</th><th>Company Name *</th><th>Email/Phone *</th><th>Description</th><th></th></tr>
 	</thead>
 	<tbody>
 	<?php foreach($other_reference as $row) {

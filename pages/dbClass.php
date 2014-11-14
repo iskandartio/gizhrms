@@ -21,9 +21,7 @@ class db {
 		foreach ($result as $k=>$row) {
 			
 			foreach ($row as $key=>$value) {
-				$result[$k][$key]=str_replace("'","&#39;", $row[$key]);
-				$result[$k][$key]=str_replace('"',"&#34;", $result[$k][$key]);
-				$result[$k][$key]=str_replace('<',"&lt;", $result[$k][$key]);
+				$result[$k][$key]=shared::sanitize($row[$key]);
 			}
 		}
 		return $result;
@@ -90,6 +88,7 @@ class db {
 		$s="select $fields from $tbl $where $order";
 		return db::DoQuery($s, $params, $con);
 	}
+	
 	static function select_with_count($tbl, $where='', $params=array(), $con=null) {
 		if($where!='') $where="where $where";
 		$s="select count(*) c from $tbl $where";

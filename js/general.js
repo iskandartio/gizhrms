@@ -27,19 +27,28 @@ function hideColumns(t) {
 		$(this).children('th:eq(0)').hide();
 	});
 }
-function getChild(par, name, f) {
+function getChild(par, name, f, name2) {
 	if (!f) {
 		f=fields;
 	}
-
-	if (par.children("td:eq("+f[name]+")").children("span").length>0) {
-		return par.children("td:eq("+f[name]+")").children("span").html();
+	if (!name2) {
+		name2=name;
 	}
-	if (par.children("td:eq("+f[name]+")").children().length==0) {
-		return par.children("td:eq("+f[name]+")").html();
+	if (par.children("td:eq("+f[name2]+")").children("span").length>0) {
+		return htmlDecode(par.children("td:eq("+f[name2]+")").children("span").html());
+	}
+	if (par.children("td:eq("+f[name2]+")").children().length==0) {
+		return htmlDecode(par.children("td:eq("+f[name2]+")").html());
 	}
 	
-	return par.children("td:eq("+f[name]+")").children("#"+name).val();
+	return par.children("td:eq("+f[name2]+")").children("#"+name).val();
+}
+function htmlDecode(value) {
+	if (value) {
+		return $('<div />').html(value).text();
+	} else {
+		return '';
+	}
 }
 function getChildObj(par, name, f, force) {
 	if (!f) {
@@ -53,7 +62,7 @@ function getChildObj(par, name, f, force) {
 }
 
 function clearText(arr) {
-		for (i=0;i<arr.length;i++) {
+		for (var i=0;i<arr.length;i++) {
 			$('#'+arr[i]).val('');
 		}
 	}
@@ -61,20 +70,20 @@ function clearText(arr) {
 function inputText(obj, arr, f) {
 	if (!f) f=fields;
 	var par=$(obj).closest("tr");
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		$('#'+arr[i]).val(par.children('td:eq('+f[arr[i]]+')').html());
 	}
 }
 function inputSelect(obj, arr) {
 	var par=$(obj).closest("tr");
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		
 		$('#'+arr[i]).val(getChildHtmlSpanVal(par, arr[i], fields));
 	}
 }
 function inputFromOther(obj, f1, arr) {
 	var par=$(obj).closest("tr");
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		$('#'+arr[i]).val(getChildHtmlSpanVal(par, f1, fields, '#_'+arr[i]));
 	}
 	
@@ -94,7 +103,7 @@ function textToLabelArr(par, name, arr, f) {
 	if (!f) f=fields;
 	var td=par.children("td:eq("+f[name]+")");
 	var a='';
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		if (i>0) a+="<br>";
 		a+=td.children('#'+arr[i]).val();
 	}
@@ -120,7 +129,7 @@ function textToDefaultLabelArr(par, name, arr, f) {
 	if (!f) f=fields;
 	var td=par.children("td:eq("+f[name]+")");
 	var a='';
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		if (i>0) a+="<br>";
 		a+=td.children('#'+arr[i]).prop("defaultValue");
 	}
@@ -135,7 +144,7 @@ function selectedToDefaultLabel(par, name, f) {
 }
 function labelToSelect(par, name, def, options) {
 	var a='';
-	a+='<select id="'+name+'"><option value="" disabled> '+def+'</option>';
+	a+='<select id="'+name+'" title="'+toggleCase(name)+'"><option value="" disabled> '+def+'</option>';
 	i=getChildHtmlSpanVal(par, name);
 	a+=options;
 	a+='</select>';
@@ -163,7 +172,8 @@ function labelToTextArr(par, name, arr, size, f) {
 	
 	var def=getChildObj(par, name, f, true).html();
 	var z=def.split("<br>");
-	for (i=0;i<arr.length;i++) {
+	if (z.length==1) z[1]="";
+	for (var i=0;i<arr.length;i++) {
 		if (i>0) a+="<br/>";
 		a+='<input type="text" class="'+arr[i]+'" id="'+arr[i]+'" value="'+z[i]+'" placeholder="'+toggleCase(arr[i])+'"';
 		if (size) a+=' size="'+size+'"';
@@ -184,7 +194,7 @@ function btnChange(par, types, f) {
 }
 function getImageTags(types) {
 	var s='';
-	for (i=0;i<types.length;i++) {
+	for (var i=0;i<types.length;i++) {
 		s+='<img src="images/'+types[i]+'.png" class="btn_'+types[i]+'"/> ';
 	}
 	return s;
@@ -192,13 +202,14 @@ function getImageTags(types) {
 function setHtmlText(par, name, val, f) {
 	if (!f) f=fields; 
 	var td=par.children("td:eq("+f[name]+")");
+	
 	td.html(val);
 }
 function setText(par, name, val) {
 	var td=par.children("td:eq("+fields[name]+")").children("input[type=text]").val(val);
 }
 function validateRequired(arr) {
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		if ($('#'+arr[i]).val()=='') {
 			alert('Please input the required data');
 			$('#'+arr[i]).focus();
@@ -207,7 +218,7 @@ function validateRequired(arr) {
 }
 
 function setHtmlAllSelect(tbl, arr) {
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		if ($('#'+arr[i]).val()>0) {
 			setHtmlText($('#'+tbl+' tbody tr:eq('+(currentRow)+')'), arr[i], '<span style="display:none">'+$('#'+arr[i]).val()+'</span> '+$('#'+arr[i]+' option:selected').html());
 		} else {
@@ -216,7 +227,7 @@ function setHtmlAllSelect(tbl, arr) {
 	}
 }
 function setHtmlAllText(tbl, arr) {
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		setHtmlText($('#'+tbl+' tbody tr:eq('+(currentRow)+')'), arr[i], $('#'+arr[i]).val());
 	}
 }
@@ -225,18 +236,23 @@ function setHtmlAllOther(tbl, f1 , arr) {
 	
 	v='';
 	if ($('#'+f1).prop('checked')) {
-		for (i=0;i<arr.length;i++) {
+		for (var i=0;i<arr.length;i++) {
 			v+='<span id="_'+arr[i]+'">'+$('#'+arr[i]).val()+'</span> '
 		}
 	} else {
 		v='None';
 	}
+	
 	setHtmlText($('#'+tbl+' tbody tr:eq('+(currentRow)+')'), f1, v);
 }
-
+function clear_checkbox(id) {
+	$("input[id^='"+id+"_']").each(function(idx) {
+		$(this).prop('checked',false);
+	});
+}
 function toggleCaseArr(arr) {
 	r=new Array(arr.length-1);
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		r[i]=toggleCase(arr[i]);
 	}
 	
@@ -244,7 +260,7 @@ function toggleCaseArr(arr) {
 }
 function toggleCase(s) {
 	z=s.split("_");
-	for (j=0;j<z.length;j++) {
+	for (var j=0;j<z.length;j++) {
 		z[j]=z[j][0].toUpperCase()+z[j].substr(1);
 	}
 	return z.join(" ");
@@ -255,7 +271,7 @@ function validate_empty(arr, header) {
 	}
 	
 	v=true;
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		if ($('#'+arr[i]).val()=='') v=false;
 		
 		if (!v) {
@@ -273,7 +289,7 @@ function validate_one_required(arr, header) {
 	}
 	
 	v=false;
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		
 		if ($('#'+arr[i]).val()!='' && $('#'+arr[i]).val()!=0) v=true;
 		
@@ -281,7 +297,7 @@ function validate_one_required(arr, header) {
 	if (!v) {
 		if (header[i]=='') header[i]= toggleCase(arr[i]);
 		err='';
-		for (i=0;i<header.length;i++) {
+		for (var i=0;i<header.length;i++) {
 			if (i>0) err+=" or ";
 			err+=header[i];
 		}
@@ -297,7 +313,7 @@ function validate_empty_tbl(par, arr, header) {
 		header=toggleCaseArr(arr);
 	}
 	v=true;
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		if (getChild(par, arr[i])=='') {
 			v=false;
 		}
@@ -309,27 +325,29 @@ function validate_empty_tbl(par, arr, header) {
 	}
 	return true;
 }
-function validate_one_required_tbl(par, arr, header) {
+function validate_one_required_tbl(par, arr, header, f, name2) {
 	if (!header) {
 		header=toggleCaseArr(arr);
 	}
-	
+	if (!f) {
+		f=fields;
+	}
 	v=false;
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		
-		if (getChild(par, arr[i])!='' && getChild(par, arr[i])!=0) v=true;
+		if (getChild(par, arr[i], f, name2)!='' && getChild(par, arr[i], f,name2)!=0) v=true;
 		
 	}
 	if (!v) {
 		if (header[i]=='') header[i]= toggleCase(arr[i]);
 		err='';
-		for (i=0;i<header.length;i++) {
+		for (var i=0;i<header.length;i++) {
 			if (i>0) err+=" or ";
 			err+=header[i];
 		}
 		err+=" is required";
 		alert(err);
-		getChildObj(par, arr[0]).focus();
+		getChildObj(par, arr[0], f).focus();
 		
 		return false;
 	}
@@ -354,21 +372,99 @@ function fixSelect() {
 }
 
 function prepareDataText(data, arr) {
-	for (i=0;i<arr.length;i++) {
-		data+="&"+arr[i]+"="+$('#'+arr[i]).val();
+	for (var i=0;i<arr.length;i++) {
+		data[arr[i]]=$('#'+arr[i]).val();
 	}
 	return data;
 }
 function prepareDataCheckBox(data, arr) {
-	for (i=0;i<arr.length;i++) {
-		data+="&"+arr[i]+"="+($('#'+arr[i]).prop('checked') ? 1 : 0);
+	for (var i=0;i<arr.length;i++) {
+		data[arr[i]]=$('#'+arr[i]).prop('checked') ? 1 : 0;
 	}
 	return data;
 }
 function generate_assoc(arr) {
 	var res=new Array();
-	for (i=0;i<arr.length;i++) {
+	for (var i=0;i<arr.length;i++) {
 		res[arr[i]]=i;
 	}
 	return res;
+}
+function sanitize(tag) {
+	tag= tag.replace(/<input/,"&lt;input");
+	
+	tag=tag.replace(/<\/span/, "&lt;/span");
+	tag=tag.replace(/<textarea/,"&lt;textarea");
+	
+	return tag;
+/*
+	var allowedTag=['b','i','u','ul','li','h1','h2','h3'];
+	var tagArr=new Array();
+	var tagHash={}
+	var r="";
+
+	var start=-1;
+	var idx=0;
+	var flag=false;
+	for (var i=0;i<tag.length;i++) {
+		if (tag[i]=='<') {
+			start=i;
+			r+=tag.substr(idx, i-idx);
+		}
+		if (start>-1 && tag[i]=='>') {
+			tag_validate=tag.substr(start+1,i-start-1);
+			if (tag_validate[0]=='/') {
+				tag_validate=tag_validate.substr(1);
+				var index = tagArr.indexOf(tag_validate);
+				if (index == tagArr.length-1) {
+					tagArr.splice(index, 1);
+					delete tagHash[tag_validate];
+					flag=true;
+				} else {
+					flag=false;
+					for (var j=tagArr.length-1;j>=0;j--) {
+						if (tagArr[j]==tag_validate) {
+							flag=true;
+							delete tagHash[tagArr[j]];
+							tagArr.splice(j,1);
+							break;
+						} else {
+							i1=tagHash[tagArr[j]];
+							r=r.substr(0,i1)+r.substr(i1).replace("<", "&lt;");
+							delete tagHash[tagArr[j]];0
+							tagArr.splice(j,1);
+						}
+					}
+				}
+			} else {
+				if (allowedTag.indexOf(tag_validate)==-1) {
+					flag=false;
+					
+				} else {
+					flag=true;
+					tagArr.push(tag_validate);
+					tagHash[tag_validate]=start;
+				}
+				
+
+			}
+			if (!flag) {
+				r+=tag.substr(start, i-start+1).replace("<","&lt;");
+			} else {
+				r+=tag.substr(start, i-start+1);
+				
+			}
+			idx=i+1;
+			start=-1;
+			
+		}
+		
+	}
+	for (key in tagHash) {
+		i1=tagHash[key];
+		r=r.substr(0,i1-1)+r.substr(i1).replace("<", "&lt;");
+	}
+	if (r=='') r=tag;
+	return r;
+*/
 }

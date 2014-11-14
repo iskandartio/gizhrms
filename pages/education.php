@@ -21,12 +21,14 @@
 		if (!confirm("Are you sure to delete?")) return;
 		
 		var par=$(this).closest("tr");
-		data='type=delete&applicants_education_id='+getChild(par,'applicants_education_id');
+		data={};
+		data['type']='delete';
+		data['applicants_education_id']=getChild(par,'applicants_education_id');
 		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'educationAjax.php',
-			data:data,
+			data:$.param(data),
 			success:function(msg) {
 				$('#freeze').hide();
 				par.remove();
@@ -43,16 +45,16 @@
 		if (getChild(par,'education_id')>1) {
 			if (!validate_empty_tbl(par,['major'])) return;
 		}
-		
-		data='type=save';
+		var data={};
+		data['type']='save';
 		for (key in fields) {
-			if (key!='btn') data+="&"+key+"="+getChild(par, key);
+			if (key!='btn') data[key]=getChild(par, key);
 		}
 		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'educationAjax.php',
-			data: data,
+			data: $.param(data),
 			success: function(msg) {
 				$('#freeze').hide();
 				setHtmlText(par, 'applicants_education_id', msg);
@@ -72,7 +74,7 @@
 	function AddNew() {
 		var a='';
 		a+='<tr><td></td><td>';
-		a+='<select id="education_id"><option value=""> - Education Level -</option>';
+		a+='<select id="education_id" title="Education Level"><option value=""> - Education Level -</option>';
 		a+="<?php _p($combo_education)?>";
 		a+='</select>';
 		a+="</td><td><?php _t("major")?></td>";

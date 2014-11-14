@@ -1,9 +1,18 @@
-Place->Name of Education Institution
-May We contact->Email and phone appear
-Remove Kab./Kota
-Reference, Company Name
-Upload CV+Cover Letter (must be doc and pdf maximum 300kb)
-Applied Job: Add job description
+validasi enddate
+expected salary
+vacancy_timeline
+summary job applied
+setelah ranking baru bisa shortlist
+
+job_applied +expected salary
+add question checkbox
+
+Name,Job Title, contract duration, salary
+Processed By HR Manager, Approved by(user di negotiation process) 
+
+Report Timeline...
+fixed width
+
 
 
 Recruitment Module:

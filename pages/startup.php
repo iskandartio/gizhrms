@@ -60,18 +60,18 @@
 		return $month_options;
 	}
 	function get_month_name($m) {
-		if ($m==1) return 'January';
-		if ($m==2) return 'February';
-		if ($m==3) return 'March';
-		if ($m==4) return 'April';
+		if ($m==1) return 'Jan';
+		if ($m==2) return 'Feb';
+		if ($m==3) return 'Mar';
+		if ($m==4) return 'Apr';
 		if ($m==5) return 'May';
-		if ($m==6) return 'June';
-		if ($m==7) return 'July';
-		if ($m==8) return 'August';
-		if ($m==9) return 'September';
-		if ($m==10) return 'October';
-		if ($m==11) return 'November';
-		if ($m==12) return 'December';
+		if ($m==6) return 'Jun';
+		if ($m==7) return 'Jul';
+		if ($m==8) return 'Aug';
+		if ($m==9) return 'Sep';
+		if ($m==10) return 'Oct';
+		if ($m==11) return 'Nov';
+		if ($m==12) return 'Dec';
 	}
 	function _l($link, $key, $val) {
 		_p("<a href='$link?key=$key'>$val</a>&nbsp;");
@@ -131,6 +131,10 @@
 	function formatDate($d) {
 		if (strlen($d)<8) return "";
 		return substr($d,8,2)."-".substr($d,5,2)."-".substr($d,0,4);
+	}
+	function formatDateName($d) {
+		if (strlen($d)<8) return "";
+		return substr($d,8,2)." ".get_month_name(substr($d,5,2))." ".substr($d,0,4);
 	}
 	function dbDate($d) {
 		if ($d=='') return null;

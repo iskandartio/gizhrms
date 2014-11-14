@@ -28,16 +28,19 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 		if (!confirm("Are you sure to delete?")) return;
 		var par=$(this).closest("tr");
 		var v=par.closest("tr").attr('id')=='tbl_other_language';
+		data={};
 		if (v) {
-			data='type=delete_other&applicants_other_language_id='+getChild(par,'applicants_other_language_id',other_fields);
+			data['type']='delete_other';
+			data['applicants_other_language_id']=getChild(par,'applicants_other_language_id',other_fields);
 		} else {
-			data='type=delete&applicants_language_id='+getChild(par,'applicants_language_id');
+			data['type']='delete';
+			data['applicants_language_id']=getChild(par,'applicants_language_id');
 		}
 		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'languageAjax.php',
-			data:data,
+			data:$.param(data),
 			success:function(msg) {
 				$('#freeze').hide();
 				par.remove();
@@ -51,24 +54,25 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 			alert('failed');
 			return;
 		}
-		var v=par.closest("tr").attr('id')=='tbl_other_language';
+		var v=par.closest("table").attr('id')=='tbl_other_language';
+		var data={};
 		if (v) {
 			f=other_fields;
-			data='type=save_other';
+			data['type']='save_other';
 		} else {
 			f=fields;
-			data='type=save';
+			data['type']='save';
 		}
 		
 		for (key in f) {
 			
-			if (key!='btn') data+="&"+key+"="+getChild(par, key, f);
+			if (key!='btn') data[key]=getChild(par, key, f);
 		}
 		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'languageAjax.php',
-			data: data,
+			data: $.param(data),
 			success: function(msg) {
 				$('#freeze').hide();
 				if (v) {

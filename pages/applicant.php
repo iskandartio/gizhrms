@@ -8,6 +8,7 @@
 	function combo_nationality($selected='') {
 		$res=db::select('nationality','nationality_id, nationality_val','','ifnull(sort_id,1000), nationality_val');
 		$combo_nationality=shared::select_combo($res,'nationality_id','nationality_val', $selected);
+		$combo_nationality.="<option value=-1>Others *</option>";
 		return $combo_nationality;
 	}
 	
@@ -46,6 +47,7 @@
 		bind('#province','change', ChangeProvince);
 		bind('#country','change', ChangeCountry);
 		bind('#btn_save','click', Save);
+		bind('#nationality','change', ChangeNationality);
 		
 		setDatePicker();
 		build_city();
@@ -60,7 +62,14 @@
 			_p("$('#country_name').hide();");
 			_p("$('#province').show();");
 			_p("$('#city').show();");
-		}?>
+		}
+		if ($applicant['nationality']==-1) {
+			_p("$('#nationality').val('-1');");
+			_p("$('#nationality_val').show();");
+		} else {
+			_p("$('#nationality_val').hide();");
+		}
+		?>
 		
 		fixSelect();
 		
@@ -69,6 +78,13 @@
 		var h = new Object();
 		<?php _p($js_city)?>
 		
+	}
+	function ChangeNationality() {
+		if ($(this).val()==-1) {
+			$('#nationality_val').show();
+		} else {
+			$('#nationality_val').hide();
+		}
 	}
 	function ChangeCountry() {
 		if ($(this).val()==-1) {
@@ -110,17 +126,16 @@
 		} else {
 			if (!validate_empty(['province','city'])) return;
 		}
-		var data = 'type=save&user_id=<?php _p($_SESSION['uid'])?>';
-		var fields=['applicants_id','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','nationality','address','country','country_name','province','city','post_code','phone1','phone2','computer_skills','professional_skills'];
-		for (f in fields) {
-			data+="&"+fields[f]+"="+$('#'+fields[f]).val();
-		}
+		var data ={};
+		data['type']='save';
+		data['user_id']='<?php _p($_SESSION['uid'])?>';
+		data=prepareDataText(data, ['applicants_id','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','nationality','nationality_val','address','country','country_name','province','city','post_code','phone1','phone2','computer_skills','professional_skills']);
 		
 		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'applicantAjax.php',
-			data: data,
+			data: $.param(data),
 			success: function(msg) {
 				$('#freeze').hide();
 				alert('Success');
@@ -139,7 +154,7 @@
 	<tr><td>Place of Birth *</td><td>:</td><td><?php _t("place_of_birth", $applicant)?></td></tr>
 	<tr><td>Date of Birth *</td><td>:</td><td><?php _t("date_of_birth", $applicant)?></td></tr>
 	<tr><td>Gender</td><td>:</td><td><select id='gender'><option value='' selected>-Gender-</option><?php _p(combo_gender($applicant['gender']))?></select></td></tr>
-	<tr><td>Nationality *</td><td>:</td><td><select id='nationality'><option value='' selected disabled>-Nationality-</option><?php _p(combo_nationality($applicant['nationality']))?></select></td></tr>
+	<tr><td>Nationality *</td><td>:</td><td><select id='nationality'><option value='' selected disabled>-Nationality-</option><?php _p(combo_nationality($applicant['nationality']))?></select> <?php _t("nationality_val", $applicant)?></td></tr>
 	<tr><td valign='top'>Address *</td><td>:</td><td><textarea id='address' cols='30' rows='3'><?php _p($applicant['address'])?></textarea><br/>
 	<select id='country'><option value='' disabled selected>-Country-</option><?php _p(combo_country($applicant['country']))?><option value=-1>Other *</option></select> <?php _t("country_name", $applicant)?><br/>
 	<select id='province'><option value='' disabled selected>-Province-</option><?php _p(combo_province($applicant['province']))?></select>

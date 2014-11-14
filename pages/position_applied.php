@@ -1,16 +1,19 @@
 <?php
 
 
-	function combo_position_applied($selected='') {
-		$res=db::DoQuery('select a.vacancy_id, concat(a.vacancy_name,"(",a.vacancy_code,")") vacancy from vacancy a
-where now() between vacancy_startdate and vacancy_enddate
-order by vacancy_code',array($_SESSION['uid']));
+	function combo_vacancy($selected='') {
+		$res=db::DoQuery("select a.vacancy_id, concat(a.vacancy_name,'(',a.vacancy_code,'-',a.vacancy_code2,')') vacancy from vacancy a
+left join vacancy_progress b on a.vacancy_progress_id=b.vacancy_progress_id 
+where now() between a.vacancy_startdate and a.vacancy_enddate and ifnull(b.vacancy_progress_val,'')!='Closing'
+order by vacancy_code",array($_SESSION['uid']));
 		
-		$combo_position_applied=shared::select_combo($res,'vacancy_id','vacancy');
-		return $combo_position_applied;
+		$combo_vacancy=shared::select_combo($res,'vacancy_id','vacancy');
+		return $combo_vacancy;
 	}
-	$pos=db::DoQuery('select a.job_applied_id, a.description, a.vacancy_id, b.vacancy_name from job_applied a
-left join vacancy b on a.vacancy_id=b.vacancy_id where user_id=?',array($_SESSION['uid']));
+	$pos=db::DoQuery("select a.job_applied_id, a.vacancy_id, b.vacancy_name from job_applied a
+left join vacancy b on a.vacancy_id=b.vacancy_id
+left join vacancy_progress c on c.vacancy_progress_id=b.vacancy_progress_id 
+where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESSION['uid']));
 	$required=db::select_required('applicants', array('first_name','last_name','place_of_birth','date_of_birth'), array($_SESSION['uid']));
 	$err='';
 	if (count($required)>0) {
@@ -33,32 +36,60 @@ left join vacancy b on a.vacancy_id=b.vacancy_id where user_id=?',array($_SESSIO
 	var main_fields=generate_assoc(['job_applied_id', 'vacancy_id', 'btn']);
 	var table='tbl_job_applied';
 	$(function() {
-		bind('#position_applied',"change", ChangeQuestion);
+		bind('#vacancy_id',"change", ShowJobDescription);
 		$('#btn_apply').hide();
-		bind('#btn_apply','click',Apply);
 		<?php if (count($pos)==0) {
 			_p("$('#tbl_job_applied').hide()");
 		}?>
 		
 		bindAll();
+		fixSelect();
 	});
+	function ShowJobDescription() {
+		var data={};
+		data['type']='show_job_desc';
+		data['vacancy_id']=$('#vacancy_id').val();
+		$.ajax({
+			type:'post',
+			url:'applicantAjax.php',
+			data:$.param(data),
+			success:function(msg) {
+				$('#vacancy_description').html(msg);
+				$('#tbl_question').hide();
+				$('#btn_apply').hide();
+				if (msg!='') {
+					$('#btn_apply').html('Next');
+					$('#btn_apply').show();
+					bind('#btn_apply','click',ShowNext);
+				}
+				
+			}
+		});
+	}
+	function ShowNext() {
+	
+		ajaxChangeQuestion($('#vacancy_id').val());
+		
+	}
 	function Save() {};
 	function Cancel() {};
 	function Delete() {
 		if (!confirm("Are you sure to delete?")) return;
 		var par=$(this).closest("tr");
-		data='type=delete&job_applied_id='+getChild(par,'job_applied_id', main_fields);
+		var data={};
+		data['type']='delete';
+		data['job_applied_id']=getChild(par,'job_applied_id', main_fields);
 		
 		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'applicantAjax.php',
-			data:data,
+			data:$.param(data),
 			success:function(msg) {
 				$('#freeze').hide();
 				$('#questions').html('');
 				$('#btn_apply').hide();
-				$('#position_applied').val(0);
+				$('#vacancy_id').val(0);
 				
 				par.remove();
 				if ($('#tbl_job_applied tbody tr').length==0) {
@@ -68,18 +99,24 @@ left join vacancy b on a.vacancy_id=b.vacancy_id where user_id=?',array($_SESSIO
 		});
 	};
 	function Apply() {
-		var data='type=apply&vacancy_id='+$('#position_applied').val();
+		var data={};
+		data['type']='apply';
+		data['vacancy_id']=$('#vacancy_id').val();
+		var question=new Array();
 		$('#tbl_question .question_id').each(function() {
-			data+='&question[]='+$(this).html();
+			question.push(htmlDecode($(this).html()));
 		});	
+		data['question']=question;
+		var answer=new Array();
 		$('#tbl_question .cls_choice').each(function() {
-			data+='&answer[]='+$(this).val();
+			answer.push($(this).val());
 		});	
+		data['answer']=answer;
 		$('#freeze').show();		
 		$.ajax({
 			type:'post',
 			url:'applicantAjax.php',
-			data:data,
+			data:$.param(data),
 			success: function(msg) {
 				$('#freeze').hide();
 				alert('Success');
@@ -97,7 +134,7 @@ left join vacancy b on a.vacancy_id=b.vacancy_id where user_id=?',array($_SESSIO
 		var par=$(this).closest("tr");
 		var id=getChildHtmlSpanVal(par, 'vacancy_id', main_fields);
 		
-		$('#position_applied').val(id);
+		$('#vacancy_id').val(id);
 		ajaxChangeQuestion(id);
 		
 	}
@@ -107,15 +144,19 @@ left join vacancy b on a.vacancy_id=b.vacancy_id where user_id=?',array($_SESSIO
 	}
 	function ajaxChangeQuestion(val) {
 		$('#freeze').show();
+		var data={};
+		data['type']='change_question';
+		data['vacancy_id']=val;
 		$.ajax({
 			type : 'post',
 			url : 'applicantAjax.php',
-			data : 'type=change_question&vacancy_id='+val, 
+			data : $.param(data), 
 			success : function(msg) {
 				$('#freeze').hide();
 				$('#questions').html(msg);
 				hideColumns('tbl_question');
 				After();
+				fixSelect();
 			}
 		});
 	}
@@ -124,6 +165,17 @@ left join vacancy b on a.vacancy_id=b.vacancy_id where user_id=?',array($_SESSIO
 		bind('.cls_choice',"change", ToggleApplyButton);
 		
 		ToggleApplyButton();
+		$('#vacancy_description').html('');
+		$('#btn_apply').html('Apply');
+		$('#btn_apply').show();
+		$('#tbl_question tbody tr').each(function(idx) {
+			if ($(this).children("td:eq(2)").children("select").children("option:selected").val()==0) {
+				$('#btn_apply').hide();
+			}
+		});
+		
+		bind('#btn_apply','click',Apply);
+		
 	}
 	
 	function ToggleApplyButton() {
@@ -149,19 +201,19 @@ left join vacancy b on a.vacancy_id=b.vacancy_id where user_id=?',array($_SESSIO
 <?php _p($err)?>
 <table class='tbl' id='tbl_job_applied'>
 	<thead>
-	<tr><th></th><th>Position Applied</th><th>Job Description</th><th></th></tr>
+	<tr><th></th><th>Position Applied</th><th></th></tr>
 	</thead>
 	<tbody>
 	<?php foreach ($pos as $row) {
 		_p("<tr><td>".$row['job_applied_id']."</td><td><span style='display:none'>".$row['vacancy_id']."</span>".$row['vacancy_name']."</td>");
-		_p("<td>".$row['description']."</td>");
 		_p("<td>".getImageTags(array('edit','delete'))."</td></tr>");
 	} ?>
 	</tbody>
 </table>
 
 <table>
-<tr><td>Apply for</td><td>:</td><td><select id='position_applied'><option value=> - Position Applied - </option><?php _p(combo_position_applied())?></select></td></tr>
+<tr><td>Apply for</td><td>:</td><td><select id='vacancy_id' title='Position Applied'><option value=> - Position Applied - </option><?php _p(combo_vacancy())?></select></td></tr>
 </table>
-<span id='questions'></span>
+<span id="vacancy_description"></span>
+<span id='questions'></span><br/>
 <button class='button_link' id='btn_apply'>Apply</button>

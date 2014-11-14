@@ -14,9 +14,10 @@ require "pages/startup.php";
 	}
 	if ($_POST['type']=='save_other') {
 		if ($applicants_other_reference_id=='') {
-			$applicants_other_reference_id=db::insert('applicants_other_reference','user_id, reference_val, reference_skill_id', array($_SESSION['uid'], $reference_val, $reference_skill_id));
+			$_POST['user_id']=$_SESSION['uid'];
+			$applicants_other_reference_id=db::insertEasy('applicants_other_reference', $_POST);
 		} else {
-			db::update('applicants_other_reference','reference_val, reference_skill_id', 'applicants_other_reference_id=?', array($reference_val, $reference_skill_id, $applicants_other_reference_id));
+			db::updateEasy('applicants_other_reference', $_POST);
 		}
 		die($applicants_other_reference_id);
 	}
