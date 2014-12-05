@@ -3,10 +3,18 @@
 left join  m_user_role b on a.user_id=b.user_id 
 left join m_role c on c.role_id=b.role_id 
 where role_name='employee' order by a.first_name, a.last_name");
+	$combo_user="";
+	foreach ($res as $row) {
+		if ($combo_user!="") $combo_user.=",";
+		$combo_user.="'".$row['first_name']." ".$row['last_name']."'";
+	}
+	$combo_user="[".$combo_user."]";
+/*
 	$combo_user="<select id='employee_id' class='user_id' title='User'><option value=''>-User-</option>";
 	foreach ($res as $row) {
 		$combo_user.="<option value='".$row['user_id']."'>".$row['first_name']." ".$row['last_name']."</option>";
 	}
+*/
 	$res=db::select('business','business_id,business_val','','sort_id');
 	$combo_business="<select id='filter_business' title='Nature of Business'><option value=''>-Nature of Business-</option>";
 	foreach ($res as $row) {
@@ -59,6 +67,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 ?>
 <script>
 	var fields={'user_id':0, 'ranking_id':4, 'user_comment':5, 'btn':6}
+	var field_closing={'user_id':0, 'job_title':3, 'contract_duration':4, 'salary':5,  'salary_band':6, 'btn':7}
 	var field_user=generate_assoc(['vacancy_employee_id','employee_id','btn']);
 	<?php _p($status_choice);?>;
 	<?php _p($status_choice_sorted);?>;
@@ -71,7 +80,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		bind('#btn_shortlist',"click", Shortlist);
 		
 		$('#btn_add_user').hide();
-		$('#btn_shortlist').hide();
+		$('#div_shortlist').hide();
 		bind("#btn_add_user","click", AddUser);
 		hideColumns('tbl_user');
 		$('#filter_question').hide();
@@ -84,8 +93,10 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			width:750,
 			modal:true
 		});
-		
+		numeric($('#salary_expectation_start'));
+		numeric($('#salary_expectation_end'));
 	});
+	
 	function ajax(data, Func) {
 		$.ajax({
 			type:'post',
@@ -109,8 +120,8 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			
 		};
 		ajax(data, f);
-		
 	}
+	
 	function ToggleFilterQuestion(){
 		if ($('#filter_question').css('display')=='none') {
 			$('#filter_question').show();
@@ -120,6 +131,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			$(this).html('Show Filter Question');
 		}
 	}
+	
 	function Delete() {
 		var par=$(this).parent().parent();
 		var data={};
@@ -127,17 +139,19 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data['vacancy_id']=$('#vacancy_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
 		data['user_id']=getChild(par, 'user_id');
+		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url: 'filter_applicantAjax.php',
 			data:$.param(data),
 			success:function(msg) {
+				$('#freeze').hide();
 				if (msg=='Closing') {
-					btnChange(par, ['accept','reject']);
+					btnChange(par, ['accept','reject'], field_closing);
 					$('#closing').hide();
 				} else {
 					btnChange(par, ['save','interview','reject']);
-					$('#interview_all').hide();
+					$('#div_shortlist').hide();
 				}
 				
 				bind('.btn_save',"click",Save);
@@ -181,12 +195,15 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data['vacancy_id']=$('#vacancy_id').val();
 		data['vacancy_progress_id']=$('#vacancy_progress_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
+		$('#freeze').show();
 		$.ajax({
 			type:'post',
 			url:'filter_applicantAjax.php',
 			data:$.param(data),
 			success: function(msg) {
+				$('#freeze').hide();
 				$('#search_result').html(msg);
+				bind('.btn_accept',"click",Accept);
 				bind('.btn_save',"click",Save);
 				bind('.btn_delete',"click",Delete);
 				bind('#interview_all',"click", InterviewAll);
@@ -195,6 +212,11 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 				$('#tbl_filter_applicant tbody tr').each(function() { 
 					var v=$(this).children("td:eq("+fields['ranking_id']+")").children("select");
 					$(v).data("originalValue", $(v).val());
+				});
+				setDatePicker();
+				hideColumns('tbl_result');
+				$('input[id="salary"]').each(function(idx) {
+					numeric($(this));
 				});
 			}
 		});
@@ -215,10 +237,16 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		});
 	}
 	function InterviewAll() {
+		if (!validate_empty(['interview_date','interview_time'])) return;
+		if (tinyMCE.get('interview_place').getContent()=='') {
+			tinyMCE.get('interview_place').focus();
+			return;
+		}
 		var data={};
 		data['type']='interviewall';
-		data['vacancy_id']=$('#vacancy_id').val();
-		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
+		prepareDataText(data, ['interview_date','interview_time','vacancy_id','next_vacancy_progress_id','vacancy_progress_id']);
+		prepareDataHtml(data, ['interview_place']);
+		
 		$.ajax({
 			type:'post',
 			url:'filter_applicantAjax.php',
@@ -229,14 +257,21 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 				} else {
 					alert('Success');
 					Search();
+					$.ajax({
+						type : "post",
+						url : "send_email.php"						
+					});
 				}
 			}
 		});
+		
 	}
 	function Search() {
 		var data={};
 		data['type']='search';
-		data=prepareDataText(data,['vacancy_id','vacancy_progress_id','next_vacancy_progress_id', 'filter_name','filter_city','filter_business','filter_computer_skill','filter_professional_skill']);
+		data=prepareDataText(data,['vacancy_id','vacancy_progress_id','next_vacancy_progress_id', 'filter_name'
+		,'filter_city','filter_business','filter_computer_skill','filter_professional_skill','age_start','age_end']);
+		data=prepareDataDecimal(data,['salary_expectation_start','salary_expectation_end']);
 		data['filter_rejected']=$('#filter_rejected').prop('checked');
 		var filter_array=new Array();
 		$('select[id^="filter_answer_"]').each(function(idx) {
@@ -272,6 +307,12 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 				});
 				fixSelect();
 				setDatePicker();
+				hideColumns('search_result');
+				
+				$('input[id="salary"]').each(function(idx) {
+					numeric($(this));
+				});
+				
 			}
 		});
 	}
@@ -279,16 +320,15 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		par=$(this).closest("tr");
 		var data={};
 		data['type']="accept";
-		var f={'user_id':0, 'job_title':3, 'contract_duration':4, 'salary':5};
-		
-		data['job_title']=getChild(par,'job_title',f);
-		data['start_date']=getChild(par,'start_date',f,'contract_duration');
-		data['end_date']=getChild(par,'end_date',f,'contract_duration');
-		data['salary']=getChild(par,'salary',f);
-		data['user_id']=getChild(par,'user_id',f);
+
+		data['job_title']=getChild(par,'job_title',field_closing);
+		data['start_date']=getChild(par,'start_date',field_closing,'contract_duration');
+		data['end_date']=getChild(par,'end_date',field_closing,'contract_duration');
+		data['salary']=cNum(getChild(par,'salary',field_closing));
+		data['salary_band']=getChild(par,'salary_band',field_closing);
+		data['user_id']=getChild(par,'user_id',field_closing);
 		prepareDataText(data, ['vacancy_id','next_vacancy_progress_id']);
 		var func=function(msg) {
-			
 			Search();
 		}
 		ajax(data, func);
@@ -387,7 +427,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		
 				if (data['next_vacancy_progress_id']) {
 					$('#btn_add_user').show();
-					$('#btn_shortlist').show();
+					$('#div_shortlist').show();
 				}
 			}
 		});
@@ -437,17 +477,37 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		});
 		
 	}
-	
+	function autoCompleteEmployee() {
+		$('.user_id').autocomplete({
+			matchContains: true,
+			minLength: 0,
+			source : <?php _p($combo_user)?>,
+			focus: function( event, ui ) {
+				$(this).val(ui.item.label);
+				
+				return false;
+			},
+			select: function( event, ui ) {
+				$(this).data("id", ui.item.value);
+				return false;
+			}
+		}).focus(function() {
+			$(this).autocomplete('search', $(this).val())
+		});
+		
+	}
 		
 	function AddUser() {
 		var a="<tr><td></td><td>";
-		a+="<?php _p($combo_user)?>";
+		//a+="<?php _p($combo_user)?>";
+		a+="<?php _t("user_id");?>";
 		a+="</td><td><img src='images/save.png' class='btn_save_user'/> <img src='images/delete.png' class='btn_delete_user'/></td></tr>";
 		$('#tbl_user tbody').append(a);
 		
 		bind('.user_id','change',ValidateUser);
 		bind('.btn_save_user',"click", SaveUser);
 		bind('.btn_delete_user',"click", DeleteUser);
+		autoCompleteEmployee();
 		hideColumns('tbl_user');
 	}
 	function ValidateUser() {
@@ -555,12 +615,19 @@ if ($_SESSION['role_name']=='admin') {
 <p>
 <button id="toggle_filter_question" class='button_link'>Show Question Filter</button>
 <div id="filter_question"></div>
+<div id="advance_filter">
+	<table>
+		<tr><td>Salary Expectation</td><td>:</td><td><?php _t("salary_expectation_start")?> &nbsp;to <?php _t("salary_expectation_end")?></td></tr>
+		<tr><td>Age</td><td>:</td><td><?php _t("age_start")?> &nbsp;to <?php _t("age_end")?></td></tr>
+	</table>
+</div>
 <input type="checkbox" id="filter_rejected"/><label for="filter_rejected">Filter Rejected</label>
 <?php _t("filter_name") ?> 
 <?php _t("filter_city") ?> 
 <?php _p($combo_business) ?> 
 <?php _t("filter_computer_skill") ?> 
-<?php _t("filter_professional_skill") ?>
+<?php _t("filter_professional_skill") ?> 
+
 <button id="search" class="button_link">Search</button>
 <p>
 <div id="search_result"></div>

@@ -54,14 +54,14 @@
 	}
 	function EditChoice() {
 		var par=$(this).closest("tr");
-		labelToText(par, 'choice_val', '', field_choice);
+		labelToText(par, {'choice_val':0}, field_choice);
 		setHtmlText(par, 'btn', '<img src="images/save.png" class="btn_save_choice"/> <img src="images/cancel.png" class="btn_cancel_choice"/>', field_choice);
 		bind('.btn_save_choice',"click", SaveChoice);
 		bind('.btn_cancel_choice',"click", CancelChoice);
 	}
 	function CancelChoice() {
 		var par=$(this).closest("tr");
-		textToDefaultLabel(par,'choice_val', field_choice);
+		textToDefaultLabel(par,['choice_val'], field_choice);
 		setHtmlText(par, 'btn', '<img src="images/edit.png" class="btn_edit_choice"/> <img src="images/delete.png" class="btn_delete_choice"/>', field_choice);
 		bind('.btn_edit_choice',"click", EditChoice);
 		bind('.btn_delete_choice',"click", DeleteChoice);

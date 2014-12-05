@@ -1,5 +1,49 @@
 <?php
 class shared {
+	static function validate_download($user_id, $uid, $role_name) {
+		if ($user_id==$uid || $role_name==$user_id) return $user_id;
+		$res=db::DoQuery("select a.employee_id from vacancy_employee a
+inner join vacancy b on a.vacancy_id=b.vacancy_id and a.vacancy_progress_id>b.vacancy_progress_id
+inner join job_applied c on c.vacancy_id=a.vacancy_id and c.user_id=?
+where a.employee_id=?", array($user_id, $uid));
+		if (count($res)>0) return $user_id;
+		return 0;
+	}
+	static function email($email_type, $params, $con=null) {
+		db::Log($params);
+		$e=db::select_one("email_setup","*","email_type='$email_type'","",array(), $con);
+		foreach ($params as $key=>$val) {
+			$e['email_to']=str_replace("@$key", $val, $e['email_to']);
+			$e['email_cc']=str_replace("@$key", $val, $e['email_cc']);
+			$e['email_bcc']=str_replace("@$key", $val, $e['email_bcc']);
+			$e['email_subject']=str_replace("@$key", $val, $e['email_subject']);
+			$e['email_content']=str_replace("@$key", $val, $e['email_content']);
+		}
+		db::Log($e);
+		if (isset($e) && $e['email_content']!="") {
+			db::insert("email", "email_from, email_to, email_cc, email_bcc, email_subject, email_content"
+				, array($e['email_from'], $e['email_to'], $e['email_cc'], $e['email_bcc'], $e['email_subject'], $e['email_content']), $con);
+		}
+	}
+	static function random($characters=6,$letters = '2345678bcdfhjkmnprstvwxyz'){
+		$str='';
+		for ($i=0; $i<$characters; $i++) { 
+			$str .= substr($letters, mt_rand(0, strlen($letters)-1), 1);
+		}
+		return $str;
+	}
+	static function set_selected($val, $str) {
+		return str_replace("value='".$val."'", "value='".$val."' selected", $str);
+	}
+	static function get_captcha_text($forced=false) {
+		$_SESSION['captcha_text']="";
+		if ($_SESSION['check_abused']>10 || $forced) {
+		
+			return "<img src='captcha.php'/><p>Input the word above:</br><input type='text' id='captcha_text'/>";
+			
+		}
+		return "";
+	}
 	static function select_combo($res, $id, $val='', $selected='') {
 -		$result='';
 		if ($val=='') $val=$id;
@@ -8,14 +52,18 @@ class shared {
 		}
 		return $result;
 	}
+	static function select_combo_complete($res, $id, $def, $val='', $selected='') {
+		$result="<select id=$id><option value=''>$def</option>".shared::select_combo($res, $id, $val, $selected)."</select>";
+		return $result;
+	}
 	static function sanitize($tag) {
 	
-		$tag= str_replace("</span","&lt;/span", $tag);
+		//$tag= str_replace("</span","&lt;/span", $tag);
 		$tag= str_replace("<input","&lt;input", $tag);
 		$tag= str_replace("<textarea","&lt;textarea", $tag);
 		
-		$tag= str_replace("'","&#39;", $tag);
-		$tag= str_replace('"',"&#34;", $tag);
+		//$tag= str_replace("'","&#39;", $tag);
+		//$tag= str_replace('"',"&#34;", $tag);
 		
 		return $tag;
 		/*
@@ -120,5 +168,40 @@ class shared {
 		}
 		return $_SESSION["tbl_$tbl"][$id];
 	}
+	static function create_checkbox($id, $label, $selected) {
+		$selected= $selected==0 ? '' : 'checked';
+		return "<input type='checkbox' id='$id' $selected/><label for='$id'>$label</label>";
+	}
+	static function send_all_email() {
+		$res=db::select('email','*','sent=0');
+		foreach ($res as $row) {
+			if (SendEmail::send_email($row['email_to'], $row['email_subject'], $row['email_content'])) {
+				db::ExecMe("update email set sent=now() where email_id=?", array($row['email_id']));
+			}
+		}
+	}
+	static function get_tinymce_script($obj) {
+		$result="";
+		$result.='
+		<script src="js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+tinymce.init({
+    selector: "div#'.$obj.'",
+	inline:true,
+    theme: "modern",
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
+    ],
+    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    toolbar2: "preview | forecolor backcolor emoticons",
+    image_advtab: true,
+
+});
+</script>';
+	return $result;
 }
 
+}

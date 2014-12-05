@@ -1,16 +1,33 @@
 <?php
 	$res_question=db::select('question','question_id, question_val','','question_val');
-	
-	
+	$res=db::select('vacancy_type','vacancy_type','','vacancy_type');
+	$vacancy_type_options=shared::select_combo_complete($res, 'vacancy_type','- Vacancy Type -');
 ?>
+<script src="js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+tinymce.init({
+    selector: "div#vacancy_description",
+	inline:true,
+    theme: "modern",
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
+    ],
+    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    toolbar2: "preview | forecolor backcolor emoticons",
+    image_advtab: true,
+
+});
+</script>
 
 <script>
-	var fields=generate_assoc(['vacancy_id','vacancy_code','vacancy_code2','vacancy_name', 'vacancy_description', 'vacancy_startdate', 'vacancy_enddate']);
+	var fields=generate_assoc(['vacancy_id','vacancy_code','vacancy_code2','vacancy_name', 'vacancy_description', 'vacancy_startdate', 'vacancy_enddate','vacancy_type','allowance']);
 	var field_question=generate_assoc(['question_id','btn']);
 	var table='tbl_vacancy';
 	var currentRow=-1;
 	$(function() {
-		
 		bind('#btn_add',"click", Add);
 		bind('#btn_save',"click", Save);
 		bind('#btn_search',"click", Search);
@@ -23,10 +40,13 @@
 		});
 		Search();
 		$('#input_vacancy tr:eq(0)').hide();
+		fixSelect();
+		numeric($('#allowance'));
 	});
 	function Add() {
 		currentRow=-1;
-		clearText(['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_description','vacancy_startdate','vacancy_enddate']);
+		clearText(['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate','vacancy_enddate','vacancy_type','allowance']);
+		clearDiv(['vacancy_description']);
 		clear_checkbox('question_id');
 		$('#btn_save').html('Save');
 	}
@@ -37,7 +57,9 @@
 	}
 	function edit_data() {
 		var obj=$('#tbl_vacancy tbody tr:eq('+currentRow+')');
-		inputText(obj, ['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_description','vacancy_startdate','vacancy_enddate']);
+		inputText(obj, ['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate','vacancy_enddate','allowance']);
+		inputSelect(obj, ['vacancy_type']);
+		inputDiv(obj, ['vacancy_description']);
 		$('#btn_save').html('Update');
 		data={};
 		data['type']='get_questions';
@@ -52,6 +74,7 @@
 				$(question_id).each(function(idx, val) {
 					$('#question_id_'+val).prop('checked',true);
 				});
+				fixSelect();
 			}
 		});
 	}
@@ -75,10 +98,12 @@
 	function Cancel() {
 	}
 	function Save() {
-		if (!validate_empty(['vacancy_code','vacancy_code2', 'vacancy_name','vacancy_description','vacancy_start','vacancy_end'])) return;	
+		if (!validate_empty(['vacancy_code','vacancy_code2', 'vacancy_name','vacancy_start','vacancy_end','vacancy_type','allowance'])) return;	
 		var data={};
 		data['type']='save';
-		data=prepareDataText(data,['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_description','vacancy_startdate','vacancy_enddate']);
+		data=prepareDataText(data,['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate','vacancy_enddate','vacancy_type']);
+		data=prepareDataDecimal(data,['allowance']);
+		data=prepareDataHtml(data,['vacancy_description']);
 		var question_id= new Array();
 		$.each($( "input[id^='question_id_']" ), function(idx) {
 			if ($(this).prop('checked')) {
@@ -99,25 +124,26 @@
 				alert('Success');
 				tbl='tbl_vacancy';
 				if (currentRow>=0) {
-					setHtmlAllText(tbl, ['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_description','vacancy_startdate', 'vacancy_enddate']);
 					
 					
 				} else {
 					$('#vacancy_id').val(msg);
 					adder='<tr><td>';
 					adder+=msg+"</td>"; 
-					adder+='<td></td><td></td><td></td><td></td><td></td><td></td>';
+					adder+='<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
 					adder+='<td><?php _p(getImageTags(array('edit','delete')))?></td>';
 					adder+='</tr>';	
 					currentRow=$('#tbl_vacancy tbody').children().length;
 					
 					$('#tbl_vacancy tbody').append(adder);
-					setHtmlAllText(tbl, ['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_description','vacancy_startdate', 'vacancy_enddate']);
 					
 					bindAll();
 					$('#btn_save').html('Update');
 					
 				}
+				setHtmlAllText(tbl, ['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate', 'vacancy_enddate','allowance']);
+				setHtmlAllDiv(tbl, ['vacancy_description']);
+				setHtmlAllSelect(tbl, ['vacancy_type']);		
 				edit_data();
 			}
 		});
@@ -147,9 +173,11 @@
 <tr><td>Vacancy ID</td><td>:</td><td><?php _t("vacancy_id")?></td></tr>
 <tr><td>Vacancy Code *</td><td>:</td><td><?php _t("vacancy_code")?> <?php _t("vacancy_code2")?></td></tr>
 <tr><td>Vacancy Name *</td><td>:</td><td><?php _t("vacancy_name")?></td></tr>
-<tr><td>Vacancy Description *</td><td>:</td><td><textarea id="vacancy_description" cols="30" rows="3"></textarea></td></tr>
+<tr><td>Vacancy Description *</td><td>:</td><td><div id="vacancy_description"></div></td></tr>
 <tr><td>Vacancy Start *</td><td>:</td><td><?php _t("vacancy_startdate")?></td></tr>
 <tr><td>Vacancy End *</td><td>:</td><td><?php _t("vacancy_enddate")?></td></tr>
+<tr><td>Vacancy Type *</td><td>:</td><td><?php _p($vacancy_type_options)?></td></tr>
+<tr><td>Additional Allowance *</td><td>:</td><td><?php _t("allowance")?></td></tr>
 
 <tr><td>Questions</td><td>:</td><td>
 <?php 

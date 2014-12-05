@@ -21,10 +21,7 @@ require "pages/startup.php";
 		}
 		die($applicants_other_reference_id);
 	}
-	if ($type=='delete') {
-		db::delete('applicants_reference','applicants_reference_id=?',array($applicants_reference_id));
-		die;
-	}
+
 	if ($type=='delete_other') {
 		db::delete('applicants_other_reference','applicants_other_reference_id=?',array($applicants_other_reference_id));
 		die;

@@ -4,10 +4,22 @@
 	date_default_timezone_set('Asia/Jakarta');
 	$_SESSION['db']=array('mysql:host=localhost:3307;dbname=hrms','root','123456');
 	//$_SESSION['db']=array('mysql:host=mysql.idhostinger.com;dbname=u169820922_prop','u169820922_admin','host123456a!');
-	
+	$home="http://localhost:8081/gizhrms/";
 	$timezone = "Asia/Bangkok";
 	if(function_exists('date_default_timezone_set')) date_default_timezone_set($timezone);
+	$captcha_tag='';
+	if (!isset($_SESSION['check_abused'])) {
+		$_SESSION['check_abused']=1;
+	}
 	
+	if (count($_POST)==0) {
+		if (!isset($_SESSION['captcha_text'])) {
+			$_SESSION['captcha_text']='';
+		}
+		$captcha_tag=shared::get_captcha_text();
+	}
+	
+		
 	foreach ($_POST as $key=>$value) {
 
 		if (startsWith($key,'date')||endsWith($key,'date')) {
@@ -18,6 +30,15 @@
 			$$key=$value;
 		}
 		
+	}
+	
+	if (isset($captcha_text)) {
+		if ($_SESSION['captcha_text']!=$captcha_text) {
+			$data['err']='Wrong captcha text';
+			$data['captcha_tag']=shared::get_captcha_text(true);
+			$data['focus']='#captcha_text';
+			die(json_encode($data));
+		}
 	}
 	
 	function _p($s) {
@@ -35,14 +56,22 @@
 	{
 		return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
 	}
-	function _t($name, $value='', $size='', $type='text', $class='') {
-		if ($value!='' && count($value)>0) $value=$value[$name];
+	function _t($name, $value='', $size='', $type='text', $class='', $placeholder='') {		
+		_p(_t2($name, $value, $size, $type, $class, $placeholder));
+	}
+	function _t2($name, $value='', $size='', $type='text', $class='', $placeholder='') {
+		
+		if ($value!='' && is_array($value)) $value=$value[$name];
 		if (startsWith($name,'date')) {
 			$value=formatDate($value);
 		}
-		$placeholder=ucwords(str_replace('_',' ',$name));
-		
-		_p("<input type='$type' id='$name' name='$name' class='$name' placeholder='$placeholder' value='$value'".($size=='' ? '' : "size='$size'")."/>");
+		if ($placeholder=='') {
+			$placeholder=ucwords(str_replace('_',' ',$name));
+		}
+		if ($type=='') {
+			$type='text';
+		}
+		return ("<input type='$type' id='$name' name='$name' class='$name' placeholder='$placeholder' value='$value'".($size=='' ? '' : "size='$size'")."/>");
 	}
 	function month_options() {
 		$month_options='<option value=1>January</option>';

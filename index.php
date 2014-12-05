@@ -1,20 +1,35 @@
+<!DOCTYPE html>
 <?php
-
 require "pages/autoload.php";
 require "pages/startup.php";
+
 require_once('libs/URLParse.php'); 
 
+$activation_email= (isset($_SESSION['activation_email'])? $_SESSION['activation_email'] : '');
+$_SESSION['activation_email']="";
 $name = URLParse::ProcessURL();
 if ($name=='') {
 	
-	unset($_SESSION);	
+	unset($_SESSION['uid']);
 	
-	file_put_contents("log.txt", "");
+	//file_put_contents("log.txt", "");
 }
-
+function set_session_menu($menu) {
+	if (isset($_SESSION[$menu])) {		
+		if ($_SESSION[$menu]=="true") {
+			_p("$('#$menu img').attr('src', 'images/collapse_alt.png');");
+			_p("$('#$menu').next().show();");
+		} else {
+			_p("$('#$menu img').attr('src', 'images/expand_alt.png');");
+			_p("$('#$menu').next().hide();");
+		}
+		
+	}
+}
+			
 header('Content-Type: text/html; charset=utf-8');
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <title><?php 
@@ -32,70 +47,159 @@ header('Content-Type: text/html; charset=utf-8');
 	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css"/>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/general.js"></script>
+	<script src="js/numeric.js"></script>
 
 	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
 	<link rel="stylesheet" href="css/default.css"/>
 <?php if ($name=='') {?>
 	<script>
+		
 		$(function() {
 			bind('#btn_login','click',Login);
-			bind('#btn_register','click', Register);
 			
 			
 		});
+		
 		function new_registrant() {
 			$('#tr_confirm_password').show();
 			$('#tr_new_applicant').hide();
 			$('#tr_already_registered').show();
-			$('#btn_register').show();
-			$('#btn_login').hide();
+			$('#tr_forgot_password').show();
+			$('#tr_password').show();
+			
+			
+			tag="<img src='captcha.php'/><p>Input the word above:</br><input type='text' id='captcha_text'/>";
+			$('#captcha').html(tag);
+			$('#btn_login').html("Register");
+		}
+		function forgot_password() {
+			$('#tr_confirm_password').hide();
+			$('#tr_new_applicant').show();
+			$('#tr_already_registered').show();
+			$('#tr_forgot_password').hide();
+			$('#tr_password').hide();
+			
+			tag="<img src='captcha.php'/><p>Input the word above:</br><input type='text' id='captcha_text'/>";
+			$('#captcha').html(tag);
+			$('#btn_login').html("Forgot Password");
+			
+			
+			
 		}
 		function already_registered() {
 			$('#tr_confirm_password').hide();
 			$('#tr_new_applicant').show();
 			$('#tr_already_registered').hide();
-			$('#btn_register').hide();
-			$('#btn_login').show();
+			$('#tr_forgot_password').show();
+			$('#tr_password').show();
+			
+			$('#btn_login').html("Login");
+			$.ajax({
+				type:'post',
+				url:'indexAjax.php',
+				data:'type=get_captcha_text',
+				success: function(msg) {
+					$('#captcha').html(msg);
+				}
+			});
+			
 		}
 		function Login() {
+			var type=$('#btn_login').html();
+			if (type=='Login') {
+				loginAjax(this);
+				return;
+			}
+			if (type=='Register') {
+				registerAjax(this);
+				return;
+			}
+			if (type=='Forgot Password') {
+				forgotPasswordAjax(this);
+				return;
+			}
+		}
+		function loginAjax(o) {
+			if (!validate_empty(['email','password','captcha_text'])) return;
 			$('#freeze').show();
 			var data={};
 			data['type']='login';
-			data=prepareDataText(data,['email','password']);
+			data=prepareDataText(data,['email','password','captcha_text']);
 			$.ajax({
 				type : "post",
 				url : "indexAjax.php",
 				data : $.param(data),
 				success: function(msg) {
+					obj = jQuery.parseJSON(msg);
 					$('#freeze').hide();
-					if (msg=='Wrong User Name or Password!')  {
-						alert(msg);
+					if (obj['err']!='')  {
+						alert(obj['err']);
+						
+						$('#captcha').html(obj['captcha_tag']);
 						return;
 					}
-					location.href=msg;
+					location.href=obj['url'];
 				}				
 			});
 		}
-		function Register() {
+		function registerAjax(o) {
+			if (!validate_empty(['email','password','confirm_password','captcha_text'])) return;
 			$('#freeze').show();
 			var data={};
 			data['type']='register';
-			data=prepareDataText(data,['email','password','confirm_password']);
+			data=prepareDataText(data,['email','password','confirm_password','captcha_text']);
 			$.ajax({
 				type : "post",
 				url : "indexAjax.php",
 				data : $.param(data),
 				success: function(msg) {
+					
+					obj = jQuery.parseJSON(msg);
 					$('#freeze').hide();
-					if (msg=='Confirm password not matched!')  {
-						alert(msg);
+					
+					if (obj['err']!='')  {
+						alert(obj['err']);
+						$('#captcha').html(obj['captcha_tag']);
+						$(obj['focus']).focus();
+			
 						return;
 					}
-					if (msg=='User already exists!')  {
-						alert(msg);
+					
+					//location.href=obj['url'];
+					already_registered();
+					$.ajax({
+						type : "post",
+						url : "send_email.php"						
+					});
+					
+				}				
+			});
+		}
+		
+		function forgotPasswordAjax(o) {
+			if (!validate_empty(['email','captcha_text'])) return;
+			$('#freeze').show();
+			var data={};
+			data['type']='forgotPassword';
+			data=prepareDataText(data,['email','captcha_text']);
+			$.ajax({
+				type : "post",
+				url : "indexAjax.php",
+				data : $.param(data),
+				success: function(msg) {
+					obj = jQuery.parseJSON(msg);
+					$('#freeze').hide();
+					if (obj['err']!='')  {
+						alert(obj['err']);
+						$('#captcha').html(obj['captcha_tag']);
+						$(obj['focus']).focus();
 						return;
 					}
-					location.href=msg;
+					already_registered();
+					$.ajax({
+						type : "post",
+						url : "send_email.php"						
+					});
 				}				
 			});
 		}
@@ -122,6 +226,35 @@ header('Content-Type: text/html; charset=utf-8');
 		   return error;
 		} 
 	</script>
+<?php } else {?>
+	<script>
+		$(function() {
+			$('.btn_collapse').bind("click", ExpandCollapse);
+			<?php
+				set_session_menu("menu_master");
+				set_session_menu("menu_report");
+				set_session_menu("menu_administation");
+			?>
+			
+		});
+		function ExpandCollapse() {
+			var data={}
+			data['type']="set_session";
+			data['session_key']=$(this).parent().attr("id");
+			data['session_value']=$(this).attr("src")=="images/expand_alt.png";
+			ajax('indexAjax.php', data);
+			if ($(this).attr("src")=="images/expand_alt.png") {
+				$(this).parent().next().show();
+				$(this).attr("src", "images/collapse_alt.png");
+				$(this).attr("title", "Collapse");
+			} else {
+				$(this).parent().next().hide();
+				$(this).attr("src", "images/expand_alt.png");
+				$(this).attr("title", "Expand");
+				
+			}
+		}
+	</script>
 <?php } ?>
 	<script>
 		$(function() {
@@ -130,6 +263,7 @@ header('Content-Type: text/html; charset=utf-8');
 	</script>
 </head>
 <body>
+
 	<div align="center">
 	<img class="logoimg" src="images/logo.png" alt="PAKLIM">
     <img class="logoimg" src="images/logo_web.jpg" alt="">
@@ -140,18 +274,21 @@ header('Content-Type: text/html; charset=utf-8');
 		<tbody>
 		
 		<tr id='tr_new_applicant'><td colspan="3">New Applicant click <span class='span_link' onclick='new_registrant()'>here</span></td></tr>
+		<tr id='tr_forgot_password'><td colspan="3">Forgot Password click <span class='span_link' onclick='forgot_password()'>here</span></td></tr>
 		<tr id='tr_already_registered' style="display:none"><td colspan="3">Already registered click <span class='span_link' onclick='already_registered()'>here</span></td></tr>
-		<tr><td>Email</td><td>:</td><td><?php _t("email") ?></td></tr>
-		<tr><td>Password</td><td>:</td><td><?php _t("password","","","password") ?></td></tr>
+		<tr><td>Email</td><td>:</td><td><?php _t("email", $activation_email) ?></td></tr>
+		<tr id='tr_password'><td>Password</td><td>:</td><td><?php _t("password","","","password") ?></td></tr>
 		<tr style="display:none" id='tr_confirm_password'><td>Confirm Password</td><td>:</td><td><?php _t("confirm_password","","","password") ?></td></tr>
 		</tbody>
 		<tfoot>
-		<tr><td colspan="3">
-			<button class='button_link' id='btn_login'>Login</button><button class='button_link' id='btn_register' style="display:none">Register</button>
+		<tr><td colspan="3"><div id='captcha'>
+				<?php _p($captcha_tag)?>
+			</div>
+			<button class='button_link' id='btn_login'>Login</button>
 		</td></tr>
 		</tfoot>
 	</table>
-	
+		
 <?php
 		die;
 	}?>
@@ -173,15 +310,26 @@ header('Content-Type: text/html; charset=utf-8');
 		</table>
 	</div>
 <?php } else if ($_SESSION['role_name']=='admin') {?>
-	<div id="menu">
-		<span>Administration</span>
-		<table style="margin:5px">
-		<tr><td><a href="/gizhrms/vacancy">Vacancy</a></td></tr>
-		<tr><td><a href="/gizhrms/question">Question</a></td></tr>
-		<tr><td><a href="/gizhrms/filter">Filter Applicants</a></td></tr>
-		<tr><td><a href="/gizhrms/summary">Recruitment Summary</a></td></tr>
-		<tr><td><a href="/gizhrms">Logout</a></td></tr>
-		</table>
+	<div id="menu" style="width:175px">
+		<span id='menu_master'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Master Data</span>
+		<ul>
+		<li><a href="/gizhrms/vacancy_progress">Recruitment Process</a></li>
+		</ul>
+		
+		<span id='menu_report'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Report</span>
+		<ul>
+		<li><a href="/gizhrms/statistics">Statistics</a></li>
+		</ul>
+		<span id='menu_administration'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Administration</span>
+		
+		<ul>
+		<li><a href="/gizhrms/vacancy">Vacancy</a></li>
+		<li><a href="/gizhrms/question">Question</a></li>
+		<li><a href="/gizhrms/filter">Filter Applicants</a></li>
+		<li><a href="/gizhrms/summary">Recruitment Summary</a></li>
+		<li><a href="/gizhrms">Logout</a></li>
+		</ul>
+		
 	</div>
 <?php } else if ($_SESSION['role_name']=='employee') {?>
 	<div id="menu">
@@ -202,5 +350,6 @@ header('Content-Type: text/html; charset=utf-8');
 		</td></tr></table>
     </div>
 </div>
+
 </body>
 </html>

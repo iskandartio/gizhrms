@@ -72,7 +72,7 @@
 		?>
 		
 		fixSelect();
-		
+		fixInputText();
 	});
 	function build_city() {
 		var h = new Object();

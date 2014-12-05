@@ -1,30 +1,583 @@
-Start:2014/11/14 12:11:59
-select user_id, user_name, pwd from m_user where user_name=? and pwd=sha2(?,512) 
-kevin
-a
-Start:2014/11/14 12:11:59
-select b.role_name from m_user_role a
-		left join m_role b on a.role_id=b.role_id
-		where a.user_id=?
-2
-Start:2014/11/14 12:11:59
-select a.user_id, a.first_name, a.last_name from applicants a
-left join  m_user_role b on a.user_id=b.user_id 
-left join m_role c on c.role_id=b.role_id 
-where role_name='employee' order by a.first_name, a.last_name
-Start:2014/11/14 12:11:59
-select business_id,business_val from business  order by sort_id
-Start:2014/11/14 12:11:59
-select vacancy_progress_id, vacancy_progress_val, sort_id from vacancy_progress  order by sort_id
-Start:2014/11/14 12:11:59
-select distinct a.vacancy_id, concat(b.vacancy_name, ' (', b.vacancy_code, '-', b.vacancy_code2, ')') vacancy, b.vacancy_progress_id from vacancy_employee a
-left join vacancy b on b.vacancy_id=a.vacancy_id 
-left join vacancy_progress c on c.vacancy_progress_id=b.vacancy_progress_id 
-where a.employee_id=? and ifnull(c.vacancy_progress_val,'')!='Closing'
-2
-Start:2014/11/14 12:12:01
-select distinct concat(b.vacancy_name,' (',b.vacancy_code,'-',b.vacancy_code2,')') vacancy, c.process_name from vacancy_employee a
-left join vacancy b on a.vacancy_id=b.vacancy_id
-left join vacancy_progress c on c.vacancy_progress_id=b.vacancy_progress_id 
-where c.vacancy_progress_val !='Closing' and a.employee_id=?
-2
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+update vacancy_progress set sort_id=? where vacancy_progress_id=?
+iskandar.tio@gmail.com
+xf2vzcnfnwzb65hs43x7dxtc673jbk
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=xf2vzcnfnwzb65hs43x7dxtc673jbk
+
+update m_user set status_id=? where uid=?
+update m_user set status_id=? where user_id=?
+iskandar.tio@gmail.com
+nptww8tszyf6ds6tf3hch7b6w5hxvv
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=nptww8tszyf6ds6tf3hch7b6w5hxvv
+
+iskandar.tio@gmail.com
+4p3z3t5frx7mz4bsbkthdf2vd6jtt6
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=4p3z3t5frx7mz4bsbkthdf2vd6jtt6
+
+iskandar.tio@gmail.com
+dyvvhz4rv643b5frrz3nf6fykjkd8m
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=dyvvhz4rv643b5frrz3nf6fykjkd8m
+
+iskandar.tio@gmail.com
+3rk6pv6cx55hd55d7hhbn4sm2byph6
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=3rk6pv6cx55hd55d7hhbn4sm2byph6
+
+iskandar.tio@gmail.com
+dvrnd6bwnp24tkj2nfb747mkb4x47s
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=dvrnd6bwnp24tkj2nfb747mkb4x47s
+
+iskandar.tio@gmail.com
+zwn6rwt6tdsdmjk8kc2c6cwvn5jrn3
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=zwn6rwt6tdsdmjk8kc2c6cwvn5jrn3
+
+iskandar.tio@gmail.com
+64mjz4ns42bthzhf8nmffcr2jhhk88
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=64mjz4ns42bthzhf8nmffcr2jhhk88
+
+iskandar.tio@gmail.com
+y7znjpb4nbfrhpb33phkrwv57mb2j2
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=y7znjpb4nbfrhpb33phkrwv57mb2j2
+
+iskandar.tio@gmail.com
+8jc3bpmkkyjfhrn7hp8skpfpnphdp6
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=8jc3bpmkkyjfhrn7hp8skpfpnphdp6
+
+iskandar.tio@gmail.com
+8zz6wy5dc3kmpd8zb7vpb2cznbztdc
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=8zz6wy5dc3kmpd8zb7vpb2cznbztdc
+
+iskandar.tio@gmail.com
+hk53thhfz87jhkjt3sk33kcmk7fk7b
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=hk53thhfz87jhkjt3sk33kcmk7fk7b
+
+iskandar.tio@gmail.com
+32bsmkkbzrtc3tb3bvwmd5mb48vctz
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=32bsmkkbzrtc3tb3bvwmd5mb48vctz
+
+iskandar.tio@gmail.com
+6vp63k5pb2fjm8fknh4cjkmb77ntsf
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=6vp63k5pb2fjm8fknh4cjkmb77ntsf
+
+iskandar.tio@gmail.com
+2p88pvrmvpdjmd7ttzvzmjtjzm4t7n
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=2p88pvrmvpdjmd7ttzvzmjtjzm4t7n
+
+iskandar.tio@gmail.com
+wj7f735nt5k4jzp5k3tjswvw7vdf8t
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=wj7f735nt5k4jzp5k3tjswvw7vdf8t
+
+iskandar.tio@gmail.com
+sh44bbp3cb586vj2vjbb875m4nc3xy
+register
+iskandar.tio@gmail.com
+iskandar.tio@gmail.com
+
+
+Account Activation
+Please activate by clicking this link: <br/>
+http://localhost:8081/gizhrms/activate.php?link=sh44bbp3cb586vj2vjbb875m4nc3xy
+
+update m_user set status_id=? where user_id=?
+update m_user set status_id=? where user_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and  user_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and  user_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and  user_id=?
+Susan
+Finance (FIN-FT)
+Susan 
+rejection_2
+
+Susan
+
+
+[GIZ] Finance (FIN-FT)
+<div><strong>Dear Susan ,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the Finance (FIN-FT)&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&#34;>+62 21 851 7186</a></strong></div><div><strong>F <a href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&#34;>+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href=&#34;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&#34;>fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href=&#34;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&#34;>www.paklim.org</a></strong></div>
+
+6
+@applicant_email, @vacancy_name, @applicant_name
+Susan
+Finance (FIN-FT)
+Susan a
+rejection_2
+
+Susan
+
+
+[GIZ] Finance (FIN-FT)
+<div><strong>Dear Susan a,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the Finance (FIN-FT)&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&#34;>+62 21 851 7186</a></strong></div><div><strong>F <a href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&#34;>+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href=&#34;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&#34;>fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href=&#34;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&#34;>www.paklim.org</a></strong></div>
+
+6
+@applicant_email, @vacancy_name, @applicant_name
+Susan
+Finance (FIN-FT)
+Susan a
+rejection_2
+
+Susan
+
+
+[GIZ] Finance (FIN-FT)
+<div><strong>Dear Susan a,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the Finance (FIN-FT)&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&#34;>+62 21 851 7186</a></strong></div><div><strong>F <a href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&#34;>+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href=&#34;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&#34;>fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href=&#34;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&#34;>www.paklim.org</a></strong></div>
+
+6
+@applicant_email, @vacancy_name, @applicant_name
+Susan
+Finance (FIN-FT)
+Susan a
+rejection_2
+
+Susan
+
+
+[GIZ] Finance (FIN-FT)
+<div><strong>Dear Susan a,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the Finance (FIN-FT)&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&#34;>+62 21 851 7186</a></strong></div><div><strong>F <a href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&#34;>+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href=&#34;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&#34;>fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href=&#34;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&#34;>www.paklim.org</a></strong></div>
+
+6
+@applicant_email, @vacancy_name, @applicant_name
+Susan
+Finance (FIN-FT)
+Susan a
+rejection_2
+
+Susan
+
+
+[GIZ] Finance (FIN-FT)
+<div><strong>Dear Susan a,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the Finance (FIN-FT)&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&#34;>+62 21 851 7186</a></strong></div><div><strong>F <a href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&#34;>+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href=&#34;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&#34;>fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href=&#34;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&#34;>www.paklim.org</a></strong></div>
+
+6
+@applicant_email, @vacancy_name, @applicant_name
+Susan
+Finance (FIN-FT)
+Susan a
+rejection_2
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Finance (FIN-FT)
+<div><strong>Dear Susan a,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the Finance (FIN-FT)&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;&#34;>+62 21 851 7186</a></strong></div><div><strong>F <a href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;&#34;>+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href=&#34;&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;&#34;>fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href=&#34;&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;&#34;>www.paklim.org</a></strong></div>
+
+6
+@applicant_email, @vacancy_name, @applicant_name
+Susan
+Finance (FIN-FT)
+Susan a
+rejection_2
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Finance (FIN-FT)
+<div><strong>Dear Susan a,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the Finance (FIN-FT)&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;&#34;>+62 21 851 7186</a></strong></div><div><strong>F <a href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;&#34;>+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href=&#34;&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;&#34;>fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href=&#34;&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;&#34;>www.paklim.org</a></strong></div>
+
+6
+@applicant_email, @vacancy_name, @applicant_name
+Susan
+Finance (FIN-FT)
+Susan a
+rejection_2
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Finance (FIN-FT)
+<div><strong>Dear Susan a,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the Finance (FIN-FT)&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;&#34;>+62 21 851 7186</a></strong></div><div><strong>F <a href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;&#34;>+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href=&#34;&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;&#34;>fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href=&#34;&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;&#34;>www.paklim.org</a></strong></div>
+
+6
+@applicant_email, @vacancy_name, @applicant_name
+Susan
+Finance (FIN-FT)
+Susan a
+rejection_2
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Finance (FIN-FT)
+<div><strong>Dear Susan a,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the Finance (FIN-FT)&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;&#34;>+62 21 851 7186</a></strong></div><div><strong>F <a href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;&#34;>+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href=&#34;&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;&#34;>fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href=&#34;&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;&#34;>www.paklim.org</a></strong></div>
+
+6
+@applicant_email, @vacancy_name, @applicant_name
+Susan
+Finance (FIN-FT)
+Susan a
+rejection_2
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Finance (FIN-FT)
+<div><strong>Dear Susan a,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the Finance (FIN-FT)&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;&#34;>+62 21 851 7186</a></strong></div><div><strong>F <a href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;&#34;>+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href=&#34;&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;&#34;>fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href=&#34;&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;&#34;>www.paklim.org</a></strong></div>
+
+6
+@applicant_email, @vacancy_name, @applicant_name
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and  user_id=?
+Susan
+Finance (FIN-FT)
+Susan a
+rejection_2
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Finance (FIN-FT)
+<div><strong>Dear Susan a,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the Finance (FIN-FT)&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;&#34;>+62 21 851 7186</a></strong></div><div><strong>F <a href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;&#34;>+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href=&#34;&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;&#34;>fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href=&#34;&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;&#34; data-mce-href=&#34;&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;&#34;>www.paklim.org</a></strong></div>
+
+6
+@applicant_email, @vacancy_name, @applicant_name
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and  user_id=?
+update vacancy_timeline set interview_date=?, interview_time=?, interview_place=? where vacancy_timeline_id=?
+update vacancy_timeline set interview_date=?, interview_time=?, interview_place=? where vacancy_timeline_id=?
+update vacancy_timeline set interview_date=?, interview_time=?, interview_place=? where vacancy_timeline_id=?
+update vacancy_timeline set interview_date=?, interview_time=?, interview_place=? where vacancy_timeline_id=?
+update vacancy_timeline set interview_date=?, interview_time=?, interview_place=? where vacancy_timeline_id=?
+update vacancy_timeline set interview_date=?, interview_time=?, interview_place=? where vacancy_timeline_id=?
+update vacancy_timeline set interview_date=?, interview_time=?, interview_place=? where vacancy_timeline_id=?
+update vacancy_timeline set interview_date=?, interview_time=?, interview_place=? where vacancy_timeline_id=?
+update vacancy_timeline set interview_date=?, interview_time=?, interview_place=? where vacancy_timeline_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and  user_id=?
+Susan
+Finance (FIN-FT)
+ 
+2014-12-31 00:00:00
+15.30
+<p><strong><span data-mce-style="text-decoration: underline;" style="text-decoration: underline;">Location:</span></strong></p><p><strong>GIZ-PAKLIM</strong></p><p><strong>Kementerian Negara Lingkungan Hidup (KLH)</strong></p><p><strong>Gedung B Lt.5 (Sebelah kiri Lift)</strong></p><p><strong>Jl. DI Panjaitan Kav 24</strong></p><p><strong>Jakarta 13410</strong></p><p><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></p>
+invitation_2
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Interview Invitation
+<div><strong>Dear  ,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for Finance (FIN-FT)&nbsp;position as attached job description </strong><strong>o</strong><strong>n </strong><strong>Tuesday</strong><strong>, </strong><strong>November 4, 2014 </strong><strong>a</strong><strong>t 09.30 am.</strong></div><div><strong>&nbsp;</strong></div><div><strong><p><strong><span data-mce-style="text-decoration: underline;" style="text-decoration: underline;">Location:</span></strong></p><p><strong>GIZ-PAKLIM</strong></p><p><strong>Kementerian Negara Lingkungan Hidup (KLH)</strong></p><p><strong>Gedung B Lt.5 (Sebelah kiri Lift)</strong></p><p><strong>Jl. DI Panjaitan Kav 24</strong></p><p><strong>Jakarta 13410</strong></p><p><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></p></strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with @interviewer.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>
+
+7
+@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and  user_id=?
+Susan
+Finance (FIN-FT)
+Susan a
+2014-12-31 00:00:00
+12.55
+<p><strong><span data-mce-style="text-decoration: underline;" style="text-decoration: underline;">Location:</span></strong></p><p><strong>GIZ-PAKLIM</strong></p><p><strong>Kementerian Negara Lingkungan Hidup (KLH)</strong></p><p><strong>Gedung B Lt.5 (Sebelah kiri Lift)</strong></p><p><strong>Jl. DI Panjaitan Kav 24</strong></p><p><strong>Jakarta 13410</strong></p><p><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></p>
+invitation_2
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Interview Invitation
+<div><strong>Dear Susan a,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for Finance (FIN-FT)&nbsp;position as attached job description </strong><strong>o</strong><strong>n </strong><strong>Tuesday</strong><strong>, </strong><strong>November 4, 2014 </strong><strong>a</strong><strong>t 09.30 am.</strong></div><div><strong>&nbsp;</strong></div><div><strong><p><strong><span data-mce-style="text-decoration: underline;" style="text-decoration: underline;">Location:</span></strong></p><p><strong>GIZ-PAKLIM</strong></p><p><strong>Kementerian Negara Lingkungan Hidup (KLH)</strong></p><p><strong>Gedung B Lt.5 (Sebelah kiri Lift)</strong></p><p><strong>Jl. DI Panjaitan Kav 24</strong></p><p><strong>Jakarta 13410</strong></p><p><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></p></strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with @interviewer.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>
+
+7
+@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and  user_id=?
+Susan
+Finance (FIN-FT)
+Susan a
+Wednesday, December 31, 2014
+04:30 pm
+<p><strong>Location:</strong></p><p><strong>GIZ-PAKLIM</strong></p><p><strong>Kementerian Negara Lingkungan Hidup (KLH)</strong></p><p><strong>Gedung B Lt.5 (Sebelah kiri Lift)</strong></p><p><strong>Jl. DI Panjaitan Kav 24</strong></p><p><strong>Jakarta 13410</strong></p><p><strong>T <a href="tel:%2B62%2021%20851%207186" target="_blank" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></p><p><strong></strong></p>
+invitation_3
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Interview Invitation Finance (FIN-FT)
+<div><strong>Dear Susan a,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for Finance (FIN-FT)&nbsp;position as attached job description </strong><strong>o</strong><strong>n Wednesday, December 31, 2014</strong><strong>&nbsp;</strong><strong>a</strong><strong>t 04:30 pm.</strong></div><div><strong>&nbsp;</strong></div><div><strong><p><strong>Location:</strong></p><p><strong>GIZ-PAKLIM</strong></p><p><strong>Kementerian Negara Lingkungan Hidup (KLH)</strong></p><p><strong>Gedung B Lt.5 (Sebelah kiri Lift)</strong></p><p><strong>Jl. DI Panjaitan Kav 24</strong></p><p><strong>Jakarta 13410</strong></p><p><strong>T <a href="tel:%2B62%2021%20851%207186" target="_blank" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></p><p><strong></strong></p></strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with @interviewer.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>
+
+8
+
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and  user_id=?
+Susan
+Finance (FIN-FT)
+Susan a
+Thursday, December 25, 2014
+10:30 am
+<p>WIsma Bakrie</p>
+
+invitation_3
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Interview Invitation Finance (FIN-FT)
+<div><strong>Dear Susan a,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for Finance (FIN-FT)&nbsp;position as attached job description </strong><strong>o</strong><strong>n Thursday, December 25, 2014</strong><strong>&nbsp;</strong><strong>a</strong><strong>t 10:30 am.</strong></div><div><strong>&nbsp;</strong></div><div><strong><p>WIsma Bakrie</p></strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with .</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>
+
+8
+
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and  user_id=?
+Susan
+Finance (FIN-FT)
+Susan a
+Wednesday, December 31, 2014
+12:15 pm
+<p>Wisma Bakrie</p>
+
+invitation_3
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Interview Invitation Finance (FIN-FT)
+<p><br></p>
+
+8
+
+Susan
+Finance (FIN-FT)
+Susan a
+Wednesday, December 31, 2014
+12:15 pm
+<p>Wisma Bakrie</p>
+Kevin Applicant and admin 
+invitation_3
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Interview Invitation Finance (FIN-FT)
+<p><br></p>
+
+8
+
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and  user_id=?
+Susan
+Finance (FIN-FT)
+Susan a
+Wednesday, December 17, 2014
+07:00 am
+<p>widjsaio jfiods</p>
+Kevin Applicant and admin 
+invitation_3
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Interview Invitation Finance (FIN-FT)
+<div><strong>Dear Susan a,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for Finance (FIN-FT)&nbsp;position as attached job description </strong><strong>o</strong><strong>n Wednesday, December 17, 2014</strong><strong>&nbsp;</strong><strong>a</strong><strong>t 07:00 am.</strong></div><div><strong>&nbsp;</strong></div><div><strong><p>widjsaio jfiods</p></strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with Kevin Applicant and admin .</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>
+
+8
+
+Susan
+Finance (FIN-FT)
+Susan a
+Thursday, December 25, 2014
+07:00 am
+<p>jifosdj iofds</p>
+Kevin Applicant and admin 
+invitation_3
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Interview Invitation Finance (FIN-FT)
+<div><strong>Dear Susan a,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for Finance (FIN-FT)&nbsp;position as attached job description </strong><strong>o</strong><strong>n Thursday, December 25, 2014</strong><strong>&nbsp;</strong><strong>a</strong><strong>t 07:00 am.</strong></div><div><strong>&nbsp;</strong></div><div><strong><p>jifosdj iofds</p></strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with Kevin Applicant and admin .</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>
+
+8
+
+Susan
+Finance (FIN-FT)
+Susan a
+Wednesday, December 31, 2014
+07:00 am
+<p>fdsfds</p>
+Kevin Applicant and  me
+invitation_3
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Interview Invitation Finance (FIN-FT)
+<div><strong>Dear Susan a,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for Finance (FIN-FT)&nbsp;position as attached job description </strong><strong>o</strong><strong>n Wednesday, December 31, 2014</strong><strong>&nbsp;</strong><strong>a</strong><strong>t 07:00 am.</strong></div><div><strong>&nbsp;</strong></div><div><strong><p>fdsfds</p></strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with Kevin Applicant and  me.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>
+
+8
+
+Susan
+Finance (FIN-FT)
+Susan a
+Thursday, December 25, 2014
+12:45 pm
+<p>fds</p>
+Kevin Applicant , the head of administration (Internal Management Service) PAKLIM and  me
+invitation_3
+
+iskandar.tio@gmail.com
+
+
+[GIZ] Interview Invitation Finance (FIN-FT)
+<div><strong>Dear Susan a,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for Finance (FIN-FT)&nbsp;position as attached job description </strong><strong>o</strong><strong>n Thursday, December 25, 2014</strong><strong>&nbsp;</strong><strong>a</strong><strong>t 12:45 pm.</strong></div><div><strong>&nbsp;</strong></div><div><strong><p>fds</p></strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with Kevin Applicant , the head of administration (Internal Management Service) PAKLIM and  me.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft für</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>
+
+8
+
+iskandar.tio@gmail.com
+jdtzfdd54k
+forgot_password
+
+iskandar.tio@gmail.com
+
+
+[GIZ e-recruitment] Forgot Password
+Your password is resetted to jdtzfdd54k
+
+1
+
+iskandar.tio@gmail.com
+b45xbct7y5
+forgot_password
+
+iskandar.tio@gmail.com
+
+
+[GIZ e-recruitment] Forgot Password
+Your password is resetted to b45xbct7y5
+
+1
+
+iskandar.tio@gmail.com
+trxhzn7dmy
+forgot_password
+
+iskandar.tio@gmail.com
+
+
+[GIZ e-recruitment] Forgot Password
+Your password is resetted to trxhzn7dmy
+
+1
+
+update vacancy_timeline set interview_date=?, interview_time=?, interview_place=? where vacancy_timeline_id=?
+update vacancy_timeline set interview_date=?, interview_time=?, interview_place=? where vacancy_timeline_id=?

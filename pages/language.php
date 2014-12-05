@@ -27,7 +27,7 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 	function Delete() {
 		if (!confirm("Are you sure to delete?")) return;
 		var par=$(this).closest("tr");
-		var v=par.closest("tr").attr('id')=='tbl_other_language';
+		var v=par.closest("table").attr('id')=='tbl_other_language';
 		data={};
 		if (v) {
 			data['type']='delete_other';
@@ -84,7 +84,7 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 				} else {
 					setHtmlText(par, 'applicants_language_id', msg, f);
 					
-					selectedToLabel(par,'language_id');
+					setHtmlText(par,'language_id');
 					selectedToLabel(par,'language_skill_id', f);
 					btnChange(par, ['edit']);
 				
@@ -108,16 +108,15 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 		
 		$('#tbl_other_language tbody').append(a);
 		bindAll(other_table);
+		fixSelect();
 	}
 
 	function Edit() {
 		var par=$(this).closest("tr");
-		var v=par.closest("tr").attr('id')=='tbl_other_language';
+		var v=par.closest("table").attr('id')=='tbl_other_language';
 		if (v) {
-			labelToText(par, 'language_val', '', other_fields);
-		} else {
-			labelToSelect(par, 'language_id', ' - Language Level -', "<?php _p($combo_language)?>")
-		}
+			labelToText(par, {'language_val':0}, other_fields);
+		} 
 		labelToSelect(par, 'language_skill_id', ' - Language Skill Level -', "<?php _p($combo_language_skill)?>")
 		btnChange(par, ['save','cancel']);
 			
@@ -127,16 +126,15 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 	}
 	function Cancel() {
 		var par=$(this).closest("tr");
-		var v=par.closest("tr").attr('id')=='tbl_other_language';
+		var v=par.closest("table").attr('id')=='tbl_other_language';
 		f=fields;
 		if (v) {
 			f=other_fields;
 			
-			textToDefaultLabel(par,'language_val',  f);
+			textToDefaultLabel(par,['language_val'],  f);
 			btnChange(par, ['edit','delete']);
 		} else {
-			
-			selectedToDefaultLabel(par,'language_id');
+			textToDefaultLabel(par,['language_id'],  f);
 			btnChange(par, ['edit']);
 		}
 		selectedToDefaultLabel(par,'language_skill_id',f);

@@ -1,20 +1,20 @@
-	var nc=false;
-	$.fn.numeric = function(type, n) {			
+	var nc=true;
+	$.fn.numeric = function(o, type, n) {			
 		
-		$(this).focus(function() { 
-			numeric_focus(this);
+		$(o).focus(function() { 
+			numeric_focus(o[0]);
 		});
 		
-		$(this).keydown(function(event) {
+		$(o).keydown(function(event) {
 			
 			numeric_keydown(event, type);
 		});
-		$(this).keyup(function(event) { 
-			numeric_keyup(this, event);
+		$(o).keyup(function(event) { 
+			numeric_keyup(o[0], event);
 		});
-		$(this).mouseup(function() { numeric_mouseup(event);});
-		not_count=n;
-		$(this).blur(function() { numeric_blur(this, nc);});
+		nc=n;
+		$(o).mouseup(function() { numeric_mouseup(event);});
+		$(o).blur(function() { numeric_blur(o[0], nc);});
 		
 	}
 	function numeric_keydown(e, input_type) {

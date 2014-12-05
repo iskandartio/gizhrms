@@ -3,12 +3,14 @@
 	if (isset($_POST)) {
 		
 		if ($type=='search') {
-			$res=db::select('vacancy','vacancy_id,vacancy_code,vacancy_code2,vacancy_name,vacancy_description, vacancy_startdate, vacancy_enddate, vacancy_closedate','? between vacancy_startdate and vacancy_enddate'
+			$res=db::select('vacancy','vacancy_id,vacancy_code,vacancy_code2,vacancy_name,vacancy_description, vacancy_startdate, vacancy_enddate, vacancy_type, allowance, vacancy_closedate','? between vacancy_startdate and vacancy_enddate'
 			,'vacancy_code, vacancy_code2', array($date_filter));
 			$r='<table id="tbl_vacancy" class="tbl">';
-			$r.="<thead><tr><th>Vacancy ID</th><th>Vacancy Code</th><th>Vacancy Code2</th><th>Vacancy Name</th><th>Vacancy Description</th><th>Start</th><th>End</th><th></th></tr></thead>";
+			$r.="<thead><tr><th>Vacancy ID</th><th>Vacancy Code</th><th>Vacancy Code2</th><th>Vacancy Name</th><th>Vacancy Description</th><th>Start</th><th>End</th><th>Vacancy Type</th><th>Allowance</th><th></th></tr></thead>";
 			foreach ($res as $row) {
-				$r.="<tr><td>".$row['vacancy_id']."</td><td>".$row['vacancy_code']."</td><td>".$row['vacancy_code2']."</td><td>".$row['vacancy_name']."</td><td width='250px'>".$row['vacancy_description']."</td><td>".formatDate($row['vacancy_startdate'])."</td><td>".formatDate($row['vacancy_enddate'])."</td>";
+				$r.="<tr><td>".$row['vacancy_id']."</td><td>".$row['vacancy_code']."</td><td>".$row['vacancy_code2']."</td><td>".$row['vacancy_name']."</td><td width='250px'>".$row['vacancy_description']."</td>
+				<td>".formatDate($row['vacancy_startdate'])."</td><td>".formatDate($row['vacancy_enddate'])."</td>
+				<td><span style='display:none'>".$row['vacancy_type']."</span>".$row['vacancy_type']."</td><td>".formatNumber($row['allowance'])."</td>";
 				$r.="<td>".getImageTags(array('edit','delete'))."</td></tr>";
 			}
 			$r.="</table>";

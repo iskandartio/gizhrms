@@ -18,15 +18,9 @@
 	function Delete() {
 		if (!confirm("Are you sure to delete?")) return;
 		var par=$(this).closest("tr");
-		var v=par.closest("tr").attr('id')=='tbl_other_reference';
 		var data={};
-		if (v) {
-			data['type']='delete_other';
-			data['applicants_other_reference_id']=getChild(par,'applicants_other_reference_id',other_fields);
-		} else {
-			data['type']='delete';
-			data['applicants_reference_id']=getChild(par,'applicants_reference_id');
-		}
+		data['type']='delete_other';
+		data['applicants_other_reference_id']=getChild(par,'applicants_other_reference_id',other_fields);
 		$('#freeze').show();
 		$.ajax({
 			type:'post',
@@ -112,26 +106,21 @@
 
 	function Edit() {
 		var par=$(this).closest("tr");
-		labelToText(par, 'job_title');
-		labelToText(par, 'reference_name');
-		labelToText(par, 'company_name');
+		labelToText(par, {'job_title':0, 'reference_name':0, 'company_name':0, 'description':0});
 		labelToTextArr(par, 'emailphone',['email','phone']);
-		
-		labelToText(par, 'description');
 		btnChange(par, ['save','cancel']);
 		bindAll();
 		
 	}
 	function Cancel() {
 		var par=$(this).closest("tr");
-		textToDefaultLabel(par,'job_title');
-		textToDefaultLabel(par,'reference_name');
-		textToDefaultLabel(par,'company_name');
+		textToDefaultLabel(par,['job_title','reference_name','company_name','description']);
+		
 		textToDefaultLabelArr(par,'emailphone',['email','phone']);
 		
-		textToDefaultLabel(par,'description');
-		var v=par.closest("tr").attr('id')=='tbl_other_reference';
-		if (v) {
+		
+		var v=par.closest("table").attr('id')=='tbl_other_reference';
+		if (!v) {
 			btnChange(par, ['edit']);
 		} else {
 			btnChange(par, ['edit','delete']);

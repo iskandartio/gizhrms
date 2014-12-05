@@ -14,12 +14,8 @@ class db {
 		if (!isset($con)) $con= db::Connect();
 		$res=$con->prepare($query);
 		$res->execute($params);
-		db::Log("Start:".date('Y/m/d H:i:s'));
-		db::Log($query);
-		db::Log($params);
 		$result= $res->fetchAll(PDO::FETCH_ASSOC);
 		foreach ($result as $k=>$row) {
-			
 			foreach ($row as $key=>$value) {
 				$result[$k][$key]=shared::sanitize($row[$key]);
 			}
@@ -62,7 +58,7 @@ class db {
 		} 
 	    $query = vsprintf(str_replace("?","%s",$query), $params );
 		$res = $con->exec($query);
-		db::Log($query);
+		
 		if (substr($query,0,6)=='insert') {
 			return $con->lastInsertId();
 		}
@@ -72,9 +68,7 @@ class db {
 		if (!isset($con)) $con= db::Connect();
 	 	$res=$con->prepare($query);
 		$res->execute($params);
-		db::Log("Start:".date('Y/m/d H:i:s'));
-		db::Log($query);
-		db::Log($params);
+		
 		if (substr($query,0,6)=='insert') {
 			return $con->lastInsertId();
 		}
@@ -172,7 +166,7 @@ class db {
 	
 	static function update($tbl, $fields, $where, $params=array(), $con=null) {
 		$s="update $tbl set ".str_replace(',','=?,', $fields)."=? where $where";
-		
+		db::Log($s);
 		return db::ExecMe($s, $params, $con);
 	}
 	

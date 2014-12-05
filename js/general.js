@@ -27,6 +27,30 @@ function hideColumns(t) {
 		$(this).children('th:eq(0)').hide();
 	});
 }
+function hideColumnsArr(t, colArr,f) {
+	if (!f) f=fields;
+	for (key in colArr) {
+		name=colArr[key];
+		$.each($('#'+t+' tbody tr'), function(index) {
+			$(this).children('td:eq('+f[name]+')').hide();
+		});
+		$.each($('#'+t+' thead tr'), function(index) {
+			$(this).children('th:eq('+f[name]+')').hide();
+		});
+	}
+}
+function ajax(url, data, Func, type) {
+	$('#freeze').show();
+	$.ajax({
+		type: (type ? type : 'post'),
+		url: url,
+		data:$.param(data),
+		success: function(msg) {
+			$('#freeze').hide();
+			if (Func) Func(msg);
+		}
+	});
+}
 function getChild(par, name, f, name2) {
 	if (!f) {
 		f=fields;
@@ -34,14 +58,22 @@ function getChild(par, name, f, name2) {
 	if (!name2) {
 		name2=name;
 	}
-	if (par.children("td:eq("+f[name2]+")").children("span").length>0) {
-		return htmlDecode(par.children("td:eq("+f[name2]+")").children("span").html());
+	var idx=0;
+	if (f) {
+		if (f.hasOwnProperty(name2)) {
+			idx=f[name2];
+		}
 	}
-	if (par.children("td:eq("+f[name2]+")").children().length==0) {
-		return htmlDecode(par.children("td:eq("+f[name2]+")").html());
+	if (par.children("td:eq("+idx+")").children("span").length>0) {
+		return htmlDecode(par.children("td:eq("+idx+")").children("span").html());
 	}
-	
-	return par.children("td:eq("+f[name2]+")").children("#"+name).val();
+	if (par.children("td:eq("+idx+")").children().length==0) {
+		return htmlDecode(par.children("td:eq("+idx+")").html());
+	}
+	if (par.children("td:eq("+idx+")").children().length==1) {
+		return par.children("td:eq("+idx+")").children().val();
+	}
+	return par.children("td:eq("+idx+")").children("input[id^='"+name+"']").val();
 }
 function htmlDecode(value) {
 	if (value) {
@@ -66,6 +98,11 @@ function clearText(arr) {
 			$('#'+arr[i]).val('');
 		}
 	}
+function clearDiv(arr) {
+	for (var i=0;i<arr.length;i++) {
+		$('#'+arr[i]).html('');
+	}
+}
 
 function inputText(obj, arr, f) {
 	if (!f) f=fields;
@@ -74,10 +111,16 @@ function inputText(obj, arr, f) {
 		$('#'+arr[i]).val(par.children('td:eq('+f[arr[i]]+')').html());
 	}
 }
-function inputSelect(obj, arr) {
+function inputDiv(obj, arr, f) {
+	if (!f) f=fields;
 	var par=$(obj).closest("tr");
 	for (var i=0;i<arr.length;i++) {
-		
+		$('#'+arr[i]).html(par.children('td:eq('+f[arr[i]]+')').html());
+	}
+}
+function inputSelect(obj, arr) {
+	var par=$(obj).closest("tr");
+	for (var i=0;i<arr.length;i++) {		
 		$('#'+arr[i]).val(getChildHtmlSpanVal(par, arr[i], fields));
 	}
 }
@@ -94,10 +137,14 @@ function getChildHtmlSpanVal(par, name, f, span_name) {
 	if (!span_name) span_name='';
 	return par.children("td:eq("+f[name]+")").children('span'+span_name).html();
 }
-function textToLabel(par, name, f) {
+function textToLabel(par, nameArr, f) {
 	if (!f) f=fields;
-	var td=par.children("td:eq("+f[name]+")");
-	td.html(td.children("#"+name).val());
+	for (key in nameArr) {
+		name=nameArr[key];
+		var td=par.children("td:eq("+f[name]+")");
+		td.html(td.children("#"+name).val());
+	}
+	
 }
 function textToLabelArr(par, name, arr, f) {
 	if (!f) f=fields;
@@ -119,11 +166,21 @@ function selectedToLabel(par, name, f) {
 	}
 	
 }
-function textToDefaultLabel(par, name, f) {
+
+function textToDefaultLabel(par, nameArr, f) {
 	if (!f) f=fields;
-	var td=par.children("td:eq("+f[name]+")");
-	td.html(td.children("#"+name).prop("defaultValue"));
-}
+
+	if (nameArr.constructor===Array) {
+		for (var key in nameArr) {
+			var a='';
+			var name=nameArr[key];
+			var td=par.children("td:eq("+f[name]+")");
+			td.html(td.children("#"+name).prop("defaultValue"));
+		}
+	}
+
+	
+}	
 
 function textToDefaultLabelArr(par, name, arr, f) {
 	if (!f) f=fields;
@@ -139,8 +196,36 @@ function selectedToDefaultLabel(par, name, f) {
 	if (!f) f=fields;
 	var td=par.children("td:eq("+f[name]+")");
 	var originalValue=td.children("#"+name).data("originalValue");
-	td.children("select").val(originalValue);
-	td.html("<span style='display:none'>"+originalValue+"</span> "+td.children("select").children("option:selected").text());
+	if (originalValue=="") {
+		td.html("<span style='display:none'>"+originalValue+"</span> ");
+	} else {
+		td.children("select").val(originalValue);
+		td.html("<span style='display:none'>"+originalValue+"</span> "+td.children("select").children("option:selected").text());
+	}
+}
+function checkboxToDefaultLabel(par, name, trueLabel, falseLabel, f) {
+	if (!f) f=fields;
+	var td=par.children("td:eq("+f[name]+")");
+	var val=td.children("#"+name).data("originalValue");
+
+	checkboxToLabelSub(par, name, trueLabel, falseLabel, f, val);
+	
+}
+function checkboxToLabel(par, name, trueLabel, falseLabel, f) {
+	if (!f) f=fields;
+	var td=par.children("td:eq("+f[name]+")");
+	var val= td.children("#"+name).prop("checked") ? "1" : "0";
+	checkboxToLabelSub(par, name, trueLabel, falseLabel, f, val);
+	
+	
+}
+function checkboxToLabelSub(par, name, trueLabel, falseLabel, f, val) {
+	var td=par.children("td:eq("+f[name]+")");
+	if (val=="0") {
+		td.html("<span style='display:none'>"+val+"</span> "+falseLabel);
+	} else {
+		td.html("<span style='display:none'>"+val+"</span> "+trueLabel);
+	}
 }
 function labelToSelect(par, name, def, options) {
 	var a='';
@@ -153,17 +238,41 @@ function labelToSelect(par, name, def, options) {
 	td.children("select").val(i);
 	td.children("select").data("originalValue", i);
 }
-function labelToText(par, name, size, f) {
-	var a='';
+function labelToCheckbox(par, nameArr, f) {
 	if (!f) f=fields;
-	
-	def=getChild(par, name, f);
-	a+='<input type="text" placehoder="'+toggleCase(name)+'" class="'+name+'" id="'+name+'" value="'+def+'"';
-	if (size) a+=' size="'+size+'"';
-	a+='/>';
-	
-	var td=par.children('td:eq('+f[name]+')');
-	td.html(a);
+	if (nameArr.constructor===Object) {
+		for (var key in nameArr) {
+			var a='';
+			var name=key;
+			var def=getChild(par, key, f);
+			var selected= (def==0 ? '' : ' checked ');
+			a+="<input type='checkbox'"+selected+" id='"+name+"'/><label for='"+name+"'>"+nameArr[key]+"</label>";
+			
+			var td=par.children('td:eq('+f[name]+')');
+			td.html(a);	
+			td.children("input").data("originalValue", def);
+
+		}
+	}
+
+}
+function labelToText(par, nameArr, f) {
+	if (!f) f=fields;
+	if (nameArr.constructor===Object) {
+		for (var key in nameArr) {
+			var a='';
+			var name=key;
+			var def=getChild(par, key, f);
+			a+='<input type="text" placehoder="'+toggleCase(name)+'" class="'+name+'" id="'+name+'" value="'+def+'"';
+			var size=nameArr[key];
+			if (size!=0) a+=' size="'+size+'"';
+			a+='/>';
+			
+			var td=par.children('td:eq('+f[name]+')');
+			td.html(a);	
+		}
+	}
+
 	
 }
 function labelToTextArr(par, name, arr, size, f) {
@@ -219,7 +328,7 @@ function validateRequired(arr) {
 
 function setHtmlAllSelect(tbl, arr) {
 	for (var i=0;i<arr.length;i++) {
-		if ($('#'+arr[i]).val()>0) {
+		if ($('#'+arr[i]).val()!='') {
 			setHtmlText($('#'+tbl+' tbody tr:eq('+(currentRow)+')'), arr[i], '<span style="display:none">'+$('#'+arr[i]).val()+'</span> '+$('#'+arr[i]+' option:selected').html());
 		} else {
 			setHtmlText($('#'+tbl+' tbody tr:eq('+(currentRow)+')'), arr[i], '');
@@ -229,6 +338,12 @@ function setHtmlAllSelect(tbl, arr) {
 function setHtmlAllText(tbl, arr) {
 	for (var i=0;i<arr.length;i++) {
 		setHtmlText($('#'+tbl+' tbody tr:eq('+(currentRow)+')'), arr[i], $('#'+arr[i]).val());
+	}
+}
+
+function setHtmlAllDiv(tbl, arr) {
+	for (var i=0;i<arr.length;i++) {
+		setHtmlText($('#'+tbl+' tbody tr:eq('+(currentRow)+')'), arr[i], $('#'+arr[i]).html());
 	}
 }
 
@@ -370,16 +485,44 @@ function fixSelect() {
 		});
 	});
 }
+function numeric(o) {
+	$.fn.numeric(o, 'decimal',true);
+}
 
-function prepareDataText(data, arr) {
-	for (var i=0;i<arr.length;i++) {
-		data[arr[i]]=$('#'+arr[i]).val();
+function prepareDataText(data, arr, par, f) {
+	if (!par) {
+		for (var i=0;i<arr.length;i++) {
+			data[arr[i]]=$('#'+arr[i]).val();
+		}
+	} else {
+		if (!f) f=fields;
+		for (var i=0;i<arr.length;i++) {
+			data[arr[i]]=getChild(par, arr[i], f);
+		}
 	}
 	return data;
 }
-function prepareDataCheckBox(data, arr) {
+function prepareDataHtml(data, arr) {
 	for (var i=0;i<arr.length;i++) {
-		data[arr[i]]=$('#'+arr[i]).prop('checked') ? 1 : 0;
+		data[arr[i]]=$('#'+arr[i]).html();
+	}
+	return data;
+}
+function prepareDataCheckBox(data, arr, par, f) {
+	if (!par) {
+		for (var i=0;i<arr.length;i++) {
+			data[arr[i]]=$('#'+arr[i]).prop('checked') ? 1 : 0;
+		}
+	} else {
+		for (var i=0;i<arr.length;i++) {
+			data[arr[i]]=getChildObj(par, arr[i]).prop('checked') ? 1 : 0;
+		}
+	}
+	return data;
+}
+function prepareDataDecimal(data, arr) {
+	for (var i=0;i<arr.length;i++) {
+		data[arr[i]]=$('#'+arr[i]).val().replace(/,/g,'');
 	}
 	return data;
 }
@@ -389,6 +532,11 @@ function generate_assoc(arr) {
 		res[arr[i]]=i;
 	}
 	return res;
+}
+function cNum(str) {
+	if (str.length==0) return 0;
+	return str.replace(/,/g,'');
+	
 }
 function sanitize(tag) {
 	tag= tag.replace(/<input/,"&lt;input");

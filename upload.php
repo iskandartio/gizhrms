@@ -30,8 +30,13 @@ if (isset($_FILES["uploadFileCV"]["name"])) {
 if (isset($_POST)) {
 	if (isset($_POST['type'])) {
 		$type=$_POST['type'];
-		$ext=db::select_single("applicants", "$type v", "user_id=?","", array($_SESSION['uid']));
-		$file=$_SESSION['uid']."-$type".$ext;
+		if (isset($_POST['user_id'])) {
+			$user_id=shared::validate_download($user_id, $_SESSION['uid'], $_SESSION['role_name']);
+		} else {
+			$user_id=$_SESSION['uid'];
+		}
+		$ext=db::select_single("applicants", "$type v", "user_id=?","", array($user_id));
+		$file=$user_id."-$type".$ext;
 
 		if (file_exists("uploads/$file")) echo 'ok';
 		die;

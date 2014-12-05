@@ -175,9 +175,18 @@ class URLParse
 				P_TITL => "Recruitment Report",
 				P_METD => "",
 				P_METK => ""),		
+			"vacancy_progress"=>array(
+				P_FILE => "vacancy_progress.php",
+				P_TITL => "Recruitment Process"
+			),
 			"summary" => array(
 				P_FILE => "recruitment_summary.php",
 				P_TITL => "Recruitment Summary",
+				P_METD => "",
+				P_METK => ""),		
+			"statistics" => array(
+				P_FILE => "statistics.php",
+				P_TITL => "Statistics",
 				P_METD => "",
 				P_METK => ""),		
             "about" => array(
@@ -186,6 +195,7 @@ class URLParse
                 P_METD => "About HelloWorld CMS.",
                 P_METK => "about",
                 ),
+			
             );
 
     // Page to be displayed for invalid URLs

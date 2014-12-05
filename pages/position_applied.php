@@ -1,6 +1,4 @@
 <?php
-
-
 	function combo_vacancy($selected='') {
 		$res=db::DoQuery("select a.vacancy_id, concat(a.vacancy_name,'(',a.vacancy_code,'-',a.vacancy_code2,')') vacancy from vacancy a
 left join vacancy_progress b on a.vacancy_progress_id=b.vacancy_progress_id 
@@ -68,7 +66,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 	}
 	function ShowNext() {
 	
-		ajaxChangeQuestion($('#vacancy_id').val());
+		ajaxShowNext($('#vacancy_id').val());
 		
 	}
 	function Save() {};
@@ -101,7 +99,10 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 	function Apply() {
 		var data={};
 		data['type']='apply';
+		data=prepareDataText(data, ['vacancy_id']);
+		data=prepareDataDecimal(data, ['salary_expectation']);
 		data['vacancy_id']=$('#vacancy_id').val();
+		data=prepareDataCheckBox(data, ['negotiable']);
 		var question=new Array();
 		$('#tbl_question .question_id').each(function() {
 			question.push(htmlDecode($(this).html()));
@@ -135,17 +136,14 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 		var id=getChildHtmlSpanVal(par, 'vacancy_id', main_fields);
 		
 		$('#vacancy_id').val(id);
-		ajaxChangeQuestion(id);
+		ajaxShowNext(id);
 		
 	}
-	function ChangeQuestion() {
-		ajaxChangeQuestion($(this).val());
-		
-	}
-	function ajaxChangeQuestion(val) {
+	
+	function ajaxShowNext(val) {
 		$('#freeze').show();
 		var data={};
-		data['type']='change_question';
+		data['type']='show_next';
 		data['vacancy_id']=val;
 		$.ajax({
 			type : 'post',
@@ -157,6 +155,9 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 				hideColumns('tbl_question');
 				After();
 				fixSelect();
+				numeric($('#salary_expectation'));
+				
+				
 			}
 		});
 	}

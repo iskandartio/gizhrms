@@ -1,3 +1,23 @@
+tinymce local
+
+Email to Activate login, ok
+forgot password, ok
+
+interview time and place must be input ok
+salary band ok
+
+intern vacancy  or national personell +Additional Allowance
+
+Salary Expectation +checkbox negotiable
+filter expected salary (range)
+filter umur(range)
+admin bisa lihat vacancy progress
+
+
+
+Recruitment Report: add applicant
+download cv, covering letter from  applicant detail.
+
 validasi enddate
 expected salary
 vacancy_timeline

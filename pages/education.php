@@ -93,12 +93,7 @@
 	function Edit() {
 		var par=$(this).closest("tr");
 		labelToSelect(par, 'education_id', ' - Education Level -', "<?php _p($combo_education)?>")
-		labelToText(par, 'major');
-		labelToText(par, 'place');
-		labelToText(par, 'year_from',3);
-		labelToText(par, 'year_to',3);
-		labelToText(par, 'country');
-		
+		labelToText(par, {'major':0,'place':0,'year_from':3,'year_to':3,'country':0});
 		btnChange(par, ['save','cancel']);
 			
 		
@@ -108,11 +103,7 @@
 	function Cancel() {
 		var par=$(this).closest("tr");
 		selectedToDefaultLabel(par,'education_id');
-		textToDefaultLabel(par,'major');
-		textToDefaultLabel(par,'place');
-		textToDefaultLabel(par,'year_from');
-		textToDefaultLabel(par,'year_to');
-		textToDefaultLabel(par,'country');
+		textToDefaultLabel(par,['major','place','year_from','year_to','country']);
 		btnChange(par, ['edit','delete']);
 		bindAll();
 	}

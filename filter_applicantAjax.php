@@ -6,12 +6,19 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 	
 	$vacancy_progress_val=shared::get_table_data('vacancy_progress', $next_vacancy_progress_id);
 	if ($vacancy_progress_val=='Closing') {
-		$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist, c.job_title, c.start_date, c.end_date, c.salary from $tbl a
+		$sql="select salary_band from salary_band order by salary_band";
+		$res=db::DoQuery($sql, array(), $con);
+		$salary_band_option_def="<select id='salary_band'><option value=''>-Salary Band-</option>";
+		foreach ($res as $row) {
+			$salary_band_option_def.="<option value='".$row['salary_band']."'>".$row['salary_band']."</option>";
+		}
+		$salary_band_option_def.="</select>";
+		$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist, c.job_title, c.start_date, c.end_date, c.salary, c.salary_band from $tbl a
 	left join applicants b on a.user_id=b.user_id
 	left join contract_history c on a.user_id=c.user_id and c.end_date>now()";
 		$res=db::DoQuery($sql, array(), $con);
 	
-		$result="<table class='tbl'><tr><th>User Id</th><th>First Name</th><th>Last Name</th><th>Job Title</th><th>Contract Duration</th><th>Salary</th><th></th></tr>";
+		$result="<table class='tbl' id='tbl_result'><thead><tr><th>User Id</th><th>First Name</th><th>Last Name</th><th>Job Title</th><th>Contract Duration</th><th>Salary</th><th>Salary Band</th><th></th></tr></thead><tbody>";
 		foreach ($res as $row) {
 			$btn=array();
 			if ($_SESSION['role_name']=='employee') {
@@ -21,21 +28,23 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 				array_push($btn, 'reject');
 			} else {
 				if ($row['vacancy_shortlist']==1) {
-					
+					array_push($btn, 'accept');
 					array_push($btn, 'delete');
 				} else {
 					array_push($btn, 'restart');
 				}
 			}
+			$salary_band_option=shared::set_selected($row['salary_band'], $salary_band_option_def);
 			$result.="<tr><td>".$row['user_id']."</td><td>".$row['first_name']."</td><td>".$row['last_name']."</td>";
 			$result.="<td><input type='text' id='job_title' placeholder='Job Title' value='".$row['job_title']."'/></td>";
-			$result.="<td><input type='text' id='start_date' class='start_date' placeholder='Start Date' size='8' value='".formatDate($row['start_date'])."'/> 
-			<input type='text' id='end_date'  class='end_date' placeholder='End Date' size='8' value='".formatDate($row['end_date'])."'/></td>";
-			$result.="<td><input type='text' id='salary' placeholder='Salary' value='".$row['salary']."'/></td>";
+			$result.="<td><input type='text' id='start_date".$row['user_id']."' class='start_date' placeholder='Start Date' size='8' value='".formatDate($row['start_date'])."'/> 
+			<input type='text' id='end_date".$row['user_id']."'  class='end_date' placeholder='End Date' size='8' value='".formatDate($row['end_date'])."'/></td>";
+			$result.="<td><input type='text' id='salary' placeholder='Salary' value='".formatNumber($row['salary'])."'/></td>";
+			$result.="<td>".$salary_band_option."</td>";
 			$result.="<td>".getImageTags($btn)."</td>";
 			$result.="</tr>";
 		}
-		$result.="</table>";
+		$result.="</tbody></table>";
 	
 	} else {
 		$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist from $tbl a
@@ -130,8 +139,14 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 		if ($row['vacancy_progress_val']=='Closing') {
 			$result.="<button class='button_link' id='closing'>".$row['process_name']."</button>";
 		} else {
+			$result.="<div id='div_shortlist'>";
+			$result.="Location: <div id='interview_place' style='border-style:dotted'></div>";
+			$result.=_t2("interview_date")." "._t2("interview_time","","5","","","Time");
+			
 			$result.="<button class='button_link' id='interview_all'>".$row['process_name']."</button>";
+			$result.="</div>";
 		}
+		$result.=shared::get_tinymce_script('interview_place');
 		
 	}
 	return $result;
@@ -158,24 +173,35 @@ while (true) {
 		
 		
 		$con=db::beginTrans();
+		$arr_filter=array();
+		if ($salary_expectation_start!='') {
+			$filter.=" and a.salary_expectation>=?";
+			array_push($arr_filter, $salary_expectation_start);
+		}
+		if ($salary_expectation_end!='') {
+			$filter.=" and a.salary_expectation<=?";
+			array_push($arr_filter, $salary_expectation_end);
+		}
+		
 		if ($filter_rejected=='true') {
 			$sql="create temporary table filter select distinct a.user_id, ? vacancy_id, ? vacancy_progress_id
 			, a.vacancy_shortlist from job_applied a 
 			left join job_applied b on a.user_id=b.user_id and b.vacancy_id=? and b.vacancy_shortlist!=-1
-			where b.job_applied_id is null and a.vacancy_shortlist=-1";
-			db::ExecMe($sql, array($vacancy_id, $next_vacancy_progress_id,$vacancy_id), $con);
+			where b.job_applied_id is null and a.vacancy_shortlist=-1".$filter;
+			db::ExecMe($sql, array_merge(array($vacancy_id, $next_vacancy_progress_id,$vacancy_id), $arr_filter), $con);
 		} else if ($_SESSION['role_name']=='employee') {
 			$sql="create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
 			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
 			left join vacancy_employee  b on a.vacancy_id=b.vacancy_id and b.vacancy_progress_id=?
-			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and b.employee_id=? and a.vacancy_shortlist!=-1";
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and b.employee_id=? and a.vacancy_shortlist!=-1".$filter;
 			
-			db::ExecMe($sql, array($next_vacancy_progress_id, $next_vacancy_progress_id, $next_vacancy_progress_id, $vacancy_progress_id, $next_vacancy_progress_id, $vacancy_id, $_SESSION['uid']), $con);
+			db::ExecMe($sql, array_merge(array($next_vacancy_progress_id, $next_vacancy_progress_id, $next_vacancy_progress_id, $vacancy_progress_id, $next_vacancy_progress_id, $vacancy_id, $_SESSION['uid']), $arr_filter), $con);
 		} else {
 			$sql="create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
 			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
-			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1";
-			db::ExecMe($sql, array($next_vacancy_progress_id, $next_vacancy_progress_id, $vacancy_progress_id, $next_vacancy_progress_id, $vacancy_id), $con);
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1".$filter;
+			db::ExecMe($sql, array_merge(
+				array($next_vacancy_progress_id, $next_vacancy_progress_id, $vacancy_progress_id, $next_vacancy_progress_id, $vacancy_id), $arr_filter), $con);
 		}
 
 		$params=array();
@@ -196,6 +222,14 @@ while (true) {
 		if ($filter_professional_skill!='') {
 			$filter.=" and b.professional_skills like ?";
 			array_push($params, "%$filter_professional_skill%");
+		}
+		if ($age_start!='') {
+			$filter.=" and date_add(date_of_birth, interval ? year)<now()";
+			array_push($params, $age_start);
+		}
+		if ($age_end!='') {
+			$filter.=" and date_add(date_of_birth, interval ? year)>now()";
+			array_push($params, $age_end);
 		}
 		$tbl='filter';
 		$tbl2='filter2';
@@ -243,7 +277,8 @@ while (true) {
 				}
 			}
 		}
-		
+		db::ExecMe("drop table if exists $tbl2", array(), $con);
+		$sql="";
 		$result=get_table_string($con, $tbl, $type, $next_vacancy_progress_id);
 		
 		db::commitTrans($con);
@@ -375,25 +410,87 @@ left join applicants d on d.user_id=b.employee_id
 			$err.=", ".$row['name'];
 		}
 		if ($err!='') {
-			$err=substr($err,2)." have not some rank some users on the shortlist!";
+			$err=trim(substr($err,2))." have not rank some users on the shortlist!";
 			die($err);
 		}
-	
+		
 		$con=db::beginTrans();
+
+		
 		db::ExecMe('update job_applied set vacancy_progress_id=next_vacancy_progress_id, vacancy_shortlist=0, next_vacancy_progress_id=null 
-where vacancy_id=? and next_vacancy_progress_id=?', array($vacancy_id, $next_vacancy_progress_id), $con);
+where vacancy_id=? and next_vacancy_progress_id=? and vacancy_shortlist=1', array($vacancy_id, $next_vacancy_progress_id), $con);
 		db::ExecMe('update vacancy set vacancy_progress_id=? where vacancy_id=?', array($next_vacancy_progress_id, $vacancy_id), $con);
 		db::delete('vacancy_timeline','vacancy_id=? and vacancy_progress_id=?',array($vacancy_id, $next_vacancy_progress_id), $con);
-		db::insert('vacancy_timeline','vacancy_id, vacancy_progress_id',array($vacancy_id, $next_vacancy_progress_id), $con);
+		db::insert('vacancy_timeline','vacancy_id, vacancy_progress_id, interview_date, interview_time, interview_place'
+		,array($vacancy_id, $next_vacancy_progress_id, $interview_date, $interview_time, $interview_place), $con);
+		
+		$res=db::select('job_applied a
+		left join m_user b on a.user_id=b.user_id 
+		left join vacancy c on c.vacancy_id=a.vacancy_id
+		left join vacancy_timeline d on d.vacancy_id=a.vacancy_id and d.vacancy_progress_id=a.vacancy_progress_id
+		left join applicants e on e.user_id=a.user_id
+		', 'a.user_id, b.user_name, c.vacancy_name, c.vacancy_code, c.vacancy_code2, d.interview_date, d.interview_time, d.interview_place, e.first_name, e.last_name'
+		, 'a.vacancy_id=? and a.vacancy_progress_id=? and a.vacancy_shortlist=0','', array($vacancy_id, $next_vacancy_progress_id), $con);
+		foreach ($res as $row) {
+			$param=array();
+			//@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer
+			$param['applicant_email']=$row['user_name'];
+			$param['vacancy_name']=$row['vacancy_name']." (".$row['vacancy_code']."-".$row['vacancy_code2'].")";
+			$param['applicant_name']=$row['first_name']." ".$row['last_name'];
+			$param['interview_date']=date('l, F d, Y', strtotime($row['interview_date']));
+			$param['interview_time']=date('h:i a', strtotime($row['interview_time']));
+			$param['interview_location']=$row['interview_place'];
+			$interviewer_list=db::select("vacancy_employee a
+			left join applicants b on a.employee_id=b.user_id
+			left join contract_history c on c.user_id=b.user_id and now() between c.start_date and c.end_date",
+			"a.employee_id, b.first_name, b.last_name, c.job_title"
+			, "a.vacancy_id=? and a.vacancy_progress_id=?"
+			, "", array($vacancy_id, $next_vacancy_progress_id), $con);
+			$interviewers="";
+			foreach ($interviewer_list as $interviewer) {
+				if ($interviewers!="") $interviewers.=" and ";
+				if ($interviewer['employee_id']==$_SESSION['uid']) {
+					$interviewers.=" me";
+				} else {
+					$interviewers.=$interviewer['first_name'].' '.$interviewer['last_name'].' , the '.$interviewer['job_title'];
+				}
+			}
+			$param['interviewer']=$interviewers;
+			shared::email("invitation_".$next_vacancy_progress_id, $param, $con);
+		}
+
+		$res=db::select("job_applied a
+		left join m_user b on a.user_id=b.user_id
+		left join vacancy c on c.vacancy_id=a.vacancy_id
+		left join applicants d on d.user_id=a.user_id
+		","b.user_name, c.vacancy_name, c.vacancy_code, c.vacancy_code2, d.first_name, d.last_name", "a.vacancy_shortlist=-1 and a.vacancy_id=? and a.vacancy_progress_id=?", ""
+		, array($vacancy_id, $vacancy_progress_id), $con);
+		foreach ($res as $row) {
+			$param=array();
+			$param['applicant_email']=$row['user_name'];
+			$param['vacancy_name']=$row['vacancy_name']." (".$row['vacancy_code']."-".$row['vacancy_code2'].")";
+			$param['applicant_name']=$row['first_name']." ".$row['last_name'];
+			shared::email("rejection_".$vacancy_progress_id, $param, $con);
+		}
 		db::commitTrans($con);
+		
 		die;
 	}
 	if ($type=='show_detail') {
 		$result="";
+		
+		
+		$res=db::DoQuery("select concat(b.vacancy_name,' (',b.vacancy_code,'-',b.vacancy_code2,')') vacancy, a.salary_expectation, a.negotiable from job_applied a
+left join vacancy b on a.vacancy_id=b.vacancy_id
+where a.vacancy_id=? and a.user_id=?", array($vacancy_id, $user_id));
+		foreach ($res as $row) {
+			$result.="<h1>".$row['vacancy']."</h1>";
+			$result.="<p>Salary Expectation = ".formatNumber($row['salary_expectation']).($row['negotiable'] ? " negotiable": "");
+		}
 		$res=db::DoQuery("select a.* from applicants_answer a
 left join job_applied b on a.job_applied_id=b.job_applied_id 
 inner join vacancy_question c on c.question_id=a.question_id and c.vacancy_id=b.vacancy_id 
-where b.vacancy_id=?", array($vacancy_id));
+where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 		$result.="<h1>Question</h1>";
 		$result.="<table class='tbl'><tr><th>Question</th><th>Answer</th></tr>";
 		foreach ($res as $row) {
@@ -407,6 +504,14 @@ where b.vacancy_id=?", array($vacancy_id));
 			$$key=$val;
 			
 		}
+		
+		if ($letter!=null) {
+			$result.="<a class='button_link' href='uploadajax?type=letter&user_id=$user_id'>Download Letter</a> ";
+		}
+		if ($cv!=null) {
+			$result.="<a class='button_link' href='uploadajax?type=cv&user_id=$user_id'>Download CV</a> ";
+		}
+		
 		$nationality=shared::get_table_data('nationality', $nationality);
 		if (!$nationality) {
 			$nationality=$nationality_val;
@@ -518,9 +623,9 @@ where b.vacancy_id=?", array($vacancy_id));
 		$con=db::beginTrans();
 		$contract_history_id=db::select_single('contract_history', 'contract_history_id v','end_date>now() and user_id=?','start_date desc',array($user_id), $con);
 		if ($contract_history_id) {
-			db::update('contract_history','start_date, end_date, salary, job_title','contract_history_id=?', array($start_date, $end_date, $salary, $job_title, $contract_history_id), $con);
+			db::update('contract_history','start_date, end_date, salary, job_title, salary_band','contract_history_id=?', array($start_date, $end_date, $salary, $job_title, $salary_band,$contract_history_id), $con);
 		} else {
-			db::insert('contract_history','user_id, start_date, end_date, salary, job_title', array($user_id, $start_date, $end_date, $salary, $job_title), $con);
+			db::insert('contract_history','user_id, start_date, end_date, salary, job_title, salary_band', array($user_id, $start_date, $end_date, $salary, $job_title, $salary_band), $con);
 		}
 		db::ExecMe('update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?', array($next_vacancy_progress_id, $vacancy_id, $user_id), $con);		
 		db::commitTrans($con);
