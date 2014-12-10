@@ -40,7 +40,7 @@
 			animation: true,
 
 			// Number - Number of animation steps
-			animationSteps: 60,
+			animationSteps: 10,
 
 			// String - Animation easing effect
 			animationEasing: "easeOutQuart",
@@ -90,7 +90,7 @@
 			scaleFontColor: "#666",
 
 			// Boolean - whether or not the chart should be responsive and resize when the browser does.
-			responsive: false,
+			responsive: true,
 
                         // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
                         maintainAspectRatio: true,
@@ -99,8 +99,9 @@
 			showTooltips: true,
 
 			// Array - Array of string names to attach tooltip events
-			tooltipEvents: ["mousemove", "touchstart", "touchmove", "mouseout"],
-
+			//tooltipEvents: ["mousemove", "touchstart", "touchmove", "mouseout"],
+			tooltipEvents: [],
+			
 			// String - Tooltip background colour
 			tooltipFillColor: "rgba(0,0,0,0.8)",
 
@@ -156,7 +157,9 @@
 			onAnimationProgress: function(){},
 
 			// Function - Will fire on animation completion.
-			onAnimationComplete: function(){}
+			onAnimationComplete: function(){
+				this.showTooltip(this.segments, true);
+			}
 
 		}
 	};
@@ -1976,7 +1979,7 @@
 		barDatasetSpacing : 1,
 
 		//String - A legend template
-		legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+		legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"><%if(datasets[i].label){%><%=datasets[i].label%><%}%></span></li><%}%></ul>"
 
 	};
 

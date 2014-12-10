@@ -78,7 +78,7 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 				if (v) {
 					
 					setHtmlText(par, 'applicants_other_language_id', msg, f);
-					textToLabel(par,'language_val', f);
+					textToLabel(par,['language_val'], f);
 					selectedToLabel(par,'language_skill_id', f);
 					btnChange(par, ['edit','delete']);
 				} else {

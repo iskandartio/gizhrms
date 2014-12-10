@@ -75,13 +75,9 @@
 					setHtmlText(par, 'applicants_reference_id', msg, f);
 						
 				}
-				textToLabel(par,'job_title', f);
-				textToLabel(par,'reference_name', f);
-				textToLabel(par,'company_name', f);
+				textToLabel(par,['job_title','reference_name','company_name','description'], f);
 				textToLabelArr(par,'emailphone', ['email','phone'], f);
-				
-				textToLabel(par,'description', f);
-				btnChange(par, ['edit','delete']);
+				btnChange(par, ['edit']);
 				
 				bindAll();
 			}

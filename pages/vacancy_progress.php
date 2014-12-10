@@ -19,8 +19,10 @@
 		bind('.btn_down',"click",Down);
 		bind('.btn_delete',"click",Delete);
 		bind('#btn_add',"click",Add);
-		bind('.btn_invitation', "click", EmailInvitation);
-		bind('.btn_rejection', "click", EmailRejection);
+		bind('.btn_invitation', "click", Email);
+		bind('.btn_rejection', "click", Email);
+		bind('.btn_interviewer', "click", Email);
+		bind('.btn_reference', "click", Email);
 		bind('.btn_save_email',"click", SaveEmail);
 		$('#show_detail').dialog({
 			autoOpen:false,
@@ -41,13 +43,15 @@
 		}
 		ajax('vacancy_progressAjax.php', data, success);
 	}
-	function EmailInvitation() {
+	
+	function Email() {
+		type=$(this).html().toLowerCase();
 		var par=$(this).closest("tr");
 		var data={}
 		data['type']='show_email';
-		data['email_type']="invitation_"+getChild(par, 'vacancy_progress_id');
+		data['email_type']=type+"_"+getChild(par, 'vacancy_progress_id');
 		data['vacancy_progress_val']=getChild(par, 'vacancy_progress_val');
-		data['invitereject']='Invitation';
+		data['invitereject']=toggleCase(type);
 		var success=function(msg) {
 			$('#show_detail').html(msg);
 			$('#show_detail').dialog("open");
@@ -56,21 +60,7 @@
 		
 		ajax('vacancy_progressAjax.php', data, success);
 	}
-	function EmailRejection() {
-		var par=$(this).closest("tr");
-		var data={}
-		data['type']='show_email';
-		data['email_type']="rejection_"+getChild(par, 'vacancy_progress_id');
-		data['invitereject']='Rejection';
-		data['vacancy_progress_val']=getChild(par, 'vacancy_progress_val');
-		var success=function(msg) {
-			$('#show_detail').html(msg);
-			$('#show_detail').dialog("open");
-			bindAll();
-		}
-		
-		ajax('vacancy_progressAjax.php', data, success);
-	}
+
 	function Delete() {
 		par=$(this).closest("tr");
 		par.remove();
@@ -179,7 +169,8 @@
 	_p("<tr><td>".$row['vacancy_progress_id']."</td><td>".$row['vacancy_progress_val']."</td><td>".$row['process_name']."</td><td>".$row['required']."</td>
 	<td><span style='display:none'>".$row['active']."</span>".($row['active']==1 ? 'Active' : '')."</td>
 	<td>".($row['required']==1 ? getImageTags(array('edit','up','down')) : getImageTags(array('edit','up','down')))."</td>
-	<td><button class='btn_invitation'>Invitation</button> <button class='btn_rejection'>Rejection</button></td>
+	<td><button class='btn_invitation'>Invitation</button> <button class='btn_rejection'>Rejection</button> 
+	<button class='btn_interviewer'>Interviewer</button> <button class='btn_reference'>Reference</button></td>
 	</tr>");
 }?>
 

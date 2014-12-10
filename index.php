@@ -313,6 +313,8 @@ header('Content-Type: text/html; charset=utf-8');
 	<div id="menu" style="width:175px">
 		<span id='menu_master'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Master Data</span>
 		<ul>
+		<li><a href="/gizhrms/gender">Gender</a></li>
+		<li><a href="/gizhrms/location">Location</a></li>
 		<li><a href="/gizhrms/vacancy_progress">Recruitment Process</a></li>
 		</ul>
 		
@@ -341,7 +343,7 @@ header('Content-Type: text/html; charset=utf-8');
 		</table>
 	</div>
 <?php }?>
-    <div id="pagecontent" style="width:1000px">
+    <div id="pagecontent">
 		<h3 id='title'><?php _p($title)?></h3>
 		<table style="margin:5px"><tr><td>
         <?php

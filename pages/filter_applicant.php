@@ -66,7 +66,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 	$vacancy_progress.="}";
 ?>
 <script>
-	var fields={'user_id':0, 'ranking_id':4, 'user_comment':5, 'btn':6}
+	var fields={'user_id':0, 'ranking_id':4, 'user_comment':5, 'interview_place':6, 'interview_date':7, 'interview_time':8, 'btn':9}
 	var field_closing={'user_id':0, 'job_title':3, 'contract_duration':4, 'salary':5,  'salary_band':6, 'btn':7}
 	var field_user=generate_assoc(['vacancy_employee_id','employee_id','btn']);
 	<?php _p($status_choice);?>;
@@ -238,14 +238,10 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 	}
 	function InterviewAll() {
 		if (!validate_empty(['interview_date','interview_time'])) return;
-		if (tinyMCE.get('interview_place').getContent()=='') {
-			tinyMCE.get('interview_place').focus();
-			return;
-		}
+		
 		var data={};
 		data['type']='interviewall';
-		prepareDataText(data, ['interview_date','interview_time','vacancy_id','next_vacancy_progress_id','vacancy_progress_id']);
-		prepareDataHtml(data, ['interview_place']);
+		prepareDataText(data, ['vacancy_id','next_vacancy_progress_id','vacancy_progress_id']);
 		
 		$.ajax({
 			type:'post',
@@ -267,6 +263,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		
 	}
 	function Search() {
+		if (!validate_empty(['vacancy_id','vacancy_progress_id','next_vacancy_progress_id'])) return;
 		var data={};
 		data['type']='search';
 		data=prepareDataText(data,['vacancy_id','vacancy_progress_id','next_vacancy_progress_id', 'filter_name'
@@ -452,6 +449,9 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 	}
 	function Save() {
 		par=$(this).closest("tr");
+		if ($('#interview_all').length>0) {
+			if (!validate_empty_tbl(par, ['interview_date','interview_place','interview_time'])) return;
+		}
 		var data={};
 		data['type']='save';
 		data['vacancy_id']=$('#vacancy_id').val();

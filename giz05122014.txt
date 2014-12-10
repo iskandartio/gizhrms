@@ -1,0 +1,14 @@
+salary expectation required ok
+invitation to user
+question statistics ok
+export chart to pdf
+location ok
+interview date tambah  lengthnya
+email to reference 
+
+project name+project number+principal advisor+team leader*+project location+responsible superior
++SAP No*+Current Title(yang keluar di email)+Position(yang diinput waktu closing)+Salary Band+Salary+Join Date
+
+Severance:0 - 1 1x, 1-2 2x,2-3 3x, =3 4x, Service 2x +15% severance
+contract 2thn, 1 thun, bisa perpanjang 1x
+

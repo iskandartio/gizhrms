@@ -59,11 +59,7 @@
 				$('#freeze').hide();
 				setHtmlText(par, 'applicants_education_id', msg);
 				selectedToLabel(par,'education_id');
-				textToLabel(par,'major');
-				textToLabel(par,'place');
-				textToLabel(par,'year_from');
-				textToLabel(par,'year_to');
-				textToLabel(par,'country');
+				textToLabel(par,['major','place','year_from','year_to','country']);
 				btnChange(par, ['edit','delete']);
 				bindAll();
 			}

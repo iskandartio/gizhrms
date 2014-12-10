@@ -1,6 +1,5 @@
 <?php
 	require_once("pages/startup.php");
-	
 function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 
 	
@@ -47,14 +46,17 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 		$result.="</tbody></table>";
 	
 	} else {
-		$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist from $tbl a
-	left join applicants b on a.user_id=b.user_id";
+		$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist, c.interview_place
+	,c.interview_date, c.interview_time from $tbl a
+	left join applicants b on a.user_id=b.user_id
+	left join vacancy_interview c on c.vacancy_id=a.vacancy_id and c.user_id=a.user_id and c.vacancy_progress_id=a.vacancy_progress_id";
 		$res=db::DoQuery($sql, array(), $con);
 		
 		$sql="drop table temp_rank";
 		db::ExecMe($sql, array(), $con);
 		$sql="create temporary table temp_rank
-	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val from user_ranking a
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
 	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
 	inner join $tbl c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
 	left join applicants d on d.user_id=b.employee_id
@@ -62,7 +64,8 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 	where  a.ranking_id is not null";
 		db::ExecMe($sql, array(), $con);
 		$sql="create temporary table temp_rank2
-	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val from user_ranking a
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
 	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
 	inner join $tbl c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
 	left join applicants d on d.user_id=b.employee_id
@@ -85,9 +88,10 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 		
 
 		$combo_ranking=db::select('ranking', 'ranking_id, ranking_val');
-		
+		$combo_location=shared::select_combo_complete(db::select('location','*'), 'location_code', '- Location -');
+			
 		$result="<table class='tbl' id='tbl_filter_applicant'>";
-		$result.="<thead><tr><th>User Id</th><th>First Name</th><th>Last Name</th><th></th><th>Ranking</th><th>Comment</th><th></th></thead></tr><tbody>";
+		$result.="<thead><tr><th>User Id</th><th>First Name</th><th>Last Name</th><th></th><th>Ranking</th><th>Comment</th><th>Location</th><th>Interview Date</th><th>Time</th><th></th></thead></tr><tbody>";
 		foreach ($res as $row) {
 
 			$row['ranking_id']='';
@@ -98,13 +102,12 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 					$row['ranking_id']=$ranking[$row['user_id']][$_SESSION['uid']]['ranking_id'];
 					$row['user_comment']=$ranking[$row['user_id']][$_SESSION['uid']]['user_comment'];
 				}
-				foreach ($ranking[$row['user_id']] as $key=>$val) {	
-					uasort($ranking[$row['user_id']], 'cmp');
-				}
+				
+				uasort($ranking[$row['user_id']], 'cmp');
+				
 				$eval="<table class='tbl_inside'><thead><tr><th></th><th>User Name</th><th>Ranking</th><th>Comment</th></tr><tbody>";
 				foreach ($ranking[$row['user_id']] as $key=>$val) {
-					if ($val['employee_id']==$_SESSION['uid']) continue;
-					
+					if ($val['employee_id']==$_SESSION['uid']) continue;					
 					$eval.="<tr><td></td><td>".$val['name']."</td><td>".$val['ranking_val']."</td><td>".$val['user_comment']."</td></tr>";
 				}
 				$eval.="</body></table>";
@@ -123,10 +126,14 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 				}
 			}
 			
+			
 			$result.="<tr><td>".$row['user_id']."</td><td>".$row['first_name']."</td><td>".$row['last_name']."</td>
 			<td>".getImageTags(array('detail'))."</td>
 			<td>".get_combo_ranking($combo_ranking, $row['ranking_id'])."</td>
 			<td><textarea id='user_comment' class='user_comment'>".$row['user_comment']."</textarea></td>
+			<td>".shared::set_selected($row['interview_place'], $combo_location)."</td>
+			<td>"._t2("interview_date".$row['user_id'], formatDate($row['interview_date']), 8, 'text', 'interview_date')."</td>
+			<td>"._t2("interview_time", $row['interview_time'],3,'','','Time')."</td>
 			<td>".getImageTags($btn)."</td></tr>";
 			if ($eval!='') {
 				$result.="<tr><td></td><td colspan='9'>".$eval."</td></tr>";
@@ -140,20 +147,16 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 			$result.="<button class='button_link' id='closing'>".$row['process_name']."</button>";
 		} else {
 			$result.="<div id='div_shortlist'>";
-			$result.="Location: <div id='interview_place' style='border-style:dotted'></div>";
-			$result.=_t2("interview_date")." "._t2("interview_time","","5","","","Time");
-			
 			$result.="<button class='button_link' id='interview_all'>".$row['process_name']."</button>";
 			$result.="</div>";
 		}
-		$result.=shared::get_tinymce_script('interview_place');
+		
 		
 	}
 	return $result;
 }
 
-function cmp($a, $b) {
-	
+function cmp($a, $b) {	
 	return strcmp($a['name'], $b['name']);
 }
 function get_combo_ranking($res, $selected) {
@@ -164,6 +167,8 @@ function get_combo_ranking($res, $selected) {
 	$combo_ranking.="</select>";
 	return $combo_ranking;
 }
+
+
 
 while (true) { 
 	if ($type=='search') {
@@ -313,16 +318,23 @@ where a.vacancy_id=?", array($vacancy_id));
 		die($result);
 	}
 	if ($type=='save') {
-		
-		$vacancy_employee_id=db::select_single('vacancy_employee','vacancy_employee_id v', 'vacancy_id=? and employee_id=? and vacancy_progress_id=?','' , array($vacancy_id, $_SESSION['uid'], $next_vacancy_progress_id));
+		$con=db::beginTrans();
+		$vacancy_employee_id=db::select_single('vacancy_employee','vacancy_employee_id v', 'vacancy_id=? and employee_id=? and vacancy_progress_id=?','' , array($vacancy_id, $_SESSION['uid'], $next_vacancy_progress_id), $con);
 		if ($_SESSION['role_name']=='admin' and !isset($vacancy_employee_id)) {
-			$vacancy_employee_id=db::insert('vacancy_employee', 'vacancy_id, employee_id, vacancy_progress_id', array($vacancy_id, $_SESSION['uid'], $next_vacancy_progress_id));
+			$vacancy_employee_id=db::insert('vacancy_employee', 'vacancy_id, employee_id, vacancy_progress_id', array($vacancy_id, $_SESSION['uid'], $next_vacancy_progress_id), $con);
 		}
-		if (db::select_with_count('user_ranking','vacancy_employee_id=? and  user_id=?', array($vacancy_employee_id, $user_id))==0) {
-			db::insert('user_ranking', 'vacancy_employee_id, user_id, ranking_id, user_comment', array($vacancy_employee_id, $user_id, $ranking_id, $user_comment));
+		if (db::select_with_count('user_ranking','vacancy_employee_id=? and  user_id=?', array($vacancy_employee_id, $user_id), $con)==0) {
+			db::insert('user_ranking', 'vacancy_employee_id, user_id, ranking_id, user_comment', array($vacancy_employee_id, $user_id, $ranking_id, $user_comment), $con);
 		} else {
-			db::update('user_ranking','ranking_id, user_comment','vacancy_employee_id=? and  user_id=?', array($ranking_id, $user_comment, $vacancy_employee_id, $user_id));
+			db::update('user_ranking','ranking_id, user_comment','vacancy_employee_id=? and  user_id=?', array($ranking_id, $user_comment, $vacancy_employee_id, $user_id), $con);
 		}
+		$vacancy_interview_id = db::select_single('vacancy_interview', 'vacancy_interview_id v', 'vacancy_id=? and user_id=? and vacancy_progress_id=?', '', array($vacancy_id, $user_id, $next_vacancy_progress_id), $con);
+		if (!isset($vacancy_interview_id)) {
+			db::insert('vacancy_interview','vacancy_id, user_id, vacancy_progress_id, interview_place, interview_date, interview_time',array($vacancy_id, $user_id, $next_vacancy_progress_id, $interview_place, $interview_date, $interview_time), $con);	
+		} else {
+			db::update('vacancy_interview', 'interview_place, interview_date, interview_time', 'vacancy_interview_id=?', array($interview_place, $interview_date, $interview_time, $vacancy_interview_id), $con);
+		}
+		db::commitTrans($con);
 		die;
 	}
 	if ($type=='add_user') {
@@ -421,13 +433,13 @@ left join applicants d on d.user_id=b.employee_id
 where vacancy_id=? and next_vacancy_progress_id=? and vacancy_shortlist=1', array($vacancy_id, $next_vacancy_progress_id), $con);
 		db::ExecMe('update vacancy set vacancy_progress_id=? where vacancy_id=?', array($next_vacancy_progress_id, $vacancy_id), $con);
 		db::delete('vacancy_timeline','vacancy_id=? and vacancy_progress_id=?',array($vacancy_id, $next_vacancy_progress_id), $con);
-		db::insert('vacancy_timeline','vacancy_id, vacancy_progress_id, interview_date, interview_time, interview_place'
-		,array($vacancy_id, $next_vacancy_progress_id, $interview_date, $interview_time, $interview_place), $con);
+		db::insert('vacancy_timeline','vacancy_id, vacancy_progress_id'
+		,array($vacancy_id, $next_vacancy_progress_id), $con);
 		
 		$res=db::select('job_applied a
 		left join m_user b on a.user_id=b.user_id 
 		left join vacancy c on c.vacancy_id=a.vacancy_id
-		left join vacancy_timeline d on d.vacancy_id=a.vacancy_id and d.vacancy_progress_id=a.vacancy_progress_id
+		left join vacancy_interview d on d.vacancy_id=a.vacancy_id and d.vacancy_progress_id=a.vacancy_progress_id and d.user_id=a.user_id
 		left join applicants e on e.user_id=a.user_id
 		', 'a.user_id, b.user_name, c.vacancy_name, c.vacancy_code, c.vacancy_code2, d.interview_date, d.interview_time, d.interview_place, e.first_name, e.last_name'
 		, 'a.vacancy_id=? and a.vacancy_progress_id=? and a.vacancy_shortlist=0','', array($vacancy_id, $next_vacancy_progress_id), $con);

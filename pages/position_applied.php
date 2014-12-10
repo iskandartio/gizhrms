@@ -3,8 +3,7 @@
 		$res=db::DoQuery("select a.vacancy_id, concat(a.vacancy_name,'(',a.vacancy_code,'-',a.vacancy_code2,')') vacancy from vacancy a
 left join vacancy_progress b on a.vacancy_progress_id=b.vacancy_progress_id 
 where now() between a.vacancy_startdate and a.vacancy_enddate and ifnull(b.vacancy_progress_val,'')!='Closing'
-order by vacancy_code",array($_SESSION['uid']));
-		
+order by vacancy_code",array($_SESSION['uid']));		
 		$combo_vacancy=shared::select_combo($res,'vacancy_id','vacancy');
 		return $combo_vacancy;
 	}
@@ -97,6 +96,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 		});
 	};
 	function Apply() {
+		if (!validate_empty(['salary_expectation'])) return;
 		var data={};
 		data['type']='apply';
 		data=prepareDataText(data, ['vacancy_id']);

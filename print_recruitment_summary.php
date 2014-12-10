@@ -1,4 +1,3 @@
-
 <?php
 	require_once("pages/startup.php");
 	
@@ -30,8 +29,9 @@ where b.vacancy_progress_val='Negotiation' and a.employee_id !=? and a.vacancy_i
 	}
 	$result.="<table width='80%' style='margin:0 auto'><tr><td style='text-align:center'>Processed by</td><td style='text-align:center'>Approved by</td></tr>";
 	$result.="<tr><td height='200px' style='text-align:center'>$admin_name</td><td style='text-align:center'>$nego_names_string</td></tr></table>";
-?>
-<?php _p($result);
+
+
+
 require_once("libs/MPDF57/mpdf.php");
 	
 $mpdf=new mPDF(); 
@@ -39,5 +39,3 @@ $mpdf=new mPDF();
 $mpdf->WriteHTML($result);
 $mpdf->Output();
 exit;
-
-?>
