@@ -7,17 +7,18 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 	if ($vacancy_progress_val=='Closing') {
 		$sql="select salary_band from salary_band order by salary_band";
 		$res=db::DoQuery($sql, array(), $con);
-		$salary_band_option_def="<select id='salary_band'><option value=''>-Salary Band-</option>";
+		$salary_band_option_def="<select id='salary_band'><option value=''></option>";
 		foreach ($res as $row) {
 			$salary_band_option_def.="<option value='".$row['salary_band']."'>".$row['salary_band']."</option>";
 		}
 		$salary_band_option_def.="</select>";
-		$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist, c.job_title, c.start_date, c.end_date, c.salary, c.salary_band from $tbl a
+		$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist
+		, c.* from $tbl a
 	left join applicants b on a.user_id=b.user_id
 	left join contract_history c on a.user_id=c.user_id and c.end_date>now()";
 		$res=db::DoQuery($sql, array(), $con);
 	
-		$result="<table class='tbl' id='tbl_result'><thead><tr><th>User Id</th><th>First Name</th><th>Last Name</th><th>Job Title</th><th>Contract Duration</th><th>Salary</th><th>Salary Band</th><th></th></tr></thead><tbody>";
+		$result="<table class='tbl' id='tbl_result'><thead><tr><th>Contract History Id</th><th>User Id</th><th>First Name</th><th>Last Name</th><th>Job</th><th>Contract Duration</th><th>Salary</th><th>Salary Band</th><th></th></tr></thead><tbody>";
 		foreach ($res as $row) {
 			$btn=array();
 			if ($_SESSION['role_name']=='employee') {
@@ -34,11 +35,18 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 				}
 			}
 			$salary_band_option=shared::set_selected($row['salary_band'], $salary_band_option_def);
-			$result.="<tr><td>".$row['user_id']."</td><td>".$row['first_name']."</td><td>".$row['last_name']."</td>";
-			$result.="<td><input type='text' id='job_title' placeholder='Job Title' value='".$row['job_title']."'/></td>";
+			$result.="<tr><td>".$row['contract_history_id']."</td><td>".$row['user_id']."</td><td>".$row['first_name']."</td><td>".$row['last_name']."</td>";
+			$result.="
+			<td>"._t2("job_title", $row['job_title'],'40')."<br/>
+				"._t2("position", $row['position'],'40')."<br/>
+				"._t2("project_name", $row['project_name'],'20')." "._t2("project_number", $row['project_number'],'20')."<br/>
+				"._t2("project_location", $row['project_location'],'40')."<br/>
+				"._t2("principal_advisor", $row['principal_advisor'],'20')." "._t2("team_leader", $row['team_leader'],'20')."<br/>
+				"._t2("responsible_superior", $row['responsible_superior'],'20')." "._t2("SAP_No", $row['SAP_No'],'20')."<br/>
+			</td>";
 			$result.="<td><input type='text' id='start_date".$row['user_id']."' class='start_date' placeholder='Start Date' size='8' value='".formatDate($row['start_date'])."'/> 
 			<input type='text' id='end_date".$row['user_id']."'  class='end_date' placeholder='End Date' size='8' value='".formatDate($row['end_date'])."'/></td>";
-			$result.="<td><input type='text' id='salary' placeholder='Salary' value='".formatNumber($row['salary'])."'/></td>";
+			$result.="<td><input type='text' id='salary' size='8' placeholder='Salary' value='".formatNumber($row['salary'])."'/></td>";
 			$result.="<td>".$salary_band_option."</td>";
 			$result.="<td>".getImageTags($btn)."</td>";
 			$result.="</tr>";
@@ -455,7 +463,7 @@ where vacancy_id=? and next_vacancy_progress_id=? and vacancy_shortlist=1', arra
 			$interviewer_list=db::select("vacancy_employee a
 			left join applicants b on a.employee_id=b.user_id
 			left join contract_history c on c.user_id=b.user_id and now() between c.start_date and c.end_date",
-			"a.employee_id, b.first_name, b.last_name, c.job_title"
+			"a.employee_id, b.first_name, b.last_name, c.*"
 			, "a.vacancy_id=? and a.vacancy_progress_id=?"
 			, "", array($vacancy_id, $next_vacancy_progress_id), $con);
 			$interviewers="";
@@ -633,12 +641,22 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 	}
 	if ($type=='accept') {
 		$con=db::beginTrans();
-		$contract_history_id=db::select_single('contract_history', 'contract_history_id v','end_date>now() and user_id=?','start_date desc',array($user_id), $con);
-		if ($contract_history_id) {
-			db::update('contract_history','start_date, end_date, salary, job_title, salary_band','contract_history_id=?', array($start_date, $end_date, $salary, $job_title, $salary_band,$contract_history_id), $con);
+		
+		if ($contract_history_id!='') {
+			db::update('contract_history','start_date, end_date, salary, job_title, position
+			, project_name, project_number, principal_advisor, team_leader, project_location, responsible_superior, SAP_No
+			, salary_band','contract_history_id=?', array($start_date, $end_date, $salary, $job_title, $position
+			, $project_name, $project_number, $principal_advisor, $team_leader, $project_location, $responsible_superior, $SAP_No
+			, $salary_band,$contract_history_id), $con);
+			
 		} else {
-			db::insert('contract_history','user_id, start_date, end_date, salary, job_title, salary_band', array($user_id, $start_date, $end_date, $salary, $job_title, $salary_band), $con);
+			db::insert('contract_history','user_id, start_date, end_date, salary, job_title, position
+			, project_name, project_number, principal_advisor, team_leader, project_location, responsible_superior, SAP_No
+			, salary_band', array($user_id, $start_date, $end_date, $salary, $job_title, $position
+			, $project_name, $project_number, $principal_advisor, $team_leader, $project_location, $responsible_superior, $SAP_No
+			, $salary_band), $con);
 		}
+		db::update('applicants','contract0_start_date=?, contract0_end_date=?','user_id=?',array($start_date, $end_date, $user_id), $con);
 		db::ExecMe('update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?', array($next_vacancy_progress_id, $vacancy_id, $user_id), $con);		
 		db::commitTrans($con);
 		die;

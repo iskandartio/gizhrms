@@ -33,7 +33,7 @@
 		var a='';
 		a+='<tr><td></td>';
 		a+="<td><?php _t("gender_val")?></td>";
-		a+="<td>"+getImageTags(['save','delete'])+"</td>";
+		a+="<td>"+getImageTags(['save','delete','up','down'])+"</td>";
 		a+="</tr>";
 		
 		$('#tbl').append(a);

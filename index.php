@@ -94,14 +94,12 @@ header('Content-Type: text/html; charset=utf-8');
 			$('#tr_password').show();
 			
 			$('#btn_login').html("Login");
-			$.ajax({
-				type:'post',
-				url:'indexAjax.php',
-				data:'type=get_captcha_text',
-				success: function(msg) {
-					$('#captcha').html(msg);
-				}
-			});
+			var data={}
+			data['type=']="get_captcha_text";
+			var success=function(msg) {
+				$('#captcha').html(msg);
+			}
+			ajax('indexAjax.php', data, success);
 			
 		}
 		function Login() {
@@ -125,22 +123,19 @@ header('Content-Type: text/html; charset=utf-8');
 			var data={};
 			data['type']='login';
 			data=prepareDataText(data,['email','password','captcha_text']);
-			$.ajax({
-				type : "post",
-				url : "indexAjax.php",
-				data : $.param(data),
-				success: function(msg) {
-					obj = jQuery.parseJSON(msg);
-					$('#freeze').hide();
-					if (obj['err']!='')  {
-						alert(obj['err']);
-						
-						$('#captcha').html(obj['captcha_tag']);
-						return;
-					}
-					location.href=obj['url'];
-				}				
-			});
+			var success=function(msg) {
+				obj = jQuery.parseJSON(msg);
+				$('#freeze').hide();
+				if (obj['err']!='')  {
+					alert(obj['err']);
+					
+					$('#captcha').html(obj['captcha_tag']);
+					return;
+				}
+				location.href=obj['url'];
+			}		
+			ajax("indexAjax.php", data, success);
+			
 		}
 		function registerAjax(o) {
 			if (!validate_empty(['email','password','confirm_password','captcha_text'])) return;
@@ -148,32 +143,26 @@ header('Content-Type: text/html; charset=utf-8');
 			var data={};
 			data['type']='register';
 			data=prepareDataText(data,['email','password','confirm_password','captcha_text']);
-			$.ajax({
-				type : "post",
-				url : "indexAjax.php",
-				data : $.param(data),
-				success: function(msg) {
-					
-					obj = jQuery.parseJSON(msg);
-					$('#freeze').hide();
-					
-					if (obj['err']!='')  {
-						alert(obj['err']);
-						$('#captcha').html(obj['captcha_tag']);
-						$(obj['focus']).focus();
+			var success=function(msg) {	
+				obj = jQuery.parseJSON(msg);
+				
+				if (obj['err']!='')  {
+					alert(obj['err']);
+					$('#captcha').html(obj['captcha_tag']);
+					$(obj['focus']).focus();
+		
+					return;
+				}
+				already_registered();
+				
+				$.ajax({
+					type : "post",
+					url : "send_email.php"						
+				});
+				
+			}		
+			ajax("indexAjax.php", data, success);
 			
-						return;
-					}
-					
-					//location.href=obj['url'];
-					already_registered();
-					$.ajax({
-						type : "post",
-						url : "send_email.php"						
-					});
-					
-				}				
-			});
 		}
 		
 		function forgotPasswordAjax(o) {
@@ -182,26 +171,22 @@ header('Content-Type: text/html; charset=utf-8');
 			var data={};
 			data['type']='forgotPassword';
 			data=prepareDataText(data,['email','captcha_text']);
-			$.ajax({
-				type : "post",
-				url : "indexAjax.php",
-				data : $.param(data),
-				success: function(msg) {
-					obj = jQuery.parseJSON(msg);
-					$('#freeze').hide();
-					if (obj['err']!='')  {
-						alert(obj['err']);
-						$('#captcha').html(obj['captcha_tag']);
-						$(obj['focus']).focus();
-						return;
-					}
-					already_registered();
-					$.ajax({
-						type : "post",
-						url : "send_email.php"						
-					});
-				}				
-			});
+			var success= function(msg) {
+				obj = jQuery.parseJSON(msg);
+				$('#freeze').hide();
+				if (obj['err']!='')  {
+					alert(obj['err']);
+					$('#captcha').html(obj['captcha_tag']);
+					$(obj['focus']).focus();
+					return;
+				}
+				already_registered();
+				$.ajax({
+					type : "post",
+					url : "send_email.php"						
+				});
+			}
+			ajax("indexAjax.php", data, success);
 		}
 		function validateEmail(email) { 
 			var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -313,6 +298,10 @@ header('Content-Type: text/html; charset=utf-8');
 	<div id="menu" style="width:175px">
 		<span id='menu_master'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Master Data</span>
 		<ul>
+		<li><a href="/gizhrms/region">Region</a></li>
+		<li><a href="/gizhrms/province">Province</a></li>
+		<li><a href="/gizhrms/city">City</a></li>
+		<li><a href="/gizhrms/nationality">Nationality</a></li>
 		<li><a href="/gizhrms/gender">Gender</a></li>
 		<li><a href="/gizhrms/location">Location</a></li>
 		<li><a href="/gizhrms/vacancy_progress">Recruitment Process</a></li>
@@ -325,6 +314,7 @@ header('Content-Type: text/html; charset=utf-8');
 		<span id='menu_administration'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Administration</span>
 		
 		<ul>
+		<li><a href="/gizhrms/employee">Employee</a></li>
 		<li><a href="/gizhrms/vacancy">Vacancy</a></li>
 		<li><a href="/gizhrms/question">Question</a></li>
 		<li><a href="/gizhrms/filter">Filter Applicants</a></li>

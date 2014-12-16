@@ -5,6 +5,8 @@ export chart to pdf
 location ok
 interview date tambah  lengthnya
 email to reference 
+mail merge
+email input to calendar (for user)
 
 project name+project number+principal advisor+team leader*+project location+responsible superior
 +SAP No*+Current Title(yang keluar di email)+Position(yang diinput waktu closing)+Salary Band+Salary+Join Date

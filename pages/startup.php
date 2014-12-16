@@ -62,7 +62,7 @@
 	function _t2($name, $value='', $size='', $type='text', $class='', $placeholder='') {
 		
 		if ($value!='' && is_array($value)) $value=$value[$name];
-		if (startsWith($name,'date')) {
+		if (startsWith($name,'date')||endsWith($name,'date')) {
 			$value=formatDate($value);
 		}
 		if ($class=='') {

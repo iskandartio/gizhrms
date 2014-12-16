@@ -67,10 +67,9 @@
 	}
 	
 	function numeric_blur(o, not_count) {
-		
 		if (o.value=='') return;
 		if (o.value=='0') return;
-		
+		var selStart=o.selectionStart;
 		sellength=o.value.length;
 		str = o.value.replace(/,/g,'');
 		min=false;
@@ -80,16 +79,12 @@
 		}
 		str = str.replace(/[^0-9\.]/g,'');
 		if (str=='') str='0';
-		
 		s = str.split('.');
 		var r='';
-		
 		if (s[0]) {
-			
 			while (s[0].substring(0,1)=='0') {
 				s[0]=s[0].substring(1);
 			}
-			
 			r=(s[0].substring(0, s[0].length % 3));
 			r2=s[0].substring(s[0].length % 3);
 			j=r2.length;
@@ -101,18 +96,11 @@
 				}
 			}
 		}
-		
-		/*
-		if(s.length==2) {
-			r+='.'+s[1].substring(0,2);
-		}
-		*/
-		
 		if (min) r='-'+r;
-		
 		o.value=r;
+		o.selectionStart=selStart;
+		o.selectionEnd=selStart;
 		sellength2=o.value.length;
-		
 		if (!not_count) {
 			count_total();
 		}

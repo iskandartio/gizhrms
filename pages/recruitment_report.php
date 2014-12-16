@@ -14,23 +14,13 @@
 		data['type']='show_detail';
 		data['user_id']=$(this).closest("span").children("span").html();
 		data['vacancy_id']=$(this).closest("tr").children("td:eq(0)").html();
-		var f=function(msg) {
+		var success=function(msg) {
 			$('#show_detail').html(msg);
 			$('#show_detail').dialog("open");
 		};
-		ajax(data, f, 'filter_applicant');
+		ajax("filter_applicantAjax.php", data, success);
 	}
 	
-	function ajax(data, Func, url) {
-		$.ajax({
-			type:'post',
-			url:url+'Ajax.php',
-			data:$.param(data),
-			success: function(msg) {
-				Func(msg);
-			}
-		});
-	}
 
 	
 </script>

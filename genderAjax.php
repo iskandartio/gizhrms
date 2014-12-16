@@ -1,7 +1,9 @@
 <?php
 	require_once("pages/startup.php");
 	if ($type=='save') {
+		
 		if ($gender_id=='') {
+			$_POST['sort_id']=db::select_single("gender", "ifnull(max(sort_id),0)+1 v");
 			$gender_id=db::insertEasy('gender', $_POST);
 		} else {
 			db::updateEasy('gender', $_POST);

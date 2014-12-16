@@ -487,6 +487,7 @@ function fixSelect() {
 }
 function numeric(o) {
 	$.fn.numeric(o, 'decimal',true);
+	$(o).css("text-align","right");
 }
 
 function prepareDataText(data, arr, par, f) {

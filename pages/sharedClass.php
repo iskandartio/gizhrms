@@ -1,5 +1,9 @@
 <?php
 class shared {
+	static function get_session($data, $def) {
+		if (!isset($_SESSION[$data])) return $def;
+		return $_SESSION[$data];
+	}
 	static function validate_download($user_id, $uid, $role_name) {
 		if ($user_id==$uid || $role_name==$user_id) return $user_id;
 		$res=db::DoQuery("select a.employee_id from vacancy_employee a
@@ -202,6 +206,44 @@ tinymce.init({
 });
 </script>';
 	return $result;
-}
-
+	}
+	static function is_leap_year($year)
+	{
+		return ((($year % 4) == 0) && ((($year % 100) != 0) || (($year %400) == 0)));
+	}
+	static function count_year($start_date, $end_date) {
+		$year1=date('Y', $start_date);
+		$year2=date('Y', $end_date);
+		$leap=0;
+		$count_year=0.0;
+		for ($y=$year1;$y<=$year2;$y++) {
+			$y2=mktime(0,0,0,12,31,$y);
+			
+			if (shared::is_leap_year($y)) {
+				$test=mktime(0,0,0,2,29,$y);
+				if ($start_date<=$test && $test<=$end_date) {
+					$leap=1;
+				}
+			}
+			$count_year++;
+		}
+		
+		return $leap;
+	}
+	static function count_days($start_date, $end_date) {
+		$year1=date('Y', $start_date);
+		$year2=date('Y', $end_date);
+		
+	}
+	
+	static function get_date_diff($date1, $date2) { 
+		$current = $date1; 
+		$datetime2 = date_create($date2); 
+		$count = 0; 
+		while(date_create($current) < $datetime2){ 
+			$current = gmdate("Y-m-d", strtotime("+1 day", strtotime($current))); 
+			$count++; 
+		} 
+		return $count; 
+	} 
 }

@@ -64,19 +64,15 @@ tinymce.init({
 		data={};
 		data['type']='get_questions';
 		data['vacancy_id']=$('#vacancy_id').val();
-		$.ajax({
-			type:'post',
-			url:'vacancyAjax.php',
-			data: $.param(data),
-			success: function(msg) {
-				clear_checkbox('question_id');
-				var question_id = jQuery.parseJSON(msg);
-				$(question_id).each(function(idx, val) {
-					$('#question_id_'+val).prop('checked',true);
-				});
-				fixSelect();
-			}
-		});
+		var success=function(msg) {
+			clear_checkbox('question_id');
+			var question_id = jQuery.parseJSON(msg);
+			$(question_id).each(function(idx, val) {
+				$('#question_id_'+val).prop('checked',true);
+			});
+			fixSelect();
+		}
+		ajax("vacancyAjax.php", data, success);
 	}
 	
 	function Delete() {
@@ -84,16 +80,13 @@ tinymce.init({
 		var data={};
 		data['type']='delete';
 		data['vacancy_id']=getChild(par, 'vacancy_id');
-		$.ajax({
-			type:'post',
-			url:'vacancyAjax.php',
-			data: $.param(data),
-			success: function(msg) {
-				alert("Success");
-				par.remove();
-				Add();
-			}
-		});
+		var success=function(msg) {
+			alert("Success");
+			par.remove();
+			Add();
+		}
+		ajax("vacancyAjax.php", data, success);
+		
 	}
 	function Cancel() {
 	}
@@ -114,55 +107,46 @@ tinymce.init({
 		});
 		data['question_id']=question_id;
 		
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'vacancyAjax.php',
-			data:$.param(data),
-			success: function(msg) {
-				$('#freeze').hide();
-				alert('Success');
-				tbl='tbl_vacancy';
-				if (currentRow>=0) {
-					
-					
-				} else {
-					$('#vacancy_id').val(msg);
-					adder='<tr><td>';
-					adder+=msg+"</td>"; 
-					adder+='<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
-					adder+='<td><?php _p(getImageTags(array('edit','delete')))?></td>';
-					adder+='</tr>';	
-					currentRow=$('#tbl_vacancy tbody').children().length;
-					
-					$('#tbl_vacancy tbody').append(adder);
-					
-					bindAll();
-					$('#btn_save').html('Update');
-					
-				}
-				setHtmlAllText(tbl, ['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate', 'vacancy_enddate','allowance']);
-				setHtmlAllDiv(tbl, ['vacancy_description']);
-				setHtmlAllSelect(tbl, ['vacancy_type']);		
-				edit_data();
+		var success=function(msg) {
+			$('#freeze').hide();
+			alert('Success');
+			tbl='tbl_vacancy';
+			if (currentRow>=0) {
+				
+				
+			} else {
+				$('#vacancy_id').val(msg);
+				adder='<tr><td>';
+				adder+=msg+"</td>"; 
+				adder+='<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
+				adder+='<td><?php _p(getImageTags(array('edit','delete')))?></td>';
+				adder+='</tr>';	
+				currentRow=$('#tbl_vacancy tbody').children().length;
+				
+				$('#tbl_vacancy tbody').append(adder);
+				
+				bindAll();
+				$('#btn_save').html('Update');
+				
 			}
-		});
-		
+			setHtmlAllText(tbl, ['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate', 'vacancy_enddate','allowance']);
+			setHtmlAllDiv(tbl, ['vacancy_description']);
+			setHtmlAllSelect(tbl, ['vacancy_type']);		
+			edit_data();
+		}
+		ajax("vacancyAjax.php", data, success);
 	}
 	function Search() {
 		var data={};
 		data['type']='search';
 		data['date_filter']=$('#date_filter').val();
-		$.ajax({
-			type:'post',
-			url:'vacancyAjax.php',
-			data:$.param(data),
-			success: function(msg) {
-				$('#search_result').html(msg);
-				bindAll();
-				
-			}
-		});
+		var success=function(msg) {
+			$('#search_result').html(msg);
+			bindAll();
+			
+		}
+		ajax("vacancyAjax.php", data, success);
+		
 	}
 </script>
 <?php _t("date_filter") ?>

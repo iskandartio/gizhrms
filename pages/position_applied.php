@@ -46,22 +46,18 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 		var data={};
 		data['type']='show_job_desc';
 		data['vacancy_id']=$('#vacancy_id').val();
-		$.ajax({
-			type:'post',
-			url:'applicantAjax.php',
-			data:$.param(data),
-			success:function(msg) {
-				$('#vacancy_description').html(msg);
-				$('#tbl_question').hide();
-				$('#btn_apply').hide();
-				if (msg!='') {
-					$('#btn_apply').html('Next');
-					$('#btn_apply').show();
-					bind('#btn_apply','click',ShowNext);
-				}
-				
+		var success=function(msg) {
+			$('#vacancy_description').html(msg);
+			$('#tbl_question').hide();
+			$('#btn_apply').hide();
+			if (msg!='') {
+				$('#btn_apply').html('Next');
+				$('#btn_apply').show();
+				bind('#btn_apply','click',ShowNext);
 			}
-		});
+			
+		}
+		ajax("applicantAjax.php", data, success);
 	}
 	function ShowNext() {
 	
@@ -77,23 +73,17 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 		data['type']='delete';
 		data['job_applied_id']=getChild(par,'job_applied_id', main_fields);
 		
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'applicantAjax.php',
-			data:$.param(data),
-			success:function(msg) {
-				$('#freeze').hide();
-				$('#questions').html('');
-				$('#btn_apply').hide();
-				$('#vacancy_id').val(0);
-				
-				par.remove();
-				if ($('#tbl_job_applied tbody tr').length==0) {
-					$('#tbl_job_applied').hide();
-				}
+		var success=function(msg) {
+			$('#questions').html('');
+			$('#btn_apply').hide();
+			$('#vacancy_id').val(0);
+			
+			par.remove();
+			if ($('#tbl_job_applied tbody tr').length==0) {
+				$('#tbl_job_applied').hide();
 			}
-		});
+		}
+		ajax("applicantAjax.php", data, success);
 	};
 	function Apply() {
 		if (!validate_empty(['salary_expectation'])) return;
@@ -113,22 +103,17 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 			answer.push($(this).val());
 		});	
 		data['answer']=answer;
-		$('#freeze').show();		
-		$.ajax({
-			type:'post',
-			url:'applicantAjax.php',
-			data:$.param(data),
-			success: function(msg) {
-				$('#freeze').hide();
-				alert('Success');
-				
-				if (msg) {
-					$('#tbl_job_applied').append(msg);
-				}
-				bindAll();
-				$('#tbl_job_applied').show();
+		var success=function(msg) {
+			alert('Success');
+			
+			if (msg) {
+				$('#tbl_job_applied').append(msg);
 			}
-		});
+			bindAll();
+			$('#tbl_job_applied').show();
+		}
+		ajax("applicantAjax.php", data, success);
+		
 		
 	}
 	function Edit() {
@@ -141,25 +126,21 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 	}
 	
 	function ajaxShowNext(val) {
-		$('#freeze').show();
+		
 		var data={};
 		data['type']='show_next';
 		data['vacancy_id']=val;
-		$.ajax({
-			type : 'post',
-			url : 'applicantAjax.php',
-			data : $.param(data), 
-			success : function(msg) {
-				$('#freeze').hide();
-				$('#questions').html(msg);
-				hideColumns('tbl_question');
-				After();
-				fixSelect();
-				numeric($('#salary_expectation'));
-				
-				
-			}
-		});
+		var success=function(msg) {
+			$('#questions').html(msg);
+			hideColumns('tbl_question');
+			After();
+			fixSelect();
+			numeric($('#salary_expectation'));
+			
+			
+		}
+		ajax("applicantAjax.php", data, success);
+		
 	}
 	
 	function After() {

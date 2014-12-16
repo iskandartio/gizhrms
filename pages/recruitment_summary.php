@@ -10,7 +10,10 @@
 	$result="<table class='tbl' id='tbl'><thead><tr><th>Vacancy Id</th><th>Vacancy</th><th>Closing Date</th><th></th></tr></thead><tbody>";
 	foreach ($res as $row) {
 		$result.="<tr><td>".$row['vacancy_id']."</td><td>".$row['vacancy_name']." (".$row['vacancy_code']."-".$row['vacancy_code2'].")</td><td>".formatDate($row['update_time'])."</td>";
-		$result.="<td>".getImageTags(array('print'))."</td></tr>";
+		$result.="<td>".getImageTags(array('print','export'))."</td>";
+		
+		$result.="</tr>";
+		
 	}
 	$result.="</tbody></table>";
 	
@@ -42,29 +45,29 @@ where c.vacancy_progress_val!='Closing'");
 <?php _p($result);
 
 ?>
+<script src="js/excellentexport.js"></script>
 <script>
-	function ajax(data, Func) {
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'recruitment_summaryAjax.php',
-			data:$.param(data),
-			success: function(msg) {
-				$('#freeze').hide();
-				Func(msg);
-			}
-		});
-	}
+
 
 	$(function() {
 		$('.btn_print').bind("click",Print);
 		$('.btn_save').bind("click",Save);
+		$('.btn_export').bind("click",Export);
 		hideColumns('tbl');
 		hideColumns('tbl_current_recruitment');
 		setDatePicker();
 	});
+	 
 	function Print() {		
 		window.open("print_recruitment_summary.php?vacancy_id="+$(this).closest("tr").children("td:eq(0)").html(),"_blank");
+	}
+	function Export() {
+		
+		var data={}
+		data['type']='export';
+		data['vacancy_id']=$(this).closest("tr").children("td:eq(0)").html();
+		location.href="recruitmentSummaryGet.php?"+$.param(data);
+		
 	}
 	function Save() {
 		var par=$(this).closest("tr");
@@ -78,7 +81,7 @@ where c.vacancy_progress_val!='Closing'");
 		
 		var func=function(msg) {
 		}
-		ajax(data, func);
+		ajax('recruitment_summaryAjax.php', data, func);
 		
 	}
 </script>

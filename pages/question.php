@@ -34,19 +34,14 @@
 		var data={};
 		data['type']='get_choices';
 		data['question_id']=$('#question_id').val();
-		
-		$.ajax({
-			type:'post',
-			url:'questionAjax.php',
-			data: $.param(data),
-			success: function(msg) {
-				$('#tbl_choice tbody').empty();
-				$('#tbl_choice tbody').append(msg);
-				bind('.btn_edit_choice',"click", EditChoice);
-				bind('.btn_delete_choice',"click", DeleteChoice);
-				hideColumns('tbl_choice');
-			}
-		});
+		var success=function(msg) {
+			$('#tbl_choice tbody').empty();
+			$('#tbl_choice tbody').append(msg);
+			bind('.btn_edit_choice',"click", EditChoice);
+			bind('.btn_delete_choice',"click", DeleteChoice);
+			hideColumns('tbl_choice');
+		}
+		ajax("questionAjax.php", data, success);
 	}
 	function Edit() {
 		currentRow=$(this).closest("tr").index();
@@ -138,15 +133,11 @@
 		var data={};
 		data['type']='delete';
 		data['question_id']=getChild(par, 'question_id');
-		$.ajax({
-			type:'post',
-			url:'questionAjax.php',
-			data:$.param(data),
-			success: function(msg) {
-				alert("Success");
-				par.remove();
-			}
-		});
+		var success=function(msg) {
+			alert("Success");
+			par.remove();
+		}
+		ajax("questionAjax.php", data, success);
 	}
 	function Cancel() {
 	}
@@ -165,55 +156,45 @@
 		data['choice_val']=choice_val;
 		data['choice_id']=choice_id;
 		
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'questionAjax.php',
-			data:$.param(data),
-			success: function(msg) {
-				$('#freeze').hide();
-				alert('Success');
+		var success=function(msg) {
+			alert('Success');
+			
+			tbl='tbl_question';
+			if (currentRow>=0) {
+				setHtmlAllText(tbl, ['question_id','question_val']);
 				
-				tbl='tbl_question';
-				if (currentRow>=0) {
-					setHtmlAllText(tbl, ['question_id','question_val']);
-					
-					
-				} else {
-					$('#question_id').val(msg);
-					adder='<tr><td>';
-					adder+=msg+"</td>"; 
-					adder+='<td></td>';
-					adder+='<td><?php _p(getImageTags(array('edit','delete')))?></td>';
-					adder+='</tr>';	
-					currentRow=$('#tbl_question tbody').children().length;
-					
-					$('#tbl_question tbody').append(adder);
-					setHtmlAllText(tbl, ['question']);
-					
-					bindAll();
-					$('#btn_save').html('Update');
-					
-				}
-				edit_data();
+				
+			} else {
+				$('#question_id').val(msg);
+				adder='<tr><td>';
+				adder+=msg+"</td>"; 
+				adder+='<td></td>';
+				adder+='<td><?php _p(getImageTags(array('edit','delete')))?></td>';
+				adder+='</tr>';	
+				currentRow=$('#tbl_question tbody').children().length;
+				
+				$('#tbl_question tbody').append(adder);
+				setHtmlAllText(tbl, ['question']);
+				
+				bindAll();
+				$('#btn_save').html('Update');
+				
 			}
-		});
+			edit_data();
+		}
+		ajax("questionAjax.php", data, success);
 		
 	}
 	function Search() {
 		var data={};
 		data['type']='search';
 		data['question_filter']=$('#question_filter').val();
-		$.ajax({
-			type:'post',
-			url:'questionAjax.php',
-			data:$.param(data),
-			success: function(msg) {
-				$('#search_result').html(msg);
-				bindAll();
-				
-			}
-		});
+		var success=function(msg) {
+			$('#search_result').html(msg);
+			bindAll();
+			
+		}
+		ajax("questionAjax.php", data, success);
 	}
 </script>
 <?php _t("question_filter") ?>

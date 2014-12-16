@@ -24,16 +24,11 @@
 		data={};
 		data['type']='delete';
 		data['applicants_education_id']=getChild(par,'applicants_education_id');
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'educationAjax.php',
-			data:$.param(data),
-			success:function(msg) {
-				$('#freeze').hide();
-				par.remove();
-			}
-		});
+		var success=function(msg) {
+			$('#freeze').hide();
+			par.remove();
+		}
+		ajax("educationAjax.php", data, success);
 	}
 	function Save() {
 		
@@ -50,20 +45,15 @@
 		for (key in fields) {
 			if (key!='btn') data[key]=getChild(par, key);
 		}
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'educationAjax.php',
-			data: $.param(data),
-			success: function(msg) {
-				$('#freeze').hide();
-				setHtmlText(par, 'applicants_education_id', msg);
-				selectedToLabel(par,'education_id');
-				textToLabel(par,['major','place','year_from','year_to','country']);
-				btnChange(par, ['edit','delete']);
-				bindAll();
-			}
-		});
+		
+		var success=function(msg) {
+			setHtmlText(par, 'applicants_education_id', msg);
+			selectedToLabel(par,'education_id');
+			textToLabel(par,['major','place','year_from','year_to','country']);
+			btnChange(par, ['edit','delete']);
+			bindAll();
+		}
+		ajax("educationAjax.php", data, success);
 		
 		
 	}

@@ -36,16 +36,10 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 			data['type']='delete';
 			data['applicants_language_id']=getChild(par,'applicants_language_id');
 		}
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'languageAjax.php',
-			data:$.param(data),
-			success:function(msg) {
-				$('#freeze').hide();
-				par.remove();
-			}
-		});
+		var success=function(msg) {
+			par.remove();
+		}
+		ajax("languageAjax.php", data, success);
 	}
 
 	function Save() {
@@ -68,33 +62,25 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 			
 			if (key!='btn') data[key]=getChild(par, key, f);
 		}
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'languageAjax.php',
-			data: $.param(data),
-			success: function(msg) {
-				$('#freeze').hide();
-				if (v) {
-					
-					setHtmlText(par, 'applicants_other_language_id', msg, f);
-					textToLabel(par,['language_val'], f);
-					selectedToLabel(par,'language_skill_id', f);
-					btnChange(par, ['edit','delete']);
-				} else {
-					setHtmlText(par, 'applicants_language_id', msg, f);
-					
-					setHtmlText(par,'language_id');
-					selectedToLabel(par,'language_skill_id', f);
-					btnChange(par, ['edit']);
+		var success=function(msg) {
+			if (v) {
 				
-				}
+				setHtmlText(par, 'applicants_other_language_id', msg, f);
+				textToLabel(par,['language_val'], f);
+				selectedToLabel(par,'language_skill_id', f);
+				btnChange(par, ['edit','delete']);
+			} else {
+				setHtmlText(par, 'applicants_language_id', msg, f);
 				
-				bindAll();
+				setHtmlText(par,'language_id');
+				selectedToLabel(par,'language_skill_id', f);
+				btnChange(par, ['edit']);
+			
 			}
-		});
-		
-		
+			
+			bindAll();
+		}
+		ajax("languageAjax.php", data, success);
 	}
 	function AddNew() {
 		var a='';

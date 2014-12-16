@@ -67,7 +67,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 ?>
 <script>
 	var fields={'user_id':0, 'ranking_id':4, 'user_comment':5, 'interview_place':6, 'interview_date':7, 'interview_time':8, 'btn':9}
-	var field_closing={'user_id':0, 'job_title':3, 'contract_duration':4, 'salary':5,  'salary_band':6, 'btn':7}
+	var field_closing=generate_assoc(['contract_history_id','user_id','first_name','last_name','job','contract_duration','salary','salary_band','btn']);
 	var field_user=generate_assoc(['vacancy_employee_id','employee_id','btn']);
 	<?php _p($status_choice);?>;
 	<?php _p($status_choice_sorted);?>;
@@ -97,29 +97,20 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		numeric($('#salary_expectation_end'));
 	});
 	
-	function ajax(data, Func) {
-		$.ajax({
-			type:'post',
-			url:'filter_applicantAjax.php',
-			data:$.param(data),
-			success: function(msg) {
-				Func(msg);
-			}
-		});
-	}
+
 
 	function ShowDetail() {
 		var data={};
 		data['type']='show_detail';
 		data['user_id']=getChild($(this).closest("tr"), 'user_id');
 		data['vacancy_id']=$('#vacancy_id').val();
-		var f=function(msg) {
+		var success=function(msg) {
 			$('#show_detail').html(msg);
 			
 			$('#show_detail').dialog("open");
 			
 		};
-		ajax(data, f);
+		ajax("filter_applicantAjax.php", data, success);
 	}
 	
 	function ToggleFilterQuestion(){
@@ -139,28 +130,23 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data['vacancy_id']=$('#vacancy_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
 		data['user_id']=getChild(par, 'user_id');
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url: 'filter_applicantAjax.php',
-			data:$.param(data),
-			success:function(msg) {
-				$('#freeze').hide();
-				if (msg=='Closing') {
-					btnChange(par, ['accept','reject'], field_closing);
-					$('#closing').hide();
-				} else {
-					btnChange(par, ['save','interview','reject']);
-					$('#div_shortlist').hide();
-				}
-				
-				bind('.btn_save',"click",Save);
-				bind('.btn_interview',"click",Interview);
-				bind('.btn_reject',"click",Reject);
-				bind('.btn_accept',"click",Accept);
-				
+		var success=function(msg) {
+			
+			if (msg=='Closing') {
+				btnChange(par, ['accept','reject'], field_closing);
+				$('#closing').hide();
+			} else {
+				btnChange(par, ['save','interview','reject']);
+				$('#div_shortlist').hide();
 			}
-		});
+			
+			bind('.btn_save',"click",Save);
+			bind('.btn_interview',"click",Interview);
+			bind('.btn_reject',"click",Reject);
+			bind('.btn_accept',"click",Accept);
+			
+		}
+		ajax("filter_applicantAjax.php", data, success);
 	}
 	function Restart() {
 		var par=$(this).parent().parent();
@@ -170,23 +156,20 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data['user_id']=getChild(par, 'user_id');
 		data['vacancy_progress_id']=$('#vacancy_progress_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
-		$.ajax({
-			type:'post',
-			url: 'filter_applicantAjax.php',
-			data:$.param(data),
-			success:function(msg) {
-				if (msg=='Closing') {
-					btnChange(par,['accept','reject']);
-				} else {
-					btnChange(par, ['save','interview','reject']);
-				}
-				
-				bind('.btn_save',"click",Save);
-				bind('.btn_interview',"click",Interview);
-				bind('.btn_reject',"click",Reject);
-				bind('.btn_accept',"click",Accept);
+		var success=function(msg) {
+			if (msg=='Closing') {
+				btnChange(par,['accept','reject']);
+			} else {
+				btnChange(par, ['save','interview','reject']);
 			}
-		});
+			
+			bind('.btn_save',"click",Save);
+			bind('.btn_interview',"click",Interview);
+			bind('.btn_reject',"click",Reject);
+			bind('.btn_accept',"click",Accept);
+		}
+		ajax("filter_applicantAjax.php", data, success);
+
 	}
 	
 	function Shortlist() {
@@ -195,46 +178,36 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data['vacancy_id']=$('#vacancy_id').val();
 		data['vacancy_progress_id']=$('#vacancy_progress_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'filter_applicantAjax.php',
-			data:$.param(data),
-			success: function(msg) {
-				$('#freeze').hide();
-				$('#search_result').html(msg);
-				bind('.btn_accept',"click",Accept);
-				bind('.btn_save',"click",Save);
-				bind('.btn_delete',"click",Delete);
-				bind('#interview_all',"click", InterviewAll);
-				bind('#closing',"click", Closing);
-				hideColumns('tbl_filter_applicant');
-				$('#tbl_filter_applicant tbody tr').each(function() { 
-					var v=$(this).children("td:eq("+fields['ranking_id']+")").children("select");
-					$(v).data("originalValue", $(v).val());
-				});
-				setDatePicker();
-				hideColumns('tbl_result');
-				$('input[id="salary"]').each(function(idx) {
-					numeric($(this));
-				});
-			}
-		});
+		var success=function(msg) {
+			$('#search_result').html(msg);
+			bind('.btn_accept',"click",Accept);
+			bind('.btn_save',"click",Save);
+			bind('.btn_delete',"click",Delete);
+			bind('#interview_all',"click", InterviewAll);
+			bind('#closing',"click", Closing);
+			hideColumns('tbl_filter_applicant');
+			$('#tbl_filter_applicant tbody tr').each(function() { 
+				var v=$(this).children("td:eq("+fields['ranking_id']+")").children("select");
+				$(v).data("originalValue", $(v).val());
+			});
+			setDatePicker();
+			hideColumnsArr('tbl_result', ['contract_history_id','user_id'], field_closing);
+			$('input[id="salary"]').each(function(idx) {
+				numeric($(this));
+			});
+		}
+		ajax("filter_applicantAjax.php", data, success);
 	}
 	function Closing() {
 		var data={};
 		data['type']='closing';
 		data['vacancy_id']=$('#vacancy_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
-		$.ajax({
-			type:'post',
-			url:'filter_applicantAjax.php',
-			data:$.param(data),
-			success:function(msg) {
-				alert('Success');
-				Search();
-			}
-		});
+		var success=function(msg) {
+			alert('Success');
+			Search();
+		}
+		ajax("filter_applicantAjax.php", data, success);
 	}
 	function InterviewAll() {
 		if (!validate_empty(['interview_date','interview_time'])) return;
@@ -242,25 +215,19 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var data={};
 		data['type']='interviewall';
 		prepareDataText(data, ['vacancy_id','next_vacancy_progress_id','vacancy_progress_id']);
-		
-		$.ajax({
-			type:'post',
-			url:'filter_applicantAjax.php',
-			data:$.param(data),
-			success:function(msg) {
-				if (msg!='') {
-					alert(msg);
-				} else {
-					alert('Success');
-					Search();
-					$.ajax({
-						type : "post",
-						url : "send_email.php"						
-					});
-				}
+		var success=function(msg) {
+			if (msg!='') {
+				alert(msg);
+			} else {
+				alert('Success');
+				Search();
+				$.ajax({
+					type : "post",
+					url : "send_email.php"						
+				});
 			}
-		});
-		
+		}
+		ajax("filter_applicantAjax.php", data, success);
 	}
 	function Search() {
 		if (!validate_empty(['vacancy_id','vacancy_progress_id','next_vacancy_progress_id'])) return;
@@ -278,61 +245,61 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			filter_array.push(filter_answer);
 		});
 		data['filter_answer']=filter_array;
+		var success=function(msg) {
+			$('#search_result').html(msg);
+			bind('.btn_save',"click",Save);
+			
+			bind('.btn_interview',"click", Interview);
+			bind('.btn_reject',"click", Reject);
+			bind('.btn_delete',"click",Delete);
+			bind('.btn_restart',"click",Restart);
+			bind('.btn_detail',"click",ShowDetail);
+			bind('.btn_accept',"click",Accept);
+			hideColumns('tbl_filter_applicant');
+			$('#tbl_filter_applicant tbody tr').each(function() { 
+				var v=$(this).children("td:eq("+fields['ranking_id']+")").children("select");
+				$(v).data("originalValue", $(v).val());
+			});
+			fixSelect();
+			setDatePicker();
+			hideColumnsArr('tbl_result',['contract_history_id','user_id'],field_closing);
+			
+			$('input[id="salary"]').each(function(idx) {
+				numeric($(this));
+			});
+			
+		}
+		ajax("filter_applicantAjax.php", data, success);
 		
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'filter_applicantAjax.php',
-			data : $.param(data),
-			success: function(msg) {
-				
-				
-				$('#freeze').hide();
-				$('#search_result').html(msg);
-				bind('.btn_save',"click",Save);
-				
-				bind('.btn_interview',"click", Interview);
-				bind('.btn_reject',"click", Reject);
-				bind('.btn_delete',"click",Delete);
-				bind('.btn_restart',"click",Restart);
-				bind('.btn_detail',"click",ShowDetail);
-				bind('.btn_accept',"click",Accept);
-				hideColumns('tbl_filter_applicant');
-				$('#tbl_filter_applicant tbody tr').each(function() { 
-					var v=$(this).children("td:eq("+fields['ranking_id']+")").children("select");
-					$(v).data("originalValue", $(v).val());
-				});
-				fixSelect();
-				setDatePicker();
-				hideColumns('search_result');
-				
-				$('input[id="salary"]').each(function(idx) {
-					numeric($(this));
-				});
-				
-			}
-		});
 	}
 	function Accept() {
 		par=$(this).closest("tr");
 		var data={};
 		data['type']="accept";
-
-		data['job_title']=getChild(par,'job_title',field_closing);
+		data['job_title']=getChild(par,'job_title',field_closing,'job');
+		data['position']=getChild(par,'position',field_closing,'job');
+		data['project_name']=getChild(par,'project_name',field_closing,'job');
+		data['project_number']=getChild(par,'project_number',field_closing,'job');
+		data['principal_advisor']=getChild(par,'principal_advisor',field_closing,'job');
+		data['team_leader']=getChild(par,'team_leader',field_closing,'job');
+		data['project_location']=getChild(par,'project_location',field_closing,'job');
+		data['responsible_superior']=getChild(par,'responsible_superior',field_closing,'job');
+		data['SAP_No']=getChild(par,'SAP_No',field_closing,'job');
 		data['start_date']=getChild(par,'start_date',field_closing,'contract_duration');
 		data['end_date']=getChild(par,'end_date',field_closing,'contract_duration');
 		data['salary']=cNum(getChild(par,'salary',field_closing));
 		data['salary_band']=getChild(par,'salary_band',field_closing);
 		data['user_id']=getChild(par,'user_id',field_closing);
+		data['contract_history_id']=getChild(par,'contract_history_id',field_closing);
 		prepareDataText(data, ['vacancy_id','next_vacancy_progress_id']);
-		var func=function(msg) {
+		var success=function(msg) {
 			Search();
 		}
-		ajax(data, func);
+		ajax("filter_applicantAjax.php", data, success);
 	}
 	function Interview() {
 		var par=$(this).parent().parent();
-		$('#freeze').show();
+		
 		var data={};
 		data['type']='interview';
 		data['vacancy_id']=$('#vacancy_id').val();
@@ -342,43 +309,31 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		for (key in fields) {
 			if (key!='btn') data[key]=getChild(par, key);
 		}
-		
-		$.ajax({
-			type:'post',
-			url:'filter_applicantAjax.php',
-			data:$.param(data),
-			success:function(msg) {
-				$('#freeze').hide();
-				if (msg!='') {
-					alert(msg);
-					return;
-				}
-				btnChange(par, ['save','delete']);
-				bind('.btn_save',"click", Save);
-				bind('.btn_delete',"click", Delete);
+		var success=function(msg) {
+			
+			if (msg!='') {
+				alert(msg);
+				return;
 			}
-		});
+			btnChange(par, ['save','delete']);
+			bind('.btn_save',"click", Save);
+			bind('.btn_delete',"click", Delete);
+		}
+		ajax("filter_applicantAjax.php", data, success);
 	}
 	function Reject() {
 		var par=$(this).parent().parent();
-		$('#freeze').show();
 		var data={};
 		data['type']='reject';
 		data['vacancy_id']=$('#vacancy_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
 		data['user_id']=getChild(par,'user_id');
-		$.ajax({
-			type:'post',
-			url:'filter_applicantAjax.php',
-			data:$.param(data),
-			success:function(msg) {
-				$('#freeze').hide();
-				
-				btnChange(par, ['restart']);
-				
-				bind('.btn_restart',"click", Delete);
-			}
-		});
+		var success=function(msg) {
+			btnChange(par, ['restart']);
+			
+			bind('.btn_restart',"click", Delete);
+		}
+		ajax("filter_applicantAjax.php", data, success);
 	}
 	function ChangeVacancyId() {
 		var progress=vacancy_progress[$('#vacancy_id').val()];
@@ -396,38 +351,30 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var data={};
 		data['type']='get_question';
 		data['vacancy_id']=$('#vacancy_id').val();
-		$.ajax({
-			type:'post',
-			url:'filter_applicantAjax.php',
-			data:$.param(data),
-			success: function(msg) {
-				$('#filter_question').html(msg);
-				ChangeVacancyProgressId();
-				fixSelect();
-			}
-		});
+		var success=function(msg) {
+			$('#filter_question').html(msg);
+			ChangeVacancyProgressId();
+			fixSelect();
+		}
+		ajax("filter_applicantAjax.php", data, success);
 	}
 	function ChangeNextVacancyProgressId() {
 		var data={};
 		data['type']='get_user';
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val(); 
 		data['vacancy_id']=$('#vacancy_id').val(); 
-		$.ajax({
-			type:'post',
-			url:'filter_applicantAjax.php',
-			data : $.param(data),
-			success: function(msg) {
-				$('#tbl_user tbody').empty();
-				$('#tbl_user tbody').append(msg);
-				bind('.btn_delete_user',"click", DeleteUser);
-				hideColumns('tbl_user');
-		
-				if (data['next_vacancy_progress_id']) {
-					$('#btn_add_user').show();
-					$('#div_shortlist').show();
-				}
+		var success=function(msg) {
+			$('#tbl_user tbody').empty();
+			$('#tbl_user tbody').append(msg);
+			bind('.btn_delete_user',"click", DeleteUser);
+			hideColumns('tbl_user');
+	
+			if (data['next_vacancy_progress_id']) {
+				$('#btn_add_user').show();
+				$('#div_shortlist').show();
 			}
-		});
+		}
+		ajax("filter_applicantAjax.php", data, success);
 		$('#tbl_filter_applicant tbody').empty();
 		
 		fixSelect();
@@ -462,19 +409,13 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			if (key!='btn') data[key]=getChild(par, key);
 		}
 		
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'filter_applicantAjax.php',
-			data: $.param(data),
-			success:function(msg) {
-				$('#freeze').hide();
-				var v=$(par).children("td:eq("+fields['ranking_id']+")").children("select");
-				$(v).data("originalValue", $(v).val());
-				alert('Success');
-				
-			}
-		});
+		var success=function(msg) {
+			var v=$(par).children("td:eq("+fields['ranking_id']+")").children("select");
+			$(v).data("originalValue", $(v).val());
+			alert('Success');
+			
+		}
+		ajax("filter_applicantAjax.php", data, success);
 		
 	}
 	function autoCompleteEmployee() {
@@ -551,19 +492,13 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data['vacancy_progress_id']=$('#next_vacancy_progress_id').val(); 
 		data['vacancy_id']=$('#vacancy_id').val(); 
 		
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'filter_applicantAjax.php',
-			data: $.param(data),
-			success: function(msg) {
-				$('#freeze').hide();
-				setHtmlText(par, 'vacancy_employee_id',msg, field_user);
-				selectedToLabel(par, 'employee_id', field_user);
-				setHtmlText(par, 'btn', "<img src='images/delete.png' class='btn_delete_user'/>", field_user);
-				bind('.btn_delete_user',"click", DeleteUser);
-			}
-		});
+		var success=function(msg) {
+			setHtmlText(par, 'vacancy_employee_id',msg, field_user);
+			selectedToLabel(par, 'employee_id', field_user);
+			setHtmlText(par, 'btn', "<img src='images/delete.png' class='btn_delete_user'/>", field_user);
+			bind('.btn_delete_user',"click", DeleteUser);
+		}
+		ajax("filter_applicantAjax.php", data, success);
 		
 	}
 	function DeleteUser() {
@@ -571,18 +506,10 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var data={};
 		data['type']='delete_user';
 		data['vacancy_employee_id']=getChild(par,'vacancy_employee_id',field_user);
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'filter_applicantAjax.php',
-			data: $.param(data),
-			success: function(msg) {
-				$('#freeze').hide();
-				par.remove();		
-				
-			}
-		});
-		
+		var success=function(msg) {
+			par.remove();		
+		}
+		ajax("filter_applicantAjax.php", data, success);
 		
 	}
 </script>

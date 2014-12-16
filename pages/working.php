@@ -35,16 +35,11 @@
 		var data={};
 		data['type']='delete';
 		data['applicants_working_id']=getChild(par,'applicants_working_id');
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'workingAjax.php',
-			data:$.param(data),
-			success:function(msg) {
-				$('#freeze').hide();
-				par.remove();
-			}
-		});
+		var success=function(msg) {
+			$('#freeze').hide();
+			par.remove();
+		}
+		ajax("workingAjax.php", data, success);
 	}
 
 	function Save() {
@@ -57,45 +52,39 @@
 		data=prepareDataText(data,['applicants_working_id','month_from','year_from','month_to','year_to','employer','job_title','business_id','leave_reason','email','phone']);
 		data=prepareDataCheckBox(data, ['may_contact']);
 		
-		$('#freeze').show();
-		$.ajax({
-			type:'post',
-			url:'workingAjax.php',
-			data: $.param(data),
-			success: function(msg) {
-				$('#freeze').hide();
-				alert('Success');
-				tbl='tbl_working';
-				if (currentRow>=0) {
-					setHtmlAllText(tbl, ['year_from','year_to','employer','job_title','leave_reason']);
-					setHtmlAllSelect(tbl, ['month_from','month_to','business_id']);
+		var success=function(msg) {
+			$('#freeze').hide();
+			alert('Success');
+			tbl='tbl_working';
+			if (currentRow>=0) {
+				setHtmlAllText(tbl, ['year_from','year_to','employer','job_title','leave_reason']);
+				setHtmlAllSelect(tbl, ['month_from','month_to','business_id']);
 
-					setHtmlAllOther(tbl, 'may_contact' , ['email','phone']);
-					
-				} else {
-					$('#applicants_working_id').val(msg);
-					adder='<tr><td>';
-					adder+=msg+"</td>"; 
-					adder+='<td style="border-right:0 !important"></td><td style="border-left:0 !important"></td>';
-					adder+='<td style="border-right:0 !important"></td><td style="border-left:0 !important"></td>';
-					adder+='<td></td><td></td><td></td><td></td><td></td>';
-					adder+='<td><?php _p(getImageTags(array('edit','delete')))?></td>';
-					adder+='</tr>';	
-					currentRow=$('#tbl_working tbody').children().length;
-					
-					$('#tbl_working tbody').append(adder);
-					setHtmlAllText(tbl, ['year_from','year_to','employer','job_title','leave_reason']);
-					setHtmlAllSelect(tbl, ['month_from','month_to','business_id']);
+				setHtmlAllOther(tbl, 'may_contact' , ['email','phone']);
+				
+			} else {
+				$('#applicants_working_id').val(msg);
+				adder='<tr><td>';
+				adder+=msg+"</td>"; 
+				adder+='<td style="border-right:0 !important"></td><td style="border-left:0 !important"></td>';
+				adder+='<td style="border-right:0 !important"></td><td style="border-left:0 !important"></td>';
+				adder+='<td></td><td></td><td></td><td></td><td></td>';
+				adder+='<td><?php _p(getImageTags(array('edit','delete')))?></td>';
+				adder+='</tr>';	
+				currentRow=$('#tbl_working tbody').children().length;
+				
+				$('#tbl_working tbody').append(adder);
+				setHtmlAllText(tbl, ['year_from','year_to','employer','job_title','leave_reason']);
+				setHtmlAllSelect(tbl, ['month_from','month_to','business_id']);
 
-					setHtmlAllOther(tbl, 'may_contact' , ['email','phone']);
-					
-					bindAll();
-					$('#btn_save').html('Update');
-					
-				}
+				setHtmlAllOther(tbl, 'may_contact' , ['email','phone']);
+				
+				bindAll();
+				$('#btn_save').html('Update');
+				
 			}
-		});
-	
+		}
+		ajax("workingAjax.php", data, success);
 		
 	}
 

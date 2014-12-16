@@ -81,7 +81,7 @@ if (move_uploaded_file($_FILES["uploadFileLetter"]["tmp_name"], $target_dir)) {
 		$("form#data").submit(function(){
 
 			var formData = new FormData($(this)[0]);
-
+			
 			$.ajax({
 				url: "upload.php",
 				type: 'POST',
@@ -98,33 +98,29 @@ if (move_uploaded_file($_FILES["uploadFileLetter"]["tmp_name"], $target_dir)) {
 			return false;
 		});
 		$('#btnDownloadCV').click(function() {
-			$.ajax({
-				url : "upload.php",
-				type : 'POST',
-				data : 'type=cv',
-				success: function (msg) {
-					if (msg!='ok') {
-						alert('Please upload your CV');
-						return;
-					}
-					location.href="uploadajax?type=cv";
+			var data={}
+			data['type']="cv";
+			var success=function (msg) {
+				if (msg!='ok') {
+					alert('Please upload your CV');
+					return;
 				}
-			});
+				location.href="uploadajax?type=cv";
+			}
+			ajax("upload.php", data, success);
 			
 		});
 		$('#btnDownloadLetter').click(function() {
-			$.ajax({
-				url : "upload.php",
-				type : 'POST',
-				data : 'type=letter',
-				success: function (msg) {
-					if (msg!='ok') {
-						alert('Please upload your covering letter');
-						return;
-					}
-					location.href="uploadajax?type=letter";
+			var data={}
+			data['type']="letter";
+			var success=function (msg) {
+				if (msg!='ok') {
+					alert('Please upload your covering letter');
+					return;
 				}
-			});
+				location.href="uploadajax?type=letter";
+			}
+			ajax("upload.php", data, success);
 		});
 	});
 </script>
