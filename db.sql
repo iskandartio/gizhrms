@@ -3,7 +3,7 @@
 -- Server version:               5.5.28a-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2014-12-12 07:34:50
+-- Date/time:                    2014-12-17 10:39:24
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -36,23 +36,29 @@ CREATE TABLE IF NOT EXISTS `applicants` (
   `letter` varchar(100) DEFAULT NULL,
   `applicant_status` int(11) DEFAULT NULL,
   `nationality_val` varchar(100) DEFAULT NULL,
+  `contract0_start_date` datetime DEFAULT NULL,
+  `contract0_end_date` datetime DEFAULT NULL,
+  `contract1_start_date` datetime DEFAULT NULL,
+  `contract1_end_date` datetime DEFAULT NULL,
+  `contract2_start_date` datetime DEFAULT NULL,
+  `contract2_end_date` datetime DEFAULT NULL,
   PRIMARY KEY (`applicants_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.applicants: ~11 rows (approximately)
 /*!40000 ALTER TABLE `applicants` DISABLE KEYS */;
-INSERT INTO `applicants` (`first_name`, `last_name`, `place_of_birth`, `gender`, `nationality`, `address`, `country`, `province`, `city`, `post_code`, `phone1`, `phone2`, `giz_staff`, `computer_skills`, `professional_skills`, `applicants_id`, `user_id`, `date_of_birth`, `country_name`, `cv`, `letter`, `applicant_status`, `nationality_val`) VALUES
-	('Sarah', 'Applicant', 'Jakarta', 'Female', '1', 'Address', '1', '11', '16', '3242343', '4245434', '42r', NULL, 'fds rfew', 'vfdrew', 1, 1, '1981-11-10 00:00:00', NULL, NULL, NULL, NULL, NULL),
-	('Kevin', 'Applicant', 'Jakarta', 'Male', '-1', 'fdsfds', '-1', NULL, NULL, '321', '423', NULL, NULL, NULL, NULL, 2, 2, '1975-11-06 00:00:00', 'Italy', NULL, NULL, NULL, 'New Guinea'),
-	('Aulia', 'Applicant', 'a', 'Female', '6', 'fdsfds', '-1', 'null', 'null', '2234', '4324', NULL, NULL, 'PHP, MySQL, HTML', 'GIS', 3, 3, '1979-11-17 00:00:00', 'fds', NULL, NULL, NULL, NULL),
-	('Rio', 'applicant', 'jfidso', 'Male', '1', 'jhkf dsihojfds', '1', '11', '7', '24343', '342432', NULL, NULL, NULL, NULL, 4, 5, '1980-11-10 00:00:00', NULL, '.pdf', '.pdf', NULL, NULL),
-	('admin', 'a', NULL, 'Female', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 4, '1930-12-04 21:31:10', NULL, NULL, NULL, NULL, NULL),
-	('Bella', 'SAP', 'Jakarta', 'Female', '1', 'fdsfds', '1', '15', '91', '432432', '432423432', NULL, NULL, NULL, NULL, 6, 6, '1960-11-08 00:00:00', NULL, NULL, NULL, NULL, NULL),
-	('Ahmad', 'Basarah', 'jfdsioj', 'Male', '1', 'fdsfds', '-1', NULL, NULL, '123456', '123456', NULL, NULL, NULL, NULL, 7, 9, '1964-11-01 00:00:00', 'Cambodia', NULL, NULL, NULL, NULL),
-	('Aditya', 'Tp', 'a', 'Male', '1', 'fsdfds', '-1', NULL, NULL, '231321', '321432', NULL, NULL, NULL, NULL, 8, 7, '1956-09-01 00:00:00', 'fsdfsd', NULL, NULL, NULL, NULL),
-	('Susan', 'a', 'a', 'Female', '2', 'fdsfds', '-1', NULL, NULL, '213', '32143', NULL, NULL, NULL, NULL, 9, 10, '1985-11-06 00:00:00', 'fdsfds', NULL, NULL, NULL, NULL),
-	('Json', 'asko', 'soa', 'Male', '8', 'dsfds', '-1', NULL, NULL, '1', '1', NULL, NULL, NULL, NULL, 10, 29, '1990-11-17 00:00:00', 'fds', '.pdf', '.docx', NULL, NULL),
-	('Dian', 'Chen', NULL, 'Female', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 11, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `applicants` (`first_name`, `last_name`, `place_of_birth`, `gender`, `nationality`, `address`, `country`, `province`, `city`, `post_code`, `phone1`, `phone2`, `giz_staff`, `computer_skills`, `professional_skills`, `applicants_id`, `user_id`, `date_of_birth`, `country_name`, `cv`, `letter`, `applicant_status`, `nationality_val`, `contract0_start_date`, `contract0_end_date`, `contract1_start_date`, `contract1_end_date`, `contract2_start_date`, `contract2_end_date`) VALUES
+	('Sarah', 'Applicant', 'Jakarta', 'Female', '1', 'Address', '1', '11', '16', '3242343', '4245434', '42r', NULL, 'fds rfew', 'vfdrew', 1, 1, '1981-11-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('Kevin', 'Applicant', 'Jakarta', 'Male', '-1', 'fdsfds', '-1', NULL, NULL, '321', '423', 'vf4324', NULL, 'jiofds jifods uiorew uio', 'fuido ufeiwo u', 2, 2, '1975-11-06 00:00:00', 'Italy', NULL, NULL, NULL, 'New Guinea', '2013-06-01 00:00:00', '2013-09-30 00:00:00', '2013-10-01 00:00:00', '2014-04-10 00:00:00', '2014-04-11 00:00:00', '2017-08-09 00:00:00'),
+	('Aulia', 'Applicant', 'a', 'Female', '6', 'fdsfds', '-1', 'null', 'null', '2234', '4324', NULL, NULL, 'PHP, MySQL, HTML', 'GIS', 3, 3, '1979-11-17 00:00:00', 'fds', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('Rio', 'applicant', 'jfidso', 'Male', '1', 'jhkf dsihojfds', '1', '11', '7', '24343', '342432', NULL, NULL, NULL, NULL, 4, 5, '1980-11-10 00:00:00', NULL, '.pdf', '.pdf', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('admin', 'a', NULL, 'Female', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 4, '1930-12-04 21:31:10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('Bella', 'SAP', 'Jakarta', 'Female', '1', 'fdsfds', '1', '15', '91', '432432', '432423432', NULL, NULL, NULL, NULL, 6, 6, '1960-11-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('Ahmad', 'Basarah', 'jfdsioj', 'Male', '1', 'fdsfds', '-1', NULL, NULL, '123456', '123456', NULL, NULL, NULL, NULL, 7, 9, '1964-11-01 00:00:00', 'Cambodia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('Aditya', 'Tp', 'a', 'Male', '1', 'fsdfds', '-1', NULL, NULL, '231321', '321432', NULL, NULL, NULL, NULL, 8, 7, '1956-09-01 00:00:00', 'fsdfsd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('Susan', 'a', 'a', 'Female', '2', 'fdsfds', '-1', NULL, NULL, '213', '32143', NULL, NULL, NULL, NULL, 9, 10, '1985-11-06 00:00:00', 'fdsfds', NULL, NULL, NULL, NULL, '2014-11-01 00:00:00', '2017-11-01 00:00:00', NULL, NULL, NULL, NULL),
+	('Json', 'asko', 'soa', 'Male', '8', 'dsfds', '-1', NULL, NULL, '1', '1', NULL, NULL, NULL, NULL, 10, 29, '1990-11-17 00:00:00', 'fds', '.pdf', '.docx', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('Dian', 'Chen', NULL, 'Female', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `applicants` ENABLE KEYS */;
 
 
@@ -1274,17 +1280,26 @@ CREATE TABLE IF NOT EXISTS `contract_history` (
   `job_title` varchar(100) DEFAULT NULL,
   `contract_status` int(11) DEFAULT '0',
   `salary_band` varchar(50) DEFAULT NULL,
+  `project_name` varchar(50) DEFAULT NULL,
+  `project_number` varchar(50) DEFAULT NULL,
+  `principal_advisor` varchar(50) DEFAULT NULL,
+  `team_leader` varchar(50) DEFAULT NULL,
+  `project_location` varchar(50) DEFAULT NULL,
+  `responsible_superior` varchar(50) DEFAULT NULL,
+  `SAP_No` varchar(50) DEFAULT NULL,
+  `position` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`contract_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.contract_history: ~5 rows (approximately)
+-- Dumping data for table hrms.contract_history: ~6 rows (approximately)
 /*!40000 ALTER TABLE `contract_history` DISABLE KEYS */;
-INSERT INTO `contract_history` (`contract_history_id`, `user_id`, `start_date`, `end_date`, `salary`, `job_title`, `contract_status`, `salary_band`) VALUES
-	(1, 2, '2014-01-01 00:00:00', '2017-10-21 00:00:00', 5500000, 'head of administration (Internal Management Service) PAKLIM', 0, NULL),
-	(2, 1, '2014-01-01 00:00:00', '2016-11-14 01:32:06', 6000000, 'fdsff', 0, NULL),
-	(3, 6, '2014-11-01 00:00:00', '2017-01-01 00:00:00', 5000000, 'IT', 0, NULL),
-	(4, 10, '2014-11-01 00:00:00', '2017-11-01 00:00:00', 2000000, 'Programmer', 0, 'Level 2'),
-	(11, 29, '2014-11-01 00:00:00', '2017-11-01 00:00:00', 1150000, 'Financial Analyst', 0, 'Level 1');
+INSERT INTO `contract_history` (`contract_history_id`, `user_id`, `start_date`, `end_date`, `salary`, `job_title`, `contract_status`, `salary_band`, `project_name`, `project_number`, `principal_advisor`, `team_leader`, `project_location`, `responsible_superior`, `SAP_No`, `position`) VALUES
+	(1, 2, '2014-01-01 00:00:00', '2017-10-21 00:00:00', 5500000, 'head of administration (Internal Management Service) PAKLIM', 0, '2A', 'Project Nss', 'ABC123', 'fdsfsd fdsfds', 'fdf ergfre', 'fdtretre', 'rgcvxcxvcx', 'sdf', 'fdsfdretertre'),
+	(2, 1, '2014-01-01 00:00:00', '2016-11-14 01:32:06', 6000000, 'fdsff', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, 6, '2014-11-01 00:00:00', '2017-01-01 00:00:00', 5000000, 'IT', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(4, 10, '2014-11-01 00:00:00', '2017-11-01 00:00:00', 2000000, 'Programmer', 0, 'Level 2', 'Analis', 'jijocsd', 'fhdsi ', 'fdsuio', 'djsiof dsjiofds', 'aa', 'aaio', 'Head of IT'),
+	(11, 29, '2014-11-01 00:00:00', '2017-11-01 00:00:00', 3150000, 'Financial Analyst', 0, 'Level 1', 'a', 'b', 'd', 'e', 'c', '', '', ''),
+	(12, 2, '2013-06-30 00:00:00', '2013-12-31 00:00:08', 4500000, 'head of administration (Internal Management Service) PAKLIM', 0, '2A', 'Project Nss', 'ACSD', 'fdsfds', 'ffggdgfd', NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `contract_history` ENABLE KEYS */;
 
 
@@ -1533,7 +1548,7 @@ CREATE TABLE IF NOT EXISTS `gender` (
   `gender_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`gender_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.gender: ~2 rows (approximately)
 /*!40000 ALTER TABLE `gender` DISABLE KEYS */;
@@ -1572,8 +1587,8 @@ INSERT INTO `job_applied` (`job_applied_id`, `vacancy_id`, `user_id`, `date_appl
 	(9, 2, 6, '2014-11-14 11:55:39', NULL, 4, 0, NULL, NULL, NULL),
 	(10, 2, 9, '2014-11-14 12:01:03', NULL, 5, 0, NULL, NULL, NULL),
 	(11, 2, 7, '2014-11-14 16:12:36', NULL, 5, 1, 1, NULL, NULL),
-	(12, 11, 10, '2014-11-14 17:12:22', NULL, 3, 0, NULL, 2000000, 0),
-	(13, 11, 29, '2014-11-26 09:19:31', NULL, 3, 0, NULL, 5025000, 1),
+	(12, 11, 10, '2014-11-14 17:12:22', NULL, 3, 1, 4, 2000000, 0),
+	(13, 11, 29, '2014-11-26 09:19:31', NULL, 3, 1, 4, 5025000, 1),
 	(14, 11, 3, '2014-12-04 17:46:07', NULL, NULL, 0, NULL, 1500000, 1);
 /*!40000 ALTER TABLE `job_applied` ENABLE KEYS */;
 
@@ -1758,22 +1773,22 @@ CREATE TABLE IF NOT EXISTS `nationality` (
   `nationality_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`nationality_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.nationality: ~11 rows (approximately)
 /*!40000 ALTER TABLE `nationality` DISABLE KEYS */;
 INSERT INTO `nationality` (`nationality_id`, `nationality_val`, `sort_id`) VALUES
-	(1, 'Indonesia', 1),
-	(2, 'Germany', 2),
-	(3, 'Singapore', NULL),
-	(4, 'Malaysia', NULL),
-	(5, 'Brunei Darussalam', NULL),
-	(6, 'Cambodia', NULL),
-	(7, 'Laos', NULL),
-	(8, 'Myanmar', NULL),
-	(9, 'Philippines', NULL),
-	(10, 'Thailand', NULL),
-	(11, 'Vietnam', NULL);
+	(1, 'Indonesia', 4),
+	(2, 'Germany', 3),
+	(3, 'Singapore', 9),
+	(4, 'Malaysia', 6),
+	(5, 'Brunei Darussalam', 1),
+	(8, 'Myanmar', 7),
+	(9, 'Philippines', 8),
+	(10, 'Thailand', 10),
+	(11, 'Vietnam', 11),
+	(12, 'Laos', 5),
+	(13, 'Cambodia', 2);
 /*!40000 ALTER TABLE `nationality` ENABLE KEYS */;
 
 
@@ -1782,46 +1797,48 @@ DROP TABLE IF EXISTS `province`;
 CREATE TABLE IF NOT EXISTS `province` (
   `province_id` int(11) NOT NULL AUTO_INCREMENT,
   `province_val` varchar(50) DEFAULT NULL,
+  `region_id` int(11) DEFAULT NULL,
+  `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`province_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.province: ~34 rows (approximately)
 /*!40000 ALTER TABLE `province` DISABLE KEYS */;
-INSERT INTO `province` (`province_id`, `province_val`) VALUES
-	(11, 'Aceh'),
-	(12, 'Sumatera Utara'),
-	(13, 'Sumatera Barat'),
-	(14, 'Riau'),
-	(15, 'Jambi'),
-	(16, 'Sumatera Selatan'),
-	(17, 'Bengkulu'),
-	(18, 'Lampung'),
-	(19, 'Kepulauan Bangka Belitung'),
-	(21, 'Kepulauan Riau'),
-	(31, 'Dki Jakarta'),
-	(32, 'Jawa Barat'),
-	(33, 'Jawa Tengah'),
-	(34, 'Di Yogyakarta'),
-	(35, 'Jawa Timur'),
-	(36, 'Banten'),
-	(51, 'Bali'),
-	(52, 'Nusa Tenggara Barat'),
-	(53, 'Nusa Tenggara Timur'),
-	(61, 'Kalimantan Barat'),
-	(62, 'Kalimantan Tengah'),
-	(63, 'Kalimantan Selatan'),
-	(64, 'Kalimantan Timur'),
-	(65, 'Kalimantan Utara'),
-	(71, 'Sulawesi Utara'),
-	(72, 'Sulawesi Tengah'),
-	(73, 'Sulawesi Selatan'),
-	(74, 'Sulawesi Tenggara'),
-	(75, 'Gorontalo'),
-	(76, 'Sulawesi Barat'),
-	(81, 'Maluku'),
-	(82, 'Maluku Utara'),
-	(91, 'Papua Barat'),
-	(94, 'Papua');
+INSERT INTO `province` (`province_id`, `province_val`, `region_id`, `sort_id`) VALUES
+	(11, 'Aceh', 1, 1),
+	(12, 'Sumatera Utara', 1, 2),
+	(13, 'Sumatera Barat', 1, 3),
+	(14, 'Riau', 1, 4),
+	(15, 'Jambi', 1, 5),
+	(16, 'Sumatera Selatan', 1, 6),
+	(17, 'Bengkulu', 1, 7),
+	(18, 'Lampung', 1, 8),
+	(19, 'Kepulauan Bangka Belitung', 1, 9),
+	(21, 'Kepulauan Riau', 1, 10),
+	(31, 'Dki Jakarta', 7, 1),
+	(32, 'Jawa Barat', 7, 2),
+	(33, 'Jawa Tengah', 7, 3),
+	(34, 'Di Yogyakarta', 7, 4),
+	(35, 'Jawa Timur', 7, 5),
+	(36, 'Banten', 7, 6),
+	(51, 'Bali', 3, 1),
+	(52, 'Nusa Tenggara Barat', 3, 2),
+	(53, 'Nusa Tenggara Timur', 3, 3),
+	(61, 'Kalimantan Barat', 4, 1),
+	(62, 'Kalimantan Tengah', 4, 2),
+	(63, 'Kalimantan Selatan', 4, 3),
+	(64, 'Kalimantan Timur', 4, 4),
+	(65, 'Kalimantan Utara', 4, 5),
+	(71, 'Sulawesi Utara', 5, 1),
+	(72, 'Sulawesi Tengah', 5, 2),
+	(73, 'Sulawesi Selatan', 5, 3),
+	(74, 'Sulawesi Tenggara', 5, 4),
+	(75, 'Gorontalo', 5, 5),
+	(76, 'Sulawesi Barat', 5, 6),
+	(81, 'Maluku', 6, 1),
+	(82, 'Maluku Utara', 6, 2),
+	(91, 'Papua Barat', 6, 3),
+	(94, 'Papua', 6, 4);
 /*!40000 ALTER TABLE `province` ENABLE KEYS */;
 
 
@@ -1858,6 +1875,27 @@ INSERT INTO `ranking` (`ranking_id`, `ranking_val`) VALUES
 	(2, 'B'),
 	(3, 'C');
 /*!40000 ALTER TABLE `ranking` ENABLE KEYS */;
+
+
+-- Dumping structure for table hrms.region
+DROP TABLE IF EXISTS `region`;
+CREATE TABLE IF NOT EXISTS `region` (
+  `region_id` int(11) NOT NULL AUTO_INCREMENT,
+  `region_val` varchar(50) DEFAULT NULL,
+  `sort_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`region_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table hrms.region: ~6 rows (approximately)
+/*!40000 ALTER TABLE `region` DISABLE KEYS */;
+INSERT INTO `region` (`region_id`, `region_val`, `sort_id`) VALUES
+	(1, 'Sumatera', 1),
+	(3, 'Kalimantan', 6),
+	(4, 'Bali dan Nusa Tenggara', 4),
+	(5, 'Sulawesi', 5),
+	(6, 'Maluku dan Papua', 7),
+	(7, 'Jawa', 3);
+/*!40000 ALTER TABLE `region` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.salary_band
@@ -1954,7 +1992,7 @@ INSERT INTO `vacancy` (`vacancy_id`, `vacancy_code`, `vacancy_name`, `vacancy_st
 	(1, 'ACT', 'Accounting', '2014-11-01 00:00:00', '2014-11-30 00:00:00', '<h1>Accounting</h1>\n<ul><li>A</li><li>B</li></ul>\n<br> Test lagi \'\'\'', NULL, 4, 's', 'Intern', 3434000),
 	(2, 'IT', 'Information Technology', '2014-11-01 00:00:00', '2014-11-30 00:00:00', '<p>fdsfdsfds de</p>', NULL, 4, 'A', NULL, NULL),
 	(10, 'IT', 'Programmer', '2014-11-01 00:00:00', '2014-11-30 00:00:00', '<ul><li>fjsio<b>dfdsFSD jiofds</b></li><li>fdishuiyrwe</li></ul>', NULL, 4, 'CA', 'Intern', 500000),
-	(11, 'FIN', 'Finance', '2014-11-01 00:00:00', '2014-12-30 00:00:00', '<p>Fin<strong>ance, the vacancy<br></strong></p><p><strong>jfdisoj iourew<br data-mce-bogus="1"></strong></p><p><strong><br data-mce-bogus="1"></strong></p>', NULL, 3, 'FT', 'Intern', 500000),
+	(11, 'FIN', 'Finance', '2014-11-01 00:00:00', '2014-12-30 00:00:00', '<p>Fin<strong>ance, the vacancy<br></strong></p><p><strong>jfdisoj io</strong></p><table class="mce-item-table"><tbody><tr><td>huiy yiu h</td></tr><tr><td>hui</td></tr><tr><td>h</td></tr></tbody></table><p><strong>urew</strong></p><p><strong><br data-mce-bogus="1"></strong></p>', NULL, 3, 'FT', 'Intern', 456212),
 	(13, 'ADM', 'ADMIN', '2014-11-01 00:00:00', '2014-11-30 00:00:00', '<p>Admin</p><p>kdosap udisao</p>', NULL, NULL, 'A', NULL, NULL);
 /*!40000 ALTER TABLE `vacancy` ENABLE KEYS */;
 

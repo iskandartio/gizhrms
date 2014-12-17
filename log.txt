@@ -53,3 +53,23 @@ update region set sort_id=? where region_id=?
 update region set sort_id=? where region_id=?
 update region set sort_id=? where region_id=?
 update region set sort_id=? where region_id=?
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principal_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=? where contract_history_id=?
+update applicants set contract0_start_date=?=?, contract0_end_date=?=? where user_id=?
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principal_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=? where contract_history_id=?
+update applicants set contract0_start_date=?=?, contract0_end_date=?=? where user_id=?
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principal_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=? where contract_history_id=?
+update applicants set contract0_start_date=?=?, contract0_end_date=?=? where user_id=?
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principal_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=? where contract_history_id=?
+update applicants set contract0_start_date=?=?, contract0_end_date=?=? where user_id=?
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principal_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=? where contract_history_id=?
+update applicants set contract0_start_date=?, contract0_end_date=? where user_id=?

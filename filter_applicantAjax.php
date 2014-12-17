@@ -656,7 +656,7 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 			, $project_name, $project_number, $principal_advisor, $team_leader, $project_location, $responsible_superior, $SAP_No
 			, $salary_band), $con);
 		}
-		db::update('applicants','contract0_start_date=?, contract0_end_date=?','user_id=?',array($start_date, $end_date, $user_id), $con);
+		db::update('applicants','contract0_start_date, contract0_end_date','user_id=?',array($start_date, $end_date, $user_id), $con);
 		db::ExecMe('update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?', array($next_vacancy_progress_id, $vacancy_id, $user_id), $con);		
 		db::commitTrans($con);
 		die;
