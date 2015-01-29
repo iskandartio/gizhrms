@@ -191,6 +191,9 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
 		var success=function(msg) {
 			$('#search_result').html(msg);
+			if ($('#next_vacancy_progress_id  option:selected').html()=='Shortlist') {
+				hideColumnsArr('tbl_filter_applicant', ['interview_place','interview_date','interview_time'],fields);
+			}
 			bind('.btn_accept',"click",Accept);
 			bind('.btn_save',"click",Save);
 			bind('.btn_delete',"click",Delete);
@@ -221,8 +224,9 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		ajax("filter_applicantAjax.php", data, success);
 	}
 	function InterviewAll() {
-		if (!validate_empty(['interview_date','interview_time'])) return;
-		
+		if ($('#next_vacancy_progress_id option:selected').html()!='Shortlist') {
+			if (!validate_empty(['interview_date','interview_time'])) return;
+		}
 		var data={};
 		data['type']='interviewall';
 		prepareDataText(data, ['vacancy_id','next_vacancy_progress_id','vacancy_progress_id']);
@@ -258,6 +262,9 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data['filter_answer']=filter_array;
 		var success=function(msg) {
 			$('#search_result').html(msg);
+			if ($('#next_vacancy_progress_id  option:selected').html()=='Shortlist') {
+				hideColumnsArr('tbl_filter_applicant', ['interview_place','interview_date','interview_time'],fields);
+			}
 			bind('.btn_save',"click",Save);
 			
 			bind('.btn_interview',"click", Interview);
@@ -319,7 +326,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 				alert(msg);
 				return;
 			}
-			btnChange(par, ['save','delete']);
+			btnChange(par, ['save','delete'], fields);
 			bind('.btn_save',"click", Save);
 			bind('.btn_delete',"click", Delete);
 		}
@@ -405,14 +412,20 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 	function Save() {
 		par=$(this).closest("tr");
 		if ($('#interview_all').length>0) {
-			if (!validate_empty_tbl(par, ['interview_date','interview_place','interview_time'])) return;
+			if ($('#next_vacancy_progress_id option:selected').html()!='Shortlist') {
+				if (!validate_empty_tbl(par, ['interview_date','interview_place','interview_time'])) return;
+			}
 		}
 		var data={};
 		data['type']='save';
 		data['vacancy_id']=$('#vacancy_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
-		
-		data=prepareDataText(data, ['interview_place','interview_date','interview_time','ranking_id','user_comment'], par, fields);
+	
+		if ($('#next_vacancy_progress_id option:selected').html()=='Shortlist') {
+			data=prepareDataText(data, ['ranking_id','user_comment'], par, fields);	
+		} else {
+			data=prepareDataText(data, ['interview_place','interview_date','interview_time','ranking_id','user_comment'], par, fields);
+		}
 		data=prepareDataHtml(data, ['user_id'], par, fields);
 		
 		var success=function(msg) {
@@ -566,7 +579,9 @@ if ($_SESSION['role_name']=='admin') {
 <?php _t("filter_professional_skill") ?> 
 <br/>
 <button id="search" class="button_link">Search</button>
-<button class="button_link" id="btn_shortlist">Next Process</button>
+<?php if ($_SESSION['role_name']=='admin') {?>
+	<button class="button_link" id="btn_shortlist">Next Process</button>
+<?php }?>
 <p>
 <div id="search_result"></div>
 <div id="show_detail"></div>

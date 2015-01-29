@@ -1,7 +1,3 @@
-<?php
-require("send_email.php");
-
-?>
 
 <?php
 	
@@ -117,6 +113,7 @@ require("send_email.php");
 		
 		fixSelect();
 		bindLanguage();
+		hideColumns('tbl_salary_history');
 	});
 	
 	function Edit() {

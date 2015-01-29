@@ -67,7 +67,8 @@ class db {
 	static function ExecMe($query, $params=array(), $con=null) {
 		if (!isset($con)) $con= db::Connect();
 	 	$res=$con->prepare($query);
-		
+		db::Log('ExecMe');
+		db::Log($query);
 		$res->execute($params);
 		if (substr($query,0,6)=='insert') {
 			return $con->lastInsertId();

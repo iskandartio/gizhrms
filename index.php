@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php
+
 require "pages/autoload.php";
 require "pages/startup.php";
 
@@ -9,7 +10,11 @@ $activation_email= (isset($_SESSION['activation_email'])? $_SESSION['activation_
 $_SESSION['activation_email']="";
 $name = URLParse::ProcessURL();
 
-if ($name=='') {
+if ($name=='activate'){
+	URLParse::IncludePageContents();
+	
+}
+if ($name==''||$name=='activate') {
 	
 	unset($_SESSION['uid']);
 	
@@ -30,6 +35,7 @@ function set_session_menu($menu) {
 }
 			
 header('Content-Type: text/html; charset=utf-8');
+
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
@@ -53,7 +59,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
 	<link rel="stylesheet" href="css/default.css"/>
-<?php if ($name=='') {
+<?php if ($name==''||$name=='activate') {
 	?>
 	<script>
 		$(function() {
@@ -95,7 +101,7 @@ header('Content-Type: text/html; charset=utf-8');
 			
 			$('#btn_login').html("Login");
 			var data={}
-			data['type=']="get_captcha_text";
+			data['type']="get_captcha_text";
 			var success=function(msg) {
 				$('#captcha').html(msg);
 			}
@@ -269,13 +275,12 @@ header('Content-Type: text/html; charset=utf-8');
 	</script>
 </head>
 <body>
-
 	<div align="center">
 	<img class="logoimg" src="images/logo.png" alt="PAKLIM">
     <img class="logoimg" src="images/logo_web.jpg" alt="">
 	
 	<div id="freeze" style="position: fixed; top: 0px; left: 0px; z-index: 1000; opacity: 0.6; width: 100%; height: 100%; color: white; background-color: black;"></div>
-<?php if ($name=='') {?>
+<?php if ($name==''||$name=='activate') {?>
 	<table id="tbl_login">
 		<tbody>
 		

@@ -16,6 +16,7 @@ where a.employee_id=?", array($user_id, $uid));
 	}
 	static function email($email_type, $params, $con=null) {
 		$e=db::select_one("email_setup","*","email_type='$email_type'","",array(), $con);
+		if ($e==null) return;
 		foreach ($params as $key=>$val) {
 			$e['email_to']=str_replace("@$key", $val, $e['email_to']);
 			$e['email_cc']=str_replace("@$key", $val, $e['email_cc']);
@@ -24,7 +25,7 @@ where a.employee_id=?", array($user_id, $uid));
 			$e['email_content']=str_replace("@$key", $val, $e['email_content']);
 		}
 		db::Log($e);
-		if (isset($e) && $e['email_content']!="") {
+		if ($e['email_content']!="") {
 			db::insert("email", "email_from, email_to, email_cc, email_bcc, email_subject, email_content"
 				, array($e['email_from'], $e['email_to'], $e['email_cc'], $e['email_bcc'], $e['email_subject'], $e['email_content']), $con);
 		}
@@ -40,6 +41,7 @@ where a.employee_id=?", array($user_id, $uid));
 		return str_replace("value='".$val."'", "value='".$val."' selected", $str);
 	}
 	static function get_captcha_text($forced=false) {
+		
 		$_SESSION['captcha_text']="";
 		if ($_SESSION['check_abused']>10 || $forced) {
 		
@@ -202,6 +204,10 @@ tinymce.init({
     toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
     toolbar2: "preview | forecolor backcolor emoticons",
     image_advtab: true,
+	paste_retain_style_properties : "color background text-align font-size display",
+	forced_root_block : false,
+	force_br_newlines : true,
+    force_p_newlines : false,
 
 });
 </script>';

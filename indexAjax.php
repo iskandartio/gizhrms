@@ -1,6 +1,8 @@
 <?php
 	require "pages/startup.php";
-	if ($type=='get_captcha_text') {
+	
+	if ($_POST['type']=='get_captcha_text') {
+		
 		die (shared::get_captcha_text());
 	}
 	if ($type=='login') {

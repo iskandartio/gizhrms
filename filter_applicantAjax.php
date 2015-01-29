@@ -98,9 +98,7 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 			
 		$result="<table class='tbl' id='tbl_filter_applicant'>";
 		$result.="<thead><tr><th>User Id</th><th>First Name</th><th>Last Name</th><th></th><th>Ranking</th><th>Comment</th>";
-		if ($vacancy_progress_val!='Shortlist') {
-			$result.="<th>Location</th><th>Interview Date</th><th>Time</th>";
-		}
+		$result.="<th>Location</th><th>Interview Date</th><th>Time</th>";
 		$result.="<th></th></thead></tr><tbody>";
 		foreach ($res as $row) {
 			$row['ranking_id']='';
@@ -140,11 +138,9 @@ function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 			<td>".getImageTags(array('detail'))."</td>
 			<td>".get_combo_ranking($combo_ranking, $row['ranking_id'])."</td>
 			<td><textarea id='user_comment' class='user_comment'>".$row['user_comment']."</textarea></td>";
-			if ($vacancy_progress_val!='Shortlist') {
-				$result.="<td>".shared::set_selected($row['interview_place'], $combo_location)."</td>
-						<td>"._t2("interview_date".$row['user_id'], formatDate($row['interview_date']), 8, 'text', 'interview_date')."</td>
-						<td>"._t2("interview_time", $row['interview_time'],3,'','','Time')."</td>";
-			}
+			$result.="<td>".shared::set_selected($row['interview_place'], $combo_location)."</td>
+					<td>"._t2("interview_date".$row['user_id'], formatDate($row['interview_date']), 8, 'text', 'interview_date')."</td>
+					<td>"._t2("interview_time", $row['interview_time'],3,'','','Time')."</td>";
 			$result.="<td>".getImageTags($btn)."</td></tr>";
 			if ($eval!='') {
 				$result.="<tr><td></td><td colspan='9'>".$eval."</td></tr>";
@@ -183,13 +179,12 @@ function get_combo_ranking($res, $selected) {
 
 while (true) { 
 	if ($type=='search') {
-		$filter='';
-
-		$res_ranking=db::select('ranking','ranking_id, ranking_val','','ranking_id');
 		
+		$res_ranking=db::select('ranking','ranking_id, ranking_val','','ranking_id');
 		
 		$con=db::beginTrans();
 		$arr_filter=array();
+		$filter='';
 		if ($salary_expectation_start!='') {
 			$filter.=" and a.salary_expectation>=?";
 			array_push($arr_filter, $salary_expectation_start);
@@ -275,16 +270,20 @@ while (true) {
 			unset($params);
 			$params=array();
 		}
-		if (isset($filter_anwer)) {
-			foreach ($filter_answer as $filter) {
-				foreach ($filter as $key=>$val) {
+		if (isset($filter_answer)) {
+		
+			foreach ($filter_answer as $f) {
+				
+				foreach ($f as $key=>$val) {
+					
 					if ($val!='') {
 						db::ExecMe("drop table if exists $tbl2", array(), $con);
 						$sql="create temporary table $tbl2 select c.* from applicants_answer a
 		left join job_applied b on a.job_applied_id=b.job_applied_id 
 		inner join $tbl c on c.user_id=b.user_id and c.vacancy_id=b.vacancy_id
 		where a.question_id=? and a.choice_id=? and b.vacancy_id=?";
-						
+						db::Log("Filter Answer SQL");
+						db::Log($sql);
 						db::ExecMe($sql,array($key, $val, $vacancy_id), $con);
 						
 						$temp=$tbl;

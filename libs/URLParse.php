@@ -76,9 +76,9 @@ define('P_WIDTH', 5);
 class URLParse
 {
     private static $ROOT_FOLDER = "pages/";
-    private static $MASTER_HOST = "localhost:8081";
+    private static $MASTER_HOST = "192.168.1.171:8081";
     private static $ACCEPTED_HOSTS = array(
-                                            "localhost",
+                                            "192.168.1.171",
                                             "helloworld.localhost",
                                             
                                             );
@@ -158,6 +158,7 @@ class URLParse
 				P_METD => "Applicant Registration ",
 				P_METK => "Applicant, Apply, Registration"),
 			"vacancy" => array(
+				P_WIDTH=> "1050",
 				P_FILE => "vacancy.php",
 				P_TITL => "Vacancy",
 				P_METD => "",
@@ -179,6 +180,7 @@ class URLParse
 				P_METD => "",
 				P_METK => ""),		
 			"vacancy_progress"=>array(
+				P_WIDTH=>"900",
 				P_FILE => "vacancy_progress.php",
 				P_TITL => "Recruitment Process"
 			),
@@ -223,6 +225,7 @@ class URLParse
 				P_METD => "",
 				P_METK => ""),				
 			"employee" => array(
+				P_WIDTH=>"900",
 				P_FILE => "employee.php",
 				P_TITL => "Employee",
 				P_METD => "",
@@ -242,7 +245,12 @@ class URLParse
 				P_TITL => "Change Project Data",
 				P_METD => "",
 				P_METK => ""),				
-            "about" => array(
+			"activate" => array(
+				P_FILE => "activate.php",
+				P_TITL => "Active",
+				P_METD => "",
+				P_METK => ""),				
+			"about" => array(
                 P_FILE => "about.html",
                 P_TITL => "About Page",
                 P_METD => "About HelloWorld CMS.",
