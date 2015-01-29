@@ -49,8 +49,8 @@
 		var par=$(this).closest("tr");
 		var data={}
 		data['type']='show_email';
-		data['email_type']=type+"_"+getChild(par, 'vacancy_progress_id');
-		data['vacancy_progress_val']=getChild(par, 'vacancy_progress_val');
+		data['email_type']=type+"_"+getChild(par, 'vacancy_progress_id', fields);
+		data['vacancy_progress_val']=getChild(par, 'vacancy_progress_val', fields);
 		data['invitereject']=toggleCase(type);
 		var success=function(msg) {
 			$('#show_detail').html(msg);
@@ -85,7 +85,7 @@
 		}
 		var data={}
 		data['type']="up";
-		data['vacancy_progress_id']=getChild(par, 'vacancy_progress_id');
+		data['vacancy_progress_id']=getChild(par, 'vacancy_progress_id', fields);
 		ajax('vacancy_progressAjax.php', data, success);
 	}
 	function Down() {
@@ -95,12 +95,12 @@
 		}
 		var data={}
 		data['type']="down";
-		data['vacancy_progress_id']=getChild(par, 'vacancy_progress_id');
+		data['vacancy_progress_id']=getChild(par, 'vacancy_progress_id', fields);
 		ajax('vacancy_progressAjax.php', data, success);
 	}
 	function Cancel() {
 		var par=$(this).closest("tr");
-		var required=getChild(par, 'required');
+		var required=getChild(par, 'required', fields);
 		if (required==0) {
 			textToDefaultLabel(par, ['vacancy_progress_val','process_name']);
 			btnChange(par, ['edit','up','down']);
@@ -119,8 +119,8 @@
 		}
 		var data={};
 		data['type']='save';
-		var required=getChild(par, 'required');
-		data['vacancy_progress_id'] = getChild(par, 'vacancy_progress_id');
+		var required=getChild(par, 'required', fields);
+		data['vacancy_progress_id'] = getChild(par, 'vacancy_progress_id', fields);
 		if (required==0) {
 			data = prepareDataText(data, ['vacancy_progress_val','process_name'], par);
 			data = prepareDataCheckBox(data, ['active']);
@@ -148,7 +148,7 @@
 	
 	function Edit() {
 		var par=$(this).closest("tr");
-		if (getChild(par, 'required')==0) {
+		if (getChild(par, 'required', fields)==0) {
 			labelToText(par, {'vacancy_progress_val':0, 'process_name':0});
 			labelToCheckbox(par, {'active':'Active'});
 		} else {

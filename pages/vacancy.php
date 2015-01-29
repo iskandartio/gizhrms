@@ -1,33 +1,19 @@
 <?php
+
+	
 	$res_question=db::select('question','question_id, question_val','','question_val');
 	$res=db::select('vacancy_type','vacancy_type','','vacancy_type');
 	$vacancy_type_options=shared::select_combo_complete($res, 'vacancy_type','- Vacancy Type -');
 ?>
-<script src="js/tinymce/tinymce.min.js"></script>
-<script type="text/javascript">
-tinymce.init({
-    selector: "div#vacancy_description",
-	inline:true,
-    theme: "modern",
-    plugins: [
-        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-        "searchreplace wordcount visualblocks visualchars code fullscreen",
-        "insertdatetime media nonbreaking save table contextmenu directionality",
-        "emoticons template paste textcolor colorpicker textpattern"
-    ],
-    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-    toolbar2: "preview | forecolor backcolor emoticons",
-    image_advtab: true,
-
-});
-</script>
+<?php _p(shared::get_tinymce_script("vacancy_description"));?>
 
 <script>
-	var fields=generate_assoc(['vacancy_id','vacancy_code','vacancy_code2','vacancy_name', 'vacancy_description', 'vacancy_startdate', 'vacancy_enddate','vacancy_type','allowance']);
+	var fields=generate_assoc(['vacancy_id','vacancy_code','vacancy_code2','vacancy_name', 'vacancy_description', 'vacancy_criteria', 'vacancy_startdate', 'vacancy_enddate','vacancy_type','allowance']);
 	var field_question=generate_assoc(['question_id','btn']);
 	var table='tbl_vacancy';
 	var currentRow=-1;
 	$(function() {
+		
 		bind('#btn_add',"click", Add);
 		bind('#btn_save',"click", Save);
 		bind('#btn_search',"click", Search);
@@ -45,7 +31,7 @@ tinymce.init({
 	});
 	function Add() {
 		currentRow=-1;
-		clearText(['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate','vacancy_enddate','vacancy_type','allowance']);
+		clearText(['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate','vacancy_enddate','vacancy_type','allowance','vacancy_criteria']);
 		clearDiv(['vacancy_description']);
 		clear_checkbox('question_id');
 		$('#btn_save').html('Save');
@@ -57,9 +43,9 @@ tinymce.init({
 	}
 	function edit_data() {
 		var obj=$('#tbl_vacancy tbody tr:eq('+currentRow+')');
-		inputText(obj, ['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate','vacancy_enddate','allowance']);
-		inputSelect(obj, ['vacancy_type']);
-		inputDiv(obj, ['vacancy_description']);
+		inputText(obj, ['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate','vacancy_enddate','allowance', 'vacancy_criteria'], fields);
+		inputSelect(obj, ['vacancy_type'], fields);
+		inputDiv(obj, ['vacancy_description'], fields);
 		$('#btn_save').html('Update');
 		data={};
 		data['type']='get_questions';
@@ -79,7 +65,7 @@ tinymce.init({
 		var par=$(this).closest("tr");
 		var data={};
 		data['type']='delete';
-		data['vacancy_id']=getChild(par, 'vacancy_id');
+		data['vacancy_id']=getChild(par, 'vacancy_id', fields);
 		var success=function(msg) {
 			alert("Success");
 			par.remove();
@@ -91,10 +77,10 @@ tinymce.init({
 	function Cancel() {
 	}
 	function Save() {
-		if (!validate_empty(['vacancy_code','vacancy_code2', 'vacancy_name','vacancy_start','vacancy_end','vacancy_type','allowance'])) return;	
+		if (!validate_empty(['vacancy_code','vacancy_code2', 'vacancy_name','vacancy_start','vacancy_end','vacancy_type','allowance', 'vacancy_criteria'])) return;	
 		var data={};
 		data['type']='save';
-		data=prepareDataText(data,['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate','vacancy_enddate','vacancy_type']);
+		data=prepareDataText(data,['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate','vacancy_enddate','vacancy_type','vacancy_criteria']);
 		data=prepareDataDecimal(data,['allowance']);
 		data=prepareDataHtml(data,['vacancy_description']);
 		var question_id= new Array();
@@ -129,7 +115,7 @@ tinymce.init({
 				$('#btn_save').html('Update');
 				
 			}
-			setHtmlAllText(tbl, ['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate', 'vacancy_enddate','allowance']);
+			setHtmlAllText(tbl, ['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate', 'vacancy_enddate','allowance','vacancy_criteria']);
 			setHtmlAllDiv(tbl, ['vacancy_description']);
 			setHtmlAllSelect(tbl, ['vacancy_type']);		
 			edit_data();
@@ -157,7 +143,8 @@ tinymce.init({
 <tr><td>Vacancy ID</td><td>:</td><td><?php _t("vacancy_id")?></td></tr>
 <tr><td>Vacancy Code *</td><td>:</td><td><?php _t("vacancy_code")?> <?php _t("vacancy_code2")?></td></tr>
 <tr><td>Vacancy Name *</td><td>:</td><td><?php _t("vacancy_name")?></td></tr>
-<tr><td>Vacancy Description *</td><td>:</td><td><div id="vacancy_description"></div></td></tr>
+<tr><td>Vacancy Description *</td><td>:</td><td><div id="vacancy_description" style="border-style:dotted"></div></td></tr>
+<tr><td>Vacancy Criteria *</td><td>:</td><td><textarea id='vacancy_criteria' style='width:90%;height:50px'></textarea></td></tr>
 <tr><td>Vacancy Start *</td><td>:</td><td><?php _t("vacancy_startdate")?></td></tr>
 <tr><td>Vacancy End *</td><td>:</td><td><?php _t("vacancy_enddate")?></td></tr>
 <tr><td>Vacancy Type *</td><td>:</td><td><?php _p($vacancy_type_options)?></td></tr>

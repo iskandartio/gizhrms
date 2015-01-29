@@ -38,7 +38,7 @@
 		if ($type=='save') {
 			$res=db::select_one('question','question_id','question_id=?','', array($question_id));
 			$con=db::beginTrans();
-			if (count($res)==0) {
+			if ($res==null) {
 				$question_id=db::insertEasy('question', $_POST, $con);
 			} else {
 				db::updateEasy('question', $_POST, $con);

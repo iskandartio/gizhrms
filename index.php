@@ -8,12 +8,14 @@ require_once('libs/URLParse.php');
 $activation_email= (isset($_SESSION['activation_email'])? $_SESSION['activation_email'] : '');
 $_SESSION['activation_email']="";
 $name = URLParse::ProcessURL();
+
 if ($name=='') {
 	
 	unset($_SESSION['uid']);
 	
 	//file_put_contents("log.txt", "");
 }
+
 function set_session_menu($menu) {
 	if (isset($_SESSION[$menu])) {		
 		if ($_SESSION[$menu]=="true") {
@@ -51,13 +53,11 @@ header('Content-Type: text/html; charset=utf-8');
 
 	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
 	<link rel="stylesheet" href="css/default.css"/>
-<?php if ($name=='') {?>
+<?php if ($name=='') {
+	?>
 	<script>
-		
 		$(function() {
 			bind('#btn_login','click',Login);
-			
-			
 		});
 		
 		function new_registrant() {
@@ -214,14 +214,35 @@ header('Content-Type: text/html; charset=utf-8');
 <?php } else {?>
 	<script>
 		$(function() {
-			$('.btn_collapse').bind("click", ExpandCollapse);
+			var maxWidth="<?php _p(URLParse::getMaxWidth($name));?>";
+			if ($(window).width()<maxWidth) {
+				HideMenu();
+			}
+			bind('.btn_collapse',"click", ExpandCollapse);
+			bind('.btn_menu','click',ShowMenu);
+			bind('.btn_hide','click',HideMenu);
 			<?php
 				set_session_menu("menu_master");
 				set_session_menu("menu_report");
 				set_session_menu("menu_administation");
 			?>
-			
+			$('.btn_hide').hide();
 		});
+		function ShowMenu() {
+			$('div#menu').show();
+			$('div#menu').css('position','fixed');
+			$('div#menu').css('top','0px');
+			$('div#menu').css('left','0px');
+			$('div#menu').css('z-index','10000000');
+			$('div#pagecontent').css('width','78%');
+			$('.btn_hide').show();
+			$('#freeze').show();
+		}
+		function HideMenu() {
+			$('div#menu').hide();
+			$('div#pagecontent').css('width','94%');
+			$('#freeze').hide();
+		}
 		function ExpandCollapse() {
 			var data={}
 			data['type']="set_session";
@@ -253,7 +274,7 @@ header('Content-Type: text/html; charset=utf-8');
 	<img class="logoimg" src="images/logo.png" alt="PAKLIM">
     <img class="logoimg" src="images/logo_web.jpg" alt="">
 	
-	<div id="freeze" style="position: absolute; top: 0px; left: 0px; z-index: 1000; opacity: 0.6; width: 100%; height: 100%; color: white; background-color: black;"></div>
+	<div id="freeze" style="position: fixed; top: 0px; left: 0px; z-index: 1000; opacity: 0.6; width: 100%; height: 100%; color: white; background-color: black;"></div>
 <?php if ($name=='') {?>
 	<table id="tbl_login">
 		<tbody>
@@ -281,7 +302,8 @@ header('Content-Type: text/html; charset=utf-8');
 	
 <div align="center">
 <?php if ($_SESSION['role_name']=='applicant') {?>
-	<div id="menu">
+	<div id="menu" style="width:175px">
+		<?php _p(getImageTags(array('hide')))?>
 		<span>Application Data</span>
 		<table style="margin:5px">
 		<tr><td><a href="/gizhrms/position_applied">Position Applied</a></td></tr>
@@ -296,6 +318,7 @@ header('Content-Type: text/html; charset=utf-8');
 	</div>
 <?php } else if ($_SESSION['role_name']=='admin') {?>
 	<div id="menu" style="width:175px">
+		<?php _p(getImageTags(array('hide')))?>
 		<span id='menu_master'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Master Data</span>
 		<ul>
 		<li><a href="/gizhrms/region">Region</a></li>
@@ -315,6 +338,10 @@ header('Content-Type: text/html; charset=utf-8');
 		
 		<ul>
 		<li><a href="/gizhrms/employee">Employee</a></li>
+		</ul>
+		
+		<span id='menu_recruitment'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Recruitment</span>
+		<ul>
 		<li><a href="/gizhrms/vacancy">Vacancy</a></li>
 		<li><a href="/gizhrms/question">Question</a></li>
 		<li><a href="/gizhrms/filter">Filter Applicants</a></li>
@@ -324,6 +351,7 @@ header('Content-Type: text/html; charset=utf-8');
 		
 	</div>
 <?php } else if ($_SESSION['role_name']=='employee') {?>
+	
 	<div id="menu">
 		<span>Administration</span>
 		<table style="margin:5px">
@@ -333,8 +361,12 @@ header('Content-Type: text/html; charset=utf-8');
 		</table>
 	</div>
 <?php }?>
-    <div id="pagecontent">
+	<?php _p(getImageTags(array('menu')));?>
+    
+	<div id="pagecontent">
+		
 		<h3 id='title'><?php _p($title)?></h3>
+	
 		<table style="margin:5px"><tr><td>
         <?php
             URLParse::IncludePageContents();
@@ -342,6 +374,7 @@ header('Content-Type: text/html; charset=utf-8');
 		</td></tr></table>
     </div>
 </div>
+<a href="send_email.php">Send All Email</a>
 
 </body>
 </html>

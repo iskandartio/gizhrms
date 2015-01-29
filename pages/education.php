@@ -23,7 +23,7 @@
 		var par=$(this).closest("tr");
 		data={};
 		data['type']='delete';
-		data['applicants_education_id']=getChild(par,'applicants_education_id');
+		data['applicants_education_id']=getChildHtml(par,'applicants_education_id', fields);
 		var success=function(msg) {
 			$('#freeze').hide();
 			par.remove();
@@ -37,14 +37,14 @@
 			
 			return;
 		}
-		if (getChild(par,'education_id')>1) {
-			if (!validate_empty_tbl(par,['major'])) return;
+		if (getChildHtml(par,'education_id', fields)>1) {
+			if (!validate_empty_tbl(par,['major'], ['Major'])) return;
 		}
 		var data={};
 		data['type']='save';
-		for (key in fields) {
-			if (key!='btn') data[key]=getChild(par, key);
-		}
+
+		data=prepareDataHtml(data, ['applicants_education_id'], par, fields);
+		data=prepareDataText(data, ['education_id','major','place','year_from','year_to','country'], par, fields);
 		
 		var success=function(msg) {
 			setHtmlText(par, 'applicants_education_id', msg);

@@ -20,11 +20,12 @@
 
 	function Delete() {
 		par=$(this).closest("tr");
-		par.remove();
 		var data={}
 		data['type']='delete';
-		data['gender_id']=getChild($(this).closest("tr"), 'gender_id');
+		data['gender_id']=getChildHtml($(this).closest("tr"), 'gender_id', fields);
 		var success=function(msg) {
+			par.remove();
+		
 		}
 		ajax('genderAjax.php', data, success);
 	}
@@ -46,7 +47,7 @@
 		}
 		var data={}
 		data['type']="up";
-		data['gender_id']=getChild(par, 'gender_id');
+		data['gender_id']=getChildHtml(par, 'gender_id', fields);
 		ajax('genderAjax.php', data, success);
 	}
 	function Down() {
@@ -56,7 +57,7 @@
 		}
 		var data={}
 		data['type']="down";
-		data['gender_id']=getChild(par, 'gender_id');
+		data['gender_id']=getChildHtml(par, 'gender_id', fields);
 		ajax('genderAjax.php', data, success);
 	}
 	function Save() {
@@ -67,8 +68,8 @@
 		
 		var data={};
 		data['type']='save';
-		data['gender_id']=getChild(par,'gender_id');
-		data['gender_val']=getChild(par,'gender_val');
+		data['gender_id']=getChildHtml(par,'gender_id', fields);
+		data['gender_val']=getChild(par,'gender_val', fields);
 		
 		
 		var success= function(msg) {

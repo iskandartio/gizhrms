@@ -71,6 +71,7 @@ define('P_TITL', 1); // <title>text</title>
 define('P_METD', 2); // META tag description
 define('P_METK', 3); // META tag keywords
 define('P_RDIR', 4); // Redirect URL (has precidence)
+define('P_WIDTH', 5);
 
 class URLParse
 {
@@ -100,6 +101,7 @@ class URLParse
             // Handles /index and /index.htm
             "index" =>      array(
                 P_RDIR => "",
+				
                 ),
             "index.html" =>  array(
                 P_RDIR => "",
@@ -166,6 +168,7 @@ class URLParse
 				P_METD => "",
 				P_METK => ""),
 			"filter" => array(
+				P_WIDTH=> "1050",
 				P_FILE => "filter_applicant.php",
 				P_TITL => "Filter Applicant",
 				P_METD => "",
@@ -227,6 +230,16 @@ class URLParse
 			"employee_detail" => array(
 				P_FILE => "employee_detail.php",
 				P_TITL => "Employee Detail",
+				P_METD => "",
+				P_METK => ""),		
+			"employee_add" => array(
+				P_FILE => "employee_add.php",
+				P_TITL => "Add Employee",
+				P_METD => "",
+				P_METK => ""),							
+			"change_project_data" => array(
+				P_FILE => "change_project_data.php",
+				P_TITL => "Change Project Data",
 				P_METD => "",
 				P_METK => ""),				
             "about" => array(
@@ -317,7 +330,17 @@ class URLParse
         else
             return self::$DEFAULT_META_KEYWORDS;
     }
-
+	public static function getMaxWidth($name) {
+		if(array_key_exists($name, self::$PAGE_INFO))
+        {
+            $page_array = self::$PAGE_INFO[$name];
+			if (isset($page_array[P_WIDTH])) {
+			
+				return $page_array[P_WIDTH];
+			}
+        }
+		return 0;
+	}
     // Includes the page contents (ProcessURL must be called first). 
     // Returns the name of the included page.
     public static function IncludePageContents()

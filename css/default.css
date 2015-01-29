@@ -1,3 +1,9 @@
+.btn_menu {
+	position:fixed;
+	left:0px;
+	top:0px;
+	z-index:100000;
+}
 body {
 	font-family: 'Arial';
 	font-size:12px;
@@ -37,12 +43,14 @@ body {
 	border-spacing:0px;
 	border-style:outset;
 }
-.tbl td {
+table.tbl>tbody>tr>td {
 	border:1px;
 	padding:5px;
 	border-style:outset;
+	vertical-align:middle;
 }
-.tbl th {
+
+table.tbl tr th {
 	border:1px;
 	padding:5px;
 	border-style:outset;
@@ -50,8 +58,11 @@ body {
 	color:white;
 }
 
+.top td  {
+	vertical-align:top;
+}
 
-.tbl tr:nth-child(2n) {
+.tbl>tbody>tr:nth-child(2n) {
     background-color: #EEFFFF;
 }
 
@@ -231,7 +242,7 @@ border-bottom: none;
 }
 #freeze {
 	
-	position:absolute;
+	position:fixed;
 	top:32%;
 	left:32%;
 	width:300px;

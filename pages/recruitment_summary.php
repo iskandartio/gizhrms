@@ -1,5 +1,5 @@
 <?php
-	require_once("libs/MPDF57/mpdf.php");
+	require_once("libs/MPDF/mpdf.php");
 	$res=db::select("location", "*");
 	$combo_location=shared::select_combo_complete($res, 'location_code', '- Location -');
 	$res=db::DoQuery("select a.vacancy_id, c.vacancy_code, c.vacancy_code2, c.vacancy_name, d.update_time from job_applied a
@@ -33,7 +33,7 @@ where c.vacancy_progress_val!='Closing'");
 		$result.="<tr><td>".$row['vacancy_interview_id']."</td><td>".$row['vacancy_name']." (".$row['vacancy_code']."-".$row['vacancy_code2'].")</td>
 		<td>".$row['process_name']."</td><td>".formatDate($row['update_time'])."</td>
 		<td>".$row['first_name']." ".$row['last_name']."</td>
-		<td>"._t2("interview_date",formatDate($row['interview_date']), "8")."</td>
+		<td>"._t2("interview_date",$row['interview_date'], '10')."</td>
 		<td>"._t2("interview_time",$row['interview_time'],"3","","","Time")."</td>
 		<td>".shared::set_selected($row['interview_place'], $combo_location)."</td>
 		<td>".getImageTags(array('save'))."</td>

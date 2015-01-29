@@ -31,10 +31,10 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 		data={};
 		if (v) {
 			data['type']='delete_other';
-			data['applicants_other_language_id']=getChild(par,'applicants_other_language_id',other_fields);
+			data['applicants_other_language_id']=getChildHtml(par,'applicants_other_language_id',other_fields);
 		} else {
 			data['type']='delete';
-			data['applicants_language_id']=getChild(par,'applicants_language_id');
+			data['applicants_language_id']=getChildHtml(par,'applicants_language_id', fields);
 		}
 		var success=function(msg) {
 			par.remove();
@@ -44,24 +44,31 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 
 	function Save() {
 		var par=$(this).closest("tr");
-		if (getChild(par, 'language_id')==0) {
-			alert('failed');
-			return;
-		}
+		
 		var v=par.closest("table").attr('id')=='tbl_other_language';
 		var data={};
+		f=fields;
 		if (v) {
 			f=other_fields;
 			data['type']='save_other';
+			data=prepareDataText(data, ['language_val', 'language_skill_id'], par, f);
+			data=prepareDataHtml(data, ['applicants_other_language_id'], par, f);
+			
 		} else {
+			if (getChildHtml(par, 'language_id', f)==0) {
+				alert('failed');
+				return;
+			}
 			f=fields;
 			data['type']='save';
+			data['language_id']=getChildSelect(par, 'language_id', f);
+			data['language_skill_id']=getChild(par, 'language_skill_id', f);
+			data['applicants_language_id']=getChildHtml(par, 'applicants_language_id', f);
+		
 		}
 		
-		for (key in f) {
-			
-			if (key!='btn') data[key]=getChild(par, key, f);
-		}
+		
+		
 		var success=function(msg) {
 			if (v) {
 				

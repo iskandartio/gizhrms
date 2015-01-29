@@ -67,8 +67,8 @@ class db {
 	static function ExecMe($query, $params=array(), $con=null) {
 		if (!isset($con)) $con= db::Connect();
 	 	$res=$con->prepare($query);
-		$res->execute($params);
 		
+		$res->execute($params);
 		if (substr($query,0,6)=='insert') {
 			return $con->lastInsertId();
 		}
@@ -169,9 +169,29 @@ class db {
 		db::Log($s);
 		return db::ExecMe($s, $params, $con);
 	}
+
+	static function updateShort($tbl, $where, $post, $con=null) {
+		$fields='';
+		$params=array();
+		foreach ($post as $key=>$val) {
+			if ($key=='type') continue;
+			if ($key==$where) continue;
+			if ($fields!='') $fields.=",";
+			$fields.=$key;
+			array_push($params, $val);
+		}
+		array_push($params, $post[$where]);
+		$s="update $tbl set ".str_replace(',','=?,', $fields)."=? where $where=?";
+		db::Log($s);
+		db::Log($params);
+		
+		return db::ExecMe($s, $params, $con);
+	}
 	
 	static function delete($tbl, $where, $params=array(), $con=null) {
 		$s="delete from $tbl where $where";
+		db::Log($s);
+		db::Log($params);
 		return db::ExecMe($s, $params, $con);
 		
 	}

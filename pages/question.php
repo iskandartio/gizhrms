@@ -24,7 +24,7 @@
 	
 	function Add() {
 		currentRow=-1;
-		clearText(['question_id','question']);
+		clearText(['question_id','question_val']);
 		$('#tbl_choice tbody').empty();
 	}
 	function edit_data() {
@@ -76,7 +76,7 @@
 			par.remove();
 			return;
 		}
-		textToLabel(par, 'choice_val', field_choice);
+		textToLabel(par, ['choice_val'], field_choice);
 		setHtmlText(par, 'btn', "<img src='images/edit.png' class='btn_edit_choice'/> <img src='images/delete.png' class='btn_delete_choice'/>", field_choice);
 		bind('.btn_edit_choice',"click", EditChoice);
 		bind('.btn_delete_choice',"click", DeleteChoice);
@@ -132,7 +132,7 @@
 		var par=$(this).closest("tr");
 		var data={};
 		data['type']='delete';
-		data['question_id']=getChild(par, 'question_id');
+		data['question_id']=getChildHtml(par, 'question_id', fields);
 		var success=function(msg) {
 			alert("Success");
 			par.remove();
@@ -144,13 +144,13 @@
 	function Save() {
 		data={};
 		data['type']='save';
-		data=prepareDataText(data,['question_id','question_val']);
+		data=prepareDataText(data,['question_id', 'question_val']);
 		var choice_val=new Array();
 		var choice_id=new Array();
 		$.each($('#tbl_choice tbody tr'), function(idx) {
 			v=getChild($(this), 'choice_val', field_choice);
 			choice_val.push(v);
-			v=getChild($(this), 'choice_id', field_choice);
+			v=getChildHtml($(this), 'choice_id', field_choice);
 			choice_id.push(v);
 		});
 		data['choice_val']=choice_val;
@@ -174,7 +174,7 @@
 				currentRow=$('#tbl_question tbody').children().length;
 				
 				$('#tbl_question tbody').append(adder);
-				setHtmlAllText(tbl, ['question']);
+				setHtmlAllText(tbl, ['question_val']);
 				
 				bindAll();
 				$('#btn_save').html('Update');

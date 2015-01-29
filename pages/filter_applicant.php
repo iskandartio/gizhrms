@@ -4,11 +4,14 @@ left join  m_user_role b on a.user_id=b.user_id
 left join m_role c on c.role_id=b.role_id 
 where role_name='employee' order by a.first_name, a.last_name");
 	$combo_user="";
+	$arr=array();
 	foreach ($res as $row) {
 		if ($combo_user!="") $combo_user.=",";
 		$combo_user.="'".$row['first_name']." ".$row['last_name']."'";
+		array_push($arr,array('label'=>$row['first_name']." ".$row['last_name'], 'value'=>$row['user_id']));
 	}
-	$combo_user="[".$combo_user."]";
+	
+	$combo_user=json_encode($arr);
 /*
 	$combo_user="<select id='employee_id' class='user_id' title='User'><option value=''>-User-</option>";
 	foreach ($res as $row) {
@@ -102,7 +105,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 	function ShowDetail() {
 		var data={};
 		data['type']='show_detail';
-		data['user_id']=getChild($(this).closest("tr"), 'user_id');
+		data['user_id']=getChildHtml($(this).closest("tr"), 'user_id', fields);
 		data['vacancy_id']=$('#vacancy_id').val();
 		var success=function(msg) {
 			$('#show_detail').html(msg);
@@ -124,12 +127,16 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 	}
 	
 	function Delete() {
-		var par=$(this).parent().parent();
+		var par=$(this).closest("tr");
 		var data={};
 		data['type']='delete';
 		data['vacancy_id']=$('#vacancy_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
-		data['user_id']=getChild(par, 'user_id');
+		var f=fields;
+		if ($('#next_vacancy_progress_id option:selected').html()=='Closing') {
+			f=field_closing;
+		}
+		data['user_id']=getChildHtml(par, 'user_id', f);
 		var success=function(msg) {
 			
 			if (msg=='Closing') {
@@ -153,14 +160,18 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var data={};
 		data['type']='restart';
 		data['vacancy_id']=$('#vacancy_id').val();
-		data['user_id']=getChild(par, 'user_id');
+		var f=fields;
+		if ($('#next_vacancy_progress_id option:selected').html()=='Closing') {
+			f=field_closing;
+		}
+		data['user_id']=getChildHtml(par, 'user_id', f);
 		data['vacancy_progress_id']=$('#vacancy_progress_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
 		var success=function(msg) {
 			if (msg=='Closing') {
-				btnChange(par,['accept','reject']);
+				btnChange(par,['accept','reject'], field_closing);
 			} else {
-				btnChange(par, ['save','interview','reject']);
+				btnChange(par, ['save','interview','reject'], fields);
 			}
 			
 			bind('.btn_save',"click",Save);
@@ -230,7 +241,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		ajax("filter_applicantAjax.php", data, success);
 	}
 	function Search() {
-		if (!validate_empty(['vacancy_id','vacancy_progress_id','next_vacancy_progress_id'])) return;
+		if (!validate_empty(['vacancy_id','next_vacancy_progress_id'])) return;
 		var data={};
 		data['type']='search';
 		data=prepareDataText(data,['vacancy_id','vacancy_progress_id','next_vacancy_progress_id', 'filter_name'
@@ -276,39 +287,32 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		par=$(this).closest("tr");
 		var data={};
 		data['type']="accept";
-		data['job_title']=getChild(par,'job_title',field_closing,'job');
-		data['position']=getChild(par,'position',field_closing,'job');
-		data['project_name']=getChild(par,'project_name',field_closing,'job');
-		data['project_number']=getChild(par,'project_number',field_closing,'job');
-		data['principal_advisor']=getChild(par,'principal_advisor',field_closing,'job');
-		data['team_leader']=getChild(par,'team_leader',field_closing,'job');
-		data['project_location']=getChild(par,'project_location',field_closing,'job');
-		data['responsible_superior']=getChild(par,'responsible_superior',field_closing,'job');
-		data['SAP_No']=getChild(par,'SAP_No',field_closing,'job');
-		data['start_date']=getChild(par,'start_date',field_closing,'contract_duration');
-		data['end_date']=getChild(par,'end_date',field_closing,'contract_duration');
-		data['salary']=cNum(getChild(par,'salary',field_closing));
-		data['salary_band']=getChild(par,'salary_band',field_closing);
-		data['user_id']=getChild(par,'user_id',field_closing);
-		data['contract_history_id']=getChild(par,'contract_history_id',field_closing);
-		prepareDataText(data, ['vacancy_id','next_vacancy_progress_id']);
+		
+		data = prepareDataMultiInput(data
+		, ['job_title','position','project_name','project_number','principal_advisor','team_leader','project_location'
+		,'responsible_superior','SAP_No']
+		, getChildObj(par, 'job', field_closing));
+		
+		data=prepareDataMultiInput(data, ['start_date','end_date'], getChildObj(par, 'contract_duration', field_closing));
+		data=prepareDataDecimal(data, ['salary'], par, field_closing);
+		data=prepareDataText(data, ['salary_band'], par, field_closing);
+		data=prepareDataHtml(data, ['user_id','contract_history_id'], par, field_closing);
+		data= prepareDataText(data, ['vacancy_id','next_vacancy_progress_id']);
 		var success=function(msg) {
 			Search();
 		}
 		ajax("filter_applicantAjax.php", data, success);
 	}
 	function Interview() {
-		var par=$(this).parent().parent();
+		var par=$(this).closest("tr");
 		
 		var data={};
 		data['type']='interview';
 		data['vacancy_id']=$('#vacancy_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
-		data['user_id']=getChild(par,'user_id');
-		
-		for (key in fields) {
-			if (key!='btn') data[key]=getChild(par, key);
-		}
+		data=prepareDataText(data, ['interview_place','interview_date','interview_time','ranking_id','user_comment'], par, fields);
+		data=prepareDataHtml(data, ['user_id'], par, fields);
+
 		var success=function(msg) {
 			
 			if (msg!='') {
@@ -327,9 +331,13 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data['type']='reject';
 		data['vacancy_id']=$('#vacancy_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
-		data['user_id']=getChild(par,'user_id');
+		var f=fields;
+		if ($('#next_vacancy_progress_id option:selected').html()=='Closing') {
+			f=field_closing;
+		}
+		data['user_id']=getChildHtml(par,'user_id', f);
 		var success=function(msg) {
-			btnChange(par, ['restart']);
+			btnChange(par, ['restart'], f);
 			
 			bind('.btn_restart',"click", Delete);
 		}
@@ -404,10 +412,8 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data['vacancy_id']=$('#vacancy_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
 		
-		
-		for (key in fields) {
-			if (key!='btn') data[key]=getChild(par, key);
-		}
+		data=prepareDataText(data, ['interview_place','interview_date','interview_time','ranking_id','user_comment'], par, fields);
+		data=prepareDataHtml(data, ['user_id'], par, fields);
 		
 		var success=function(msg) {
 			var v=$(par).children("td:eq("+fields['ranking_id']+")").children("select");
@@ -419,7 +425,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		
 	}
 	function autoCompleteEmployee() {
-		$('.user_id').autocomplete({
+		$('.employee_id').autocomplete({
 			matchContains: true,
 			minLength: 0,
 			source : <?php _p($combo_user)?>,
@@ -441,11 +447,11 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 	function AddUser() {
 		var a="<tr><td></td><td>";
 		//a+="<?php _p($combo_user)?>";
-		a+="<?php _t("user_id");?>";
+		a+="<?php _t("employee_id");?>";
 		a+="</td><td><img src='images/save.png' class='btn_save_user'/> <img src='images/delete.png' class='btn_delete_user'/></td></tr>";
 		$('#tbl_user tbody').append(a);
 		
-		bind('.user_id','change',ValidateUser);
+		bind('.employee_id','change',ValidateUser);
 		bind('.btn_save_user',"click", SaveUser);
 		bind('.btn_delete_user',"click", DeleteUser);
 		autoCompleteEmployee();
@@ -459,12 +465,12 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var f=true;
 		current_idx=par.index();
 		
-		current_val=getChild(par, 'employee_id', field_user);
+		current_val=getChildHtml(par, 'employee_id', field_user);
 		par=$('#tbl_user tbody tr');
 		$.each(par, function(idx) {
 			
 			if (idx!=current_idx) {
-				v=getChild($(this), 'employee_id', field_user);
+				v=getChildHtml($(this), 'employee_id', field_user);
 				if (v==current_val) {
 					alert('User already exists!');
 					f=false;
@@ -482,19 +488,20 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			return;
 		}
 		par=$(this).closest("tr");
-		if (getChild(par,'employee_id', field_user)=='') {
+		if (getChildHtml(par,'employee_id', field_user)=='') {
 			par.remove();
 			return;
 		}
 		var data={};
 		data['type']='add_user';
-		data['employee_id']=getChild(par,'employee_id',field_user);
+		data['employee_id']=getChildHtml(par,'employee_id',field_user);
 		data['vacancy_progress_id']=$('#next_vacancy_progress_id').val(); 
 		data['vacancy_id']=$('#vacancy_id').val(); 
 		
 		var success=function(msg) {
+			
 			setHtmlText(par, 'vacancy_employee_id',msg, field_user);
-			selectedToLabel(par, 'employee_id', field_user);
+			textToLabel(par, ['employee_id'], field_user);
 			setHtmlText(par, 'btn', "<img src='images/delete.png' class='btn_delete_user'/>", field_user);
 			bind('.btn_delete_user',"click", DeleteUser);
 		}
@@ -505,7 +512,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		par=$(this).closest("tr");
 		var data={};
 		data['type']='delete_user';
-		data['vacancy_employee_id']=getChild(par,'vacancy_employee_id',field_user);
+		data['vacancy_employee_id']=getChildHtml(par,'vacancy_employee_id',field_user);
 		var success=function(msg) {
 			par.remove();		
 		}
@@ -513,21 +520,24 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		
 	}
 </script>
-<select id="vacancy_id" title='Vacancy'>
+<table>
+<tr><td>Vacancy</td><td>:</td><td><select id="vacancy_id" title='Vacancy'>
 <option selected value=''>Vacancy</option>
 <?php _p($combo_vacancy) ?>
-</select> <select id="vacancy_progress_id" title='Recruitment Process'>
+</select></td></tr>
+<tr><td>Current Recruitment Process</td><td>:</td><td>
+<select id="vacancy_progress_id" title='Recruitment Process'>
 <option selected value=''>Vacancy Progress</option>
 <?php _p($combo_status)?>
-</select> 
-<p>
+</select></td></tr>
+<tr><td>Next Recruitment Process</td><td>:</td><td>
 <select id="next_vacancy_progress_id" title='Next Recruitment Process'>
 <option selected value=''>Next Vacancy Progress</option>
 
-</select>
+</select></td></tr>
+</table>
 <?php if ($_SESSION['role_name']=='admin') {?>
 <button class="button_link" id="btn_add_user">Add User</button> 
-<button class="button_link" id="btn_shortlist">Shortlist</button>
 <?php }?>
 <table id="tbl_user" class="tbl">
 	<thead><tr><th>Vacancy User Id<th>User</th>
@@ -554,8 +564,9 @@ if ($_SESSION['role_name']=='admin') {
 <?php _p($combo_business) ?> 
 <?php _t("filter_computer_skill") ?> 
 <?php _t("filter_professional_skill") ?> 
-
+<br/>
 <button id="search" class="button_link">Search</button>
+<button class="button_link" id="btn_shortlist">Next Process</button>
 <p>
 <div id="search_result"></div>
 <div id="show_detail"></div>

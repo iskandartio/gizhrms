@@ -20,7 +20,7 @@
 		var par=$(this).closest("tr");
 		var data={};
 		data['type']='delete_other';
-		data['applicants_other_reference_id']=getChild(par,'applicants_other_reference_id',other_fields);
+		data['applicants_other_reference_id']=getChildHtml(par,'applicants_other_reference_id',other_fields);
 		var success=function(msg) {
 			par.remove();
 		}
@@ -37,35 +37,32 @@
 		if (v) {
 			f=other_fields;
 			data['type']='save_other';
+			data=prepareDataHtml(data, ['applicants_other_reference_id'], par, f);
 		} else {
 			f=fields;
 			data['type']='save';
+			data=prepareDataHtml(data, ['applicants_reference_id'], par, f);
 		}
 		if (!validate_one_required_tbl(par, ['email','phone'], null, f, 'emailphone')) return;
+		data=prepareDataText(data, ['job_title', 'reference_name', 'company_name', 'description'], par, f);
 		
+		var emailphone=getChildObj(par, 'emailphone', f);
+		data['email']=$(emailphone).children(".email").val();
+		data['phone']=$(emailphone).children(".phone").val();
 		
-		
-		for (key in f) {
-			if (key=='emailphone') {
-				var def=getChildObj(par, key, f, true);
-				data['email']=$(def).children("#email").val();
-				data['phone']=$(def).children("#phone").val();
-			} else {
-				if (key!='btn') data[key]=getChild(par, key, f);
-			}
-		}
 		
 		var success=function(msg) {
 			if (v) {
 				
 				setHtmlText(par, 'applicants_other_reference_id', msg, f);
+				btnChange(par, ['edit','delete']);
 			} else {
 				setHtmlText(par, 'applicants_reference_id', msg, f);
-					
+				btnChange(par, ['edit']);
 			}
 			textToLabel(par,['job_title','reference_name','company_name','description'], f);
 			textToLabelArr(par,'emailphone', ['email','phone'], f);
-			btnChange(par, ['edit']);
+			
 			
 			bindAll();
 		}

@@ -23,7 +23,7 @@
 		par=$(this).closest("tr");
 		var data={}
 		data['type']='delete';
-		data['province_id']=getChild(par, 'province_id');
+		data['province_id']=getChildHtml(par, 'province_id', fields);
 		var success=function(msg) {
 			
 			par.remove();
@@ -62,9 +62,9 @@
 		
 		var data={};
 		data['type']='save';
-		data['province_id']=getChild(par,'province_id');
-		data['province_val']=getChild(par,'province_val');
-		data['region_id']=getChild(par,'region_id');
+		data['province_id']=getChildHtml(par,'province_id', fields);
+		data['province_val']=getChild(par,'province_val', fields);
+		data['region_id']=getChild(par,'region_id',fields);
 		var success= function(msg) {
 			setHtmlText(par, 'province_id', msg);
 			textToLabel(par, ['province_val']);

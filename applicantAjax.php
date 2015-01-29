@@ -30,7 +30,7 @@ require "pages/startup.php";
 			$salary_expectation=formatNumber($res[0]['salary_expectation']);
 			$negotiable=$res[0]['negotiable'];
 		}
-		$r.=_t2("salary_expectation", $salary_expectation);
+		$r.="Salary Expectation (Gross) : "._t2("salary_expectation", $salary_expectation, "10");
 		$r.=" <input type='checkbox' id='negotiable' ".($negotiable ? "checked" : "")."/><label for='negotiable'>Negotiable</label>";
 		$res= db::DoQuery('select a.question_id, b.question_val, d.choice_id from vacancy_question a left join question b on a.question_id=b.question_id
 		left join job_applied c on c.vacancy_id=a.vacancy_id and c.user_id=?

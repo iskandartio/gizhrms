@@ -23,7 +23,7 @@
 		par.remove();
 		var data={}
 		data['type']='delete';
-		data['region_id']=getChild($(this).closest("tr"), 'region_id');
+		data['region_id']=getChildHtml($(this).closest("tr"), 'region_id', fields);
 		var success=function(msg) {
 		}
 		ajax('regionAjax.php', data, success);
@@ -47,7 +47,7 @@
 	function Cancel() {
 		var par=$(this).closest("tr");
 		textToDefaultLabel(par,['region_val']);
-		btnChange(par, ['edit','delete']);
+		btnChange(par, ['edit','delete','up','down']);
 		bindAll();
 	}
 	function Save() {
@@ -58,12 +58,12 @@
 		
 		var data={};
 		data['type']='save';
-		data['region_id']=getChild(par,'region_id');
-		data['region_val']=getChild(par,'region_val');
+		data['region_id']=getChildHtml(par,'region_id', fields);
+		data['region_val']=getChild(par,'region_val', fields);
 		var success= function(msg) {
 			setHtmlText(par, 'region_id', msg);
 			textToLabel(par, ['region_val']);
-			btnChange(par, ['edit','delete']);
+			btnChange(par, ['edit','delete', 'up','down']);
 			bindAll();
 		}
 		ajax('regionAjax.php', data, success);
@@ -75,7 +75,7 @@
 		}
 		var data={}
 		data['type']="up";
-		data['region_id']=getChild(par, 'region_id');
+		data['region_id']=getChildHtml(par, 'region_id', fields);
 		ajax('regionAjax.php', data, success);
 	}
 	function Down() {
@@ -85,7 +85,7 @@
 		}
 		var data={}
 		data['type']="down";
-		data['region_id']=getChild(par, 'region_id');
+		data['region_id']=getChildHtml(par, 'region_id', fields);
 		ajax('regionAjax.php', data, success);
 	}
 

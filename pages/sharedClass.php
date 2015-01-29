@@ -1,5 +1,6 @@
 <?php
 class shared {
+
 	static function get_session($data, $def) {
 		if (!isset($_SESSION[$data])) return $def;
 		return $_SESSION[$data];
@@ -14,7 +15,6 @@ where a.employee_id=?", array($user_id, $uid));
 		return 0;
 	}
 	static function email($email_type, $params, $con=null) {
-		db::Log($params);
 		$e=db::select_one("email_setup","*","email_type='$email_type'","",array(), $con);
 		foreach ($params as $key=>$val) {
 			$e['email_to']=str_replace("@$key", $val, $e['email_to']);
@@ -62,11 +62,10 @@ where a.employee_id=?", array($user_id, $uid));
 	}
 	static function sanitize($tag) {
 	
-		//$tag= str_replace("</span","&lt;/span", $tag);
 		$tag= str_replace("<input","&lt;input", $tag);
 		$tag= str_replace("<textarea","&lt;textarea", $tag);
 		
-		//$tag= str_replace("'","&#39;", $tag);
+		$tag= str_replace("'","&#39;", $tag);
 		//$tag= str_replace('"',"&#34;", $tag);
 		
 		return $tag;
@@ -192,6 +191,7 @@ where a.employee_id=?", array($user_id, $uid));
 tinymce.init({
     selector: "div#'.$obj.'",
 	inline:true,
+	fontsize_formats: "8pt 9pt 10pt 11pt 12pt 26pt 36pt",
     theme: "modern",
     plugins: [
         "advlist autolink lists link image charmap print preview hr anchor pagebreak",
@@ -246,4 +246,102 @@ tinymce.init({
 		} 
 		return $count; 
 	} 
+	static function dateDiff ($d2, $d1) {
+		return round((strtotime($d1)-strtotime($d2))/86400);
+	}
+	static function addYearOnly($d,$y) {
+		$d=substr($d, 0, 10);
+		$year=substr($d, 0,4);
+		$year=$year+$y;
+		$month=substr($d,5,2);
+		$date=substr($d, 8); 
+		
+		return shared::fixDate($year, $month, $date);
+	}
+	static function addYear($d, $y) {	
+		$d=substr($d, 0, 10);
+		$year=substr($d, 0,4);
+		$month=substr($d,5,2);
+		$date=substr($d, 8)-1; 
+		if ($date<=0) $date=$date-1;
+		$year= $year+ $y;
+		return shared::fixDate($year, $month, $date);
+		
+		
+	}
+	
+	static function fixDate($year, $month, $date) {
+		
+		$v=0;
+		while ($date<=0) {
+			$month=$month-1;
+			if ($month==0) {
+				$year=$year-1;
+				$month=12;
+			}
+			if ($month==4||$month==6||$month==9||$month==11) {
+				$date=31+$date;
+			} else if ($month==2) {
+				if (shared::is_leap_year($year)) {
+					$date=30+$date;
+				} else {
+					$date=29+$date;
+				}
+			} else {
+				$date=32+$date;
+			}
+			$v=1;
+		} 
+		
+		if ($v==0) {
+			$d=$year."-".shared::zerofill($month)."-".shared::zerofill($date);
+			if ($date<29) return $d;
+			if ($date==31) {
+				if ($month==1||$month==3||$month==5||$month==7||$month==8||$month==10) return $d;
+			}
+			
+			if ($date==30) {
+				if ($month==4||$month==6||$month==9||$month==11) return $d;
+			}
+			if ($date==29) {
+				if ($month==2 && shared::is_leap_year($year)) return $d;
+			}
+			
+			
+			
+			
+			
+			if ($month==4||$month==6||$month==9||$month==11) {
+				$date=$date-30;
+			} else if ($month==2) {
+				if (shared::is_leap_year($year)) {
+					$date=$date-29;
+				} else {
+					$date=$date-28;
+				}
+			} else {
+				$date=$date-31;
+			}
+			$month=$month+1;
+			
+			if ($month==13) {
+				$month=1;
+				$year=$year+1;
+			}
+		}
+		return $year."-".shared::zerofill($month)."-".shared::zerofill($date);
+		
+	}
+	static function zerofill($int) {
+		if (strlen($int)==1) return "0".$int;
+		return $int;
+	}
+	static function addDate($d, $i) {
+		$year=substr($d, 0,4);
+		$month=substr($d, 5,2);
+		$date=substr($d, 8)+$i;
+		if ($date<=0) $date=$date-1;
+		return shared::fixDate($year, $month, $date);
+	}
+	
 }

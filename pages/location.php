@@ -38,7 +38,7 @@
 		par.remove();
 		var data={}
 		data['type']='delete';
-		data['location_id']=getChild($(this).closest("tr"), 'location_id');
+		data['location_id']=getChildHtml($(this).closest("tr"), 'location_id', fields);
 		var success=function(msg) {
 		}
 		ajax('locationAjax.php', data, success);
@@ -64,9 +64,9 @@
 		
 		var data={};
 		data['type']='save';
-		data['location_id']=getChild(par,'location_id');
-		data['location_code']=getChild(par,'location_code');
-		data['location_val']=getChildObj(par,'location_val', fields, true).children().html();
+		data['location_id']=getChildHtml(par,'location_id', fields);
+		data['location_code']=getChild(par,'location_code', fields);
+		data['location_val']=getChildObj(par,'location_val', fields).children().html();
 		
 		
 		var success= function(msg) {

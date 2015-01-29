@@ -16,6 +16,8 @@
 		bind('#btn_add',"click", AddNew);
 		bind('#btn_save',"click", Save);
 		bind('#may_contact',"change", MayContactChange);
+		$('#email').hide();
+		$('#phone').hide();
 		fixSelect();
 		bindAll();
 		
@@ -34,7 +36,7 @@
 		var par=$(this).closest("tr");
 		var data={};
 		data['type']='delete';
-		data['applicants_working_id']=getChild(par,'applicants_working_id');
+		data['applicants_working_id']=getChild(par,'applicants_working_id', fields);
 		var success=function(msg) {
 			$('#freeze').hide();
 			par.remove();
@@ -93,22 +95,25 @@
 	}
 	function AddNew() {
 		currentRow=-1;
-		clearText(['applicants_working_id','year_from','year_to','employer','job_title','leave_reason','month_from','month_to','business_id']);
+		clearText(['applicants_working_id','year_from','year_to','employer','job_title','leave_reason','month_from','month_to','business_id','email','phone']);
 		$('#may_contact').prop("checked", false);
+		$('#email').hide();
+		$('#phone').hide();
 		$('#btn_save').html('Save as New');
 		fixSelect();
 	}
 
 	function Edit() {
-		inputText(this, ['applicants_working_id','year_from','year_to','employer','job_title','leave_reason']);
-		inputSelect(this, ['month_from','month_to','business_id']);
-		
-		if (getChild($(this).closest("tr"), 'may_contact')!='None') {
+		clearText(['applicants_working_id','year_from','year_to','employer','job_title','leave_reason','month_from','month_to','business_id','email','phone']);
+		inputText(this, ['applicants_working_id','year_from','year_to','employer','job_title','leave_reason'], fields);
+		inputSelect(this, ['month_from','month_to','business_id'], fields);
+		if (getChild($(this).closest("tr"), 'may_contact', fields)!='None') {
 			$('#may_contact').prop("checked",true);
 			inputFromOther(this, 'may_contact', ['email','phone']);
 			$('#email').show();
 			$('#phone').show();
 		} else {
+			$('#may_contact').prop("checked",false);
 			$('#email').hide();
 			$('#phone').hide();
 			

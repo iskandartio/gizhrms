@@ -23,7 +23,7 @@
 		}
 		var data={}
 		data['type']="up";
-		data['nationality_id']=getChild(par, 'nationality_id');
+		data['nationality_id']=getChildHtml(par, 'nationality_id', fields);
 		ajax('nationalityAjax.php', data, success);
 	}
 	function Down() {
@@ -33,7 +33,7 @@
 		}
 		var data={}
 		data['type']="down";
-		data['nationality_id']=getChild(par, 'nationality_id');
+		data['nationality_id']=getChildHtml(par, 'nationality_id', fields);
 		ajax('nationalityAjax.php', data, success);
 	}
 	function Delete() {
@@ -41,7 +41,7 @@
 		par.remove();
 		var data={}
 		data['type']='delete';
-		data['nationality_id']=getChild($(this).closest("tr"), 'nationality_id');
+		data['nationality_id']=getChildHtml($(this).closest("tr"), 'nationality_id', fields);
 		var success=function(msg) {
 		}
 		ajax('nationalityAjax.php', data, success);
@@ -65,8 +65,8 @@
 		
 		var data={};
 		data['type']='save';
-		data['nationality_id']=getChild(par,'nationality_id');
-		data['nationality_val']=getChild(par,'nationality_val');
+		data['nationality_id']=getChildHtml(par,'nationality_id', fields);
+		data['nationality_val']=getChild(par,'nationality_val', fields);
 		var success= function(msg) {
 			setHtmlText(par, 'nationality_id', msg);
 			bindAll();
