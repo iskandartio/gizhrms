@@ -1,1 +1,14 @@
 must activate alert
+user get email notif that they're invited
+default for admin is filter applicant
+dob yearRange
+rejection alert
+interview=save
+tombol send email
+Auto di Next Recruitment Process (for employee)
+employee can not next process
+last comment ditampilkan
+si Bella gak bisa input location dan interview_time
+interview_date dipanjangin
+test email_rejection
+

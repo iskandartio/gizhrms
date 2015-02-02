@@ -76,9 +76,9 @@ define('P_WIDTH', 5);
 class URLParse
 {
     private static $ROOT_FOLDER = "pages/";
-    private static $MASTER_HOST = "192.168.1.171:8081";
+    private static $MASTER_HOST = "localhost:8081";
     private static $ACCEPTED_HOSTS = array(
-                                            "192.168.1.171",
+                                            "localhost",
                                             "helloworld.localhost",
                                             
                                             );
@@ -270,6 +270,7 @@ class URLParse
 
     public static function ProcessURL()
     {
+	
         // Check the host the request was made to, and redirect if necessary.
         self::checkHost(); 
         // Check the HTTPS status, redirect if necessary.
@@ -377,6 +378,7 @@ class URLParse
     private static function checkHost()
     {
         $http_host = $_SERVER['HTTP_HOST'];
+		/*
 		if($http_host != self::$MASTER_HOST && !in_array($http_host, self::$ACCEPTED_HOSTS))
         {
 			
@@ -394,6 +396,7 @@ class URLParse
             self::permRedirect($protocol . self::$MASTER_HOST . "/" . 
                             self::getUrlFile() . self::getUrlParams());
         }
+		*/
     }
 
     // If $FORCE_HTTPS is true and HTTPS is not in use, redirect to an HTTPS URL

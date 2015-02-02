@@ -2,7 +2,7 @@
 	require_once("autoload.php");
 	session_start();
 	date_default_timezone_set('Asia/Jakarta');
-	$_SESSION['db']=array('mysql:host=localhost:3307;dbname=hrms','root','123456');
+	$_SESSION['db']=array('mysql:host=localhost:3306;dbname=hrms','root','123456');
 	//$_SESSION['db']=array('mysql:host=mysql.idhostinger.com;dbname=u169820922_prop','u169820922_admin','host123456a!');
 	$home="http://localhost:8081/gizhrms/";
 	$timezone = "Asia/Bangkok";
