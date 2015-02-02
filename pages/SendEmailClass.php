@@ -17,10 +17,10 @@ Class SendEmail {
 		$mail->SMTPSecure = "tls";                 // sets the prefix to the servier
 		$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
 		$mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-		$mail->Username   = "iskandar.tio@gmail.com";  // GMAIL username
-		$mail->Password   = "gmailstunt1";            // GMAIL password
+		$mail->Username   = "zhao.iskandar@gmail.com";  // GMAIL username
+		$mail->Password   = "gmailforgiz";            // GMAIL password
 
-		$mail->SetFrom('iskandar.tio@gmail.com', 'Iskandar Tio');
+		$mail->SetFrom('zhao.iskandar@gmail.com', 'Iskandar Tio');
 
 		//$mail->AddReplyTo("iskandar.tio@gmail.com","GIZ");
 

@@ -1,9 +1,12 @@
+drop database if exists hrms;
+create database hrms;
+use hrms;
 -- --------------------------------------------------------
 -- Host:                         localhost
 -- Server version:               5.5.28a-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-01-29 09:16:06
+-- Date/time:                    2015-02-02 23:13:27
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -45,12 +48,12 @@ CREATE TABLE IF NOT EXISTS `applicants` (
   `am2_start_date` datetime DEFAULT NULL,
   `am2_end_date` datetime DEFAULT NULL,
   PRIMARY KEY (`applicants_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants: ~11 rows (approximately)
+-- Dumping data for table hrms.applicants: ~13 rows (approximately)
 /*!40000 ALTER TABLE `applicants` DISABLE KEYS */;
 INSERT INTO `applicants` (`first_name`, `last_name`, `place_of_birth`, `gender`, `nationality`, `address`, `country`, `province`, `city`, `post_code`, `phone1`, `phone2`, `giz_staff`, `computer_skills`, `professional_skills`, `applicants_id`, `user_id`, `date_of_birth`, `country_name`, `cv`, `letter`, `applicant_status`, `nationality_val`, `contract1_start_date`, `contract1_end_date`, `am1_start_date`, `am1_end_date`, `contract2_start_date`, `contract2_end_date`, `am2_start_date`, `am2_end_date`) VALUES
-	('admin', 'a', NULL, 'Female', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 4, '1930-12-04 21:31:10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('admin', '', 'Jakarta', 'Female', '1', 'Address', '1', '11', '16', '3242343', '4245434', '42r', NULL, 'fds rfew', 'vfdrew', 1, 1, '1981-11-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `applicants` ENABLE KEYS */;
 
 
@@ -62,8 +65,7 @@ CREATE TABLE IF NOT EXISTS `applicants_answer` (
   `question_id` int(11) DEFAULT NULL,
   `choice_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`applicant_answer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
 -- Dumping structure for table hrms.applicants_education
 DROP TABLE IF EXISTS `applicants_education`;
@@ -77,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `applicants_education` (
   `year_to` int(11) DEFAULT NULL,
   `country` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_education_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.applicants_language
@@ -89,8 +91,7 @@ CREATE TABLE IF NOT EXISTS `applicants_language` (
   `language_skill_id` int(50) DEFAULT NULL,
   `language_val` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_language_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.applicants_other_language
@@ -102,7 +103,6 @@ CREATE TABLE IF NOT EXISTS `applicants_other_language` (
   `language_val` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_other_language_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
-
 
 
 -- Dumping structure for table hrms.applicants_other_reference
@@ -119,6 +119,7 @@ CREATE TABLE IF NOT EXISTS `applicants_other_reference` (
   PRIMARY KEY (`applicants_other_reference_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
+
 -- Dumping structure for table hrms.applicants_reference
 DROP TABLE IF EXISTS `applicants_reference`;
 CREATE TABLE IF NOT EXISTS `applicants_reference` (
@@ -131,7 +132,8 @@ CREATE TABLE IF NOT EXISTS `applicants_reference` (
   `company_name` varchar(100) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`applicants_reference_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
 
 
 -- Dumping structure for table hrms.applicants_working
@@ -151,7 +153,8 @@ CREATE TABLE IF NOT EXISTS `applicants_working` (
   `email` varchar(50) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_working_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
 
 
 -- Dumping structure for table hrms.business
@@ -186,6 +189,8 @@ CREATE TABLE IF NOT EXISTS `choice` (
   PRIMARY KEY (`choice_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=latin1;
 
+
+
 -- Dumping structure for table hrms.city
 DROP TABLE IF EXISTS `city`;
 CREATE TABLE IF NOT EXISTS `city` (
@@ -195,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `city` (
   PRIMARY KEY (`city_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=474 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.city: ~397 rows (approximately)
+-- Dumping data for table hrms.city: ~551 rows (approximately)
 /*!40000 ALTER TABLE `city` DISABLE KEYS */;
 INSERT INTO `city` (`city_id`, `province_id`, `city_val`) VALUES
 	(1, 11, 'Simeulue'),
@@ -695,7 +700,7 @@ CREATE TABLE IF NOT EXISTS `contract_history` (
   `position` varchar(50) DEFAULT NULL,
   `reason` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`contract_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.country
@@ -729,7 +734,7 @@ INSERT INTO `education` (`education_id`, `education_val`, `sort_id`) VALUES
 	(2, 'College', 2),
 	(3, 'Master', 4),
 	(4, 'Ph.D', 5),
-	(5, 'University', 3);
+	(5, 'Bachelor', 3);
 /*!40000 ALTER TABLE `education` ENABLE KEYS */;
 
 
@@ -746,8 +751,7 @@ CREATE TABLE IF NOT EXISTS `email` (
   `email_id` int(11) NOT NULL AUTO_INCREMENT,
   `sent` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`email_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.email_setup
@@ -764,23 +768,24 @@ CREATE TABLE IF NOT EXISTS `email_setup` (
   `email_setup_id` int(11) NOT NULL AUTO_INCREMENT,
   `params` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`email_setup_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.email_setup: ~8 rows (approximately)
+-- Dumping data for table hrms.email_setup: ~12 rows (approximately)
 /*!40000 ALTER TABLE `email_setup` DISABLE KEYS */;
 INSERT INTO `email_setup` (`email_type`, `email_from`, `email_to`, `email_cc`, `email_bcc`, `email_subject`, `email_content`, `updatetime`, `email_setup_id`, `params`) VALUES
 	('forgot_password', NULL, '@email', NULL, NULL, '[GIZ e-recruitment] Forgot Password', 'Your password is resetted to @password', NULL, 1, NULL),
-	('register', 'iskandar.tio@gmail.com', '@email', NULL, NULL, 'Account Activation', 'Your password is: @password\r\nPlease activate by clicking this link: <br/>\r\nhttp://localhost:8081/gizhrms/activate.php?link=@link', NULL, 2, NULL),
-	('invitation_5', NULL, 'idjsaioj', NULL, NULL, 'dsjaio', '<p>s<strong>s</strong></p>', NULL, 3, NULL),
-	('rejection_5', NULL, 'jidosa', NULL, NULL, 'djsio', '<p>jfdsiofjds jfiods</p>', NULL, 4, NULL),
+	('register', 'iskandar.tio@gmail.com', '@email', NULL, NULL, 'Account Activation', 'Your password is: @password\r\nPlease activate by clicking this link: <br/>\r\n<a href="http://192.168.1.171:8081/gizhrms/activate?link=@link">http://192.168.1.171:8081/gizhrms/activate.php?link=@link</a>', NULL, 2, NULL),
+	('invitation_5', NULL, 'idjsaioj', NULL, NULL, 'dsjaio', '<p><br></p>', NULL, 3, NULL),
+	('rejection_5', NULL, 'jidosa', NULL, NULL, 'djsio', '<p><br></p>', NULL, 4, NULL),
 	('invitation_1', NULL, '@applicant_email', NULL, NULL, 'First Interview', '<p>Thank you for applying.&nbsp;<br></p><p>You are selected for interview</p><p>Place: @interview_date</p><p>Time: @interview_time</p><p>Location: @interview_location</p><p>Regards,</p><p><br data-mce-bogus="1"></p>', NULL, 5, '@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer'),
-	('rejection_2', NULL, 'iskandar.tio@gmail.com', NULL, NULL, '[GIZ] @vacancy_name', '<div><strong>Dear @applicant_name,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the @vacancy_name&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;">+62 21 851 7186</a></strong></div><div><strong>F <a href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;">www.paklim.org</a></strong></div>', NULL, 6, '@applicant_email, @vacancy_name, @applicant_name'),
+	('rejection_2', NULL, '@applicant_email', NULL, NULL, '[GIZ] @vacancy_name', '<div><strong>Dear @applicant_name,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the @vacancy_name&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;">+62 21 851 7186</a></strong></div><div><strong>F <a href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;">www.paklim.org</a></strong></div>', NULL, 6, '@applicant_email, @vacancy_name, @applicant_name'),
 	('invitation_2', NULL, 'iskandar.tio@gmail.com', NULL, NULL, '[GIZ] Interview Invitation', '<div><strong>Dear @applicant_name,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for @vacancy_name&nbsp;position as attached job description </strong><strong>o</strong><strong>n @interview_date</strong><strong>&nbsp;</strong><strong>a</strong><strong>t @interview_time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>@interview_location</strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with @interviewer.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>', NULL, 7, '@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer'),
 	('invitation_3', NULL, 'iskandar.tio@gmail.com', NULL, NULL, '[GIZ] Interview Invitation @vacancy_name', '<div><strong>Dear @applicant_name,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for @vacancy_name&nbsp;position as attached job description </strong><strong>o</strong><strong>n @interview_date</strong><strong>&nbsp;</strong><strong>a</strong><strong>t @interview_time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>@interview_location</strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with @interviewer.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>', NULL, 8, NULL),
 	('interviewer_1', NULL, '@interviewer_email', NULL, NULL, 'Interview', '<p>Here is the list:</p><p>@list</p><p>Regards</p><p>&nbsp;<br></p>', NULL, 9, '@interviewer_email, @interviewer_name, @list'),
-	('reference_1', NULL, '@reference_email', NULL, NULL, 'Asking for reference', '<p>Dear @reference_name,&nbsp;</p><p>&nbsp;</p><p>I hope this email finds you well.</p><p>&nbsp;</p><p>First of all I would like to introduce myself as HR Professional of Environment and Climate Change Programme of Deutsche Gesellschaft fuer Internationale Zusammenarbeit (GIZ) â€“ a German international cooperation for sustainable development in its Jakarta Office, Indonesia.</p><p>&nbsp;</p><p>I am writing you regarding @applicant_name, who considered to become Accounting/Finance Professional in GE-LAMA-I project.&nbsp;</p><p>As part of our recruitment process, we should conduct reference check for @applicant_name, as he has putting your name as his referee.</p><p>&nbsp;</p><p>It would be great if &nbsp;you could share your comments and impressions regarding @applicant_nameâ€™s qualifications and skills in @vacancy_criteria, as well as your connection with him.</p><p>&nbsp;</p><p>We do really hope that we could receive your recommendation by Tuesday, 27th January 2015.</p><p>&nbsp;&nbsp;</p><p>Many thanks for your kind assistance and I am looking forward to hearing from you.</p><p>&nbsp;</p><p>Best Regards,</p><p>Fitri Kusumayanti</p><p>HR Professional for Environment and Climate Change Programme</p><p>(PAKLIM, BMUB ICCTF and GE-LAMA-I Projects)</p><p><strong>&nbsp;</strong></p><p><strong>Deutsche Gesellschaft fÃ¼r </strong></p><p><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></p><p>c/o Kementerian Negara Lingkungan Hidup (KLH)</p><p>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</p><p>13410 Jakarta, Indonesia</p><p>T +62 21 851 7186</p><p>F +62 21 851 6110</p><p>M <strong>+62 8179 838467 </strong></p><p><strong>E </strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de"><strong>fitri.kusumayanti@giz.de</strong></a></p><p>&nbsp;</p><p>&nbsp;</p>', NULL, 10, '@reference_name, @reference_email, @applicant_name, @vacancy_criteria');
+	('reference_1', NULL, '@reference_email', NULL, NULL, 'Asking for reference', '<p>Dear @reference_name,&nbsp;</p><p>&nbsp;</p><p>I hope this email finds you well.</p><p>&nbsp;</p><p>First of all I would like to introduce myself as HR Professional of Environment and Climate Change Programme of Deutsche Gesellschaft fuer Internationale Zusammenarbeit (GIZ) â€“ a German international cooperation for sustainable development in its Jakarta Office, Indonesia.</p><p>&nbsp;</p><p>I am writing you regarding @applicant_name, who considered to become Accounting/Finance Professional in GE-LAMA-I project.&nbsp;</p><p>As part of our recruitment process, we should conduct reference check for @applicant_name, as he has putting your name as his referee.</p><p>&nbsp;</p><p>It would be great if &nbsp;you could share your comments and impressions regarding @applicant_nameâ€™s qualifications and skills in @vacancy_criteria, as well as your connection with him.</p><p>&nbsp;</p><p>We do really hope that we could receive your recommendation by Tuesday, 27th January 2015.</p><p>&nbsp;&nbsp;</p><p>Many thanks for your kind assistance and I am looking forward to hearing from you.</p><p>&nbsp;</p><p>Best Regards,</p><p>Fitri Kusumayanti</p><p>HR Professional for Environment and Climate Change Programme</p><p>(PAKLIM, BMUB ICCTF and GE-LAMA-I Projects)</p><p><strong>&nbsp;</strong></p><p><strong>Deutsche Gesellschaft fÃ¼r </strong></p><p><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></p><p>c/o Kementerian Negara Lingkungan Hidup (KLH)</p><p>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</p><p>13410 Jakarta, Indonesia</p><p>T +62 21 851 7186</p><p>F +62 21 851 6110</p><p>M <strong>+62 8179 838467 </strong></p><p><strong>E </strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de"><strong>fitri.kusumayanti@giz.de</strong></a></p><p>&nbsp;</p><p>&nbsp;</p>', NULL, 10, '@reference_name, @reference_email, @applicant_name, @vacancy_criteria'),
+	('interviewer_5', NULL, 'dsa', NULL, NULL, NULL, '<br data-mce-bogus="1">', NULL, 11, NULL),
+	('reference_5', NULL, 'fdsfds', NULL, NULL, NULL, '<br data-mce-bogus="1">', NULL, 12, NULL);
 /*!40000 ALTER TABLE `email_setup` ENABLE KEYS */;
-
 
 
 
@@ -791,7 +796,7 @@ CREATE TABLE IF NOT EXISTS `gender` (
   `gender_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`gender_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.gender: ~2 rows (approximately)
 /*!40000 ALTER TABLE `gender` DISABLE KEYS */;
@@ -815,7 +820,7 @@ CREATE TABLE IF NOT EXISTS `job_applied` (
   `salary_expectation` int(11) DEFAULT NULL,
   `negotiable` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`job_applied_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 
 
@@ -864,7 +869,7 @@ CREATE TABLE IF NOT EXISTS `location` (
   `location_code` varchar(50) DEFAULT NULL,
   `location_val` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`location_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.location: ~2 rows (approximately)
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
@@ -873,19 +878,6 @@ INSERT INTO `location` (`location_id`, `location_code`, `location_val`) VALUES
 	(3, 'KLH', '<p>Kementrian Lingkungan Hidup</p><p>Gedung Otorita Batam</p>');
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 
-
--- Dumping structure for table hrms.month_options
-DROP TABLE IF EXISTS `month_options`;
-CREATE TABLE IF NOT EXISTS `month_options` (
-  `month_options_id` int(11) NOT NULL AUTO_INCREMENT,
-  `month_id` int(11) DEFAULT NULL,
-  `month_name` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`month_options_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Dumping data for table hrms.month_options: ~0 rows (approximately)
-/*!40000 ALTER TABLE `month_options` DISABLE KEYS */;
-/*!40000 ALTER TABLE `month_options` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.m_role
@@ -909,29 +901,18 @@ INSERT INTO `m_role` (`role_id`, `role_name`, `role_description`) VALUES
 -- Dumping structure for table hrms.m_user
 DROP TABLE IF EXISTS `m_user`;
 CREATE TABLE IF NOT EXISTS `m_user` (
-  `pwd` blob,
+  `pwd` varchar(600),
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(100) DEFAULT NULL,
   `activation_code` varchar(50) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
--- Dumping data for table hrms.m_user: ~12 rows (approximately)
+-- Dumping data for table hrms.m_user: ~13 rows (approximately)
 /*!40000 ALTER TABLE `m_user` DISABLE KEYS */;
 INSERT INTO `m_user` (`pwd`, `user_id`, `user_name`, `activation_code`, `status_id`) VALUES
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 1, 'Sarah', NULL, 1),
-	(_binary 0x6339326636666232653063333063663038623637653161633361306134653431313664663762373865386537383865616234343132343237376262653737363666356339353337343334356535386132646662323463613862343230373163636263303565323566343939366635343662393939626532333261633164616334, 2, 'bla', 'sfvvmnzfxmyw3n6sy7rnddshz2m53s', 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 3, 'Aulia', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 4, 'admin', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 5, 'Rio', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 6, 'Bella', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 7, 'Aditya', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 8, 'Maria', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 9, 'Ahmad', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 10, 'Susan', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 29, 'Jason', 'r6ktb2xz8vbmtyy64xmjffnjk6k57z', 1),
-	(_binary 0x3566313932343764363765383163393735373963373138643238333639333561383161613436373866343533636261636162323333353761396437623231306437383331343833616135656633626236623463323539333264313166363837333930386164653961356566323131663133646139333634313331383964376135, 51, 'iskandar.tio@gmail.com', 'pnpr4hmm2h5yjvf6jp7fjyvhsv2fhf', NULL);
+	(sha2('a',512), 1, 'admin', NULL, 1);
 /*!40000 ALTER TABLE `m_user` ENABLE KEYS */;
 
 
@@ -942,66 +923,11 @@ CREATE TABLE IF NOT EXISTS `m_user_role` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.m_user_role: ~44 rows (approximately)
+
+-- Dumping data for table hrms.m_user_role: ~78 rows (approximately)
 /*!40000 ALTER TABLE `m_user_role` DISABLE KEYS */;
 INSERT INTO `m_user_role` (`role_id`, `user_id`) VALUES
-	(3, 1),
-	(3, 2),
-	(1, 3),
-	(2, 4),
-	(1, 5),
-	(3, 6),
-	(1, 7),
-	(1, 8),
-	(1, 9),
-	(1, 10),
-	(1, 11),
-	(1, 11),
-	(1, 12),
-	(1, 13),
-	(1, 14),
-	(1, 15),
-	(1, 16),
-	(1, 17),
-	(1, 18),
-	(1, 19),
-	(1, 20),
-	(1, 21),
-	(1, 22),
-	(1, 23),
-	(1, 24),
-	(1, 25),
-	(1, 26),
-	(1, 27),
-	(1, 28),
-	(1, 29),
-	(1, 30),
-	(1, 31),
-	(1, 32),
-	(1, 33),
-	(1, 34),
-	(1, 38),
-	(1, 39),
-	(1, 40),
-	(1, 41),
-	(1, 42),
-	(1, 43),
-	(1, 44),
-	(1, 45),
-	(1, 46),
-	(1, 2),
-	(1, 2),
-	(1, 2),
-	(1, 2),
-	(1, 2),
-	(1, 2),
-	(1, 2),
-	(1, 2),
-	(1, 47),
-	(1, 48),
-	(1, 49),
-	(1, 50),
-	(1, 51);
+	(2, 1);
 /*!40000 ALTER TABLE `m_user_role` ENABLE KEYS */;
 
 
@@ -1089,7 +1015,7 @@ CREATE TABLE IF NOT EXISTS `question` (
   PRIMARY KEY (`question_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.question: ~3 rows (approximately)
+-- Dumping data for table hrms.question: ~6 rows (approximately)
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
 INSERT INTO `question` (`question_id`, `question_val`) VALUES
 	(1, 'Manage the team'),
@@ -1155,19 +1081,6 @@ INSERT INTO `salary_band` (`salary_band`) VALUES
 /*!40000 ALTER TABLE `salary_band` ENABLE KEYS */;
 
 
--- Dumping structure for table hrms.training
-DROP TABLE IF EXISTS `training`;
-CREATE TABLE IF NOT EXISTS `training` (
-  `training_id` int(11) NOT NULL AUTO_INCREMENT,
-  `training_name` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`training_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Dumping data for table hrms.training: ~0 rows (approximately)
-/*!40000 ALTER TABLE `training` DISABLE KEYS */;
-/*!40000 ALTER TABLE `training` ENABLE KEYS */;
-
-
 -- Dumping structure for table hrms.user_ranking
 DROP TABLE IF EXISTS `user_ranking`;
 CREATE TABLE IF NOT EXISTS `user_ranking` (
@@ -1177,7 +1090,8 @@ CREATE TABLE IF NOT EXISTS `user_ranking` (
   `user_comment` varchar(500) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_ranking_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+
 
 
 -- Dumping structure for table hrms.vacancy
@@ -1207,7 +1121,7 @@ CREATE TABLE IF NOT EXISTS `vacancy_employee` (
   `employee_id` varchar(50) DEFAULT NULL,
   `vacancy_progress_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`vacancy_employee_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
 
 
 
@@ -1222,7 +1136,7 @@ CREATE TABLE IF NOT EXISTS `vacancy_interview` (
   `vacancy_progress_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`vacancy_interview_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.vacancy_progress
@@ -1259,7 +1173,6 @@ CREATE TABLE IF NOT EXISTS `vacancy_question` (
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 
-
 -- Dumping structure for table hrms.vacancy_timeline
 DROP TABLE IF EXISTS `vacancy_timeline`;
 CREATE TABLE IF NOT EXISTS `vacancy_timeline` (
@@ -1271,8 +1184,7 @@ CREATE TABLE IF NOT EXISTS `vacancy_timeline` (
   `interview_time` varchar(10) DEFAULT NULL,
   `interview_place` varchar(5000) DEFAULT NULL,
   PRIMARY KEY (`vacancy_timeline_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.vacancy_type
