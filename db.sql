@@ -1,16 +1,9 @@
-drop database if exists hrms;
-create database hrms;
-use hrms;
 -- --------------------------------------------------------
 -- Host:                         localhost
 -- Server version:               5.5.28a-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
 -- HeidiSQL version:             7.0.0.4053
-<<<<<<< HEAD
--- Date/time:                    2015-02-16 07:52:00
-=======
--- Date/time:                    2015-02-02 23:13:27
->>>>>>> origin/master
+-- Date/time:                    2015-02-16 08:06:09
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -52,19 +45,15 @@ CREATE TABLE IF NOT EXISTS `applicants` (
   `am2_start_date` datetime DEFAULT NULL,
   `am2_end_date` datetime DEFAULT NULL,
   PRIMARY KEY (`applicants_id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
-
--- Dumping data for table hrms.applicants: ~13 rows (approximately)
+-- Dumping data for table hrms.applicants: ~3 rows (approximately)
 /*!40000 ALTER TABLE `applicants` DISABLE KEYS */;
 INSERT INTO `applicants` (`first_name`, `last_name`, `place_of_birth`, `gender`, `nationality`, `address`, `country`, `province`, `city`, `post_code`, `phone1`, `phone2`, `giz_staff`, `computer_skills`, `professional_skills`, `applicants_id`, `user_id`, `date_of_birth`, `country_name`, `cv`, `letter`, `applicant_status`, `nationality_val`, `contract1_start_date`, `contract1_end_date`, `am1_start_date`, `am1_end_date`, `contract2_start_date`, `contract2_end_date`, `am2_start_date`, `am2_end_date`) VALUES
-	('admin', '', 'Jakarta', 'Female', '1', 'Address', '1', '11', '16', '3242343', '4245434', '42r', NULL, 'fds rfew', 'vfdrew', 1, 1, '1981-11-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	('admin', 'a', NULL, 'Female', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 4, '1930-12-04 21:31:10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('Susan', 'a', 'jambi', 'Male', '1', 'Duri utara 4 no.34', '1', '31', '156', '11270', '08888341165', NULL, NULL, NULL, NULL, 6, 10, '2015-02-19 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('Iskandar', 'Tio', 'Jambi', 'Male', '1', 'a', NULL, NULL, NULL, '112', '32', NULL, NULL, NULL, NULL, 9, 56, '1981-07-14 00:00:00', NULL, NULL, NULL, NULL, NULL, '2015-02-01 00:00:00', '2017-02-28 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `applicants` ENABLE KEYS */;
->>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.applicants_answer
@@ -75,14 +64,12 @@ CREATE TABLE IF NOT EXISTS `applicants_answer` (
   `question_id` int(11) DEFAULT NULL,
   `choice_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`applicant_answer_id`)
-<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.applicants_answer: ~0 rows (approximately)
+/*!40000 ALTER TABLE `applicants_answer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `applicants_answer` ENABLE KEYS */;
 
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
->>>>>>> origin/master
 
 -- Dumping structure for table hrms.applicants_education
 DROP TABLE IF EXISTS `applicants_education`;
@@ -96,13 +83,13 @@ CREATE TABLE IF NOT EXISTS `applicants_education` (
   `year_to` int(11) DEFAULT NULL,
   `country` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_education_id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
->>>>>>> origin/master
+-- Dumping data for table hrms.applicants_education: ~1 rows (approximately)
+/*!40000 ALTER TABLE `applicants_education` DISABLE KEYS */;
+INSERT INTO `applicants_education` (`applicants_education_id`, `user_id`, `education_id`, `major`, `place`, `year_from`, `year_to`, `country`) VALUES
+	(1, 10, 1, 'IPA', 'Ricci', 1999, 2004, 'Indonesia');
+/*!40000 ALTER TABLE `applicants_education` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.applicants_language
@@ -114,13 +101,14 @@ CREATE TABLE IF NOT EXISTS `applicants_language` (
   `language_skill_id` int(50) DEFAULT NULL,
   `language_val` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_language_id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
->>>>>>> origin/master
+-- Dumping data for table hrms.applicants_language: ~2 rows (approximately)
+/*!40000 ALTER TABLE `applicants_language` DISABLE KEYS */;
+INSERT INTO `applicants_language` (`applicants_language_id`, `user_id`, `language_id`, `language_skill_id`, `language_val`) VALUES
+	(1, 56, 3, 2, NULL),
+	(2, 56, 1, 1, NULL);
+/*!40000 ALTER TABLE `applicants_language` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.applicants_other_language
@@ -133,7 +121,10 @@ CREATE TABLE IF NOT EXISTS `applicants_other_language` (
   PRIMARY KEY (`applicants_other_language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.applicants_other_language: ~0 rows (approximately)
+/*!40000 ALTER TABLE `applicants_other_language` DISABLE KEYS */;
+/*!40000 ALTER TABLE `applicants_other_language` ENABLE KEYS */;
+
 
 -- Dumping structure for table hrms.applicants_other_reference
 DROP TABLE IF EXISTS `applicants_other_reference`;
@@ -149,8 +140,9 @@ CREATE TABLE IF NOT EXISTS `applicants_other_reference` (
   PRIMARY KEY (`applicants_other_reference_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-
+-- Dumping data for table hrms.applicants_other_reference: ~0 rows (approximately)
+/*!40000 ALTER TABLE `applicants_other_reference` DISABLE KEYS */;
+/*!40000 ALTER TABLE `applicants_other_reference` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.applicants_reference
@@ -165,14 +157,11 @@ CREATE TABLE IF NOT EXISTS `applicants_reference` (
   `company_name` varchar(100) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`applicants_reference_id`)
-<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
-
->>>>>>> origin/master
+-- Dumping data for table hrms.applicants_reference: ~0 rows (approximately)
+/*!40000 ALTER TABLE `applicants_reference` DISABLE KEYS */;
+/*!40000 ALTER TABLE `applicants_reference` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.applicants_working
@@ -192,14 +181,11 @@ CREATE TABLE IF NOT EXISTS `applicants_working` (
   `email` varchar(50) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_working_id`)
-<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
->>>>>>> origin/master
+-- Dumping data for table hrms.applicants_working: ~0 rows (approximately)
+/*!40000 ALTER TABLE `applicants_working` DISABLE KEYS */;
+/*!40000 ALTER TABLE `applicants_working` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.business
@@ -209,9 +195,19 @@ CREATE TABLE IF NOT EXISTS `business` (
   `business_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`business_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.business: ~7 rows (approximately)
+/*!40000 ALTER TABLE `business` DISABLE KEYS */;
+INSERT INTO `business` (`business_id`, `business_val`, `sort_id`) VALUES
+	(1, 'NGO', 1),
+	(2, 'Private Sector', 2),
+	(3, 'Government', 3),
+	(4, 'International Organization', 4),
+	(5, 'University', 5),
+	(6, 'Self-Employed', 6),
+	(7, 'Others', 7);
+/*!40000 ALTER TABLE `business` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.choice
@@ -222,11 +218,13 @@ CREATE TABLE IF NOT EXISTS `choice` (
   `choice_val` varchar(1000) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`choice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-
-
+-- Dumping data for table hrms.choice: ~1 rows (approximately)
+/*!40000 ALTER TABLE `choice` DISABLE KEYS */;
+INSERT INTO `choice` (`choice_id`, `question_id`, `choice_val`, `sort_id`) VALUES
+	(165, 15, '1-2 years', 0);
+/*!40000 ALTER TABLE `choice` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.city
@@ -236,14 +234,9 @@ CREATE TABLE IF NOT EXISTS `city` (
   `province_id` int(11) DEFAULT NULL,
   `city_val` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`city_id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=475 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=474 DEFAULT CHARSET=latin1;
-
--- Dumping data for table hrms.city: ~551 rows (approximately)
+-- Dumping data for table hrms.city: ~553 rows (approximately)
 /*!40000 ALTER TABLE `city` DISABLE KEYS */;
 INSERT INTO `city` (`city_id`, `province_id`, `city_val`) VALUES
 	(1, 11, 'Simeulue'),
@@ -252,7 +245,6 @@ INSERT INTO `city` (`city_id`, `province_id`, `city_val`) VALUES
 	(4, 11, 'Aceh Tenggara'),
 	(5, 11, 'Aceh Timur'),
 	(6, 11, 'Aceh Tengah'),
-	(7, 11, 'Aceh Barat'),
 	(8, 11, 'Aceh Besar'),
 	(9, 11, 'Pidie'),
 	(10, 11, 'Bireuen'),
@@ -331,7 +323,7 @@ INSERT INTO `city` (`city_id`, `province_id`, `city_val`) VALUES
 	(83, 14, 'Rokan Hilir'),
 	(84, 14, 'Kepulauan Meranti'),
 	(85, 14, 'Pekanbaru'),
-	(86, 14, 'D U M A I'),
+	(86, 14, 'Dumai'),
 	(87, 15, 'Kerinci'),
 	(88, 15, 'Merangin'),
 	(89, 15, 'Sarolangun'),
@@ -395,7 +387,7 @@ INSERT INTO `city` (`city_id`, `province_id`, `city_val`) VALUES
 	(147, 21, 'Natuna'),
 	(148, 21, 'Lingga'),
 	(149, 21, 'Kepulauan Anambas'),
-	(150, 21, 'B A T A M'),
+	(150, 21, 'Batam'),
 	(151, 21, 'Tanjung Pinang'),
 	(152, 31, 'Kepulauan Seribu'),
 	(153, 31, 'Jakarta Selatan'),
@@ -718,9 +710,9 @@ INSERT INTO `city` (`city_id`, `province_id`, `city_val`) VALUES
 	(470, 94, 'Puncak'),
 	(471, 94, 'Dogiyai'),
 	(472, 94, 'Intan Jaya'),
-	(473, 94, 'Deiyai');
+	(473, 94, 'Deiyai'),
+	(474, 11, 'Aceh Barat');
 /*!40000 ALTER TABLE `city` ENABLE KEYS */;
->>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.contract_history
@@ -744,13 +736,13 @@ CREATE TABLE IF NOT EXISTS `contract_history` (
   `position` varchar(50) DEFAULT NULL,
   `reason` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`contract_history_id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
->>>>>>> origin/master
+-- Dumping data for table hrms.contract_history: ~1 rows (approximately)
+/*!40000 ALTER TABLE `contract_history` DISABLE KEYS */;
+INSERT INTO `contract_history` (`contract_history_id`, `user_id`, `start_date`, `end_date`, `salary`, `job_title`, `contract_status`, `salary_band`, `project_name`, `project_number`, `principal_advisor`, `team_leader`, `project_location`, `responsible_superior`, `SAP_No`, `position`, `reason`) VALUES
+	(1, 56, '2015-02-01 00:00:00', '2015-02-28 00:00:00', 5000000, 'fjdsio jfioed', 0, 'Level 2', 'name', 'blabla', 'bambam', 'bimbim', 'location', 'bobo', '3423 fkdsop', 'Project', 'Initial Salary');
+/*!40000 ALTER TABLE `contract_history` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.country
@@ -759,9 +751,13 @@ CREATE TABLE IF NOT EXISTS `country` (
   `country_id` int(11) NOT NULL AUTO_INCREMENT,
   `country_val` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`country_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.country: ~1 rows (approximately)
+/*!40000 ALTER TABLE `country` DISABLE KEYS */;
+INSERT INTO `country` (`country_id`, `country_val`) VALUES
+	(1, 'Indonesia');
+/*!40000 ALTER TABLE `country` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.education
@@ -771,11 +767,8 @@ CREATE TABLE IF NOT EXISTS `education` (
   `education_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`education_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
-<<<<<<< HEAD
--- Data exporting was unselected.
-=======
 -- Dumping data for table hrms.education: ~5 rows (approximately)
 /*!40000 ALTER TABLE `education` DISABLE KEYS */;
 INSERT INTO `education` (`education_id`, `education_val`, `sort_id`) VALUES
@@ -783,9 +776,8 @@ INSERT INTO `education` (`education_id`, `education_val`, `sort_id`) VALUES
 	(2, 'College', 2),
 	(3, 'Master', 4),
 	(4, 'Ph.D', 5),
-	(5, 'Bachelor', 3);
+	(5, 'University', 3);
 /*!40000 ALTER TABLE `education` ENABLE KEYS */;
->>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.email
@@ -801,10 +793,17 @@ CREATE TABLE IF NOT EXISTS `email` (
   `email_id` int(11) NOT NULL AUTO_INCREMENT,
   `sent` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`email_id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.email: ~5 rows (approximately)
+/*!40000 ALTER TABLE `email` DISABLE KEYS */;
+INSERT INTO `email` (`email_from`, `email_to`, `email_cc`, `email_bcc`, `email_subject`, `email_content`, `updatetime`, `email_id`, `sent`) VALUES
+	('iskandar.tio@gmail.com', 'iskandar.tio@gmail.com', '', '', 'Account Activation', 'Your password is: a\r\nPlease activate by clicking this link: <br/>\r\nhttp://localhost:8081/gizhrms/activate.php?link=4h2c7zb2vjdszz4rwmn8b8wnf62j6f', '2015-02-13 21:32:40', 1, '2015-02-13 21:32:40'),
+	('iskandar.tio@gmail.com', 'iskandar.tio@gmail.com', '', '', 'Account Activation', 'Your password is: a\r\nPlease activate by clicking this link: <br/>\r\nhttp://localhost:8081/gizhrms/activate.php?link=7ddhmrx2zjfvcszfjrmbdmyd5htvzh', '2015-02-15 00:16:36', 2, '2015-02-15 00:16:36'),
+	('iskandar.tio@gmail.com', 'iskandar.tio@gmail.com', '', '', 'Account Activation', 'Your password is: kdd52xbxh5 Please activate by clicking this link: <br> http://localhost:8081/gizhrms/activate.php?link=683d2rmkvdc8467csp2mjwwfmv3dpp', '2015-02-15 23:08:13', 3, '2015-02-15 23:08:13'),
+	('iskandar.tio@gmail.com', '3213', '', '', 'Account Activation', 'Your password is: xk57m2nv6x Please activate by clicking this link: <br> http://localhost:8081/gizhrms/activate.php?link=fhfc7mzjm7yxmwtdt58hpnvp7vwhfb', '2015-02-15 23:16:42', 4, '0000-00-00 00:00:00'),
+	('iskandar.tio@gmail.com', 'iskandar.tio@gmail.com', '', '', 'Account Activation', 'Your password is: yf7zkznswt Please activate by clicking this link: <br> http://localhost:8081/gizhrms/activate.php?link=2tkycs5wxw55wp4kzv4xzhb5b7bhmt', '2015-02-15 23:21:49', 5, '2015-02-15 23:21:49');
+/*!40000 ALTER TABLE `email` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.email_from
@@ -819,10 +818,11 @@ CREATE TABLE IF NOT EXISTS `email_from` (
   PRIMARY KEY (`host`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
->>>>>>> origin/master
+-- Dumping data for table hrms.email_from: ~1 rows (approximately)
+/*!40000 ALTER TABLE `email_from` DISABLE KEYS */;
+INSERT INTO `email_from` (`host`, `port`, `user_name`, `pwd`, `security_type`, `sender_name`) VALUES
+	('smtp.gmail.com', 587, 'zhao.iskandar@gmail.com', 'Âu²èæ>ÿ¿€“¨°È', 'tls', 'Iskandar Tio');
+/*!40000 ALTER TABLE `email_from` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.email_setup
@@ -841,31 +841,23 @@ CREATE TABLE IF NOT EXISTS `email_setup` (
   `general` int(11) DEFAULT NULL,
   `email_type_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`email_setup_id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.email_setup: ~12 rows (approximately)
+-- Dumping data for table hrms.email_setup: ~10 rows (approximately)
 /*!40000 ALTER TABLE `email_setup` DISABLE KEYS */;
-INSERT INTO `email_setup` (`email_type`, `email_from`, `email_to`, `email_cc`, `email_bcc`, `email_subject`, `email_content`, `updatetime`, `email_setup_id`, `params`) VALUES
-	('forgot_password', NULL, '@email', NULL, NULL, '[GIZ e-recruitment] Forgot Password', 'Your password is resetted to @password', NULL, 1, NULL),
-	('register', 'iskandar.tio@gmail.com', '@email', NULL, NULL, 'Account Activation', 'Your password is: @password\r\nPlease activate by clicking this link: <br/>\r\n<a href="http://192.168.1.171:8081/gizhrms/activate?link=@link">http://192.168.1.171:8081/gizhrms/activate.php?link=@link</a>', NULL, 2, NULL),
-	('invitation_5', NULL, 'idjsaioj', NULL, NULL, 'dsjaio', '<p><br></p>', NULL, 3, NULL),
-	('rejection_5', NULL, 'jidosa', NULL, NULL, 'djsio', '<p><br></p>', NULL, 4, NULL),
-	('invitation_1', NULL, '@applicant_email', NULL, NULL, 'First Interview', '<p>Thank you for applying.&nbsp;<br></p><p>You are selected for interview</p><p>Place: @interview_date</p><p>Time: @interview_time</p><p>Location: @interview_location</p><p>Regards,</p><p><br data-mce-bogus="1"></p>', NULL, 5, '@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer'),
-	('rejection_2', NULL, '@applicant_email', NULL, NULL, '[GIZ] @vacancy_name', '<div><strong>Dear @applicant_name,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the @vacancy_name&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;">+62 21 851 7186</a></strong></div><div><strong>F <a href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;">www.paklim.org</a></strong></div>', NULL, 6, '@applicant_email, @vacancy_name, @applicant_name'),
-	('invitation_2', NULL, 'iskandar.tio@gmail.com', NULL, NULL, '[GIZ] Interview Invitation', '<div><strong>Dear @applicant_name,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for @vacancy_name&nbsp;position as attached job description </strong><strong>o</strong><strong>n @interview_date</strong><strong>&nbsp;</strong><strong>a</strong><strong>t @interview_time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>@interview_location</strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with @interviewer.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>', NULL, 7, '@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer'),
-	('invitation_3', NULL, 'iskandar.tio@gmail.com', NULL, NULL, '[GIZ] Interview Invitation @vacancy_name', '<div><strong>Dear @applicant_name,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for @vacancy_name&nbsp;position as attached job description </strong><strong>o</strong><strong>n @interview_date</strong><strong>&nbsp;</strong><strong>a</strong><strong>t @interview_time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>@interview_location</strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with @interviewer.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>', NULL, 8, NULL),
-	('interviewer_1', NULL, '@interviewer_email', NULL, NULL, 'Interview', '<p>Here is the list:</p><p>@list</p><p>Regards</p><p>&nbsp;<br></p>', NULL, 9, '@interviewer_email, @interviewer_name, @list'),
-	('reference_1', NULL, '@reference_email', NULL, NULL, 'Asking for reference', '<p>Dear @reference_name,&nbsp;</p><p>&nbsp;</p><p>I hope this email finds you well.</p><p>&nbsp;</p><p>First of all I would like to introduce myself as HR Professional of Environment and Climate Change Programme of Deutsche Gesellschaft fuer Internationale Zusammenarbeit (GIZ) â€“ a German international cooperation for sustainable development in its Jakarta Office, Indonesia.</p><p>&nbsp;</p><p>I am writing you regarding @applicant_name, who considered to become Accounting/Finance Professional in GE-LAMA-I project.&nbsp;</p><p>As part of our recruitment process, we should conduct reference check for @applicant_name, as he has putting your name as his referee.</p><p>&nbsp;</p><p>It would be great if &nbsp;you could share your comments and impressions regarding @applicant_nameâ€™s qualifications and skills in @vacancy_criteria, as well as your connection with him.</p><p>&nbsp;</p><p>We do really hope that we could receive your recommendation by Tuesday, 27th January 2015.</p><p>&nbsp;&nbsp;</p><p>Many thanks for your kind assistance and I am looking forward to hearing from you.</p><p>&nbsp;</p><p>Best Regards,</p><p>Fitri Kusumayanti</p><p>HR Professional for Environment and Climate Change Programme</p><p>(PAKLIM, BMUB ICCTF and GE-LAMA-I Projects)</p><p><strong>&nbsp;</strong></p><p><strong>Deutsche Gesellschaft fÃ¼r </strong></p><p><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></p><p>c/o Kementerian Negara Lingkungan Hidup (KLH)</p><p>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</p><p>13410 Jakarta, Indonesia</p><p>T +62 21 851 7186</p><p>F +62 21 851 6110</p><p>M <strong>+62 8179 838467 </strong></p><p><strong>E </strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de"><strong>fitri.kusumayanti@giz.de</strong></a></p><p>&nbsp;</p><p>&nbsp;</p>', NULL, 10, '@reference_name, @reference_email, @applicant_name, @vacancy_criteria'),
-	('interviewer_5', NULL, 'dsa', NULL, NULL, NULL, '<br data-mce-bogus="1">', NULL, 11, NULL),
-	('reference_5', NULL, 'fdsfds', NULL, NULL, NULL, '<br data-mce-bogus="1">', NULL, 12, NULL);
+INSERT INTO `email_setup` (`email_type`, `email_from`, `email_to`, `email_cc`, `email_bcc`, `email_subject`, `email_content`, `updatetime`, `email_setup_id`, `params`, `general`, `email_type_name`) VALUES
+	('forgot_password', NULL, '@email', NULL, NULL, '[GIZ e-recruitment] Forgot Password', 'Your password is resetted to @password. You can login using your new password<br>Regards,<br>Iskandar Tio', NULL, 1, '@email,  @password', 1, 'Forgot Password'),
+	('register', 'iskandar.tio@gmail.com', '@email', NULL, NULL, 'Account Activation', 'Your password is: @password Please activate by clicking this link: <br> http://localhost:8081/gizhrms/activate.php?link=@link', NULL, 2, '@email, @link', 1, 'Registration'),
+	('invitation_5', NULL, 'idjsaioj', NULL, NULL, 'dsjaio', '<p>s<strong>s</strong></p>', NULL, 3, 'hfjfjfh', NULL, NULL),
+	('rejection_5', NULL, 'jidosa', NULL, NULL, 'djsio', '<p>jfdsiofjds jfiods</p>', NULL, 4, NULL, NULL, NULL),
+	('invitation_1', NULL, '@applicant_email', NULL, NULL, 'First Interview', '<p>Thank you for applying.&nbsp;<br></p><p>You are selected for interview</p><p>Place: @interview_date</p><p>Time: @interview_time</p><p>Location: @interview_location</p><p>Regards,</p><p><br data-mce-bogus="1"></p>', NULL, 5, '@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer', NULL, NULL),
+	('rejection_2', NULL, 'iskandar.tio@gmail.com', NULL, NULL, '[GIZ] @vacancy_name', '<div><strong>Dear @applicant_name,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the @vacancy_name&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;">+62 21 851 7186</a></strong></div><div><strong>F <a href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;">www.paklim.org</a></strong></div>', NULL, 6, '@applicant_email, @vacancy_name, @applicant_name', NULL, NULL),
+	('invitation_2', NULL, 'iskandar.tio@gmail.com', NULL, NULL, '[GIZ] Interview Invitation', '<div><strong>Dear @applicant_name,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for @vacancy_name&nbsp;position as attached job description </strong><strong>o</strong><strong>n @interview_date</strong><strong>&nbsp;</strong><strong>a</strong><strong>t @interview_time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>@interview_location</strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with @interviewer.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>', NULL, 7, '@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer', NULL, NULL),
+	('invitation_3', NULL, 'iskandar.tio@gmail.com', NULL, NULL, '[GIZ] Interview Invitation @vacancy_name', '<div><strong>Dear @applicant_name,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for @vacancy_name&nbsp;position as attached job description </strong><strong>o</strong><strong>n @interview_date</strong><strong>&nbsp;</strong><strong>a</strong><strong>t @interview_time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>@interview_location</strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with @interviewer.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>', NULL, 8, NULL, NULL, NULL),
+	('interviewer_1', NULL, '@interviewer_email', NULL, NULL, 'Interview', '<p>Here is the list:</p><p>@list</p><p>Regards</p><p>&nbsp;<br></p>', NULL, 9, '@interviewer_email, @interviewer_name, @list', NULL, NULL),
+	('reference_1', NULL, '@reference_email', NULL, NULL, 'Asking for reference', '<p>Dear @reference_name,&nbsp;</p><p>&nbsp;</p><p>I hope this email finds you well.</p><p>&nbsp;</p><p>First of all I would like to introduce myself as HR Professional of Environment and Climate Change Programme of Deutsche Gesellschaft fuer Internationale Zusammenarbeit (GIZ) â€“ a German international cooperation for sustainable development in its Jakarta Office, Indonesia.</p><p>&nbsp;</p><p>I am writing you regarding @applicant_name, who considered to become Accounting/Finance Professional in GE-LAMA-I project.&nbsp;</p><p>As part of our recruitment process, we should conduct reference check for @applicant_name, as he has putting your name as his referee.</p><p>&nbsp;</p><p>It would be great if &nbsp;you could share your comments and impressions regarding @applicant_nameâ€™s qualifications and skills in @vacancy_criteria, as well as your connection with him.</p><p>&nbsp;</p><p>We do really hope that we could receive your recommendation by Tuesday, 27th January 2015.</p><p>&nbsp;&nbsp;</p><p>Many thanks for your kind assistance and I am looking forward to hearing from you.</p><p>&nbsp;</p><p>Best Regards,</p><p>Fitri Kusumayanti</p><p>HR Professional for Environment and Climate Change Programme</p><p>(PAKLIM, BMUB ICCTF and GE-LAMA-I Projects)</p><p><strong>&nbsp;</strong></p><p><strong>Deutsche Gesellschaft fÃ¼r </strong></p><p><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></p><p>c/o Kementerian Negara Lingkungan Hidup (KLH)</p><p>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</p><p>13410 Jakarta, Indonesia</p><p>T +62 21 851 7186</p><p>F +62 21 851 6110</p><p>M <strong>+62 8179 838467 </strong></p><p><strong>E </strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de"><strong>fitri.kusumayanti@giz.de</strong></a></p><p>&nbsp;</p><p>&nbsp;</p>', NULL, 10, '@reference_name, @reference_email, @applicant_name, @vacancy_criteria', NULL, NULL);
 /*!40000 ALTER TABLE `email_setup` ENABLE KEYS */;
 
->>>>>>> origin/master
-
--- Data exporting was unselected.
 
 -- Dumping structure for table hrms.gender
 DROP TABLE IF EXISTS `gender`;
@@ -874,13 +866,14 @@ CREATE TABLE IF NOT EXISTS `gender` (
   `gender_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`gender_id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-=======
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
->>>>>>> origin/master
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.gender: ~2 rows (approximately)
+/*!40000 ALTER TABLE `gender` DISABLE KEYS */;
+INSERT INTO `gender` (`gender_id`, `gender_val`, `sort_id`) VALUES
+	(1, 'Male', 1),
+	(2, 'Female', 2);
+/*!40000 ALTER TABLE `gender` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.job_applied
@@ -897,13 +890,11 @@ CREATE TABLE IF NOT EXISTS `job_applied` (
   `salary_expectation` int(11) DEFAULT NULL,
   `negotiable` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`job_applied_id`)
-<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
->>>>>>> origin/master
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.job_applied: ~0 rows (approximately)
+/*!40000 ALTER TABLE `job_applied` DISABLE KEYS */;
+/*!40000 ALTER TABLE `job_applied` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.language
@@ -913,9 +904,15 @@ CREATE TABLE IF NOT EXISTS `language` (
   `language_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`language_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.language: ~3 rows (approximately)
+/*!40000 ALTER TABLE `language` DISABLE KEYS */;
+INSERT INTO `language` (`language_id`, `language_val`, `sort_id`) VALUES
+	(1, 'Indonesian', 1),
+	(2, 'English', 2),
+	(3, 'German', 3);
+/*!40000 ALTER TABLE `language` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.language_skill
@@ -925,9 +922,17 @@ CREATE TABLE IF NOT EXISTS `language_skill` (
   `language_skill_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`language_skill_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.language_skill: ~5 rows (approximately)
+/*!40000 ALTER TABLE `language_skill` DISABLE KEYS */;
+INSERT INTO `language_skill` (`language_skill_id`, `language_skill_val`, `sort_id`) VALUES
+	(1, 'Mother Tongue', 1),
+	(2, 'Advanced', 2),
+	(3, 'Intermediate', 3),
+	(4, 'Basic', 4),
+	(5, 'None', 5);
+/*!40000 ALTER TABLE `language_skill` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.location
@@ -937,16 +942,16 @@ CREATE TABLE IF NOT EXISTS `location` (
   `location_code` varchar(50) DEFAULT NULL,
   `location_val` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`location_id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-=======
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
->>>>>>> origin/master
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.location: ~2 rows (approximately)
+/*!40000 ALTER TABLE `location` DISABLE KEYS */;
+INSERT INTO `location` (`location_id`, `location_code`, `location_val`) VALUES
+	(2, 'Wisma Bakrie2', '<p>Location: </p><p>Jalan Jend. Sudirman Kav.60</p>'),
+	(3, 'KLH', '<p>Kementrian Lingkungan Hidup</p><p>Gedung Otorita Batam</p>');
+/*!40000 ALTER TABLE `location` ENABLE KEYS */;
 
 
-<<<<<<< HEAD
 -- Dumping structure for table hrms.month_options
 DROP TABLE IF EXISTS `month_options`;
 CREATE TABLE IF NOT EXISTS `month_options` (
@@ -956,10 +961,10 @@ CREATE TABLE IF NOT EXISTS `month_options` (
   PRIMARY KEY (`month_options_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.month_options: ~0 rows (approximately)
+/*!40000 ALTER TABLE `month_options` DISABLE KEYS */;
+/*!40000 ALTER TABLE `month_options` ENABLE KEYS */;
 
-=======
->>>>>>> origin/master
 
 -- Dumping structure for table hrms.m_role
 DROP TABLE IF EXISTS `m_role`;
@@ -968,33 +973,44 @@ CREATE TABLE IF NOT EXISTS `m_role` (
   `role_name` varchar(50) DEFAULT NULL,
   `role_description` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.m_role: ~3 rows (approximately)
+/*!40000 ALTER TABLE `m_role` DISABLE KEYS */;
+INSERT INTO `m_role` (`role_id`, `role_name`, `role_description`) VALUES
+	(1, 'applicant', NULL),
+	(2, 'admin', NULL),
+	(3, 'employee', NULL);
+/*!40000 ALTER TABLE `m_role` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.m_user
 DROP TABLE IF EXISTS `m_user`;
 CREATE TABLE IF NOT EXISTS `m_user` (
-  `pwd` varchar(600),
+  `pwd` blob,
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(100) DEFAULT NULL,
   `activation_code` varchar(50) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
--- Data exporting was unselected.
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
-
--- Dumping data for table hrms.m_user: ~13 rows (approximately)
+-- Dumping data for table hrms.m_user: ~12 rows (approximately)
 /*!40000 ALTER TABLE `m_user` DISABLE KEYS */;
 INSERT INTO `m_user` (`pwd`, `user_id`, `user_name`, `activation_code`, `status_id`) VALUES
-	(sha2('a',512), 1, 'admin', NULL, 1);
+	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 1, 'Sarah', NULL, 1),
+	(_binary 0x6339326636666232653063333063663038623637653161633361306134653431313664663762373865386537383865616234343132343237376262653737363666356339353337343334356535386132646662323463613862343230373163636263303565323566343939366635343662393939626532333261633164616334, 2, 'bla', 'sfvvmnzfxmyw3n6sy7rnddshz2m53s', 1),
+	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 3, 'Aulia', NULL, 1),
+	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 4, 'admin', NULL, 1),
+	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 5, 'Rio', NULL, 1),
+	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 6, 'Bella', NULL, 1),
+	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 7, 'Aditya', NULL, 1),
+	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 8, 'Maria', NULL, 1),
+	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 9, 'Ahmad', NULL, 1),
+	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 10, 'Susan', NULL, 1),
+	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 29, 'Jason', 'r6ktb2xz8vbmtyy64xmjffnjk6k57z', 1),
+	(_binary 0x3466626462623534393563613939303038373063356266313237313562306563363031326435383132366232346431643166623332343461366534663132343966386439613536323438633364343931343637613638386166643862613061663464623231363266343361323864643361626166366337373761346165636365, 56, 'iskandar.tio@gmail.com', '2tkycs5wxw55wp4kzv4xzhb5b7bhmt', NULL);
 /*!40000 ALTER TABLE `m_user` ENABLE KEYS */;
->>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.m_user_role
@@ -1004,16 +1020,72 @@ CREATE TABLE IF NOT EXISTS `m_user_role` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-<<<<<<< HEAD
--- Data exporting was unselected.
-=======
-
--- Dumping data for table hrms.m_user_role: ~78 rows (approximately)
+-- Dumping data for table hrms.m_user_role: ~62 rows (approximately)
 /*!40000 ALTER TABLE `m_user_role` DISABLE KEYS */;
 INSERT INTO `m_user_role` (`role_id`, `user_id`) VALUES
-	(2, 1);
+	(3, 1),
+	(3, 2),
+	(1, 3),
+	(2, 4),
+	(1, 5),
+	(3, 6),
+	(1, 7),
+	(1, 8),
+	(1, 9),
+	(1, 10),
+	(1, 11),
+	(1, 11),
+	(1, 12),
+	(1, 13),
+	(1, 14),
+	(1, 15),
+	(1, 16),
+	(1, 17),
+	(1, 18),
+	(1, 19),
+	(1, 20),
+	(1, 21),
+	(1, 22),
+	(1, 23),
+	(1, 24),
+	(1, 25),
+	(1, 26),
+	(1, 27),
+	(1, 28),
+	(1, 29),
+	(1, 30),
+	(1, 31),
+	(1, 32),
+	(1, 33),
+	(1, 34),
+	(1, 38),
+	(1, 39),
+	(1, 40),
+	(1, 41),
+	(1, 42),
+	(1, 43),
+	(1, 44),
+	(1, 45),
+	(1, 46),
+	(1, 2),
+	(1, 2),
+	(1, 2),
+	(1, 2),
+	(1, 2),
+	(1, 2),
+	(1, 2),
+	(1, 2),
+	(1, 47),
+	(1, 48),
+	(1, 49),
+	(1, 50),
+	(1, 51),
+	(1, 52),
+	(1, 53),
+	(1, 54),
+	(1, 55),
+	(1, 56);
 /*!40000 ALTER TABLE `m_user_role` ENABLE KEYS */;
->>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.nationality
@@ -1023,9 +1095,23 @@ CREATE TABLE IF NOT EXISTS `nationality` (
   `nationality_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`nationality_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.nationality: ~11 rows (approximately)
+/*!40000 ALTER TABLE `nationality` DISABLE KEYS */;
+INSERT INTO `nationality` (`nationality_id`, `nationality_val`, `sort_id`) VALUES
+	(1, 'Indonesia', 4),
+	(2, 'Germany', 3),
+	(3, 'Singapore', 9),
+	(4, 'Malaysia', 6),
+	(5, 'Brunei Darussalam', 1),
+	(8, 'Myanmar', 7),
+	(9, 'Philippines', 8),
+	(10, 'Thailand', 10),
+	(11, 'Vietnam', 11),
+	(12, 'Laos', 5),
+	(13, 'Cambodia', 2);
+/*!40000 ALTER TABLE `nationality` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.province
@@ -1036,9 +1122,46 @@ CREATE TABLE IF NOT EXISTS `province` (
   `region_id` int(11) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`province_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.province: ~34 rows (approximately)
+/*!40000 ALTER TABLE `province` DISABLE KEYS */;
+INSERT INTO `province` (`province_id`, `province_val`, `region_id`, `sort_id`) VALUES
+	(11, 'Aceh', 1, 1),
+	(12, 'Sumatera Utara', 1, 2),
+	(13, 'Sumatera Barat', 1, 3),
+	(14, 'Riau', 1, 4),
+	(15, 'Jambi', 1, 5),
+	(16, 'Sumatera Selatan', 1, 6),
+	(17, 'Bengkulu', 1, 7),
+	(18, 'Lampung', 1, 8),
+	(19, 'Kepulauan Bangka Belitung', 1, 9),
+	(21, 'Kepulauan Riau', 1, 10),
+	(31, 'Dki Jakarta', 7, 1),
+	(32, 'Jawa Barat', 7, 2),
+	(33, 'Jawa Tengah', 7, 3),
+	(34, 'Di Yogyakarta', 7, 4),
+	(35, 'Jawa Timur', 7, 5),
+	(36, 'Banten', 7, 6),
+	(51, 'Bali', 3, 1),
+	(52, 'Nusa Tenggara Barat', 3, 2),
+	(53, 'Nusa Tenggara Timur', 3, 3),
+	(61, 'Kalimantan Barat', 4, 1),
+	(62, 'Kalimantan Tengah', 4, 2),
+	(63, 'Kalimantan Selatan', 4, 3),
+	(64, 'Kalimantan Timur', 4, 4),
+	(65, 'Kalimantan Utara', 4, 5),
+	(71, 'Sulawesi Utara', 5, 1),
+	(72, 'Sulawesi Tengah', 5, 2),
+	(73, 'Sulawesi Selatan', 5, 3),
+	(74, 'Sulawesi Tenggara', 5, 4),
+	(75, 'Gorontalo', 5, 5),
+	(76, 'Sulawesi Barat', 5, 6),
+	(81, 'Maluku', 6, 1),
+	(82, 'Maluku Utara', 6, 2),
+	(91, 'Papua Barat', 6, 3),
+	(94, 'Papua', 6, 4);
+/*!40000 ALTER TABLE `province` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.question
@@ -1047,11 +1170,8 @@ CREATE TABLE IF NOT EXISTS `question` (
   `question_id` int(11) NOT NULL AUTO_INCREMENT,
   `question_val` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`question_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
-<<<<<<< HEAD
--- Data exporting was unselected.
-=======
 -- Dumping data for table hrms.question: ~6 rows (approximately)
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
 INSERT INTO `question` (`question_id`, `question_val`) VALUES
@@ -1062,7 +1182,6 @@ INSERT INTO `question` (`question_id`, `question_val`) VALUES
 	(15, ' Experiences in general administration'),
 	(16, 'Experiences in inventory');
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
->>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.ranking
@@ -1071,9 +1190,15 @@ CREATE TABLE IF NOT EXISTS `ranking` (
   `ranking_id` int(11) NOT NULL AUTO_INCREMENT,
   `ranking_val` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`ranking_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.ranking: ~3 rows (approximately)
+/*!40000 ALTER TABLE `ranking` DISABLE KEYS */;
+INSERT INTO `ranking` (`ranking_id`, `ranking_val`) VALUES
+	(1, 'A'),
+	(2, 'B'),
+	(3, 'C');
+/*!40000 ALTER TABLE `ranking` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.region
@@ -1083,9 +1208,18 @@ CREATE TABLE IF NOT EXISTS `region` (
   `region_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`region_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.region: ~6 rows (approximately)
+/*!40000 ALTER TABLE `region` DISABLE KEYS */;
+INSERT INTO `region` (`region_id`, `region_val`, `sort_id`) VALUES
+	(1, 'Sumatera', 1),
+	(3, 'Kalimantan', 6),
+	(4, 'Bali dan Nusa Tenggara', 3),
+	(5, 'Sulawesi', 5),
+	(6, 'Maluku dan Papua', 7),
+	(7, 'Jawa', 4);
+/*!40000 ALTER TABLE `region` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.salary_band
@@ -1095,10 +1229,15 @@ CREATE TABLE IF NOT EXISTS `salary_band` (
   PRIMARY KEY (`salary_band`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.salary_band: ~3 rows (approximately)
+/*!40000 ALTER TABLE `salary_band` DISABLE KEYS */;
+INSERT INTO `salary_band` (`salary_band`) VALUES
+	('Level 1'),
+	('Level 2'),
+	('Level 3');
+/*!40000 ALTER TABLE `salary_band` ENABLE KEYS */;
 
 
-<<<<<<< HEAD
 -- Dumping structure for table hrms.training
 DROP TABLE IF EXISTS `training`;
 CREATE TABLE IF NOT EXISTS `training` (
@@ -1107,11 +1246,11 @@ CREATE TABLE IF NOT EXISTS `training` (
   PRIMARY KEY (`training_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.training: ~0 rows (approximately)
+/*!40000 ALTER TABLE `training` DISABLE KEYS */;
+/*!40000 ALTER TABLE `training` ENABLE KEYS */;
 
 
-=======
->>>>>>> origin/master
 -- Dumping structure for table hrms.user_ranking
 DROP TABLE IF EXISTS `user_ranking`;
 CREATE TABLE IF NOT EXISTS `user_ranking` (
@@ -1121,14 +1260,11 @@ CREATE TABLE IF NOT EXISTS `user_ranking` (
   `user_comment` varchar(500) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_ranking_id`)
-<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
-
->>>>>>> origin/master
+-- Dumping data for table hrms.user_ranking: ~0 rows (approximately)
+/*!40000 ALTER TABLE `user_ranking` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_ranking` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.vacancy
@@ -1147,9 +1283,13 @@ CREATE TABLE IF NOT EXISTS `vacancy` (
   `allowance` int(11) DEFAULT NULL,
   `vacancy_criteria` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`vacancy_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.vacancy: ~1 rows (approximately)
+/*!40000 ALTER TABLE `vacancy` DISABLE KEYS */;
+INSERT INTO `vacancy` (`vacancy_id`, `vacancy_code`, `vacancy_name`, `vacancy_startdate`, `vacancy_enddate`, `vacancy_description`, `vacancy_closedate`, `vacancy_progress_id`, `vacancy_code2`, `vacancy_type`, `allowance`, `vacancy_criteria`) VALUES
+	(1, 'Accounting', 'Accounting', '2015-02-15 00:00:00', '2015-02-28 00:00:00', _binary 0x6A666469736F66206A73696F6A206669646F73, NULL, NULL, 'ACC', 'Intern', 50000, 'fjsifods');
+/*!40000 ALTER TABLE `vacancy` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.vacancy_employee
@@ -1160,13 +1300,11 @@ CREATE TABLE IF NOT EXISTS `vacancy_employee` (
   `employee_id` varchar(50) DEFAULT NULL,
   `vacancy_progress_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`vacancy_employee_id`)
-<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
->>>>>>> origin/master
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.vacancy_employee: ~0 rows (approximately)
+/*!40000 ALTER TABLE `vacancy_employee` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vacancy_employee` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.vacancy_interview
@@ -1180,13 +1318,11 @@ CREATE TABLE IF NOT EXISTS `vacancy_interview` (
   `vacancy_progress_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`vacancy_interview_id`)
-<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
->>>>>>> origin/master
+-- Dumping data for table hrms.vacancy_interview: ~0 rows (approximately)
+/*!40000 ALTER TABLE `vacancy_interview` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vacancy_interview` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.vacancy_progress
@@ -1199,9 +1335,18 @@ CREATE TABLE IF NOT EXISTS `vacancy_progress` (
   `required` bit(1) DEFAULT NULL,
   `active` int(11) DEFAULT NULL,
   PRIMARY KEY (`vacancy_progress_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.vacancy_progress: ~6 rows (approximately)
+/*!40000 ALTER TABLE `vacancy_progress` DISABLE KEYS */;
+INSERT INTO `vacancy_progress` (`vacancy_progress_id`, `vacancy_progress_val`, `sort_id`, `process_name`, `required`, `active`) VALUES
+	(1, 'First Interview', 3, 'First Interview', b'00000000', 1),
+	(2, 'Second Interview', 5, 'Second Interview', b'00000000', 1),
+	(3, 'Negotiation', 6, 'Negotiation', b'10000000', 1),
+	(4, 'Closing', 7, 'Accept as Employee', b'10000000', 1),
+	(5, 'Shortlist', 1, 'Shortlist', b'00000000', 1),
+	(6, 'Written Test', 2, 'Written Test', NULL, 1);
+/*!40000 ALTER TABLE `vacancy_progress` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.vacancy_question
@@ -1213,7 +1358,10 @@ CREATE TABLE IF NOT EXISTS `vacancy_question` (
   PRIMARY KEY (`vacancy_question_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.vacancy_question: ~0 rows (approximately)
+/*!40000 ALTER TABLE `vacancy_question` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vacancy_question` ENABLE KEYS */;
+
 
 -- Dumping structure for table hrms.vacancy_timeline
 DROP TABLE IF EXISTS `vacancy_timeline`;
@@ -1226,13 +1374,11 @@ CREATE TABLE IF NOT EXISTS `vacancy_timeline` (
   `interview_time` varchar(10) DEFAULT NULL,
   `interview_place` varchar(5000) DEFAULT NULL,
   PRIMARY KEY (`vacancy_timeline_id`)
-<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
-=======
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=latin1;
->>>>>>> origin/master
+-- Dumping data for table hrms.vacancy_timeline: ~0 rows (approximately)
+/*!40000 ALTER TABLE `vacancy_timeline` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vacancy_timeline` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.vacancy_type
@@ -1241,6 +1387,11 @@ CREATE TABLE IF NOT EXISTS `vacancy_type` (
   `vacancy_type` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table hrms.vacancy_type: ~2 rows (approximately)
+/*!40000 ALTER TABLE `vacancy_type` DISABLE KEYS */;
+INSERT INTO `vacancy_type` (`vacancy_type`) VALUES
+	('Intern'),
+	('National Personnel');
+/*!40000 ALTER TABLE `vacancy_type` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
