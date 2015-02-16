@@ -71,6 +71,7 @@ require "pages/startup.php";
 			$_SESSION['edit_id']=$user_id;
 			$contract_history_id=db::insert('contract_history','user_id, start_date, end_date', array($user_id, '1900-01-01', '3000-01-01'), $con);
 			$_SESSION['contract_history_id']=$contract_history_id;
+			db::Log("contract_history_id=".$contract_history_id);
 			$i=db::insertEasy('applicants', $_POST,$con);
 		} else {
 			$data['is_new']=0;
@@ -106,8 +107,13 @@ require "pages/startup.php";
 	if ($type=='save_current_contract') {
 		$user_id=$_SESSION['edit_id'];
 		$_POST['contract_history_id']=$_SESSION['contract_history_id'];
+		db::Log("save_current_contract:".$_SESSION['contract_history_id']);
 		$contract_history_id=$_POST['contract_history_id'];
 		$con=db::beginTrans();
+		if (!isset($start_date)) {
+			unset($_POST['start_date']);
+			unset($_POST['end_date']);
+		}
 		db::updateEasy('contract_history',$_POST, $con);
 		if (isset($start_date)) {
 			db::update('applicants','contract1_start_date, contract1_end_date','user_id=? and contract1_start_date is null', array($start_date, $end_date, $user_id), $con);

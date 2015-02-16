@@ -1,11 +1,20 @@
+
 function setDatePicker() {
-	$("input[class^='date']").each(function(idx) {
-		$(this).datepicker({ dateFormat: "dd-mm-yy", changeMonth:true, changeYear:true });
+	$("input[class^='date']").each(function(idx) {		
+		setDatePickerPrivate(this);
 	});
 	$("input[class$='date']").each(function(idx) {
-		$(this).datepicker({ dateFormat: "dd-mm-yy", changeMonth:true, changeYear:true });
-		
+		setDatePickerPrivate(this);
 	});
+}
+
+function setDOB() {
+	$('#date_of_birth').datepicker({ dateFormat: "dd-mm-yy", changeMonth:true, changeYear:true, yearRange:'-65:-17' });
+}
+function setDatePickerPrivate(o) {
+	if (!$(o).hasClass('hasDatepicker')) {
+		$(o).datepicker({ dateFormat: "dd-mm-yy", changeMonth:true, changeYear:true });
+	}
 }
 
 function convertDate(d) {	

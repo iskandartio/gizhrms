@@ -48,8 +48,9 @@
 		bind('#country','change', ChangeCountry);
 		bind('#btn_save','click', Save);
 		bind('#nationality','change', ChangeNationality);
-		
+		setDOB();
 		setDatePicker();
+		
 		build_city();
 		
 		ChangeProvinces($('#province').val(), '<?php _p($applicant['city'])?>');

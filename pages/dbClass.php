@@ -166,7 +166,8 @@ class db {
 	}
 	
 	static function update($tbl, $fields, $where, $params=array(), $con=null) {
-		$s="update $tbl set ".str_replace(',','=?,', $fields)."=? where $where";
+		$s="update $tbl set ".str_replace(',','=?,', $fields)."=?";
+		if ($where!='') $s.=" where $where";
 		db::Log($s);
 		return db::ExecMe($s, $params, $con);
 	}

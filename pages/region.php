@@ -16,7 +16,7 @@
 		bind('.btn_cancel',"click", Cancel);
 		bind('.btn_up',"click", Up);
 		bind('.btn_down',"click", Down);
-		hideColumnsArr('tbl', ['region_id']);
+		hideColumnsArr('tbl_region', ['region_id']);
 	}
 	function Delete() {
 		par=$(this).closest("tr");
@@ -35,7 +35,7 @@
 		a+="<td>"+getImageTags(['save','delete'])+"</td>";
 		a+="</tr>";
 		
-		$('#tbl').append(a);
+		$('#tbl_region tbody').prepend(a);
 		bindAll();
 	}
 	function Edit() {
@@ -91,7 +91,7 @@
 
 </script>
 <button class="button_link" id="btn_add">Add Region</button>
-<table id='tbl' class='tbl'>
+<table id='tbl_region' class='tbl'>
 <thead><tr><th></th><th>Region</th><th></th></tr><tbody>
 <?php foreach ($res as $row) {
 	_p("<tr><td>".$row['region_id']."</td><td>".$row['region_val']."</td>

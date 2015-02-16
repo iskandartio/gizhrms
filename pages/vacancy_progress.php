@@ -168,7 +168,7 @@
 <?php foreach ($res as $row) {
 	_p("<tr><td>".$row['vacancy_progress_id']."</td><td>".$row['vacancy_progress_val']."</td><td>".$row['process_name']."</td><td>".$row['required']."</td>
 	<td><span style='display:none'>".$row['active']."</span>".($row['active']==1 ? 'Active' : '')."</td>
-	<td>".($row['required']==1 ? getImageTags(array('edit','up','down')) : getImageTags(array('edit','up','down')))."</td>
+	<td width='75px'>".($row['required']==1 ? getImageTags(array('edit','up','down')) : getImageTags(array('edit','up','down')))."</td>
 	<td><button class='btn_invitation'>Invitation</button> <button class='btn_rejection'>Rejection</button> 
 	<button class='btn_interviewer'>Interviewer</button> <button class='btn_reference'>Reference</button></td>
 	</tr>");

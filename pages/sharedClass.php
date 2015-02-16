@@ -45,10 +45,12 @@ where a.employee_id=?", array($user_id, $uid));
 		$_SESSION['captcha_text']="";
 		if ($_SESSION['check_abused']>10 || $forced) {
 		
-			return "<img src='captcha.php'/><p>Input the word above:</br><input type='text' id='captcha_text'/>";
-			
+			return shared::get_captcha_string();
 		}
 		return "";
+	}
+	static function get_captcha_string()  {
+		return "<img src='captcha.php'/><br><span class='span_link' id='change_captcha_text'>Change Captcha Text</span><p>Input the word above:</br><input type='text' id='captcha_text'/>";
 	}
 	static function select_combo($res, $id, $val='', $selected='') {
 -		$result='';

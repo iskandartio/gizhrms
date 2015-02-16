@@ -17,7 +17,7 @@
 		bind('.btn_delete',"click", Delete);
 		bind('.btn_save',"click", Save);
 		bind('.btn_cancel',"click", Cancel);
-		hideColumnsArr('tbl', ['province_id']);
+		hideColumnsArr('tbl_province', ['province_id']);
 	}
 	function Delete() {
 		par=$(this).closest("tr");
@@ -33,11 +33,11 @@
 	
 	function Add() {
 		var a='';
-		a+="<tr><td></td><td><?php _t("province_val")?></td><td><select id='region_id'><option>-Region-</option><?php _p($combo_region)?></select>";
+		a+="<tr><td></td><td><?php _t("province_val")?></td><td><select id='region_id'><option value=''>-Region-</option><?php _p($combo_region)?></select>";
 		a+="<td>"+getImageTags(['save','delete'])+"</td>";
 		a+="</tr>";
 		
-		$('#tbl').append(a);
+		$('#tbl_province tbody').prepend(a);
 		bindAll();
 	}
 	function Edit() {
@@ -78,7 +78,7 @@
 
 </script>
 <button class="button_link" id="btn_add">Add Province</button>
-<table id='tbl' class='tbl'>
+<table id='tbl_province' class='tbl'>
 <thead><tr><th></th><th>Province</th><th>Region</th><th></th></tr><tbody>
 <?php foreach ($res as $row) {
 	_p("<tr><td>".$row['province_id']."</td><td>".$row['province_val']."</td>

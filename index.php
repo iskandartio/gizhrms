@@ -44,6 +44,8 @@ header('Content-Type: text/html; charset=utf-8');
                 $title = URLParse::getPageTitle($name);
                 echo "GIZ HRMS";
     ?></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+
     <meta name="description" content="<?php 
                 $metd = URLParse::getPageMetaDescription($name);
                 echo htmlspecialchars($metd, ENT_QUOTES);
@@ -64,8 +66,12 @@ header('Content-Type: text/html; charset=utf-8');
 	<script>
 		$(function() {
 			bind('#btn_login','click',Login);
+			
 		});
-		
+		function ChangeCaptchaText() {
+			$('#captcha img').attr('src','captcha.php');
+			$('#captcha_text').focus();
+		}
 		function new_registrant() {
 			$('#tr_confirm_password').show();
 			$('#tr_new_applicant').hide();
@@ -73,10 +79,12 @@ header('Content-Type: text/html; charset=utf-8');
 			$('#tr_forgot_password').show();
 			$('#tr_password').show();
 			
-			
-			tag="<img src='captcha.php'/><p>Input the word above:</br><input type='text' id='captcha_text'/>";
+			tag="<?php _p(shared::get_captcha_string())?>";
 			$('#captcha').html(tag);
+			
 			$('#btn_login').html("Register");
+			bind('#change_captcha_text','click',ChangeCaptchaText);
+			
 		}
 		function forgot_password() {
 			$('#tr_confirm_password').hide();
@@ -85,8 +93,9 @@ header('Content-Type: text/html; charset=utf-8');
 			$('#tr_forgot_password').hide();
 			$('#tr_password').hide();
 			
-			tag="<img src='captcha.php'/><p>Input the word above:</br><input type='text' id='captcha_text'/>";
+			tag="<?php _p(shared::get_captcha_string())?>";
 			$('#captcha').html(tag);
+			bind('#change_captcha_text','click',ChangeCaptchaText);
 			$('#btn_login').html("Forgot Password");
 			
 			
@@ -104,6 +113,7 @@ header('Content-Type: text/html; charset=utf-8');
 			data['type']="get_captcha_text";
 			var success=function(msg) {
 				$('#captcha').html(msg);
+				bind('#change_captcha_text','click',ChangeCaptchaText);
 			}
 			ajax('indexAjax.php', data, success);
 			
@@ -136,6 +146,7 @@ header('Content-Type: text/html; charset=utf-8');
 					alert(obj['err']);
 					
 					$('#captcha').html(obj['captcha_tag']);
+					bind('#change_captcha_text','click',ChangeCaptchaText);
 					return;
 				}
 				location.href=obj['url'];
@@ -155,6 +166,7 @@ header('Content-Type: text/html; charset=utf-8');
 				if (obj['err']!='')  {
 					alert(obj['err']);
 					$('#captcha').html(obj['captcha_tag']);
+					bind('#change_captcha_text','click',ChangeCaptchaText);
 					$(obj['focus']).focus();
 		
 					return;
@@ -165,7 +177,7 @@ header('Content-Type: text/html; charset=utf-8');
 					type : "post",
 					url : "send_email.php"						
 				});
-				
+				alert('Thank you for the registration. The activation link has been sent to your email.  You could login after you click confirmation link from your email to activate the account');
 			}		
 			ajax("indexAjax.php", data, success);
 			
@@ -183,6 +195,7 @@ header('Content-Type: text/html; charset=utf-8');
 				if (obj['err']!='')  {
 					alert(obj['err']);
 					$('#captcha').html(obj['captcha_tag']);
+					bind('#change_captcha_text','click',ChangeCaptchaText);
 					$(obj['focus']).focus();
 					return;
 				}
@@ -219,10 +232,12 @@ header('Content-Type: text/html; charset=utf-8');
 	</script>
 <?php } else {?>
 	<script>
+		var alwaysHide=false;
 		$(function() {
 			var maxWidth="<?php _p(URLParse::getMaxWidth($name));?>";
 			if ($(window).width()<maxWidth) {
-				HideMenu();
+				AlwaysHideMenu();
+				alwaysHide=true;
 			}
 			bind('.btn_collapse',"click", ExpandCollapse);
 			bind('.btn_menu','click',ShowMenu);
@@ -232,39 +247,54 @@ header('Content-Type: text/html; charset=utf-8');
 				set_session_menu("menu_report");
 				set_session_menu("menu_administation");
 			?>
+			
 			$('.btn_hide').hide();
 		});
 		function ShowMenu() {
-			$('div#menu').show();
-			$('div#menu').css('position','fixed');
-			$('div#menu').css('top','0px');
-			$('div#menu').css('left','0px');
-			$('div#menu').css('z-index','10000000');
-			$('div#pagecontent').css('width','78%');
-			$('.btn_hide').show();
 			$('#freeze').show();
+			$('div#menu').attr('class', 'menu menu2 show');
+			$('.btn_hide').show();
+			bind('#freeze','click',HideMenu);
 		}
 		function HideMenu() {
-			$('div#menu').hide();
-			$('div#pagecontent').css('width','94%');
 			$('#freeze').hide();
+			if (alwaysHide) {
+				AlwaysHideMenu();
+			} else {
+				$('div#menu').attr('class', 'menu');
+				$('.btn_hide').hide();
+				
+			}
+		}
+		function AlwaysHideMenu() {
+			$('div#menu').attr('class', 'menu2');
+			$('div#pagecontent').attr('class','pagecontent small_left_margin');
+			$('.btn_menu').show();
+			
 		}
 		function ExpandCollapse() {
 			var data={}
 			data['type']="set_session";
 			data['session_key']=$(this).parent().attr("id");
 			data['session_value']=$(this).attr("src")=="images/expand_alt.png";
-			ajax('indexAjax.php', data);
-			if ($(this).attr("src")=="images/expand_alt.png") {
-				$(this).parent().next().show();
-				$(this).attr("src", "images/collapse_alt.png");
-				$(this).attr("title", "Collapse");
-			} else {
-				$(this).parent().next().hide();
-				$(this).attr("src", "images/expand_alt.png");
-				$(this).attr("title", "Expand");
-				
+			var obj=$(this);
+			var success=function(msg) {
+				if ($(obj).attr("src")=="images/expand_alt.png") {
+					$(obj).parent().next().show();
+					$(obj).attr("src", "images/collapse_alt.png");
+					$(obj).attr("title", "Collapse");
+				} else {
+					$(obj).parent().next().hide();
+					$(obj).attr("src", "images/expand_alt.png");
+					$(obj).attr("title", "Expand");
+					
+				}
+				if ($('#menu').css('display')=='none') {
+					$('#freeze').css('display','block');
+				}
 			}
+			ajax('indexAjax.php', data, success);
+			
 		}
 	</script>
 <?php } ?>
@@ -273,59 +303,60 @@ header('Content-Type: text/html; charset=utf-8');
 			$('#freeze').hide();
 		});
 	</script>
+	
 </head>
 <body>
 	<div align="center">
 	<img class="logoimg" src="images/logo.png" alt="PAKLIM">
     <img class="logoimg" src="images/logo_web.jpg" alt="">
-	
+	</div>
 	<div id="freeze" style="position: fixed; top: 0px; left: 0px; z-index: 1000; opacity: 0.6; width: 100%; height: 100%; color: white; background-color: black;"></div>
 <?php if ($name==''||$name=='activate') {?>
-	<table id="tbl_login">
-		<tbody>
-		
-		<tr id='tr_new_applicant'><td colspan="3">New Applicant click <span class='span_link' onclick='new_registrant()'>here</span></td></tr>
-		<tr id='tr_forgot_password'><td colspan="3">Forgot Password click <span class='span_link' onclick='forgot_password()'>here</span></td></tr>
-		<tr id='tr_already_registered' style="display:none"><td colspan="3">Already registered click <span class='span_link' onclick='already_registered()'>here</span></td></tr>
-		<tr><td>Email</td><td>:</td><td><?php _t("email", $activation_email) ?></td></tr>
-		<tr id='tr_password'><td>Password</td><td>:</td><td><?php _t("password","","","password") ?></td></tr>
-		<tr style="display:none" id='tr_confirm_password'><td>Confirm Password</td><td>:</td><td><?php _t("confirm_password","","","password") ?></td></tr>
-		</tbody>
-		<tfoot>
-		<tr><td colspan="3"><div id='captcha'>
+	<div class='middle_div'>
+	
+		<div id='tr_new_applicant'>New Applicant click <span class='span_link' onclick='new_registrant()'>here</span></div>
+		<div id='div_forgot_password'>Forgot Password click <span class='span_link' onclick='forgot_password()'>here</span></div>
+		<div id='div_already_registered' style="display:none">Already registered click <span class='span_link' onclick='already_registered()'>here</span></div>
+		<div class='label'>Email</div><div class='textbox'><?php _t("email", $activation_email) ?></div>
+		<div id='div_password'><div class='label'>Password</div><div class='textbox'><?php _t("password","","","password") ?></div></div>
+		<div style="display:none" id='div_confirm_password'><div class='label'>Confirm Password</div><div class='textbox'><?php _t("confirm_password","","","password") ?></div></div>
+		<div><div id='captcha'>
 				<?php _p($captcha_tag)?>
+				
 			</div>
 			<button class='button_link' id='btn_login'>Login</button>
-		</td></tr>
-		</tfoot>
-	</table>
-		
+		</div>		
+	</div>	
 <?php
 		die;
 	}?>
-</div>
+
 	
-<div align="center">
+
 <?php if ($_SESSION['role_name']=='applicant') {?>
-	<div id="menu" style="width:175px">
+	<div id="menu" class='menu'>
 		<?php _p(getImageTags(array('hide')))?>
 		<span>Application Data</span>
-		<table style="margin:5px">
-		<tr><td><a href="/gizhrms/position_applied">Position Applied</a></td></tr>
-		<tr><td><a href="/gizhrms/applicant">Personal Details</a></td></tr>
-		<tr><td><a href="/gizhrms/education">Education</a></td></tr>
-		<tr><td><a href="/gizhrms/working">Working Experience</a></td></tr>
-		<tr><td><a href="/gizhrms/language">Language</a></td></tr>
-		<tr><td><a href="/gizhrms/references">References</a></td></tr>
-		<tr><td><a href="/gizhrms/uploadcv">Upload CV + Cover Letter</a></td></tr>
-		<tr><td><a href="/gizhrms">Logout</a></td></tr>
-		</table>
+		<div style="margin:5px">
+		<ul>
+			<li><a href="/gizhrms/position_applied">Position Applied</a></li>
+			<li><a href="/gizhrms/applicant">Personal Details</a></li>
+			<li><a href="/gizhrms/education">Education</a></li>
+			<li><a href="/gizhrms/working">Working Experience</a></li>
+			<li><a href="/gizhrms/language">Language</a></li>
+			<li><a href="/gizhrms/references">References</a></li>
+			<li><a href="/gizhrms/uploadcv">Upload CV + Cover Letter</a></li>
+			<li><a href="/gizhrms">Logout</a></li>
+		</ul>
+		
+		</div>
 	</div>
 <?php } else if ($_SESSION['role_name']=='admin') {?>
-	<div id="menu" style="width:175px">
+	<div id="menu" class='menu'>
 		<?php _p(getImageTags(array('hide')))?>
 		<span id='menu_master'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Master Data</span>
 		<ul>
+		<li><a href="/gizhrms/email_setting">Email Setting</a></li>
 		<li><a href="/gizhrms/region">Region</a></li>
 		<li><a href="/gizhrms/province">Province</a></li>
 		<li><a href="/gizhrms/city">City</a></li>
@@ -357,29 +388,30 @@ header('Content-Type: text/html; charset=utf-8');
 	</div>
 <?php } else if ($_SESSION['role_name']=='employee') {?>
 	
-	<div id="menu">
+	<div id="menu" class='menu'>
 		<span>Administration</span>
-		<table style="margin:5px">
-		<tr><td><a href="/gizhrms/filter">Filter Applicants</a></td></tr>
-		<tr><td><a href="/gizhrms/recruitment_report">Recruitment Report</a></td></tr>
-		<tr><td><a href="/gizhrms">Logout</a></td></tr>
-		</table>
+		<div style="margin:5px">
+		<ul>
+		<li><a href="/gizhrms/filter">Filter Applicants</a></li>
+		<li><a href="/gizhrms/recruitment_report">Recruitment Report</a></li>
+		<li><a href="/gizhrms">Logout</a></li>
+		</ul>
+		</div>
 	</div>
 <?php }?>
-	<?php _p(getImageTags(array('menu')));?>
+	<?php _p(getImageTags(array('menu')))?>
+	
     
-	<div id="pagecontent">
+	<div id="pagecontent" class='pagecontent'>
 		
 		<h3 id='title'><?php _p($title)?></h3>
 	
-		<table style="margin:5px"><tr><td>
+		<div style="margin:5px">
         <?php
             URLParse::IncludePageContents();
         ?>
-		</td></tr></table>
+		</div>
     </div>
-</div>
-<a href="send_email.php">Send All Email</a>
 
 </body>
 </html>

@@ -38,7 +38,7 @@ left join applicants b on a.user_id=b.user_id'
 	}
 </script>
 <button id='btn_back' class='button_link'>Back</button>
-<h1><?php _p($applicant['first_name']." ".$applicant['last_name']) ?></h1>
+<h1><?php _p($applicant['first_name']." ".$applicant['last_name']." <br>Last Project Date:".formatDate($applicant['start_date']).' to '.formatDate($applicant['end_date'])) ?></h1>
 <div id="div_current_contract">
 
 <table>

@@ -75,6 +75,7 @@
 		bind(".btn_edit", "click", Edit);
 		bind("#btn_back", "click", Back);
 		bind('#btn_add_language','click',AddLanguage);
+
 	}
 
 	function Back() {
@@ -89,6 +90,7 @@
 			$('#div_contract_data').hide();
 		<?php } ?>
 		numeric($('.salary'));
+		setDOB();
 		setDatePicker();
 		build_city();
 		
@@ -196,6 +198,7 @@
 		var success=function(msg) {
 			$('#tbl_salary_history tbody').empty();
 			$('#tbl_salary_history').append(msg);
+			hideColumns('tbl_salary_history');
 		}
 		ajax('employeeAjax.php',data, success);
 	}
@@ -207,6 +210,7 @@
 		var success=function(msg) {
 			$('#tbl_salary_history tbody').html('');
 			$('#tbl_salary_history').append(msg);
+			hideColumns('tbl_salary_history');
 		}
 		ajax('employeeAjax.php',data, success);
 	}
@@ -251,6 +255,7 @@
 			$('#tbl_language tbody').prepend(msg);
 			$('.language_val').hide();
 			bindLanguage();
+			
 		}
 		ajax('employeeAjax.php',data, success);
 	}
@@ -260,6 +265,7 @@
 		bind('#tbl_language .btn_delete', 'click', DeleteLanguage);
 		bind('#tbl_language .btn_edit', 'click', EditLanguage);
 		bind('#tbl_language .btn_cancel', 'click', CancelLanguage);
+		hideColumns('tbl_language');
 	}
 	function LanguageChange() {
 		if ($(this).val()==-1) {
@@ -348,7 +354,6 @@
 <h1>Personal Data</h1>
 <table>
 	<tr style='display:none'><td>Applicants ID</td><td>:</td><td><?php _t("applicants_id",$applicant)?></td></tr>
-	<tr><td>Email *</td><td>:</td><td><?php _t("user_name",$applicant)?></td></tr>
 	<tr><td>First Name *</td><td>:</td><td><?php _t("first_name",$applicant)?></td></tr>
 	<tr><td>Last Name *</td><td>:</td><td><?php _t("last_name", $applicant)?></td></tr>
 	<tr><td>Place of Birth *</td><td>:</td><td><?php _t("place_of_birth", $applicant)?></td></tr>
@@ -362,6 +367,7 @@
 	<tr><td>Post Code *</td><td>:</td><td><?php _t("post_code", $applicant)?></td></tr>
 	<tr><td>Phone1 *</td><td>:</td><td><?php _t("phone1", $applicant)?></td></tr>
 	<tr><td>Phone2</td><td>:</td><td><?php _t("phone2", $applicant)?></td></tr>
+	<tr><td>Email *</td><td>:</td><td><?php _t("user_name",$applicant,"","text","","Email")?></td></tr>
 	<tr><td>Computer Skills</td><td>:</td><td><textarea id="computer_skills" cols='30' rows='3'><?php _p($applicant['computer_skills'])?></textarea></td></tr>
 	<tr><td>Professionals Skills</td><td>:</td><td><textarea id="professional_skills" cols='30' rows='3'><?php _p($applicant['professional_skills'])?></textarea></td></tr>
 </table>

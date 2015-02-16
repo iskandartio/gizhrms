@@ -113,16 +113,19 @@ class URLParse
                 P_FILE => "indexAjax.php",
                 ),
 			"position_applied" => array(
+				P_WIDTH=> "400",
 				P_FILE => "position_applied.php",
 				P_TITL => "Position Applied",
 				P_METD => "Applicant Registration",
 				P_METK => "Applicant, Apply, Registration"),
 			"applicant" => array(
+				P_WIDTH=> "400",
 				P_FILE => "applicant.php",
 				P_TITL => "Personal Details",
 				P_METD => "Applicant Registration ",
 				P_METK => "Applicant, Apply, Registration"),
 			"education" => array(
+				P_WIDTH=> "1050",
 				P_FILE => "education.php",
 				P_TITL => "Education",
 				P_METD => "Applicant Registration ",
@@ -244,7 +247,11 @@ class URLParse
 				P_FILE => "change_project_data.php",
 				P_TITL => "Change Project Data",
 				P_METD => "",
-				P_METK => ""),				
+				P_METK => ""),
+			"email_setting" => array(
+				P_FILE => "email_setting.php",
+				P_TITL => "Email Setting"
+			),
 			"activate" => array(
 				P_FILE => "activate.php",
 				P_TITL => "Active",

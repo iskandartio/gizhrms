@@ -1,9 +1,117 @@
-.btn_menu {
-	position:fixed;
-	left:0px;
-	top:0px;
-	z-index:100000;
+@media 
+only screen and (max-width: 310px)  {
+
+	/* Force table to not be like tables anymore */
+	#tbl_region  {
+		width:100%;
+	}
+	#tbl_region table,#tbl_region  thead,#tbl_region  tbody,#tbl_region  th,#tbl_region  td,#tbl_region  tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	#tbl_region thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	#tbl_region tr { border: 1px solid #ccc; }
+	
+	#tbl_region td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%!important; 
+	}
+	
+	#tbl_region td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+	/*
+	Label the data
+	*/
+	#tbl_region td:nth-of-type(2):before { content: "Region"; }
+	
 }
+
+@media 
+only screen and (max-width: 440px)  {
+
+	/* Force table to not be like tables anymore */
+	#tbl_province  {
+		width:100%;
+	}
+	#tbl_province table,#tbl_province  thead,#tbl_province  tbody,#tbl_province  th,#tbl_province  td,#tbl_province  tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	#tbl_province thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	#tbl_province tr { border: 1px solid #ccc; }
+	
+	#tbl_province td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 30%!important; 
+	}
+	
+	#tbl_province td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+	/*
+	Label the data
+	*/
+	#tbl_province td:nth-of-type(2):before { content: "Province"; }
+	#tbl_province td:nth-of-type(3):before { content: "Region"; }
+	
+}
+
+.show {
+	display:block!important;
+}
+.hide {
+	display:none!important;
+}
+.small_left_margin {
+	margin-left:10px!important;
+}
+.textbox  {
+	margin-left:100px;
+	padding:3px;
+}
+.label  {
+	float:left;
+	width:90px;
+	line-height:20px;
+	vertical-align:middle;
+	padding:3px;
+}
+
 body {
 	font-family: 'Arial';
 	font-size:12px;
@@ -15,13 +123,7 @@ body {
 	display:inline;
 	margin-left:3%;
 }
-.menu {
-	border:1px solid black;
-	border-radius:5px 5px 0 0;
-	border-spacing:0px;
-	line-height:28px;
-	
-}
+
 .menu th  {
 	
 	
@@ -169,25 +271,67 @@ button[class^="btn"] {
 	margin:2px 1px;
 }
 
-#pagecontent {
-	position: relative;
-	float: left;
-	text-align: left;
-	top: 0px;
-	height: auto;
-	padding: 0 0 10px 0;
-	background-color: #FFF;
-	left: 3%;
+.menu {
+position: relative;
+float: left;
+text-align: left;
+top: 0px;
+height: auto;
+padding: 0 0 10px 0;
+background-color: #FFF;
+left: 3%;
+width:175px;
+border: solid 1px #E9EAF2;
+border-radius: 5px;
+list-style-type: square;
+border-top: none;
+list-style-position: outside;
+display:block;
+}
+
+.pagecontent {
+	
 	border: solid 1px #E9EAF2;
 	border-radius: 5px;
 	list-style-type: square;
 	border-top: none;
 	list-style-position: outside;
-	margin-left:10px;
-	width:78%;
-}
+	margin-left:220px;
 
-#pagecontent h3 {
+	
+}
+.btn_menu {
+	display:none;
+}
+@media screen and (max-width:640px){
+	.pagecontent {
+		margin-left:10px;
+	}
+	.menu {
+		position:fixed;
+		top:0px;
+		left:0px;
+		z-index:1000000;
+		display:none;
+	}
+	.btn_menu {
+		display:block;	
+	}
+}
+.menu2 {
+	position:fixed;
+	top:0px;
+	left:0px;
+	z-index:1000000;
+	display:none;
+}
+.pagecontent2 {
+	margin-left:10px!important;
+}
+.btn_menu2 {
+	display:block;
+}
+.pagecontent h3 {
 font-family: Helvetica, Arial, sans-serif;
 color: #fff !important;
 background-color: #447CB5;
@@ -203,24 +347,8 @@ padding: 0 0 0 5px;
 border-radius: 5px 5px 0 0;
 border-bottom: none;
 }
-#menu {
-	position: relative;
-	float: left;
-	text-align: left;
-	top: 0px;
-	height: auto;
-	padding: 0 0 10px 0;
-	background-color: #FFF;
-	left: 3%;
-	border: solid 1px #E9EAF2;
-	border-radius: 5px;
-	list-style-type: square;
-	border-top: none;
-	list-style-position: outside;
-	
-}
 
-#menu>span {
+.menu>span {
 font-family: Helvetica, Arial, sans-serif;
 color: #fff !important;
 background-color: #447CB5;
@@ -237,7 +365,7 @@ display:block;
 border-radius: 5px 5px 0 0;
 border-bottom: none;
 }
-#menu li {
+.menu li {
 	list-style-type: circle;
 }
 #freeze {
@@ -284,4 +412,9 @@ select option[disabled]:first-child {
 
 :-ms-input-placeholder {  
    color: #ddd;  
+}
+
+.middle_div {
+	margin:0px auto;
+	width:340px;
 }
