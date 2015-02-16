@@ -1,9 +1,16 @@
+drop database if exists hrms;
+create database hrms;
+use hrms;
 -- --------------------------------------------------------
 -- Host:                         localhost
 -- Server version:               5.5.28a-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
 -- HeidiSQL version:             7.0.0.4053
+<<<<<<< HEAD
 -- Date/time:                    2015-02-16 07:52:00
+=======
+-- Date/time:                    2015-02-02 23:13:27
+>>>>>>> origin/master
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -45,9 +52,19 @@ CREATE TABLE IF NOT EXISTS `applicants` (
   `am2_start_date` datetime DEFAULT NULL,
   `am2_end_date` datetime DEFAULT NULL,
   PRIMARY KEY (`applicants_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table hrms.applicants: ~13 rows (approximately)
+/*!40000 ALTER TABLE `applicants` DISABLE KEYS */;
+INSERT INTO `applicants` (`first_name`, `last_name`, `place_of_birth`, `gender`, `nationality`, `address`, `country`, `province`, `city`, `post_code`, `phone1`, `phone2`, `giz_staff`, `computer_skills`, `professional_skills`, `applicants_id`, `user_id`, `date_of_birth`, `country_name`, `cv`, `letter`, `applicant_status`, `nationality_val`, `contract1_start_date`, `contract1_end_date`, `am1_start_date`, `am1_end_date`, `contract2_start_date`, `contract2_end_date`, `am2_start_date`, `am2_end_date`) VALUES
+	('admin', '', 'Jakarta', 'Female', '1', 'Address', '1', '11', '16', '3242343', '4245434', '42r', NULL, 'fds rfew', 'vfdrew', 1, 1, '1981-11-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+/*!40000 ALTER TABLE `applicants` ENABLE KEYS */;
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.applicants_answer
@@ -58,10 +75,14 @@ CREATE TABLE IF NOT EXISTS `applicants_answer` (
   `question_id` int(11) DEFAULT NULL,
   `choice_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`applicant_answer_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+>>>>>>> origin/master
 
 -- Dumping structure for table hrms.applicants_education
 DROP TABLE IF EXISTS `applicants_education`;
@@ -75,9 +96,13 @@ CREATE TABLE IF NOT EXISTS `applicants_education` (
   `year_to` int(11) DEFAULT NULL,
   `country` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_education_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.applicants_language
@@ -89,9 +114,13 @@ CREATE TABLE IF NOT EXISTS `applicants_language` (
   `language_skill_id` int(50) DEFAULT NULL,
   `language_val` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_language_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.applicants_other_language
@@ -105,7 +134,6 @@ CREATE TABLE IF NOT EXISTS `applicants_other_language` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
-
 
 -- Dumping structure for table hrms.applicants_other_reference
 DROP TABLE IF EXISTS `applicants_other_reference`;
@@ -124,6 +152,7 @@ CREATE TABLE IF NOT EXISTS `applicants_other_reference` (
 -- Data exporting was unselected.
 
 
+
 -- Dumping structure for table hrms.applicants_reference
 DROP TABLE IF EXISTS `applicants_reference`;
 CREATE TABLE IF NOT EXISTS `applicants_reference` (
@@ -136,9 +165,14 @@ CREATE TABLE IF NOT EXISTS `applicants_reference` (
   `company_name` varchar(100) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`applicants_reference_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.applicants_working
@@ -158,9 +192,14 @@ CREATE TABLE IF NOT EXISTS `applicants_working` (
   `email` varchar(50) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_working_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.business
@@ -188,6 +227,8 @@ CREATE TABLE IF NOT EXISTS `choice` (
 -- Data exporting was unselected.
 
 
+
+
 -- Dumping structure for table hrms.city
 DROP TABLE IF EXISTS `city`;
 CREATE TABLE IF NOT EXISTS `city` (
@@ -195,9 +236,491 @@ CREATE TABLE IF NOT EXISTS `city` (
   `province_id` int(11) DEFAULT NULL,
   `city_val` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`city_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=474 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table hrms.city: ~551 rows (approximately)
+/*!40000 ALTER TABLE `city` DISABLE KEYS */;
+INSERT INTO `city` (`city_id`, `province_id`, `city_val`) VALUES
+	(1, 11, 'Simeulue'),
+	(2, 11, 'Aceh Singkil'),
+	(3, 11, 'Aceh Selatan'),
+	(4, 11, 'Aceh Tenggara'),
+	(5, 11, 'Aceh Timur'),
+	(6, 11, 'Aceh Tengah'),
+	(7, 11, 'Aceh Barat'),
+	(8, 11, 'Aceh Besar'),
+	(9, 11, 'Pidie'),
+	(10, 11, 'Bireuen'),
+	(11, 11, 'Aceh Utara'),
+	(12, 11, 'Aceh Barat Daya'),
+	(13, 11, 'Gayo Lues'),
+	(14, 11, 'Aceh Tamiang'),
+	(15, 11, 'Nagan Raya'),
+	(16, 11, 'Aceh Jaya'),
+	(17, 11, 'Bener Meriah'),
+	(18, 11, 'Pidie Jaya'),
+	(19, 11, 'Banda Aceh'),
+	(20, 11, 'Sabang'),
+	(21, 11, 'Langsa'),
+	(22, 11, 'Lhokseumawe'),
+	(23, 11, 'Subulussalam'),
+	(24, 12, 'Nias'),
+	(25, 12, 'Mandailing Natal'),
+	(26, 12, 'Tapanuli Selatan'),
+	(27, 12, 'Tapanuli Tengah'),
+	(28, 12, 'Tapanuli Utara'),
+	(29, 12, 'Toba Samosir'),
+	(30, 12, 'Labuhan Batu'),
+	(31, 12, 'Asahan'),
+	(32, 12, 'Simalungun'),
+	(33, 12, 'Dairi'),
+	(34, 12, 'Karo'),
+	(35, 12, 'Deli Serdang'),
+	(36, 12, 'Langkat'),
+	(37, 12, 'Nias Selatan'),
+	(38, 12, 'Humbang Hasundutan'),
+	(39, 12, 'Pakpak Bharat'),
+	(40, 12, 'Samosir'),
+	(41, 12, 'Serdang Bedagai'),
+	(42, 12, 'Batu Bara'),
+	(43, 12, 'Padang Lawas Utara'),
+	(44, 12, 'Padang Lawas'),
+	(45, 12, 'Labuhan Batu Selatan'),
+	(46, 12, 'Labuhan Batu Utara'),
+	(47, 12, 'Nias Utara'),
+	(48, 12, 'Nias Barat'),
+	(49, 12, 'Sibolga'),
+	(50, 12, 'Tanjung Balai'),
+	(51, 12, 'Pematang Siantar'),
+	(52, 12, 'Tebing Tinggi'),
+	(53, 12, 'Medan'),
+	(54, 12, 'Binjai'),
+	(55, 12, 'Padangsidimpuan'),
+	(56, 12, 'Gunungsitoli'),
+	(57, 13, 'Kepulauan Mentawai'),
+	(58, 13, 'Pesisir Selatan'),
+	(59, 13, 'Solok'),
+	(60, 13, 'Sijunjung'),
+	(61, 13, 'Tanah Datar'),
+	(62, 13, 'Padang Pariaman'),
+	(63, 13, 'Agam'),
+	(64, 13, 'Lima Puluh Kota'),
+	(65, 13, 'Pasaman'),
+	(66, 13, 'Solok Selatan'),
+	(67, 13, 'Dharmasraya'),
+	(68, 13, 'Pasaman Barat'),
+	(69, 13, 'Padang'),
+	(70, 13, 'Sawah Lunto'),
+	(71, 13, 'Padang Panjang'),
+	(72, 13, 'Bukittinggi'),
+	(73, 13, 'Payakumbuh'),
+	(74, 13, 'Pariaman'),
+	(75, 14, 'Kuantan Singingi'),
+	(76, 14, 'Indragiri Hulu'),
+	(77, 14, 'Indragiri Hilir'),
+	(78, 14, 'Pelalawan'),
+	(79, 14, 'S I A K'),
+	(80, 14, 'Kampar'),
+	(81, 14, 'Rokan Hulu'),
+	(82, 14, 'Bengkalis'),
+	(83, 14, 'Rokan Hilir'),
+	(84, 14, 'Kepulauan Meranti'),
+	(85, 14, 'Pekanbaru'),
+	(86, 14, 'D U M A I'),
+	(87, 15, 'Kerinci'),
+	(88, 15, 'Merangin'),
+	(89, 15, 'Sarolangun'),
+	(90, 15, 'Batang Hari'),
+	(91, 15, 'Muaro Jambi'),
+	(92, 15, 'Tanjung Jabung Timur'),
+	(93, 15, 'Tanjung Jabung Barat'),
+	(94, 15, 'Tebo'),
+	(95, 15, 'Bungo'),
+	(96, 15, 'Jambi'),
+	(97, 15, 'Sungai Penuh'),
+	(98, 16, 'Ogan Komering Ulu'),
+	(99, 16, 'Ogan Komering Ilir'),
+	(100, 16, 'Muara Enim'),
+	(101, 16, 'Lahat'),
+	(102, 16, 'Musi Rawas'),
+	(103, 16, 'Musi Banyuasin'),
+	(104, 16, 'Banyu Asin'),
+	(105, 16, 'Ogan Komering Ulu Selatan'),
+	(106, 16, 'Ogan Komering Ulu Timur'),
+	(107, 16, 'Ogan Ilir'),
+	(108, 16, 'Empat Lawang'),
+	(109, 16, 'Palembang'),
+	(110, 16, 'Prabumulih'),
+	(111, 16, 'Pagar Alam'),
+	(112, 16, 'Lubuklinggau'),
+	(113, 17, 'Bengkulu Selatan'),
+	(114, 17, 'Rejang Lebong'),
+	(115, 17, 'Bengkulu Utara'),
+	(116, 17, 'Kaur'),
+	(117, 17, 'Seluma'),
+	(118, 17, 'Mukomuko'),
+	(119, 17, 'Lebong'),
+	(120, 17, 'Kepahiang'),
+	(121, 17, 'Bengkulu Tengah'),
+	(122, 17, 'Bengkulu'),
+	(123, 18, 'Lampung Barat'),
+	(124, 18, 'Tanggamus'),
+	(125, 18, 'Lampung Selatan'),
+	(126, 18, 'Lampung Timur'),
+	(127, 18, 'Lampung Tengah'),
+	(128, 18, 'Lampung Utara'),
+	(129, 18, 'Way Kanan'),
+	(130, 18, 'Tulangbawang'),
+	(131, 18, 'Pesawaran'),
+	(132, 18, 'Pringsewu'),
+	(133, 18, 'Mesuji'),
+	(134, 18, 'Tulang Bawang Barat'),
+	(135, 18, 'Pesisir Barat'),
+	(136, 18, 'Bandar Lampung'),
+	(137, 18, 'Metro'),
+	(138, 19, 'Bangka'),
+	(139, 19, 'Belitung'),
+	(140, 19, 'Bangka Barat'),
+	(141, 19, 'Bangka Tengah'),
+	(142, 19, 'Bangka Selatan'),
+	(143, 19, 'Belitung Timur'),
+	(144, 19, 'Pangkal Pinang'),
+	(145, 21, 'Karimun'),
+	(146, 21, 'Bintan'),
+	(147, 21, 'Natuna'),
+	(148, 21, 'Lingga'),
+	(149, 21, 'Kepulauan Anambas'),
+	(150, 21, 'B A T A M'),
+	(151, 21, 'Tanjung Pinang'),
+	(152, 31, 'Kepulauan Seribu'),
+	(153, 31, 'Jakarta Selatan'),
+	(154, 31, 'Jakarta Timur'),
+	(155, 31, 'Jakarta Pusat'),
+	(156, 31, 'Jakarta Barat'),
+	(157, 31, 'Jakarta Utara'),
+	(158, 32, 'Bogor'),
+	(159, 32, 'Sukabumi'),
+	(160, 32, 'Cianjur'),
+	(161, 32, 'Bandung'),
+	(162, 32, 'Garut'),
+	(163, 32, 'Tasikmalaya'),
+	(164, 32, 'Ciamis'),
+	(165, 32, 'Kuningan'),
+	(166, 32, 'Cirebon'),
+	(167, 32, 'Majalengka'),
+	(168, 32, 'Sumedang'),
+	(169, 32, 'Indramayu'),
+	(170, 32, 'Subang'),
+	(171, 32, 'Purwakarta'),
+	(172, 32, 'Karawang'),
+	(173, 32, 'Bekasi'),
+	(174, 32, 'Bandung Barat'),
+	(175, 32, 'Pangandaran'),
+	(176, 32, 'Depok'),
+	(177, 32, 'Cimahi'),
+	(178, 32, 'Banjar'),
+	(179, 33, 'Cilacap'),
+	(180, 33, 'Banyumas'),
+	(181, 33, 'Purbalingga'),
+	(182, 33, 'Banjarnegara'),
+	(183, 33, 'Kebumen'),
+	(184, 33, 'Purworejo'),
+	(185, 33, 'Wonosobo'),
+	(186, 33, 'Magelang'),
+	(187, 33, 'Boyolali'),
+	(188, 33, 'Klaten'),
+	(189, 33, 'Sukoharjo'),
+	(190, 33, 'Wonogiri'),
+	(191, 33, 'Karanganyar'),
+	(192, 33, 'Sragen'),
+	(193, 33, 'Grobogan'),
+	(194, 33, 'Blora'),
+	(195, 33, 'Rembang'),
+	(196, 33, 'Pati'),
+	(197, 33, 'Kudus'),
+	(198, 33, 'Jepara'),
+	(199, 33, 'Demak'),
+	(200, 33, 'Semarang'),
+	(201, 33, 'Temanggung'),
+	(202, 33, 'Kendal'),
+	(203, 33, 'Batang'),
+	(204, 33, 'Pekalongan'),
+	(205, 33, 'Pemalang'),
+	(206, 33, 'Tegal'),
+	(207, 33, 'Brebes'),
+	(208, 33, 'Surakarta'),
+	(209, 33, 'Salatiga'),
+	(210, 34, 'Kulon Progo'),
+	(211, 34, 'Bantul'),
+	(212, 34, 'Gunung Kidul'),
+	(213, 34, 'Sleman'),
+	(214, 34, 'Yogyakarta'),
+	(215, 35, 'Pacitan'),
+	(216, 35, 'Ponorogo'),
+	(217, 35, 'Trenggalek'),
+	(218, 35, 'Tulungagung'),
+	(219, 35, 'Blitar'),
+	(220, 35, 'Kediri'),
+	(221, 35, 'Malang'),
+	(222, 35, 'Lumajang'),
+	(223, 35, 'Jember'),
+	(224, 35, 'Banyuwangi'),
+	(225, 35, 'Bondowoso'),
+	(226, 35, 'Situbondo'),
+	(227, 35, 'Probolinggo'),
+	(228, 35, 'Pasuruan'),
+	(229, 35, 'Sidoarjo'),
+	(230, 35, 'Mojokerto'),
+	(231, 35, 'Jombang'),
+	(232, 35, 'Nganjuk'),
+	(233, 35, 'Madiun'),
+	(234, 35, 'Magetan'),
+	(235, 35, 'Ngawi'),
+	(236, 35, 'Bojonegoro'),
+	(237, 35, 'Tuban'),
+	(238, 35, 'Lamongan'),
+	(239, 35, 'Gresik'),
+	(240, 35, 'Bangkalan'),
+	(241, 35, 'Sampang'),
+	(242, 35, 'Pamekasan'),
+	(243, 35, 'Sumenep'),
+	(244, 35, 'Surabaya'),
+	(245, 35, 'Batu'),
+	(246, 36, 'Pandeglang'),
+	(247, 36, 'Lebak'),
+	(248, 36, 'Tangerang'),
+	(249, 36, 'Serang'),
+	(250, 36, 'Cilegon'),
+	(251, 36, 'Tangerang Selatan'),
+	(252, 51, 'Jembrana'),
+	(253, 51, 'Tabanan'),
+	(254, 51, 'Badung'),
+	(255, 51, 'Gianyar'),
+	(256, 51, 'Klungkung'),
+	(257, 51, 'Bangli'),
+	(258, 51, 'Karang Asem'),
+	(259, 51, 'Buleleng'),
+	(260, 51, 'Denpasar'),
+	(261, 52, 'Lombok Barat'),
+	(262, 52, 'Lombok Tengah'),
+	(263, 52, 'Lombok Timur'),
+	(264, 52, 'Sumbawa'),
+	(265, 52, 'Dompu'),
+	(266, 52, 'Bima'),
+	(267, 52, 'Sumbawa Barat'),
+	(268, 52, 'Lombok Utara'),
+	(269, 52, 'Mataram'),
+	(270, 53, 'Sumba Barat'),
+	(271, 53, 'Sumba Timur'),
+	(272, 53, 'Kupang'),
+	(273, 53, 'Timor Tengah Selatan'),
+	(274, 53, 'Timor Tengah Utara'),
+	(275, 53, 'Belu'),
+	(276, 53, 'Alor'),
+	(277, 53, 'Lembata'),
+	(278, 53, 'Flores Timur'),
+	(279, 53, 'Sikka'),
+	(280, 53, 'Ende'),
+	(281, 53, 'Ngada'),
+	(282, 53, 'Manggarai'),
+	(283, 53, 'Rote Ndao'),
+	(284, 53, 'Manggarai Barat'),
+	(285, 53, 'Sumba Tengah'),
+	(286, 53, 'Sumba Barat Daya'),
+	(287, 53, 'Nagekeo'),
+	(288, 53, 'Manggarai Timur'),
+	(289, 53, 'Sabu Raijua'),
+	(290, 61, 'Sambas'),
+	(291, 61, 'Bengkayang'),
+	(292, 61, 'Landak'),
+	(293, 61, 'Pontianak'),
+	(294, 61, 'Sanggau'),
+	(295, 61, 'Ketapang'),
+	(296, 61, 'Sintang'),
+	(297, 61, 'Kapuas Hulu'),
+	(298, 61, 'Sekadau'),
+	(299, 61, 'Melawi'),
+	(300, 61, 'Kayong Utara'),
+	(301, 61, 'Kubu Raya'),
+	(302, 61, 'Singkawang'),
+	(303, 62, 'Kotawaringin Barat'),
+	(304, 62, 'Kotawaringin Timur'),
+	(305, 62, 'Kapuas'),
+	(306, 62, 'Barito Selatan'),
+	(307, 62, 'Barito Utara'),
+	(308, 62, 'Sukamara'),
+	(309, 62, 'Lamandau'),
+	(310, 62, 'Seruyan'),
+	(311, 62, 'Katingan'),
+	(312, 62, 'Pulang Pisau'),
+	(313, 62, 'Gunung Mas'),
+	(314, 62, 'Barito Timur'),
+	(315, 62, 'Murung Raya'),
+	(316, 62, 'Palangka Raya'),
+	(317, 63, 'Tanah Laut'),
+	(318, 63, 'Baru'),
+	(319, 63, 'Banjar'),
+	(320, 63, 'Barito Kuala'),
+	(321, 63, 'Tapin'),
+	(322, 63, 'Hulu Sungai Selatan'),
+	(323, 63, 'Hulu Sungai Tengah'),
+	(324, 63, 'Hulu Sungai Utara'),
+	(325, 63, 'Tabalong'),
+	(326, 63, 'Tanah Bumbu'),
+	(327, 63, 'Balangan'),
+	(328, 63, 'Banjarmasin'),
+	(329, 63, 'Banjar Baru'),
+	(330, 64, 'Paser'),
+	(331, 64, 'Kutai Barat'),
+	(332, 64, 'Kutai Kartanegara'),
+	(333, 64, 'Kutai Timur'),
+	(334, 64, 'Berau'),
+	(335, 64, 'Penajam Paser Utara'),
+	(336, 64, 'Balikpapan'),
+	(337, 64, 'Samarinda'),
+	(338, 64, 'Bontang'),
+	(339, 65, 'Malinau'),
+	(340, 65, 'Bulungan'),
+	(341, 65, 'Tana Tidung'),
+	(342, 65, 'Nunukan'),
+	(343, 65, 'Tarakan'),
+	(344, 71, 'Bolaang Mongondow'),
+	(345, 71, 'Minahasa'),
+	(346, 71, 'Kepulauan Sangihe'),
+	(347, 71, 'Kepulauan Talaud'),
+	(348, 71, 'Minahasa Selatan'),
+	(349, 71, 'Minahasa Utara'),
+	(350, 71, 'Bolaang Mongondow Utara'),
+	(351, 71, 'Siau Tagulandang Biaro'),
+	(352, 71, 'Minahasa Tenggara'),
+	(353, 71, 'Bolaang Mongondow Selatan'),
+	(354, 71, 'Bolaang Mongondow Timur'),
+	(355, 71, 'Manado'),
+	(356, 71, 'Bitung'),
+	(357, 71, 'Tomohon'),
+	(358, 71, 'Kotamobagu'),
+	(359, 72, 'Banggai Kepulauan'),
+	(360, 72, 'Banggai'),
+	(361, 72, 'Morowali'),
+	(362, 72, 'Poso'),
+	(363, 72, 'Donggala'),
+	(364, 72, 'Toli-toli'),
+	(365, 72, 'Buol'),
+	(366, 72, 'Parigi Moutong'),
+	(367, 72, 'Tojo Una-una'),
+	(368, 72, 'Sigi'),
+	(369, 72, 'Palu'),
+	(370, 73, 'Kepulauan Selayar'),
+	(371, 73, 'Bulukumba'),
+	(372, 73, 'Bantaeng'),
+	(373, 73, 'Jeneponto'),
+	(374, 73, 'Takalar'),
+	(375, 73, 'Gowa'),
+	(376, 73, 'Sinjai'),
+	(377, 73, 'Maros'),
+	(378, 73, 'Pangkajene Dan Kepulauan'),
+	(379, 73, 'Barru'),
+	(380, 73, 'Bone'),
+	(381, 73, 'Soppeng'),
+	(382, 73, 'Wajo'),
+	(383, 73, 'Sidenreng Rappang'),
+	(384, 73, 'Pinrang'),
+	(385, 73, 'Enrekang'),
+	(386, 73, 'Luwu'),
+	(387, 73, 'Tana Toraja'),
+	(388, 73, 'Luwu Utara'),
+	(389, 73, 'Luwu Timur'),
+	(390, 73, 'Toraja Utara'),
+	(391, 73, 'Makassar'),
+	(392, 73, 'Parepare'),
+	(393, 73, 'Palopo'),
+	(394, 74, 'Buton'),
+	(395, 74, 'Muna'),
+	(396, 74, 'Konawe'),
+	(397, 74, 'Kolaka'),
+	(398, 74, 'Konawe Selatan'),
+	(399, 74, 'Bombana'),
+	(400, 74, 'Wakatobi'),
+	(401, 74, 'Kolaka Utara'),
+	(402, 74, 'Buton Utara'),
+	(403, 74, 'Konawe Utara'),
+	(404, 74, 'Kendari'),
+	(405, 74, 'Baubau'),
+	(406, 75, 'Boalemo'),
+	(407, 75, 'Gorontalo'),
+	(408, 75, 'Pohuwato'),
+	(409, 75, 'Bone Bolango'),
+	(410, 75, 'Gorontalo Utara'),
+	(411, 76, 'Majene'),
+	(412, 76, 'Polewali Mandar'),
+	(413, 76, 'Mamasa'),
+	(414, 76, 'Mamuju'),
+	(415, 76, 'Mamuju Utara'),
+	(416, 81, 'Maluku Tenggara Barat'),
+	(417, 81, 'Maluku Tenggara'),
+	(418, 81, 'Maluku Tengah'),
+	(419, 81, 'Buru'),
+	(420, 81, 'Kepulauan Aru'),
+	(421, 81, 'Seram Bagian Barat'),
+	(422, 81, 'Seram Bagian Timur'),
+	(423, 81, 'Maluku Barat Daya'),
+	(424, 81, 'Buru Selatan'),
+	(425, 81, 'Ambon'),
+	(426, 81, 'Tual'),
+	(427, 82, 'Halmahera Barat'),
+	(428, 82, 'Halmahera Tengah'),
+	(429, 82, 'Kepulauan Sula'),
+	(430, 82, 'Halmahera Selatan'),
+	(431, 82, 'Halmahera Utara'),
+	(432, 82, 'Halmahera Timur'),
+	(433, 82, 'Pulau Morotai'),
+	(434, 82, 'Ternate'),
+	(435, 82, 'Tidore Kepulauan'),
+	(436, 91, 'Fakfak'),
+	(437, 91, 'Kaimana'),
+	(438, 91, 'Teluk Wondama'),
+	(439, 91, 'Teluk Bintuni'),
+	(440, 91, 'Manokwari'),
+	(441, 91, 'Sorong Selatan'),
+	(442, 91, 'Sorong'),
+	(443, 91, 'Raja Ampat'),
+	(444, 91, 'Tambrauw'),
+	(445, 91, 'Maybrat'),
+	(446, 94, 'Merauke'),
+	(447, 94, 'Jayawijaya'),
+	(448, 94, 'Jayapura'),
+	(449, 94, 'Nabire'),
+	(450, 94, 'Kepulauan Yapen'),
+	(451, 94, 'Biak Numfor'),
+	(452, 94, 'Paniai'),
+	(453, 94, 'Puncak Jaya'),
+	(454, 94, 'Mimika'),
+	(455, 94, 'Boven Digoel'),
+	(456, 94, 'Mappi'),
+	(457, 94, 'Asmat'),
+	(458, 94, 'Yahukimo'),
+	(459, 94, 'Pegunungan Bintang'),
+	(460, 94, 'Tolikara'),
+	(461, 94, 'Sarmi'),
+	(462, 94, 'Keerom'),
+	(463, 94, 'Waropen'),
+	(464, 94, 'Supiori'),
+	(465, 94, 'Mamberamo Raya'),
+	(466, 94, 'Nduga'),
+	(467, 94, 'Lanny Jaya'),
+	(468, 94, 'Mamberamo Tengah'),
+	(469, 94, 'Yalimo'),
+	(470, 94, 'Puncak'),
+	(471, 94, 'Dogiyai'),
+	(472, 94, 'Intan Jaya'),
+	(473, 94, 'Deiyai');
+/*!40000 ALTER TABLE `city` ENABLE KEYS */;
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.contract_history
@@ -221,9 +744,13 @@ CREATE TABLE IF NOT EXISTS `contract_history` (
   `position` varchar(50) DEFAULT NULL,
   `reason` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`contract_history_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.country
@@ -246,7 +773,19 @@ CREATE TABLE IF NOT EXISTS `education` (
   PRIMARY KEY (`education_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+<<<<<<< HEAD
 -- Data exporting was unselected.
+=======
+-- Dumping data for table hrms.education: ~5 rows (approximately)
+/*!40000 ALTER TABLE `education` DISABLE KEYS */;
+INSERT INTO `education` (`education_id`, `education_val`, `sort_id`) VALUES
+	(1, 'Senior High School', 1),
+	(2, 'College', 2),
+	(3, 'Master', 4),
+	(4, 'Ph.D', 5),
+	(5, 'Bachelor', 3);
+/*!40000 ALTER TABLE `education` ENABLE KEYS */;
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.email
@@ -262,6 +801,7 @@ CREATE TABLE IF NOT EXISTS `email` (
   `email_id` int(11) NOT NULL AUTO_INCREMENT,
   `sent` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`email_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
@@ -280,6 +820,9 @@ CREATE TABLE IF NOT EXISTS `email_from` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.email_setup
@@ -298,10 +841,31 @@ CREATE TABLE IF NOT EXISTS `email_setup` (
   `general` int(11) DEFAULT NULL,
   `email_type_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`email_setup_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table hrms.email_setup: ~12 rows (approximately)
+/*!40000 ALTER TABLE `email_setup` DISABLE KEYS */;
+INSERT INTO `email_setup` (`email_type`, `email_from`, `email_to`, `email_cc`, `email_bcc`, `email_subject`, `email_content`, `updatetime`, `email_setup_id`, `params`) VALUES
+	('forgot_password', NULL, '@email', NULL, NULL, '[GIZ e-recruitment] Forgot Password', 'Your password is resetted to @password', NULL, 1, NULL),
+	('register', 'iskandar.tio@gmail.com', '@email', NULL, NULL, 'Account Activation', 'Your password is: @password\r\nPlease activate by clicking this link: <br/>\r\n<a href="http://192.168.1.171:8081/gizhrms/activate?link=@link">http://192.168.1.171:8081/gizhrms/activate.php?link=@link</a>', NULL, 2, NULL),
+	('invitation_5', NULL, 'idjsaioj', NULL, NULL, 'dsjaio', '<p><br></p>', NULL, 3, NULL),
+	('rejection_5', NULL, 'jidosa', NULL, NULL, 'djsio', '<p><br></p>', NULL, 4, NULL),
+	('invitation_1', NULL, '@applicant_email', NULL, NULL, 'First Interview', '<p>Thank you for applying.&nbsp;<br></p><p>You are selected for interview</p><p>Place: @interview_date</p><p>Time: @interview_time</p><p>Location: @interview_location</p><p>Regards,</p><p><br data-mce-bogus="1"></p>', NULL, 5, '@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer'),
+	('rejection_2', NULL, '@applicant_email', NULL, NULL, '[GIZ] @vacancy_name', '<div><strong>Dear @applicant_name,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Thank you very much for taking the time to interview with us for the @vacancy_name&nbsp;position in our organization. We appreciate your interest in PAKLIM and the job.</strong></div><div><strong>&nbsp;</strong></div><div><strong>I am writing to inform you that we have selected the candidate whom we believe most closely matches the job requirements of the position.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We do appreciate you taking the time to interview with us.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Again, thank you for your time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%207186&quot;&quot;&quot;&quot;">+62 21 851 7186</a></strong></div><div><strong>F <a href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;tel:%2B62%2021%20851%206110&quot;&quot;&quot;&quot;">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;mailto:fitri.kusumayanti@giz.de&quot;&quot;&quot;&quot;">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;" data-mce-href="&quot;&quot;&quot;&quot;http://www.paklim.or.id/&quot;&quot;&quot;&quot;">www.paklim.org</a></strong></div>', NULL, 6, '@applicant_email, @vacancy_name, @applicant_name'),
+	('invitation_2', NULL, 'iskandar.tio@gmail.com', NULL, NULL, '[GIZ] Interview Invitation', '<div><strong>Dear @applicant_name,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for @vacancy_name&nbsp;position as attached job description </strong><strong>o</strong><strong>n @interview_date</strong><strong>&nbsp;</strong><strong>a</strong><strong>t @interview_time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>@interview_location</strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with @interviewer.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>', NULL, 7, '@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer'),
+	('invitation_3', NULL, 'iskandar.tio@gmail.com', NULL, NULL, '[GIZ] Interview Invitation @vacancy_name', '<div><strong>Dear @applicant_name,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></div><div><strong>We </strong><strong>would like to invite you to attend an interview </strong><strong>for @vacancy_name&nbsp;position as attached job description </strong><strong>o</strong><strong>n @interview_date</strong><strong>&nbsp;</strong><strong>a</strong><strong>t @interview_time.</strong></div><div><strong>&nbsp;</strong></div><div><strong>@interview_location</strong><br></div><div><strong>&nbsp;</strong></div><div><strong>You will have the interview with @interviewer.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Please confirm your availability for the interview.</strong></div><div><strong>&nbsp;</strong></div><div><strong>We look forward to meeting you.</strong></div><div><strong>&nbsp;</strong></div><div><strong>Best Regards,</strong></div><div><strong>&nbsp;</strong></div><div><strong><br>Fitri Kusumayanti</strong></div><div><strong>HR Professional</strong></div><div><strong>PAKLIM - </strong><strong>Policy Advice for Environment and Climate Change</strong></div><div><strong>Program Advis Kebijakan untuk Lingkungan Hidup dan Perubahan Iklim</strong></div><div><strong>&nbsp;</strong></div><div><strong>Deutsche Gesellschaft fÃ¼r</strong></div><div><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></div><div><strong>c/o Kementerian Negara Lingkungan Hidup (KLH)</strong></div><div><strong>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</strong></div><div><strong>13410 Jakarta, Indonesia</strong></div><div><strong>T <a href="tel:%2B62%2021%20851%207186" data-mce-href="tel:%2B62%2021%20851%207186">+62 21 851 7186</a></strong></div><div><strong>F <a href="tel:%2B62%2021%20851%206110" data-mce-href="tel:%2B62%2021%20851%206110">+62 21 851 6110</a></strong></div><div><strong>M +62 8129 5346 045</strong></div><div><strong>E </strong><strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de">fitri.kusumayanti@giz.de</a></strong></div><div><strong><a href="http://www.paklim.or.id/" data-mce-href="http://www.paklim.or.id/">www.paklim.org</a></strong></div><div>&nbsp;</div>', NULL, 8, NULL),
+	('interviewer_1', NULL, '@interviewer_email', NULL, NULL, 'Interview', '<p>Here is the list:</p><p>@list</p><p>Regards</p><p>&nbsp;<br></p>', NULL, 9, '@interviewer_email, @interviewer_name, @list'),
+	('reference_1', NULL, '@reference_email', NULL, NULL, 'Asking for reference', '<p>Dear @reference_name,&nbsp;</p><p>&nbsp;</p><p>I hope this email finds you well.</p><p>&nbsp;</p><p>First of all I would like to introduce myself as HR Professional of Environment and Climate Change Programme of Deutsche Gesellschaft fuer Internationale Zusammenarbeit (GIZ) â€“ a German international cooperation for sustainable development in its Jakarta Office, Indonesia.</p><p>&nbsp;</p><p>I am writing you regarding @applicant_name, who considered to become Accounting/Finance Professional in GE-LAMA-I project.&nbsp;</p><p>As part of our recruitment process, we should conduct reference check for @applicant_name, as he has putting your name as his referee.</p><p>&nbsp;</p><p>It would be great if &nbsp;you could share your comments and impressions regarding @applicant_nameâ€™s qualifications and skills in @vacancy_criteria, as well as your connection with him.</p><p>&nbsp;</p><p>We do really hope that we could receive your recommendation by Tuesday, 27th January 2015.</p><p>&nbsp;&nbsp;</p><p>Many thanks for your kind assistance and I am looking forward to hearing from you.</p><p>&nbsp;</p><p>Best Regards,</p><p>Fitri Kusumayanti</p><p>HR Professional for Environment and Climate Change Programme</p><p>(PAKLIM, BMUB ICCTF and GE-LAMA-I Projects)</p><p><strong>&nbsp;</strong></p><p><strong>Deutsche Gesellschaft fÃ¼r </strong></p><p><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></p><p>c/o Kementerian Negara Lingkungan Hidup (KLH)</p><p>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</p><p>13410 Jakarta, Indonesia</p><p>T +62 21 851 7186</p><p>F +62 21 851 6110</p><p>M <strong>+62 8179 838467 </strong></p><p><strong>E </strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de"><strong>fitri.kusumayanti@giz.de</strong></a></p><p>&nbsp;</p><p>&nbsp;</p>', NULL, 10, '@reference_name, @reference_email, @applicant_name, @vacancy_criteria'),
+	('interviewer_5', NULL, 'dsa', NULL, NULL, NULL, '<br data-mce-bogus="1">', NULL, 11, NULL),
+	('reference_5', NULL, 'fdsfds', NULL, NULL, NULL, '<br data-mce-bogus="1">', NULL, 12, NULL);
+/*!40000 ALTER TABLE `email_setup` ENABLE KEYS */;
+
+>>>>>>> origin/master
 
 -- Data exporting was unselected.
-
 
 -- Dumping structure for table hrms.gender
 DROP TABLE IF EXISTS `gender`;
@@ -310,7 +874,11 @@ CREATE TABLE IF NOT EXISTS `gender` (
   `gender_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`gender_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+>>>>>>> origin/master
 
 -- Data exporting was unselected.
 
@@ -329,7 +897,11 @@ CREATE TABLE IF NOT EXISTS `job_applied` (
   `salary_expectation` int(11) DEFAULT NULL,
   `negotiable` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`job_applied_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+>>>>>>> origin/master
 
 -- Data exporting was unselected.
 
@@ -365,11 +937,16 @@ CREATE TABLE IF NOT EXISTS `location` (
   `location_code` varchar(50) DEFAULT NULL,
   `location_val` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`location_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+>>>>>>> origin/master
 
 -- Data exporting was unselected.
 
 
+<<<<<<< HEAD
 -- Dumping structure for table hrms.month_options
 DROP TABLE IF EXISTS `month_options`;
 CREATE TABLE IF NOT EXISTS `month_options` (
@@ -381,6 +958,8 @@ CREATE TABLE IF NOT EXISTS `month_options` (
 
 -- Data exporting was unselected.
 
+=======
+>>>>>>> origin/master
 
 -- Dumping structure for table hrms.m_role
 DROP TABLE IF EXISTS `m_role`;
@@ -397,15 +976,25 @@ CREATE TABLE IF NOT EXISTS `m_role` (
 -- Dumping structure for table hrms.m_user
 DROP TABLE IF EXISTS `m_user`;
 CREATE TABLE IF NOT EXISTS `m_user` (
-  `pwd` blob,
+  `pwd` varchar(600),
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(100) DEFAULT NULL,
   `activation_code` varchar(50) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table hrms.m_user: ~13 rows (approximately)
+/*!40000 ALTER TABLE `m_user` DISABLE KEYS */;
+INSERT INTO `m_user` (`pwd`, `user_id`, `user_name`, `activation_code`, `status_id`) VALUES
+	(sha2('a',512), 1, 'admin', NULL, 1);
+/*!40000 ALTER TABLE `m_user` ENABLE KEYS */;
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.m_user_role
@@ -415,7 +1004,16 @@ CREATE TABLE IF NOT EXISTS `m_user_role` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+<<<<<<< HEAD
 -- Data exporting was unselected.
+=======
+
+-- Dumping data for table hrms.m_user_role: ~78 rows (approximately)
+/*!40000 ALTER TABLE `m_user_role` DISABLE KEYS */;
+INSERT INTO `m_user_role` (`role_id`, `user_id`) VALUES
+	(2, 1);
+/*!40000 ALTER TABLE `m_user_role` ENABLE KEYS */;
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.nationality
@@ -451,7 +1049,20 @@ CREATE TABLE IF NOT EXISTS `question` (
   PRIMARY KEY (`question_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+<<<<<<< HEAD
 -- Data exporting was unselected.
+=======
+-- Dumping data for table hrms.question: ~6 rows (approximately)
+/*!40000 ALTER TABLE `question` DISABLE KEYS */;
+INSERT INTO `question` (`question_id`, `question_val`) VALUES
+	(1, 'Manage the team'),
+	(2, 'Experiences on Capacity Building'),
+	(5, 'Experiences in accounting'),
+	(9, 'Experiences in finance'),
+	(15, ' Experiences in general administration'),
+	(16, 'Experiences in inventory');
+/*!40000 ALTER TABLE `question` ENABLE KEYS */;
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.ranking
@@ -487,6 +1098,7 @@ CREATE TABLE IF NOT EXISTS `salary_band` (
 -- Data exporting was unselected.
 
 
+<<<<<<< HEAD
 -- Dumping structure for table hrms.training
 DROP TABLE IF EXISTS `training`;
 CREATE TABLE IF NOT EXISTS `training` (
@@ -498,6 +1110,8 @@ CREATE TABLE IF NOT EXISTS `training` (
 -- Data exporting was unselected.
 
 
+=======
+>>>>>>> origin/master
 -- Dumping structure for table hrms.user_ranking
 DROP TABLE IF EXISTS `user_ranking`;
 CREATE TABLE IF NOT EXISTS `user_ranking` (
@@ -507,9 +1121,14 @@ CREATE TABLE IF NOT EXISTS `user_ranking` (
   `user_comment` varchar(500) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_ranking_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.vacancy
@@ -541,7 +1160,11 @@ CREATE TABLE IF NOT EXISTS `vacancy_employee` (
   `employee_id` varchar(50) DEFAULT NULL,
   `vacancy_progress_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`vacancy_employee_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+>>>>>>> origin/master
 
 -- Data exporting was unselected.
 
@@ -557,9 +1180,13 @@ CREATE TABLE IF NOT EXISTS `vacancy_interview` (
   `vacancy_progress_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`vacancy_interview_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.vacancy_progress
@@ -588,7 +1215,6 @@ CREATE TABLE IF NOT EXISTS `vacancy_question` (
 
 -- Data exporting was unselected.
 
-
 -- Dumping structure for table hrms.vacancy_timeline
 DROP TABLE IF EXISTS `vacancy_timeline`;
 CREATE TABLE IF NOT EXISTS `vacancy_timeline` (
@@ -600,9 +1226,13 @@ CREATE TABLE IF NOT EXISTS `vacancy_timeline` (
   `interview_time` varchar(10) DEFAULT NULL,
   `interview_place` varchar(5000) DEFAULT NULL,
   PRIMARY KEY (`vacancy_timeline_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=latin1;
+>>>>>>> origin/master
 
 
 -- Dumping structure for table hrms.vacancy_type

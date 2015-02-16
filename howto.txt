@@ -1,0 +1,22 @@
+WAMP
+1. install wamp
+2. edit file C:\wamp2\bin\apache\apache2.4.9\conf
+	ubah Listen 0.0.0.0:80 ke Listen 192.168.1.171:80 (ip address server) (line 62)
+	uncomment LoadModule rewrite_module modules/mod_rewrite.so (hilangkan #) (line 154)
+3. saat ini seharusnya dari komputer lain sudah bisa masuk.
+
+GITHUB (untuk coding sharing)
+1. masuk ke www.github.com, buat login dulu.
+2. masuk ke https://windows.github.com, download GitHub for Windows
+3. run program github for windows yang tadi di download
+4. Login dulu, di sebelah kanan atas tombol icon setting, di klik lalu pilih open in git shell
+5. masuk ke windows powershell, cd\wamp\www (masuk ke directory wamp kita), lalu jalankan git clone https://github.com/iskandartio/gizhrms.git
+6. tunggu sampai selesai download.
+
+MYSQL
+1. Install HeidiSQL. http://www.heidisql.com/download.php?download=installer
+2. Di sebelah kiri klik New, kasih nama session. Lalu Network type diisi MySQL (TCP/IP), Hostname: localhost, user:root, passwordnya kosong aja. Trus save di kiri bawah, lalu klik open
+3. Ke tab query lalu ketik SET PASSWORD FOR 'root'@'localhost' = PASSWORD('123456'); Kemudian tekan f9
+4. tekan tombol disconnect (icon diatas kedua dari kiri)
+5. kali ini password root kita isi 123456 supaya bisa login, jangan lupa di save lagi sebelum klik open.
+6. masuk ke tools pilih Load SQL File. 
