@@ -42,7 +42,6 @@
 				
 				if (!goNextInput("#tbl_add_claim input", this)) {
 					AddClaim();
-					goNextInput("#tbl_add_claim input", this);
 				}
 				
 				if ($(o).prop('id')=='invoice_val') {
