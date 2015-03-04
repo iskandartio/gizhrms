@@ -144,7 +144,7 @@
 <tr><td>Vacancy Code *</td><td>:</td><td><?php _t("vacancy_code")?> <?php _t("vacancy_code2")?></td></tr>
 <tr><td>Vacancy Name *</td><td>:</td><td><?php _t("vacancy_name")?></td></tr>
 <tr><td>Vacancy Description *</td><td>:</td><td><div id="vacancy_description" style="border-style:dotted"></div></td></tr>
-<tr><td>Vacancy Criteria *</td><td>:</td><td><textarea id='vacancy_criteria' style='width:90%;height:50px'></textarea></td></tr>
+<tr><td>Questions for<br>Reference Check *</td><td>:</td><td><textarea id='vacancy_criteria' style='width:90%;height:50px'></textarea></td></tr>
 <tr><td>Vacancy Start *</td><td>:</td><td><?php _t("vacancy_startdate")?></td></tr>
 <tr><td>Vacancy End *</td><td>:</td><td><?php _t("vacancy_enddate")?></td></tr>
 <tr><td>Vacancy Type *</td><td>:</td><td><?php _p($vacancy_type_options)?></td></tr>

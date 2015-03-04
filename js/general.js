@@ -14,6 +14,7 @@ function setDOB() {
 function setDatePickerPrivate(o) {
 	if (!$(o).hasClass('hasDatepicker')) {
 		$(o).datepicker({ dateFormat: "dd-mm-yy", changeMonth:true, changeYear:true });
+		$(o).css('width','100px');
 	}
 }
 
@@ -528,38 +529,6 @@ function numeric(o) {
 function prepareDataMultiInput(data, arr, par) {
 	for (var i=0;i<arr.length;i++) {
 		data[arr[i]]=$(par).children('.'+arr[i]).val();
-	}
-	return data;
-}
-function prepareDataText(data, arr, par, f) {
-	if (!par) {
-		for (var i=0;i<arr.length;i++) {
-			data[arr[i]]=$('#'+arr[i]).val();
-		}
-	} else {
-		if (!f) f=fields;
-		for (var i=0;i<arr.length;i++) {
-			data[arr[i]]=getChild(par, arr[i], f);
-		}
-	}
-	return data;
-}
-
-function prepareDataHtml(data, arr) {
-	for (var i=0;i<arr.length;i++) {
-		data[arr[i]]=$('#'+arr[i]).html();
-	}
-	return data;
-}
-function prepareDataCheckBox(data, arr, par, f) {
-	if (!par) {
-		for (var i=0;i<arr.length;i++) {
-			data[arr[i]]=$('#'+arr[i]).prop('checked') ? 1 : 0;
-		}
-	} else {
-		for (var i=0;i<arr.length;i++) {
-			data[arr[i]]=getChildObj(par, arr[i]).prop('checked') ? 1 : 0;
-		}
 	}
 	return data;
 }

@@ -30,20 +30,20 @@ require "pages/startup.php";
 			$salary_expectation=formatNumber($res[0]['salary_expectation']);
 			$negotiable=$res[0]['negotiable'];
 		}
-		$r.="Salary Expectation (Gross) : "._t2("salary_expectation", $salary_expectation, "10");
+		$r.="Salary Expectation (Gross) : "._t2("salary_expectation", $salary_expectation, "12");
 		$r.=" <input type='checkbox' id='negotiable' ".($negotiable ? "checked" : "")."/><label for='negotiable'>Negotiable</label>";
 		$res= db::DoQuery('select a.question_id, b.question_val, d.choice_id from vacancy_question a left join question b on a.question_id=b.question_id
 		left join job_applied c on c.vacancy_id=a.vacancy_id and c.user_id=?
 		left join applicants_answer d on d.job_applied_id=c.job_applied_id and d.question_id=a.question_id
 		where a.vacancy_id=?', array($_SESSION['uid'], $vacancy_id));
-		if (count($res)==0)	die;
+		if (count($res)>0) {
 		
-		$r.='<table class="tbl" id="tbl_question"><thead><tr><th>Question ID</th><th>Question</th><th>Answer</th></tr></thead><tbody>';
-		foreach ($res as $row) {
-			$r.="<tr><td class='question_id'>".$row['question_id']."</td><td>".$row['question_val']."</td><td class='answer'>".get_choice($row['question_id'], $row['choice_id'])."</td></tr>";
+			$r.='<table class="tbl" id="tbl_question"><thead><tr><th>Question ID</th><th>Question</th><th>Answer</th></tr></thead><tbody>';
+			foreach ($res as $row) {
+				$r.="<tr><td class='question_id'>".$row['question_id']."</td><td>".$row['question_val']."</td><td class='answer'>".get_choice($row['question_id'], $row['choice_id'])."</td></tr>";
+			}
+			$r.="</tbody></table>";
 		}
-		$r.="</tbody></table>";
-		
 		die ($r);
 	}
 	if ($type=='apply') {
@@ -57,13 +57,14 @@ require "pages/startup.php";
 		} else {
 			db::update('job_applied','salary_expectation, negotiable','job_applied_id=?', array($salary_expectation, $negotiable, $job_applied_id), $con);
 		}
-		
-		for ($i=0;$i<count($question);$i++) {
-			$res=db::select_one('applicants_answer','job_applied_id','job_applied_id=? and question_id=?','', array($job_applied_id, $question[$i]), $con);
-			if (count($res)>0) {
-				db::update('applicants_answer','choice_id','job_applied_id=? and question_id=?', array($answer[$i], $job_applied_id, $question[$i]), $con);
-			} else {
-				db::insert('applicants_answer','job_applied_id, question_id, choice_id', array($job_applied_id, $question[$i], $answer[$i]), $con);
+		if (isset($question)) {
+			for ($i=0;$i<count($question);$i++) {
+				$res=db::select_one('applicants_answer','job_applied_id','job_applied_id=? and question_id=?','', array($job_applied_id, $question[$i]), $con);
+				if (count($res)>0) {
+					db::update('applicants_answer','choice_id','job_applied_id=? and question_id=?', array($answer[$i], $job_applied_id, $question[$i]), $con);
+				} else {
+					db::insert('applicants_answer','job_applied_id, question_id, choice_id', array($job_applied_id, $question[$i], $answer[$i]), $con);
+				}
 			}
 		}
 		$vacancy_name=db::select_single('vacancy','vacancy_name v','vacancy_id=?','', array($vacancy_id), $con);

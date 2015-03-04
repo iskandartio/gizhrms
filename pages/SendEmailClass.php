@@ -16,7 +16,7 @@ Class SendEmail {
 												   // 1 = errors and messages
 												   // 2 = messages only
 		$mail->SMTPAuth   = true;                  // enable SMTP authentication
-		$mail->SMTPSecure = "tls";                 // sets the prefix to the servier
+		$mail->SMTPSecure = $rs['security_type'];                 // sets the prefix to the servier
 
 		$mail->Host       = $rs['host'];      // sets GMAIL as the SMTP server
 		$mail->Port       = $rs['port'];                   // set the SMTP port for the GMAIL server
@@ -33,8 +33,11 @@ Class SendEmail {
 
 		$mail->MsgHTML($body);
 
-		$address = $send_to;
-		$mail->AddAddress($address, "");
+		$address = explode(";",$send_to);
+		foreach ($address as $addr) {
+			$mail->AddAddress($addr, "");
+		}
+		
 
 		if(!$mail->Send()) {
 		  //return "Mailer Error: " . $mail->ErrorInfo;

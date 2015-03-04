@@ -1,21 +1,1351 @@
-save_current_contract:1
+1=1
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+left join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+left join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate'1=1 order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+left join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+left join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ and a.first_name like ?
+%rio%
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+left join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+left join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' and a.first_name like ? order by a.first_name, a.last_name
+%rio%
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+left join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+left join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+left join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+left join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+update applicants set adj_salary_band=?,adj_reason=?,adj_salary=? where user_id=?
+2T
+dsfdsfds
+8000000
+5
 ExecMe
-update contract_history set salary_band=?,reason=?,salary=? where contract_history_id=1
+update applicants set adj_salary_band=?,adj_reason=?,adj_salary=? where user_id=?
 ExecMe
-insert into applicants_language(language_skill_id,language_id,language_val,user_id) values(?,?,?,?)
+create temporary table a
+		select b.user_id, ? start_date, coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date) end_date
+, a.adj_salary, b.job_title, a.adj_salary_band
+, b.project_name, b.project_number, b.principal_advisor
+, b.team_leader, b.project_location, b.responsible_superior
+, b.SAP_No, b.position, a.adj_reason from applicants a
+left join contract_history b on b.user_id=a.user_id and curdate() between b.start_date and b.end_date
+where a.adj_salary!=b.salary
 ExecMe
-update applicants_language set language_skill_id=?,language_id=?,language_val=?,user_id=? where applicants_language_id=1
+delete from contract_history where start_date>curdate()
 ExecMe
-insert into applicants_language(language_skill_id,language_id,language_val,user_id) values(?,?,?,?)
+update applicants a
+inner join contract_history c on c.user_id=a.user_id and curdate() between c.start_date and c.end_date
+set c.end_date=?
+where a.adj_salary!=c.salary
+ExecMe
+insert into contract_history(user_id, start_date, end_date, 
+salary, job_title, salary_band, project_name, project_number, principal_advisor
+, team_leader, project_location, responsible_superior, SAP_No, position, reason)
+select * from a
+ExecMe
+drop table a
+ExecMe
+update applicants set adj_salary=null, adj_salary_band=null, adj_reason=null
+ExecMe
+delete from contract_history where end_date<start_date
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ExecMe
+insert into employee_dependent(relation,name,user_id) values(?,?,?)
+ExecMe
+insert into employee_dependent(relation,name,user_id) values(?,?,?)
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ExecMe
+insert into employee_dependent(relation,name,user_id) values(?,?,?)
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ExecMe
+insert into employee_dependent(relation,name,user_id) values(?,?,?)
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ExecMe
+insert into employee_dependent(relation,name,user_id) values(?,?,?)
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ExecMe
+update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=5
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ExecMe
+insert into employee_dependent(relation,name,user_id) values(?,?,?)
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ExecMe
+update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=5
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ExecMe
+update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=5
+ExecMe
+update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=5
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ExecMe
+update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=5
+ExecMe
+update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=5
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+delete from employee_dependent where employee_dependent_id=?
+5
+ExecMe
+delete from employee_dependent where employee_dependent_id=?
+delete from employee_dependent where employee_dependent_id=?
+4
+ExecMe
+delete from employee_dependent where employee_dependent_id=?
+delete from employee_dependent where employee_dependent_id=?
+6
+ExecMe
+delete from employee_dependent where employee_dependent_id=?
+delete from employee_dependent where employee_dependent_id=?
+
+ExecMe
+delete from employee_dependent where employee_dependent_id=?
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+delete from employee_dependent where employee_dependent_id=?
+3
+ExecMe
+delete from employee_dependent where employee_dependent_id=?
+ExecMe
+insert into employee_dependent(relation,name,user_id) values(?,?,?)
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ExecMe
+update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=7
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ExecMe
+update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=7
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+
+select a.user_id, a.first_name, a.last_name
+, a.contract1_start_date, a.contract1_end_date 
+, a.am1_start_date, a.am1_end_date
+, a.contract2_start_date, a.contract2_end_date
+, a.am2_start_date, a.am2_end_date
+, a.adj_salary, a.adj_salary_band, a.adj_reason
+, e.start_date, e.end_date
+, e.salary, e.salary_band, e.reason
+, e.project_name, e.project_number, e.project_location
+, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.job_title, e.position 
+from applicants a
+left join m_user_role b on a.user_id=b.user_id
+left join m_role c on c.role_id=b.role_id
+inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
+inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
+where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
+ExecMe
+update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=7
+ExecMe
+update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=2
+ExecMe
+update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=1
+ExecMe
+update question set question_val=? where question_id=1
+ExecMe
+insert into choice(choice_val, question_id, sort_id) values(?,?,?)
+ExecMe
+update question set question_val=? where question_id=1
+update choice set choice_val=?, sort_id=? where choice_id=?
+ExecMe
+update choice set choice_val=?, sort_id=? where choice_id=?
+ExecMe
+insert into choice(choice_val, question_id, sort_id) values(?,?,?)
+ExecMe
+update question set question_val=? where question_id=1
+update choice set choice_val=?, sort_id=? where choice_id=?
+ExecMe
+update choice set choice_val=?, sort_id=? where choice_id=?
+update choice set choice_val=?, sort_id=? where choice_id=?
+ExecMe
+update choice set choice_val=?, sort_id=? where choice_id=?
+ExecMe
+insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
+
+delete from employee_dependent where employee_dependent_id=?
+7
+ExecMe
+delete from employee_dependent where employee_dependent_id=?
+ExecMe
+insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+delete from employee_outpatient where employee_outpatient_id=?
+2
+ExecMe
+delete from employee_outpatient where employee_outpatient_id=?
+ExecMe
+insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
+delete from employee_outpatient where employee_outpatient_id=?
+3
+ExecMe
+delete from employee_outpatient where employee_outpatient_id=?
+ExecMe
+insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
+delete from employee_outpatient where employee_outpatient_id=?
+4
+ExecMe
+delete from employee_outpatient where employee_outpatient_id=?
+ExecMe
+insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+delete from employee_outpatient where employee_outpatient_id=?
+5
+ExecMe
+delete from employee_outpatient where employee_outpatient_id=?
+ExecMe
+insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
+delete from employee_outpatient where employee_outpatient_id=?
+6
+ExecMe
+delete from employee_outpatient where employee_outpatient_id=?
+ExecMe
+insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
+delete from employee_outpatient where employee_outpatient_id=?
+7
+ExecMe
+delete from employee_outpatient where employee_outpatient_id=?
+ExecMe
+insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+ExecMe
+update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+
+
+ExecMe
+update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=2
+ExecMe
+update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=1
+
+ExecMe
+update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=2
+
+ExecMe
+update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=2
+update settings set setting_val=? where setting_name=?
+1200000
+Dependent Limit
+ExecMe
+update settings set setting_val=? where setting_name=?
+update settings set setting_val=? where setting_name=?
+1000000
+Dependent Limit
+ExecMe
+update settings set setting_val=? where setting_name=?
+delete from employee_pregnancy where employee_pregnancy_id=?
+1
+ExecMe
+delete from employee_pregnancy where employee_pregnancy_id=?
+update employee_pregnancy set invoice_date=?, invoice_val=?, claim=? where employee_pregnancy_id=?
+ExecMe
+update employee_pregnancy set invoice_date=?, invoice_val=?, claim=? where employee_pregnancy_id=?
+
 update applicants set contract1_start_date=?,contract1_end_date=?,am1_start_date=?,am1_end_date=?,contract2_start_date=?,contract2_end_date=?,am2_start_date=?,am2_end_date=? where user_id=?
-2015-02-01
-2017-02-28
+2014-03-01
+2015-03-31
 null
 null
 null
 null
 null
 null
-56
+5
 ExecMe
 update applicants set contract1_start_date=?,contract1_end_date=?,am1_start_date=?,am1_end_date=?,contract2_start_date=?,contract2_end_date=?,am2_start_date=?,am2_end_date=? where user_id=?
+ExecMe
+insert into employee_pregnancy(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim) values(?,?,?,?,?)
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim) values(?,?,?,?,?)
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
+
+
+
+ExecMe
+update question set question_val=? where question_id=2
+ExecMe
+insert into choice(choice_val, question_id, sort_id) values(?,?,?)
+ExecMe
+insert into choice(choice_val, question_id, sort_id) values(?,?,?)
+ExecMe
+insert into employee_medical_checkup(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
+update employee_medical_checkup set invoice_date=?, invoice_val=?, claim=? where employee_medical_checkup_id=?
+ExecMe
+update employee_medical_checkup set invoice_date=?, invoice_val=?, claim=? where employee_medical_checkup_id=?
+delete from employee_medical_checkup where employee_medical_checkup_id=?
+1
+ExecMe
+delete from employee_medical_checkup where employee_medical_checkup_id=?
+ExecMe
+insert into employee_medical_checkup(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)

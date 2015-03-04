@@ -1,6 +1,7 @@
 <?php
 	
 	$edit_id=$_SESSION['edit_id'];
+	$end_date=db::select_single('applicants', 'coalesce(am2_end_date, contract2_end_date, am1_end_date, contract1_end_date) v','user_id=?','',array($edit_id));
 	$applicant=db::select_one('contract_history a
 left join applicants b on a.user_id=b.user_id'
 , 'a.*, b.first_name, b.last_name', 'a.user_id=?', 'start_date desc', array($edit_id));
@@ -42,8 +43,8 @@ left join applicants b on a.user_id=b.user_id'
 <div id="div_current_contract">
 
 <table>
-	<tr><td>Start Date</td><td>:</td><td><?php _t("start_date", date('Y-m-d'));?></td></tr>
-	<tr><td>End Date</td><td>:</td><td><?php _t("end_date");?></td></tr>
+	<tr><td>Start Date</td><td>:</td><td><?php _t("start_date");?></td></tr>
+	<tr><td>End Date</td><td>:</td><td><?php _t("end_date", $end_date);?></td></tr>
 	<tr><td>Project Name</td><td>:</td><td><?php _t("project_name", $applicant);?></td></tr>
 	<tr><td>Project Number</td><td>:</td><td><?php _t("project_number", $applicant);?></td></tr>
 	<tr><td>Project Location</td><td>:</td><td><?php _t("project_location", $applicant);?></td></tr>

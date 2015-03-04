@@ -1,6 +1,23 @@
 <?php
 require_once("pages/startup.php");
 
+if (isset($_FILES["uploadPhoto"]["name"])) {
+	$target_dir = "uploads/";
+
+	$file_name=$_FILES["uploadPhoto"]["name"];
+	$ext=substr($file_name, strrpos($file_name, "."));
+	$target_file = $target_dir . $_SESSION['edit_id'].'-photo'.$ext;
+
+	$uploadOk=1;
+	echo  $_FILES["uploadPhoto"]["tmp_name"];
+	if (move_uploaded_file($_FILES["uploadPhoto"]["tmp_name"], $target_file)) {
+		echo "The file ". basename( $_FILES["uploadPhoto"]["name"]). " has been uploaded.";
+	} else {
+		echo "Sorry, there was an error uploading your file.";
+	}
+	die;
+}
+
 if (isset($_FILES["uploadFileCV"]["name"])) {
 	$target_dir = "uploads/";
 
@@ -15,6 +32,8 @@ if (isset($_FILES["uploadFileCV"]["name"])) {
 	} else {
 		echo "Sorry, there was an error uploading your file.";
 	}
+	
+	
 	$file_name=$_FILES["uploadFileLetter"]["name"];
 	$ext_letter=substr($file_name, strrpos($file_name, "."));
 	$target_file = $target_dir . $_SESSION['uid'].'-letter'.$ext_letter;

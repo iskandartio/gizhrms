@@ -7,7 +7,8 @@
 	left join vacancy c on c.vacancy_id=a.vacancy_id
 	left join vacancy_timeline d on d.vacancy_id=a.vacancy_id and a.vacancy_progress_id=d.vacancy_progress_id 
 	where b.vacancy_progress_val='Closing'");
-	$result="<table class='tbl' id='tbl'><thead><tr><th>Vacancy Id</th><th>Vacancy</th><th>Closing Date</th><th></th></tr></thead><tbody>";
+	$result="<h1>Print HRSR</h1>
+	<table class='tbl' id='tbl'><thead><tr><th>Vacancy Id</th><th>Vacancy</th><th>Closing Date</th><th></th></tr></thead><tbody>";
 	foreach ($res as $row) {
 		$result.="<tr><td>".$row['vacancy_id']."</td><td>".$row['vacancy_name']." (".$row['vacancy_code']."-".$row['vacancy_code2'].")</td><td>".formatDate($row['update_time'])."</td>";
 		$result.="<td>".getImageTags(array('print','export'))."</td>";
@@ -16,6 +17,7 @@
 		
 	}
 	$result.="</tbody></table>";
+	$result.="<h1>Current Vacancy Process</h1>";
 	
 	$res=db::DoQuery("select d.first_name, d.last_name, b.update_time, a0.vacancy_interview_id, a.vacancy_name, a.vacancy_code, a.vacancy_code2, c.process_name
 	, a0.interview_date, a0.interview_time, a0.interview_place 

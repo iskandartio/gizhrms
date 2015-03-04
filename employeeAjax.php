@@ -3,7 +3,7 @@ require "pages/startup.php";
 	if ($type=='search') {
 		$_SESSION['filter_first_name']=$first_name;
 		$_SESSION['filter_last_name']=$last_name;
-		$filter="1=1";
+		$filter="";
 		$arr=array();
 		if ($first_name!='') {
 			$filter.=" and a.first_name like ?";
@@ -13,8 +13,10 @@ require "pages/startup.php";
 			$filter.=" and a.last_name like ?";
 			array_push($arr, "%$last_name%");
 		}
-		$res=db::select('applicants a inner join contract_history b on a.user_id=b.user_id and now() between b.start_date and b.end_date'
-		,'a.user_id, a.first_name, a.last_name, b.project_name, b.project_location',$filter, 'a.first_name, a.last_name', $arr);
+		db::Log($filter);
+		db::Log($arr);
+		$res=employee::get_active_employee($filter, $arr);
+
 		$result="<table id='tbl_employee' class='tbl'>
 		<thead><tr><th>User ID</th><th>First Name</th><th>Last Name</th><th>Project Name</th><th>Project Location</th><th></th></tr></thead><tbody>";
 		foreach ($res as $row) {
@@ -22,7 +24,10 @@ require "pages/startup.php";
 				$$key=$val;
 			}
 			$result.="<tr><td>$user_id</td><td>$first_name</td><td>$last_name</td><td>$project_name</td><td>$project_location</td>
-			<td>".getImageTags(array('edit'))." <button class='btn_update'>Change Project Data</button></td>
+			<td><button class='btn_edit_project'>Edit Project Data</button> 
+			<button class='btn_update'>Change Project Data</button> 
+			<button class='btn_edit_dependent'>Edit Dependents</button> 
+			</td>
 			</tr>";
 		}
 		$result.="</tbody></table>";
@@ -130,16 +135,18 @@ inner join contract_history b on a.user_id=b.user_id','b.*','a.contract_history_
 	
 	if ($type=='save_contract_detail') {
 		$con=db::beginTrans();
+		
 		$_POST['user_id']=$_SESSION['edit_id'];
+		$edit_id=$_POST['user_id'];
 		db::updateShort('applicants', 'user_id', $_POST, $con);
 		$data['first']=employee::get_graph($contract1_start_date, $contract1_end_date, $am1_start_date, $am1_end_date, shared::addYear($contract1_start_date,2));
 		$data['second']=employee::get_graph($contract2_start_date, $contract2_end_date, $am2_start_date, $am2_end_date, shared::addYear($contract2_start_date,1));
 		
 		db::commitTrans($con);
+		
 		$d=employee::getApplicantData($edit_id);
 		$data['severance']=formatNumber($d['severance']);
 		$data['service']=formatNumber($d['service']);
-		
 		die(json_encode($data));
 	}
 	if ($type=='add_language') {
@@ -165,4 +172,55 @@ inner join contract_history b on a.user_id=b.user_id','b.*','a.contract_history_
 		$i=db::delete('applicants_language','applicants_language_id=?', array($applicants_language_id));
 		die($i);
 	}
+	if ($type=='terminate') {
+		
+		db::update('applicants','contract_state','user_id=?',array('Terminate', $user_id));
+		die;
+	}
+	if ($type=='recontract') {
+		$name=db::select_single('applicants',"concat(first_name,' ',last_name) v", 'user_id=?','',array($user_id));
+		$res=db::select_one('contract_history','*','user_id=?','end_date desc', array($user_id));
+		$result=employee::get_recontract_table($name, $res);
+		die($result);
+	}
+	if ($type=='save_recontract') {
+		$con=db::beginTrans();
+		db::ExecMe('update applicants set contract1_start_date=?, contract1_end_date=?
+		, am1_start_date=null, am1_end_date=null
+		, contract2_start_date=null, contract2_end_date=null
+		, am2_start_date=null, am2_end_date=null
+		where user_id=?',array($start_date, $end_date, $user_id), $con);
+		db::ExecMe('insert into contract_history2 select * from contract_history where user_id=?', array($user_id), $con);
+		db::ExecMe('delete from contract_history where user_id=?', array($user_id), $con);
+		db::insertEasy('contract_history',$_POST, $con);
+		db::commitTrans($con);
+		die;
+	}
+	if ($type=='search_expiring') {
+		$res=employee::get_expiring_res();
+		$result=employee::get_expiring_table($res);
+		die($result);
+	}
+	if ($type=='get_dependent') {
+		$_SESSION['edit_id']=$user_id;
+		$res=employee::get_dependent_res($user_id);
+		$user_name=employee::get_user_name($user_id);
+		$result=employee::get_dependent_table($user_name, $res);
+		die($result);
+	}
+	if ($type=='save_dependent') {
+		$user_id=$_SESSION['edit_id'];
+		$_POST['user_id']=$user_id;
+		if ($employee_dependent_id=='') {
+			$employee_dependent_id=db::insertEasy('employee_dependent', $_POST);
+		} else {
+			db::updateEasy('employee_dependent', $_POST);
+		}
+		die ($employee_dependent_id);
+	}
+	if ($type=='delete_dependent') {
+		db::delete('employee_dependent','employee_dependent_id=?',array($employee_dependent_id));
+		die;
+	}
+		die;
 ?>

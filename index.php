@@ -6,6 +6,7 @@ require "pages/startup.php";
 
 require_once('libs/URLParse.php'); 
 
+shared::contract_reminder_email();
 $activation_email= (isset($_SESSION['activation_email'])? $_SESSION['activation_email'] : '');
 $_SESSION['activation_email']="";
 $name = URLParse::ProcessURL();
@@ -66,18 +67,21 @@ header('Content-Type: text/html; charset=utf-8');
 	<script>
 		$(function() {
 			bind('#btn_login','click',Login);
-			
+			$.ajax({
+				type : "post",
+				url : "send_email.php"						
+			});
 		});
 		function ChangeCaptchaText() {
 			$('#captcha img').attr('src','captcha.php');
 			$('#captcha_text').focus();
 		}
 		function new_registrant() {
-			$('#tr_confirm_password').show();
-			$('#tr_new_applicant').hide();
-			$('#tr_already_registered').show();
-			$('#tr_forgot_password').show();
-			$('#tr_password').show();
+			$('#div_confirm_password').show();
+			$('#div_new_applicant').hide();
+			$('#div_already_registered').show();
+			$('#div_forgot_password').show();
+			$('#div_password').show();
 			
 			tag="<?php _p(shared::get_captcha_string())?>";
 			$('#captcha').html(tag);
@@ -87,11 +91,11 @@ header('Content-Type: text/html; charset=utf-8');
 			
 		}
 		function forgot_password() {
-			$('#tr_confirm_password').hide();
-			$('#tr_new_applicant').show();
-			$('#tr_already_registered').show();
-			$('#tr_forgot_password').hide();
-			$('#tr_password').hide();
+			$('#div_confirm_password').hide();
+			$('#div_new_applicant').show();
+			$('#div_already_registered').show();
+			$('#div_forgot_password').hide();
+			$('#div_password').hide();
 			
 			tag="<?php _p(shared::get_captcha_string())?>";
 			$('#captcha').html(tag);
@@ -102,11 +106,11 @@ header('Content-Type: text/html; charset=utf-8');
 			
 		}
 		function already_registered() {
-			$('#tr_confirm_password').hide();
-			$('#tr_new_applicant').show();
-			$('#tr_already_registered').hide();
-			$('#tr_forgot_password').show();
-			$('#tr_password').show();
+			$('#div_confirm_password').hide();
+			$('#div_new_applicant').show();
+			$('#div_already_registered').hide();
+			$('#div_forgot_password').show();
+			$('#div_password').show();
 			
 			$('#btn_login').html("Login");
 			var data={}
@@ -314,7 +318,7 @@ header('Content-Type: text/html; charset=utf-8');
 <?php if ($name==''||$name=='activate') {?>
 	<div class='middle_div'>
 	
-		<div id='tr_new_applicant'>New Applicant click <span class='span_link' onclick='new_registrant()'>here</span></div>
+		<div id='div_new_applicant'>New Applicant click <span class='span_link' onclick='new_registrant()'>here</span></div>
 		<div id='div_forgot_password'>Forgot Password click <span class='span_link' onclick='forgot_password()'>here</span></div>
 		<div id='div_already_registered' style="display:none">Already registered click <span class='span_link' onclick='already_registered()'>here</span></div>
 		<div class='label'>Email</div><div class='textbox'><?php _t("email", $activation_email) ?></div>
@@ -364,6 +368,7 @@ header('Content-Type: text/html; charset=utf-8');
 		<li><a href="/gizhrms/gender">Gender</a></li>
 		<li><a href="/gizhrms/location">Location</a></li>
 		<li><a href="/gizhrms/vacancy_progress">Recruitment Process</a></li>
+		<li><a href="/gizhrms/settings">Settings</a></li>
 		</ul>
 		
 		<span id='menu_report'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Report</span>
@@ -371,16 +376,29 @@ header('Content-Type: text/html; charset=utf-8');
 		<li><a href="/gizhrms/statistics">Statistics</a></li>
 		</ul>
 		<span id='menu_administration'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Administration</span>
-		
 		<ul>
 		<li><a href="/gizhrms/employee">Employee</a></li>
+		<li><a href="/gizhrms/salary">Salary Adjustment</a></li>
+		<li><a href="/gizhrms/contract_termination">Contract Termination</a></li>
 		</ul>
 		
+		<span id='menu_medical'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Medical</span>
+		<ul>
+		<li><a href="/gizhrms/outpatient">Outpatient</a></li>
+		<li><a href="/gizhrms/eyeglasses">Eyeglasses</a></li>
+		<li><a href="/gizhrms/pregnancy">Pregnancy</a></li>
+		<li><a href="/gizhrms/medical_checkup">Medical Checkup</a></li>
+		<li><a href="/gizhrms/medical_summary">Summary</a></li>
+		</ul>
+
+
 		<span id='menu_recruitment'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Recruitment</span>
 		<ul>
 		<li><a href="/gizhrms/vacancy">Vacancy</a></li>
 		<li><a href="/gizhrms/question">Question</a></li>
 		<li><a href="/gizhrms/filter">Filter Applicants</a></li>
+		<li><a href="/gizhrms/call_interview">Call for Interview</a></li>
+		<li><a href="/gizhrms/accept_employee">Accept as Employee</a></li>
 		<li><a href="/gizhrms/summary">Recruitment Summary</a></li>
 		<li><a href="/gizhrms">Logout</a></li>
 		</ul>

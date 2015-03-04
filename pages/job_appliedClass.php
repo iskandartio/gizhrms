@@ -7,7 +7,8 @@ Class job_applied {
 		left join applicants d on d.user_id=a.user_id 
 		left join vacancy e on e.vacancy_id=a.vacancy_id
 		where vacancy_progress_val='Closing' and a.vacancy_id=? and 'admin'=?", array($vacancy_id, $role_name));
-		return $res;
+		if (count($res)>0) return $res[0];
+		return null;
 	}
 	
 }

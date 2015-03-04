@@ -21,7 +21,7 @@
 	
 		
 	foreach ($_POST as $key=>$value) {
-
+		if (is_array($value)) continue;
 		if (startsWith($key,'date')||endsWith($key,'date')) {
 			
 			$$key=dbDate($value);	
@@ -40,7 +40,16 @@
 			die(json_encode($data));
 		}
 	}
-	
+	set_error_handler('exceptions_error_handler');
+	function exceptions_error_handler($severity, $message, $filename, $lineno) {
+	  if (error_reporting() == 0) {
+		return;
+	  }
+	  if (error_reporting() & $severity) {
+		throw new ErrorException($message, 0, $severity, $filename, $lineno);
+	  }
+	}
+
 	function _p($s) {
 		echo $s;
 	}
@@ -187,7 +196,7 @@
 		}
 		return true;
 	}
-	function formatNumber($s) {
+	function formatNumber($s, $prec=0) {
 		if ($s=='') return '';
 		$s=round($s,5);
 		$s=str_replace(',','',$s);
@@ -207,7 +216,7 @@
 			
 			$j+=3;
 		}
-		if (count($z)>1) {
+		if (count($z)>1&&$prec!=0) {
 			$r.=".".$z[1];
 		}
 		return $r;

@@ -27,7 +27,7 @@
 		if ($_SESSION['role_name']=='applicant') {
 			$data['url']= "position_applied";
 		} else if ($_SESSION['role_name']=='admin') {
-			$data['url']=  "vacancy";
+			$data['url']=  "filter";
 		} else if ($_SESSION['role_name']=='employee') {
 			$data['url']=  "filter";
 		}

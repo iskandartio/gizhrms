@@ -1,6 +1,43 @@
 <?php
 class shared {
-
+	static function contract_reminder_email() {
+		$res=db::DoQuery("select a.user_id, b.first_name, b.last_name, c.job_title, a.end_date from (
+select user_id, max(end_date) end_date from contract_history a
+left join settings b on b.setting_name='Contract Reminder'
+where DATE_ADD(end_date,INTERVAL b.setting_val DAY)<curdate() and contract_reminder_email is null
+group by user_id) a
+left join applicants b on a.user_id=b.user_id
+left join contract_history c on c.user_id=a.user_id and c.end_date=a.end_date");
+		if (count($res)==0) return;
+		$list="<table border=1 cellpadding=3 cellspacing=0>";
+		$list.="<tr><th>First Name</th><th>Last Name</th><th>Job Title</th><th>End Date</th></tr>";
+		foreach ($res as $rs) {
+			$list.="<tr><td>".$rs['first_name']."</td><td>".$rs['last_name']."</td><td>".$rs['job_title']."</td><td>".formatDate($rs['end_date'])."</td></tr>";
+		}
+		
+		
+		$days=db::select_single('settings','setting_val v',"setting_name='Contract Reminder'");
+		$res=db::DoQuery("select c.user_name from m_role a
+inner join m_user_role b on a.role_id=b.role_id and a.role_name='admin'
+inner join m_user c on c.user_id=b.user_id");
+		$admins=array();
+		foreach ($res as $rs) {
+			array_push($admins, $rs['user_name']);
+		}
+		
+		$params=array();
+		$params['days']=$days;
+		$params['admin']=implode(";",$admins);
+		$params['list']=$list;
+		
+		shared::email("contract_reminder", $params);
+		db::ExecMe("update contract_history a inner join (
+select user_id, max(end_date) end_date from contract_history a
+left join settings b on b.setting_name='Contract Reminder'
+where DATE_ADD(end_date,INTERVAL b.setting_val DAY)<curdate() and contract_reminder_email is null
+group by user_id) b on a.user_id=b.user_id set a.contract_reminder_email=1");
+		
+	}
 	static function get_session($data, $def) {
 		if (!isset($_SESSION[$data])) return $def;
 		return $_SESSION[$data];
@@ -18,13 +55,14 @@ where a.employee_id=?", array($user_id, $uid));
 		$e=db::select_one("email_setup","*","email_type='$email_type'","",array(), $con);
 		if ($e==null) return;
 		foreach ($params as $key=>$val) {
+			
 			$e['email_to']=str_replace("@$key", $val, $e['email_to']);
 			$e['email_cc']=str_replace("@$key", $val, $e['email_cc']);
 			$e['email_bcc']=str_replace("@$key", $val, $e['email_bcc']);
 			$e['email_subject']=str_replace("@$key", $val, $e['email_subject']);
 			$e['email_content']=str_replace("@$key", $val, $e['email_content']);
 		}
-		db::Log($e);
+		
 		if ($e['email_content']!="") {
 			db::insert("email", "email_from, email_to, email_cc, email_bcc, email_subject, email_content"
 				, array($e['email_from'], $e['email_to'], $e['email_cc'], $e['email_bcc'], $e['email_subject'], $e['email_content']), $con);
@@ -93,7 +131,7 @@ where a.employee_id=?", array($user_id, $uid));
 				$tag_validate=substr($tag,$start+1,$i-$start-1);
 				$flag=true;
 				if ($tag_validate[0]=='/') {
-					$tag_validate=substr($tag_validate,1);
+					$tag_validate=substr($tag_validate,1);-*
 					if (!array_search($tag_validate,$allowedTag)) {
 						$flag=false;
 					}
@@ -351,5 +389,8 @@ tinymce.init({
 		if ($date<=0) $date=$date-1;
 		return shared::fixDate($year, $month, $date);
 	}
-	
+	static function addArray(&$arr, $s, $v) {
+		if (!isset($arr[$s])) $arr[$s]=array();
+		array_push($arr[$s], $v);
+	}
 }

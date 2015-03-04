@@ -1,8 +1,5 @@
 <?php
-	$res=db::DoQuery("select a.user_id, a.first_name, a.last_name from applicants a
-left join  m_user_role b on a.user_id=b.user_id 
-left join m_role c on c.role_id=b.role_id 
-where role_name='employee' order by a.first_name, a.last_name");
+	$res=employee::get_active_employee_simple();
 	$combo_user="";
 	$arr=array();
 	foreach ($res as $row) {
@@ -12,6 +9,7 @@ where role_name='employee' order by a.first_name, a.last_name");
 	}
 	
 	$combo_user=json_encode($arr);
+	
 /*
 	$combo_user="<select id='employee_id' class='user_id' title='User'><option value=''>-User-</option>";
 	foreach ($res as $row) {
@@ -80,7 +78,6 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		bind('#vacancy_progress_id','change',ChangeVacancyProgressId);
 		bind('#search','click',Search);
 		bind('#next_vacancy_progress_id','change',ChangeNextVacancyProgressId);
-		bind('#btn_shortlist',"click", Shortlist);
 		
 		$('#btn_add_user').hide();
 		$('#div_shortlist').hide();
@@ -183,64 +180,16 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 
 	}
 	
-	function Shortlist() {
-		var data={};
-		data['type']='shortlist';
-		data['vacancy_id']=$('#vacancy_id').val();
-		data['vacancy_progress_id']=$('#vacancy_progress_id').val();
-		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
-		var success=function(msg) {
-			$('#search_result').html(msg);
-			if ($('#next_vacancy_progress_id  option:selected').html()=='Shortlist') {
-				hideColumnsArr('tbl_filter_applicant', ['interview_place','interview_date','interview_time'],fields);
-			}
-			bind('.btn_accept',"click",Accept);
-			bind('.btn_save',"click",Save);
-			bind('.btn_delete',"click",Delete);
-			bind('#interview_all',"click", InterviewAll);
-			bind('#closing',"click", Closing);
-			hideColumns('tbl_filter_applicant');
-			$('#tbl_filter_applicant tbody tr').each(function() { 
-				var v=$(this).children("td:eq("+fields['ranking_id']+")").children("select");
-				$(v).data("originalValue", $(v).val());
-			});
-			setDatePicker();
-			hideColumnsArr('tbl_result', ['contract_history_id','user_id'], field_closing);
-			$('input[id="salary"]').each(function(idx) {
-				numeric($(this));
-			});
-		}
-		ajax("filter_applicantAjax.php", data, success);
-	}
+
 	function Closing() {
 		var data={};
 		data['type']='closing';
 		data['vacancy_id']=$('#vacancy_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
+		data['user_id']=getChildHtml(par, 'user_id', f);
 		var success=function(msg) {
 			alert('Success');
 			Search();
-		}
-		ajax("filter_applicantAjax.php", data, success);
-	}
-	function InterviewAll() {
-		if ($('#next_vacancy_progress_id option:selected').html()!='Shortlist') {
-			if (!validate_empty(['interview_date','interview_time'])) return;
-		}
-		var data={};
-		data['type']='interviewall';
-		prepareDataText(data, ['vacancy_id','next_vacancy_progress_id','vacancy_progress_id']);
-		var success=function(msg) {
-			if (msg!='') {
-				alert(msg);
-			} else {
-				alert('Success');
-				Search();
-				$.ajax({
-					type : "post",
-					url : "send_email.php"						
-				});
-			}
 		}
 		ajax("filter_applicantAjax.php", data, success);
 	}
@@ -388,11 +337,14 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 				$('#btn_add_user').show();
 				$('#div_shortlist').show();
 			}
+			$('#tbl_filter_applicant tbody').empty();
+			$('#tbl_result tbody').empty();
+			fixSelect();
 		}
 		ajax("filter_applicantAjax.php", data, success);
-		$('#tbl_filter_applicant tbody').empty();
 		
-		fixSelect();
+		
+		
 	}
 	function ChangeVacancyProgressId() {
 		progress=$('#vacancy_progress_id option:selected').index();
@@ -579,9 +531,6 @@ if ($_SESSION['role_name']=='admin') {
 <?php _t("filter_professional_skill") ?> 
 <br/>
 <button id="search" class="button_link">Search</button>
-<?php if ($_SESSION['role_name']=='admin') {?>
-	<button class="button_link" id="btn_shortlist">Next Process</button>
-<?php }?>
 <p>
 <div id="search_result"></div>
 <div id="show_detail"></div>

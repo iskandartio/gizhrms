@@ -75,13 +75,45 @@
 		bind(".btn_edit", "click", Edit);
 		bind("#btn_back", "click", Back);
 		bind('#btn_add_language','click',AddLanguage);
-
+		
+		bind('#contract1_end_date','change', ValidateFirstEndDate);
+		bind('#am1_end_date','change',ValidateAm1EndDate);
+		bind('#contract2_end_date','change',ValidateSecondEndDate);
+		bind('#am2_end_date','change',ValidateAm2EndDate);
 	}
-
+	function ValidateFirstEndDate() {
+		validateContractLength('contract1_start_date', 'contract1_end_date', 2);
+	}
+	function ValidateAm1EndDate() {
+		validateContractLength('contract1_start_date', 'am1_end_date', 2);
+	}
+	function ValidateSecondEndDate() {
+		validateContractLength('contract2_start_date', 'contract2_end_date', 1);
+	}
+	function ValidateAm2EndDate() {
+		validateContractLength('contract2_start_date', 'am2_end_date', 1);
+	}
 	function Back() {
 		location.href="employee";
 	}
 	$(function() {
+		$('#btnUpload').click(function() {
+			
+			$.ajax({
+				url: "upload.php",
+				type: 'POST',
+				data: new FormData( $('#data')[0] ),
+				async: false,
+				success: function (data) {
+					alert(data);
+					$('#photo').attr('src','show_picture.php');
+				},
+				cache: false,
+				contentType: false,
+				processData: false
+			});
+			return false;	
+		});
 		bindAll();
 		<?php if ($edit_id==0) {  ?>
 			$('#div_personal_data').insertAfter('h1#name');
@@ -117,7 +149,7 @@
 		bindLanguage();
 		hideColumns('tbl_salary_history');
 	});
-	
+
 	function Edit() {
 		var par=$(this).closest("tr");
 		var data={}
@@ -177,7 +209,26 @@
 		ChangeProvinces($(this).val());
 		
 	}
+	function validateContractLength(d1, d2, y) {
+		if ($('#'+d2).datepicker('getDate')==null) return true;
+		var dateMin=$('#'+d1).datepicker('getDate');
+		var rMax = new Date(dateMin.getFullYear() + y, dateMin.getMonth(),dateMin.getDate() - 1); 
+        if (rMax<$('#'+d2).datepicker('getDate')) {
+			if (d1=='contract1_start_date') {
+				alert('First Period Contract can not more then 2 years');
+			} else {
+				alert('Extension Period Contract can not more then 1 years');
+			}
+			return false;
+		}
+		return true;
+	}
 	function SaveContractData() {
+		if (!validateContractLength('contract1_start_date','contract1_end_date',2))  return;
+		if (!validateContractLength('contract1_start_date','am1_end_date',2))  return;
+		if (!validateContractLength('contract2_start_date','contract2_end_date',1))  return;
+		if (!validateContractLength('contract2_start_date','am2_end_date',1))  return;
+
 		var data={}
 		data['type']="save_contract_detail";
 		data=prepareDataText(data, ['contract1_start_date','contract1_end_date','am1_start_date','am1_end_date'
@@ -186,8 +237,8 @@
 			var d=jQuery.parseJSON(msg);
 			$('#projected_severance').val(d['severance']);
 			$('#projected_service').val(d['service']);
-			$('#first_contract tr:eq(1)').children("td").html(d['first']);
-			$('#second_contract tr:eq(1)').children("td").html(d['second']);
+			$('#contract_graph>tbody>tr>td:eq(0)').html(d['first']);
+			$('#contract_graph>tbody>tr>td:eq(1)').html(d['second']);
 		}
 		ajax("employeeAjax.php",data,success);
 	}
@@ -348,10 +399,20 @@
 	}
 </script>
 <button id='btn_back' class="button_link">Back</button>
-<h1 id="name"><?php _p($applicant['first_name']." ".$applicant['last_name'])?></h1>
+<h1 id="name"><img id='photo' src="show_picture.php" width="75px" height="100px"/><?php _p($applicant['first_name']." ".$applicant['last_name'])?></h1>
 
 <div id="div_personal_data">
 <h1>Personal Data</h1>
+
+<form action="upload.php" id="data" method="post" enctype="multipart/form-data">
+<table>
+<tr><td>Photo</td><td>:</td><td><input type="file" id="uploadPhoto" name="uploadPhoto" accept=".png,.jpg"></td></tr>
+</table>
+<button class="button_link" id="btnUpload">Upload</button>
+ 
+</form>
+
+
 <table>
 	<tr style='display:none'><td>Applicants ID</td><td>:</td><td><?php _t("applicants_id",$applicant)?></td></tr>
 	<tr><td>First Name *</td><td>:</td><td><?php _t("first_name",$applicant)?></td></tr>
@@ -430,21 +491,19 @@
 <?php _t("projected_service", $applicant)?>
 </td></tr>
 </table>
-<table id='first_contract'>
-<tr><th>First Contract</th></tr>
+<table id='contract_graph'><thead>
+<tr><th>First Contract</th><th>Extension Contract</th></tr></thead><tbody>
 <tr><td>
 <?php _p(employee::get_graph($applicant['contract1_start_date'],$applicant['contract1_end_date']
 					, $applicant['am1_start_date'],$applicant['am1_end_date']
 					, shared::addYear($applicant['contract1_start_date'], 2))); ?>
-</td></tr>
-</table>
-<table  id='second_contract'>
-<tr><th>Extension Contract</th></tr>
-<tr><td>
+</td><td>
 <?php _p(employee::get_graph($applicant['contract2_start_date'],$applicant['contract2_end_date']
 					, $applicant['am2_start_date'],$applicant['am2_end_date']
 					, shared::addYear($applicant['contract2_start_date'], 1))); ?>
-</td></tr>
+</td>
+</tr>
+</tbody>
 </table>
 <button class='button_link' id='btn_save'>Save</button>
 </div>

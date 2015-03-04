@@ -35,9 +35,9 @@
 			die;
 		}
 		if ($type=='save') {
+		
 			$res=db::select_one('vacancy','vacancy_id','vacancy_id=?','', array($vacancy_id));
 			$con=db::beginTrans();
-			$_POST['vacancy_description']=str_replace("http://localhost:8081/gizhrms/","",$_POST['vacancy_description']);
 			if (count($res)==0) {
 				$vacancy_id=db::insertEasy('vacancy', $_POST, $con);
 			} else {
@@ -50,14 +50,21 @@
 				$questions[$row['question_id']]=1;
 				
 			}
-			foreach ($_POST['question_id'] as $question_id) {
-				if (isset($questions[$question_id])) {
-					unset($questions[$question_id]);
-				} else {
-					db::insert('vacancy_question','question_id, vacancy_id', array($question_id, $vacancy_id), $con);
+			
+			
+			if (isset($question_id)) {
+				foreach ($_POST['question_id'] as $q) {
+					if (isset($questions[$q])) {
+						unset($questions[$q]);
+					} else {
+						db::insert('vacancy_question','question_id, vacancy_id', array($q, $vacancy_id), $con);
+					}
 				}
 			}
+			
+			
 			foreach ($questions as $key=>$val) {
+				db::Log($key." ".$vacancy_id);
 				db::delete('vacancy_question','question_id=? and vacancy_id=?',array($key, $vacancy_id));
 			}
 			db::commitTrans($con);

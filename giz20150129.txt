@@ -1,14 +1,37 @@
 must activate alert
-user get email notif that they're invited
 default for admin is filter applicant
 dob yearRange
+
 rejection alert
 interview=save
 tombol send email
+
 Auto di Next Recruitment Process (for employee)
 employee can not next process
 last comment ditampilkan
 si Bella gak bisa input location dan interview_time
 interview_date dipanjangin
-test email_rejection
+
+no question when apply
+user get email notif that they're invited
+
+start first contract and end amendment1 gak boleh lebih dari 2 taon, validasi di end amendment1
+contract data auto draw graph, extension ke samping aja
+
+form input salary
+contract termination
+contract reminder
+di salary history, contract data bisa liat complete history
+employee: personal data bisa add photo
+hrsr form di pdf saja
+print hrsr form
+
+-Call for interview
+* list candidate
+* button call for interview, button ask reference
+
+-Recruitment Summary
+* ada filter vacancy, list all candidate
+
+-Medical
 

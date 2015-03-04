@@ -2,7 +2,7 @@
 	function combo_vacancy($selected='') {
 		$res=db::DoQuery("select a.vacancy_id, concat(a.vacancy_name,'(',a.vacancy_code,'-',a.vacancy_code2,')') vacancy from vacancy a
 left join vacancy_progress b on a.vacancy_progress_id=b.vacancy_progress_id 
-where now() between a.vacancy_startdate and a.vacancy_enddate and ifnull(b.vacancy_progress_val,'')!='Closing'
+where curdate() between a.vacancy_startdate and a.vacancy_enddate and ifnull(b.vacancy_progress_val,'')!='Closing'
 order by vacancy_code",array($_SESSION['uid']));		
 		$combo_vacancy=shared::select_combo($res,'vacancy_id','vacancy');
 		return $combo_vacancy;
