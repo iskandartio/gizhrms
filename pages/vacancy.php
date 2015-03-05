@@ -84,7 +84,7 @@
 		data=prepareDataDecimal(data,['allowance']);
 		data=prepareDataHtml(data,['vacancy_description']);
 		var question_id= new Array();
-		$.each($( "input[id^='question_id_']" ), function(idx) {
+		$("input[id^='question_id_']").each(function(idx) {
 			if ($(this).prop('checked')) {
 				question_id.push($(this).attr('id').replace("question_id_",""));	
 				
@@ -104,7 +104,7 @@
 				$('#vacancy_id').val(msg);
 				adder='<tr><td>';
 				adder+=msg+"</td>"; 
-				adder+='<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
+				adder+='<td></td><td></td><td></td><td style="display:none"></td><td style="display:none"></td><td></td><td></td><td></td><td></td>';
 				adder+='<td><?php _p(getImageTags(array('edit','delete')))?></td>';
 				adder+='</tr>';	
 				currentRow=$('#tbl_vacancy tbody').children().length;
@@ -140,7 +140,7 @@
 <div id="search_result"></div>
 <button class="button_link" id="btn_add">Add New</button>
 <table id='input_vacancy'>
-<tr><td>Vacancy ID</td><td>:</td><td><?php _t("vacancy_id")?></td></tr>
+<tr><td width='130px'>Vacancy ID</td><td>:</td><td><?php _t("vacancy_id")?></td></tr>
 <tr><td>Vacancy Code *</td><td>:</td><td><?php _t("vacancy_code")?> <?php _t("vacancy_code2")?></td></tr>
 <tr><td>Vacancy Name *</td><td>:</td><td><?php _t("vacancy_name")?></td></tr>
 <tr><td>Vacancy Description *</td><td>:</td><td><div id="vacancy_description" style="border-style:dotted"></div></td></tr>

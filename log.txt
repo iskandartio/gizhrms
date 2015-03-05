@@ -1,1185 +1,428 @@
-1=1
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-left join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-left join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate'1=1 order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-left join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-left join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
- and a.first_name like ?
-%rio%
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-left join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-left join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' and a.first_name like ? order by a.first_name, a.last_name
-%rio%
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-left join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-left join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-left join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-left join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-update applicants set adj_salary_band=?,adj_reason=?,adj_salary=? where user_id=?
-2T
-dsfdsfds
-8000000
-5
 ExecMe
-update applicants set adj_salary_band=?,adj_reason=?,adj_salary=? where user_id=?
+update vacancy set vacancy_code=?,vacancy_code2=?,vacancy_name=?,vacancy_startdate=?,vacancy_enddate=?,vacancy_type=?,vacancy_criteria=?,allowance=?,vacancy_description=? where vacancy_id=1
 ExecMe
-create temporary table a
-		select b.user_id, ? start_date, coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date) end_date
-, a.adj_salary, b.job_title, a.adj_salary_band
-, b.project_name, b.project_number, b.principal_advisor
-, b.team_leader, b.project_location, b.responsible_superior
-, b.SAP_No, b.position, a.adj_reason from applicants a
-left join contract_history b on b.user_id=a.user_id and curdate() between b.start_date and b.end_date
-where a.adj_salary!=b.salary
+insert into vacancy_question(question_id, vacancy_id) values(?,?)
 ExecMe
-delete from contract_history where start_date>curdate()
+insert into vacancy_question(question_id, vacancy_id) values(?,?)
 ExecMe
-update applicants a
-inner join contract_history c on c.user_id=a.user_id and curdate() between c.start_date and c.end_date
-set c.end_date=?
-where a.adj_salary!=c.salary
+update vacancy set vacancy_code=?,vacancy_code2=?,vacancy_name=?,vacancy_startdate=?,vacancy_enddate=?,vacancy_type=?,vacancy_criteria=?,allowance=?,vacancy_description=? where vacancy_id=2
 ExecMe
-insert into contract_history(user_id, start_date, end_date, 
-salary, job_title, salary_band, project_name, project_number, principal_advisor
-, team_leader, project_location, responsible_superior, SAP_No, position, reason)
-select * from a
+insert into vacancy_question(question_id, vacancy_id) values(?,?)
 ExecMe
-drop table a
+insert into vacancy_question(question_id, vacancy_id) values(?,?)
 ExecMe
-update applicants set adj_salary=null, adj_salary_band=null, adj_reason=null
-ExecMe
-delete from contract_history where end_date<start_date
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-ExecMe
-insert into employee_dependent(relation,name,user_id) values(?,?,?)
-ExecMe
-insert into employee_dependent(relation,name,user_id) values(?,?,?)
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-ExecMe
-insert into employee_dependent(relation,name,user_id) values(?,?,?)
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-ExecMe
-insert into employee_dependent(relation,name,user_id) values(?,?,?)
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-ExecMe
-insert into employee_dependent(relation,name,user_id) values(?,?,?)
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-ExecMe
-update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=5
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-ExecMe
-insert into employee_dependent(relation,name,user_id) values(?,?,?)
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-ExecMe
-update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=5
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-ExecMe
-update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=5
-ExecMe
-update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=5
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-ExecMe
-update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=5
-ExecMe
-update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=5
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-delete from employee_dependent where employee_dependent_id=?
-5
-ExecMe
-delete from employee_dependent where employee_dependent_id=?
-delete from employee_dependent where employee_dependent_id=?
-4
-ExecMe
-delete from employee_dependent where employee_dependent_id=?
-delete from employee_dependent where employee_dependent_id=?
-6
-ExecMe
-delete from employee_dependent where employee_dependent_id=?
-delete from employee_dependent where employee_dependent_id=?
-
-ExecMe
-delete from employee_dependent where employee_dependent_id=?
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-delete from employee_dependent where employee_dependent_id=?
-3
-ExecMe
-delete from employee_dependent where employee_dependent_id=?
-ExecMe
-insert into employee_dependent(relation,name,user_id) values(?,?,?)
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-ExecMe
-update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=7
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-ExecMe
-update employee_dependent set relation=?,name=?,user_id=? where employee_dependent_id=7
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-
-select a.user_id, a.first_name, a.last_name
-, a.contract1_start_date, a.contract1_end_date 
-, a.am1_start_date, a.am1_end_date
-, a.contract2_start_date, a.contract2_end_date
-, a.am2_start_date, a.am2_end_date
-, a.adj_salary, a.adj_salary_band, a.adj_reason
-, e.start_date, e.end_date
-, e.salary, e.salary_band, e.reason
-, e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
-, e.job_title, e.position 
-from applicants a
-left join m_user_role b on a.user_id=b.user_id
-left join m_role c on c.role_id=b.role_id
-inner join (select user_id, max(end_date) end_date from contract_history group by user_id) d on d.user_id=a.user_id
-inner join contract_history e on e.user_id=a.user_id and e.end_date=d.end_date
-where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate' order by a.first_name, a.last_name
-ExecMe
-update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=7
-ExecMe
-update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=2
-ExecMe
-update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=1
-ExecMe
-update question set question_val=? where question_id=1
+update question set question_val=? where question_id=9
 ExecMe
 insert into choice(choice_val, question_id, sort_id) values(?,?,?)
 ExecMe
-update question set question_val=? where question_id=1
-update choice set choice_val=?, sort_id=? where choice_id=?
-ExecMe
-update choice set choice_val=?, sort_id=? where choice_id=?
+update question set question_val=? where question_id=5
 ExecMe
 insert into choice(choice_val, question_id, sort_id) values(?,?,?)
 ExecMe
-update question set question_val=? where question_id=1
-update choice set choice_val=?, sort_id=? where choice_id=?
+insert into choice(choice_val, question_id, sort_id) values(?,?,?)
 ExecMe
-update choice set choice_val=?, sort_id=? where choice_id=?
-update choice set choice_val=?, sort_id=? where choice_id=?
+insert into choice(choice_val, question_id, sort_id) values(?,?,?)
 ExecMe
-update choice set choice_val=?, sort_id=? where choice_id=?
+insert into m_user(user_name, pwd, activation_code) values(?,sha2(?,512),?)
+ExecMe
+insert into m_user_role(user_id, role_id) values(?,?)
+ExecMe
+insert into email(email_from, email_to, email_cc, email_bcc, email_subject, email_content) values(?,?,?,?,?,?)
+ExecMe
+update email set sent=now() where email_id=?
+ExecMe
+insert into job_applied(vacancy_id, user_id, date_applied, salary_expectation, negotiable) values(?,?,?,?,?)
+ExecMe
+insert into applicants_answer(job_applied_id, question_id, choice_id) values(?,?,?)
+ExecMe
+insert into applicants_answer(job_applied_id, question_id, choice_id) values(?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter2 select c.* from applicants_answer a
+		left join job_applied b on a.job_applied_id=b.job_applied_id 
+		inner join filter c on c.user_id=b.user_id and c.vacancy_id=b.vacancy_id
+		where a.question_id=? and a.choice_id=? and b.vacancy_id=?
+ExecMe
+drop table if exists filter
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter2 c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter2 c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter2 select c.* from applicants_answer a
+		left join job_applied b on a.job_applied_id=b.job_applied_id 
+		inner join filter c on c.user_id=b.user_id and c.vacancy_id=b.vacancy_id
+		where a.question_id=? and a.choice_id=? and b.vacancy_id=?
+ExecMe
+drop table if exists filter
+ExecMe
+create temporary table filter select c.* from applicants_answer a
+		left join job_applied b on a.job_applied_id=b.job_applied_id 
+		inner join filter2 c on c.user_id=b.user_id and c.vacancy_id=b.vacancy_id
+		where a.question_id=? and a.choice_id=? and b.vacancy_id=?
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter2 select c.* from applicants_answer a
+		left join job_applied b on a.job_applied_id=b.job_applied_id 
+		inner join filter c on c.user_id=b.user_id and c.vacancy_id=b.vacancy_id
+		where a.question_id=? and a.choice_id=? and b.vacancy_id=?
+ExecMe
+drop table if exists filter
+ExecMe
+create temporary table filter select c.* from applicants_answer a
+		left join job_applied b on a.job_applied_id=b.job_applied_id 
+		inner join filter2 c on c.user_id=b.user_id and c.vacancy_id=b.vacancy_id
+		where a.question_id=? and a.choice_id=? and b.vacancy_id=?
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter2 select c.* from applicants_answer a
+		left join job_applied b on a.job_applied_id=b.job_applied_id 
+		inner join filter c on c.user_id=b.user_id and c.vacancy_id=b.vacancy_id
+		where a.question_id=? and a.choice_id=? and b.vacancy_id=?
+ExecMe
+drop table if exists filter
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter2 c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter2 c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into job_applied(vacancy_id, user_id, date_applied, salary_expectation, negotiable) values(?,?,?,?,?)
+ExecMe
+insert into applicants_answer(job_applied_id, question_id, choice_id) values(?,?,?)
+ExecMe
+insert into applicants_answer(job_applied_id, question_id, choice_id) values(?,?,?)
+update job_applied set salary_expectation=?, negotiable=? where job_applied_id=?
+ExecMe
+update job_applied set salary_expectation=?, negotiable=? where job_applied_id=?
+update applicants_answer set choice_id=? where job_applied_id=? and question_id=?
+ExecMe
+update applicants_answer set choice_id=? where job_applied_id=? and question_id=?
+update applicants_answer set choice_id=? where job_applied_id=? and question_id=?
+ExecMe
+update applicants_answer set choice_id=? where job_applied_id=? and question_id=?
+update job_applied set salary_expectation=?, negotiable=? where job_applied_id=?
+ExecMe
+update job_applied set salary_expectation=?, negotiable=? where job_applied_id=?
+update applicants_answer set choice_id=? where job_applied_id=? and question_id=?
+ExecMe
+update applicants_answer set choice_id=? where job_applied_id=? and question_id=?
+update applicants_answer set choice_id=? where job_applied_id=? and question_id=?
+ExecMe
+update applicants_answer set choice_id=? where job_applied_id=? and question_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into vacancy_employee(vacancy_id, employee_id, vacancy_progress_id) values(?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into vacancy_employee(vacancy_id, employee_id, vacancy_progress_id) values(?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+insert into vacancy_employee(vacancy_id, employee_id, vacancy_progress_id) values(?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into vacancy_interview(vacancy_id, user_id, vacancy_progress_id, interview_place, interview_date, interview_time) values(?,?,?,?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into applicants(user_id,first_name,last_name,place_of_birth,date_of_birth,gender,nationality,nationality_val,address,country,country_name,province,city,post_code,phone1,phone2,computer_skills,professional_skills) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+ExecMe
+insert into job_applied(vacancy_id, user_id, date_applied, salary_expectation, negotiable) values(?,?,?,?,?)
+ExecMe
+insert into applicants_answer(job_applied_id, question_id, choice_id) values(?,?,?)
+ExecMe
+insert into applicants_answer(job_applied_id, question_id, choice_id) values(?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+
+
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+
+
+update applicants set contract_state=? where user_id=?
+ExecMe
+update applicants set contract_state=? where user_id=?
+
+
+
+
 ExecMe
 insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
 
-delete from employee_dependent where employee_dependent_id=?
-7
-ExecMe
-delete from employee_dependent where employee_dependent_id=?
-ExecMe
-insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id
-ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id
 update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
 ExecMe
 update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
@@ -1189,163 +432,779 @@ update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where empl
 update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
 ExecMe
 update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update settings set setting_val=? where setting_name=?
+1500000
+Medical Checkup Limit
 ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+update settings set setting_val=? where setting_name=?
 ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
 ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+drop table if exists filter2
 ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+drop table temp_rank
 ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
 ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-delete from employee_outpatient where employee_outpatient_id=?
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+update job_applied set vacancy_progress_id=next_vacancy_progress_id, vacancy_shortlist=0, next_vacancy_progress_id=null 
+where vacancy_id=? and next_vacancy_progress_id=? and vacancy_shortlist=1
+ExecMe
+update vacancy set vacancy_progress_id=? where vacancy_id=?
+delete from vacancy_timeline where vacancy_id=? and vacancy_progress_id=?
 2
-ExecMe
-delete from employee_outpatient where employee_outpatient_id=?
-ExecMe
-insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
-delete from employee_outpatient where employee_outpatient_id=?
-3
-ExecMe
-delete from employee_outpatient where employee_outpatient_id=?
-ExecMe
-insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
-delete from employee_outpatient where employee_outpatient_id=?
-4
-ExecMe
-delete from employee_outpatient where employee_outpatient_id=?
-ExecMe
-insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-delete from employee_outpatient where employee_outpatient_id=?
 5
 ExecMe
-delete from employee_outpatient where employee_outpatient_id=?
+delete from vacancy_timeline where vacancy_id=? and vacancy_progress_id=?
 ExecMe
-insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
-delete from employee_outpatient where employee_outpatient_id=?
-6
+insert into vacancy_timeline(vacancy_id, vacancy_progress_id) values(?,?)
 ExecMe
-delete from employee_outpatient where employee_outpatient_id=?
+insert into email(email_from, email_to, email_cc, email_bcc, email_subject, email_content) values(?,?,?,?,?,?)
 ExecMe
-insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
-delete from employee_outpatient where employee_outpatient_id=?
-7
+insert into email(email_from, email_to, email_cc, email_bcc, email_subject, email_content) values(?,?,?,?,?,?)
 ExecMe
-delete from employee_outpatient where employee_outpatient_id=?
+insert into email(email_from, email_to, email_cc, email_bcc, email_subject, email_content) values(?,?,?,?,?,?)
 ExecMe
-insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
 ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+drop table if exists filter2
 ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+drop table temp_rank
 ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
 ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
 ExecMe
-update employee_outpatient set invoice_date=?, invoice_val=?, claim=? where employee_outpatient_id=?
+insert into vacancy_employee(vacancy_id, employee_id, vacancy_progress_id) values(?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			left join vacancy_employee  b on a.vacancy_id=b.vacancy_id and b.vacancy_progress_id=?
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and b.employee_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			left join vacancy_employee  b on a.vacancy_id=b.vacancy_id and b.vacancy_progress_id=?
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and b.employee_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			left join vacancy_employee  b on a.vacancy_id=b.vacancy_id and b.vacancy_progress_id=?
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and b.employee_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into vacancy_interview(vacancy_id, user_id, vacancy_progress_id, interview_place, interview_date, interview_time) values(?,?,?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			left join vacancy_employee  b on a.vacancy_id=b.vacancy_id and b.vacancy_progress_id=?
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and b.employee_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into vacancy_employee(vacancy_id, employee_id, vacancy_progress_id) values(?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+update vacancy_interview set interview_place=?, interview_date=?, interview_time=? where vacancy_interview_id=?
+ExecMe
+update vacancy_interview set interview_place=?, interview_date=?, interview_time=? where vacancy_interview_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+update vacancy_interview set interview_place=?, interview_date=?, interview_time=? where vacancy_interview_id=?
+ExecMe
+update vacancy_interview set interview_place=?, interview_date=?, interview_time=? where vacancy_interview_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
 
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
 
-ExecMe
-update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=2
-ExecMe
-update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=1
-
-ExecMe
-update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=2
-
-ExecMe
-update employee_dependent set relation=?,name=?,date_of_birth=?,user_id=? where employee_dependent_id=2
-update settings set setting_val=? where setting_name=?
-1200000
-Dependent Limit
-ExecMe
-update settings set setting_val=? where setting_name=?
-update settings set setting_val=? where setting_name=?
-1000000
-Dependent Limit
-ExecMe
-update settings set setting_val=? where setting_name=?
-delete from employee_pregnancy where employee_pregnancy_id=?
-1
-ExecMe
-delete from employee_pregnancy where employee_pregnancy_id=?
-update employee_pregnancy set invoice_date=?, invoice_val=?, claim=? where employee_pregnancy_id=?
-ExecMe
-update employee_pregnancy set invoice_date=?, invoice_val=?, claim=? where employee_pregnancy_id=?
-
-update applicants set contract1_start_date=?,contract1_end_date=?,am1_start_date=?,am1_end_date=?,contract2_start_date=?,contract2_end_date=?,am2_start_date=?,am2_end_date=? where user_id=?
-2014-03-01
-2015-03-31
-null
-null
-null
-null
-null
-null
-5
-ExecMe
-update applicants set contract1_start_date=?,contract1_end_date=?,am1_start_date=?,am1_end_date=?,contract2_start_date=?,contract2_end_date=?,am2_start_date=?,am2_end_date=? where user_id=?
-ExecMe
-insert into employee_pregnancy(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
-ExecMe
-insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim) values(?,?,?,?,?)
-ExecMe
-insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim) values(?,?,?,?,?)
-ExecMe
-insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
-ExecMe
-insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
-ExecMe
-insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
-ExecMe
-insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
-ExecMe
-insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
-ExecMe
-insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
-ExecMe
-insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
-ExecMe
-insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
-ExecMe
-insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
-ExecMe
-insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
-
-
-
-ExecMe
-update question set question_val=? where question_id=2
-ExecMe
-insert into choice(choice_val, question_id, sort_id) values(?,?,?)
-ExecMe
-insert into choice(choice_val, question_id, sort_id) values(?,?,?)
-ExecMe
-insert into employee_medical_checkup(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
-update employee_medical_checkup set invoice_date=?, invoice_val=?, claim=? where employee_medical_checkup_id=?
-ExecMe
-update employee_medical_checkup set invoice_date=?, invoice_val=?, claim=? where employee_medical_checkup_id=?
-delete from employee_medical_checkup where employee_medical_checkup_id=?
-1
-ExecMe
-delete from employee_medical_checkup where employee_medical_checkup_id=?
-ExecMe
-insert into employee_medical_checkup(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)

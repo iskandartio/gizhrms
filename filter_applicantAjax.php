@@ -156,20 +156,27 @@ where a.vacancy_id=?", array($vacancy_id));
 	}
 	if ($type=='save') {
 		$con=db::beginTrans();
+		
 		$vacancy_employee_id=db::select_single('vacancy_employee','vacancy_employee_id v', 'vacancy_id=? and employee_id=? and vacancy_progress_id=?','' , array($vacancy_id, $_SESSION['uid'], $next_vacancy_progress_id), $con);
 		if ($_SESSION['role_name']=='admin' and !isset($vacancy_employee_id)) {
 			$vacancy_employee_id=db::insert('vacancy_employee', 'vacancy_id, employee_id, vacancy_progress_id', array($vacancy_id, $_SESSION['uid'], $next_vacancy_progress_id), $con);
 		}
+		
 		if (db::select_with_count('user_ranking','vacancy_employee_id=? and  user_id=?', array($vacancy_employee_id, $user_id), $con)==0) {
 			db::insert('user_ranking', 'vacancy_employee_id, user_id, ranking_id, user_comment', array($vacancy_employee_id, $user_id, $ranking_id, $user_comment), $con);
 		} else {
 			db::update('user_ranking','ranking_id, user_comment','vacancy_employee_id=? and user_id=?', array($ranking_id, $user_comment, $vacancy_employee_id, $user_id), $con);
 		}
-		$vacancy_interview_id = db::select_single('vacancy_interview', 'vacancy_interview_id v', 'vacancy_id=? and user_id=? and vacancy_progress_id=?', '', array($vacancy_id, $user_id, $next_vacancy_progress_id), $con);
-		if (!isset($vacancy_interview_id)) {
-			db::insert('vacancy_interview','vacancy_id, user_id, vacancy_progress_id, interview_place, interview_date, interview_time',array($vacancy_id, $user_id, $next_vacancy_progress_id, $interview_place, $interview_date, $interview_time), $con);	
-		} else {
-			db::update('vacancy_interview', 'interview_place, interview_date, interview_time', 'vacancy_interview_id=?', array($interview_place, $interview_date, $interview_time, $vacancy_interview_id), $con);
+		
+		$vacancy_progress_val=db::select_single('vacancy_progress','vacancy_progress_val v','vacancy_progress_id=?', '', array($next_vacancy_progress_id), $con);
+		
+		if ($vacancy_progress_val!='Shortlist') {
+			$vacancy_interview_id = db::select_single('vacancy_interview', 'vacancy_interview_id v', 'vacancy_id=? and user_id=? and vacancy_progress_id=?', '', array($vacancy_id, $user_id, $next_vacancy_progress_id), $con);
+			if (!isset($vacancy_interview_id)) {
+				db::insert('vacancy_interview','vacancy_id, user_id, vacancy_progress_id, interview_place, interview_date, interview_time',array($vacancy_id, $user_id, $next_vacancy_progress_id, $interview_place, $interview_date, $interview_time), $con);	
+			} else {
+				db::update('vacancy_interview', 'interview_place, interview_date, interview_time', 'vacancy_interview_id=?', array($interview_place, $interview_date, $interview_time, $vacancy_interview_id), $con);
+			}
 		}
 		db::commitTrans($con);
 		die;
@@ -249,8 +256,9 @@ where a.vacancy_id=? and b.user_ranking_id is null and a.vacancy_progress_id=?",
 		$sql="create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
 where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1";
 		db::ExecMe($sql, array($vacancy_id, $next_vacancy_progress_id), $con);
+		
 		if ($vacancy_progress_val=='Shortlist') {
-			$sql="select a.user_id, a.first_name, a.last_name, c.interview_date, c.interview_time, c.interview_place from applicants a inner join filter b on a.user_id=b.user_id";
+			$sql="select a.user_id, a.first_name, a.last_name from applicants a inner join filter b on a.user_id=b.user_id";
 			$rsApplicants=db::DoQuery($sql, array(), $con);
 			$res=array();
 			foreach ($rsApplicants as  $rs) {

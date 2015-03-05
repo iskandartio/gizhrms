@@ -167,7 +167,7 @@ Human Resource Service Request – <?php _p($res['vacancy_type'])?>
 		<span class="float_left width120"><input type='checkbox' checked="checked"/>(Change) Position *</span><span class="float_left"> :  </span><span style='border-bottom:1px solid black;display:flex'> <?php _p($res['position'])?></span><p>
 		<span class="float_left width120"><input type='checkbox' checked="checked"/>(Change) Salary Band * </span><span class="float_left"> :  </span><span style='border-bottom:1px solid black;display:flex'> <?php _p($res['salary_band'])?></span><p>
 		<span class="float_left width120"><input type='checkbox'/>Terminate Contract on </span><span class="float_left"> :  </span><span style='border-bottom:1px solid black;display:flex'> &nbsp; </span><p>
-		<input type='checkbox'/>Salary (or adjustment): IDR <?php _p(formatNumber($res['salary']))?> effective on: <?php _p(formatDate($res['start_date']))?><br>
+		<input type='checkbox' checked="checked"/>Salary (or adjustment): IDR <?php _p(formatNumber($res['salary']))?> effective on: <?php _p(formatDate($res['start_date']))?><br>
 		<input type='checkbox'/>Additional Allowance as ____ % or IDR <?php _p(formatNumber($res['allowance']))?> / <strike>month</strike> / lumpsum<br>
 		effective on : __________________ till __________________ (**)<br>
 		*attach updated TOR ; **attach the background

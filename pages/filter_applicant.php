@@ -384,7 +384,6 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			var v=$(par).children("td:eq("+fields['ranking_id']+")").children("select");
 			$(v).data("originalValue", $(v).val());
 			alert('Success');
-			
 		}
 		ajax("filter_applicantAjax.php", data, success);
 		

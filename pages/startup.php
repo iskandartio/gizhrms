@@ -21,11 +21,12 @@
 	
 		
 	foreach ($_POST as $key=>$value) {
-		if (is_array($value)) continue;
+		
 		if (startsWith($key,'date')||endsWith($key,'date')) {
-			
-			$$key=dbDate($value);	
-			$_POST[$key]=$$key;
+			if (!is_array($value)) {
+				$$key=dbDate($value);	
+				$_POST[$key]=$$key;
+			}
 		} else {
 			$$key=$value;
 		}

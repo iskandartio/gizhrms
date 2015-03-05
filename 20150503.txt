@@ -1,0 +1,14 @@
+salary sharing per project
+report salary sharing:
+Name, Project Number, Project Name, %Sharing
+in HRSR further info: sharing salary, working time
+Severance
+Terminate Immediatley
+Re-Contract=New Cycle
+Former Employee
+Always group by date
+OUtpatient add year
+Lens paid 0.9%
+
+filter applicant for employee
+summary medical

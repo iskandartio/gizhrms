@@ -58,9 +58,7 @@
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
 		var success=function(msg) {
 			$('#search_result').html(msg);
-			if ($('#next_vacancy_progress_id  option:selected').html()=='Shortlist') {
-				hideColumnsArr('tbl_filter_applicant', ['interview_place','interview_date','interview_time'],fields);
-			}
+			
 			bindAll();
 		}
 		ajax("filter_applicantAjax.php", data, success);
@@ -80,7 +78,7 @@
 					type : "post",
 					url : "send_email.php"						
 				});
-				
+				location.reload();
 			}
 		}
 		ajax("filter_applicantAjax.php", data, success);

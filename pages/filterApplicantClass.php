@@ -3,8 +3,10 @@ Class FilterApplicant {
 
 static function get_call_interview_table($res, $vacancy_progress_val) {
 	if ($vacancy_progress_val=='Shortlist') {
+		//return (json_encode($res));
 		$result="<table class='tbl' id='tbl_call_interview'><thead><tr><th>First Name</th><th>Last Name</th></tr></thead><tbody>";
 		foreach ($res as $rs) {
+			
 			$result.="<tr><td>".$rs['first_name']."</td><td>".$rs['last_name']."</td></tr>";
 		}
 		$result.="</table>";
