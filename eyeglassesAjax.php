@@ -42,7 +42,7 @@
 				die("Can't reimburse because last invoice is less then 1 years ago");
 			}
 		}
-		$total=$lens_invoice_val;
+		$total=$lens_invoice_val*0.9;
 		db::insert('employee_eyeglasses','claim_type, user_id, invoice_date, invoice_val, claim, paid', array('Lens', $user_id, $lens_invoice_date, $lens_invoice_val,$lens_invoice_val, $total));
 		die;
 	}

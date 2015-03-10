@@ -3,7 +3,7 @@
 	$res=db::select('language','language_id, language_val','','sort_id');
 	$combo_language=shared::select_combo($res,'language_id', 'language_val');
 	$res=db::select('language_skill','language_skill_id, language_skill_val','','sort_id');
-	$combo_language_skill=shared::select_combo($res,'language_skill_id','language_skill_val');
+	$combo_language_skill_def=shared::select_combo_complete(language_skill::getAll(), 'language_skill_id', '-Skill', 'language_skill_val');
 	$language=db::DoQuery('select b.applicants_language_id, a.language_id, a.language_val, b.language_skill_id, c.language_skill_val from language a
 left join applicants_language b on a.language_id=b.language_id and b.user_id=?
 left join language_skill c on b.language_skill_id=c.language_skill_id', array($_SESSION['uid']));
@@ -17,6 +17,7 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 	var other_fields=generate_assoc(['applicants_other_language_id','language_val', 'language_skill_id', 'btn']);
 	var table='tbl_language';
 	var other_table='tbl_other_language';
+	var  language_skill_choice="<?php _p($combo_language_skill_def)?>";
 	$(function() {
 		bind('#btn_add',"click", AddNew);
 		bindAll();
@@ -93,9 +94,7 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 		var a='';
 		a+='<tr><td></td>';
 		a+="<td><?php _t("language_val")?></td>";
-		a+='<td><select id="language_skill_id"><option value=> - Language Skill -</option>';
-		a+="<?php _p($combo_language_skill)?>";
-		a+='</select></td>';
+		a+='<td>'+language_skill_choice+'</td>';
 		a+="<td>"+getImageTags(['save','delete'])+"</td>";
 		a+="</tr>";
 		
@@ -110,7 +109,7 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 		if (v) {
 			labelToText(par, {'language_val':0}, other_fields);
 		} 
-		labelToSelect(par, 'language_skill_id', ' - Language Skill Level -', "<?php _p($combo_language_skill)?>")
+		labelToSelect(getChildObj(par, 'language_skill_id', fields), language_skill_choice);
 		btnChange(par, ['save','cancel']);
 			
 		

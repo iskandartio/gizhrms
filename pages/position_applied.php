@@ -1,4 +1,5 @@
 <?php
+	
 	function combo_vacancy($selected='') {
 		$res=db::DoQuery("select a.vacancy_id, concat(a.vacancy_name,'(',a.vacancy_code,'-',a.vacancy_code2,')') vacancy from vacancy a
 left join vacancy_progress b on a.vacancy_progress_id=b.vacancy_progress_id 
@@ -11,22 +12,25 @@ order by vacancy_code",array($_SESSION['uid']));
 left join vacancy b on a.vacancy_id=b.vacancy_id
 left join vacancy_progress c on c.vacancy_progress_id=b.vacancy_progress_id 
 where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESSION['uid']));
-	$required=db::select_required('applicants', array('first_name','last_name','place_of_birth','date_of_birth'), array($_SESSION['uid']));
+	
+	$required=Applicant::validateApply();
 	$err='';
 	if (count($required)>0) {
-		$err="You must complete the required field(s):<br/>";
+		
+		foreach($required as $r) {
+		$err.="<li>".shared::toggleCase($r)."</li>";
 	}
-	foreach($required as $r) {
-		if ($r=='first_name') {
-			$err.="First Name<br/>";
-		} else if ($r=='last_name') {
-			$err.="Last Name<br/>";
-		} else if ($r=='place_of_birth') {
-			$err.="Place of Birth<br/>";
-		} else if ($r=='date_of_birth') {
-			$err.="Date of Birth<br/>";
-		}
 	}
+	if (db::select_with_count('applicants_education','user_id=?', array($_SESSION['uid']))==0) {
+		$err.="<li>Education</li>";
+	}
+	if (db::select_with_count('applicants_working','user_id=?', array($_SESSION['uid']))==0) {
+		$err.="<li>Working Experience</li>";
+	}
+	if ($err!=''){
+		$err="You must complete the required data:<br/>".$err;
+	}
+	
 ?>
 <script>
 	var fields=generate_assoc(['question_id']);
@@ -87,6 +91,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 	};
 	function Apply() {
 		if (!validate_empty(['salary_expectation'])) return;
+		
 		var data={};
 		data['type']='apply';
 		data=prepareDataText(data, ['vacancy_id']);
@@ -104,11 +109,15 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 		});	
 		data['answer']=answer;
 		var success=function(msg) {
+			var d=jQuery.parseJSON(msg);
+			if (d['err']!='') {
+				alert(d['err']);
+				return;
+			}
 			alert('Success');
 			
-			if (msg) {
-				$('#tbl_job_applied').append(msg);
-			}
+			$('#tbl_job_applied').append(d['data']);
+			
 			bindAll();
 			$('#tbl_job_applied').show();
 		}

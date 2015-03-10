@@ -1,5 +1,4 @@
 <?php
-	require_once("libs/MPDF/mpdf.php");
 	$res=db::select("location", "*");
 	$combo_location=shared::select_combo_complete($res, 'location_code', '- Location -');
 	$res=db::DoQuery("select a.vacancy_id, c.vacancy_code, c.vacancy_code2, c.vacancy_name, d.update_time from job_applied a

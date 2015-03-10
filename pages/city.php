@@ -1,12 +1,13 @@
 <?php
 	$res=db::select('province','*','','sort_id');
-	$combo_province=shared::select_combo($res, 'province_id', 'province_val');
+	$combo_province_def=shared::select_combo_complete($res, 'province_id', '-Province-','province_val');
 	$res=db::select('city a 
 	left join province b on a.province_id=b.province_id','a.*, b.province_val', '', 'a.city_val');
 	
 ?>
 <script>
 	var fields=generate_assoc(['city_id','city_val','province_id','btn']);
+	var province_choice="<?php _p($combo_province_def)?>";
 	$(function() {
 		bindAll();
 		
@@ -34,7 +35,7 @@
 	
 	function Add() {
 		var a='';
-		a+="<tr><td></td><td><?php _t("city_val")?></td><td><select id='province_id'><option value=''>-Province-</option><?php _p($combo_province)?></select>";
+		a+="<tr><td></td><td><?php _t("city_val")?></td><td>"+province_choice;
 		a+="<td>"+getImageTags(['save','delete'])+"</td>";
 		a+="</tr>";
 		
@@ -44,7 +45,7 @@
 	function Edit() {
 		var par=$(this).closest("tr");
 		labelToText(par, {'city_val':0});
-		labelToSelect(par, 'province_id', ' -Province- ', "<?php _p($combo_province)?>");
+		labelToSelect(getChildObj(par, 'province_id', fields), province_choice);
 		btnChange(par, ['save','cancel']);
 		bindAll();
 	}

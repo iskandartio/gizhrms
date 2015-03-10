@@ -1,6 +1,6 @@
 	var nc=true;
 	$.fn.numeric = function(o, type, n) {			
-		
+		$(o).data("type", "numeric");
 		$(o).focus(function() { 
 			numeric_focus(o[0]);
 		});
@@ -70,8 +70,10 @@
 		if (o.value=='') return;
 		if (o.value=='0') return;
 		var selStart=o.selectionStart;
+		
 		sellength=o.value.length;
 		str = o.value.replace(/,/g,'');
+		
 		min=false;
 		if (str.substring(0,1)=='-') min=true;
 		if (min) {
@@ -98,6 +100,8 @@
 		}
 		if (min) r='-'+r;
 		o.value=r;
+		var after=r.length;
+		selStart=selStart+after-sellength;
 		o.selectionStart=selStart;
 		o.selectionEnd=selStart;
 		sellength2=o.value.length;

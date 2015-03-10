@@ -61,6 +61,7 @@ header('Content-Type: text/html; charset=utf-8');
 	<script src="js/numeric.js"></script>
 
 	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+
 	<link rel="stylesheet" href="css/default.css"/>
 <?php if ($name==''||$name=='activate') {
 	?>
@@ -331,6 +332,8 @@ header('Content-Type: text/html; charset=utf-8');
 			<button class='button_link' id='btn_login'>Login</button>
 		</div>		
 	</div>	
+		
+	
 <?php
 		die;
 	}?>
@@ -360,6 +363,7 @@ header('Content-Type: text/html; charset=utf-8');
 		<?php _p(getImageTags(array('hide')))?>
 		<span id='menu_master'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Master Data</span>
 		<ul>
+		<li><a href="/gizhrms/project">Project</a></li>
 		<li><a href="/gizhrms/email_setting">Email Setting</a></li>
 		<li><a href="/gizhrms/region">Region</a></li>
 		<li><a href="/gizhrms/province">Province</a></li>

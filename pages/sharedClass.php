@@ -98,8 +98,11 @@ where a.employee_id=?", array($user_id, $uid));
 		}
 		return $result;
 	}
-	static function select_combo_complete($res, $id, $def, $val='', $selected='') {
-		$result="<select id=$id><option value=''>$def</option>".shared::select_combo($res, $id, $val, $selected)."</select>";
+	static function select_combo_complete($res, $id, $def, $val='', $selected='', $width='') {
+		$style='';
+		if ($width!='') $style="style='max-width:$width'";
+		$result="<select $style id='$id' class='$id' title='$id'><option value=''>$def</option>".shared::select_combo($res, $id, $val, $selected)."</select>";
+		
 		return $result;
 	}
 	static function sanitize($tag) {
@@ -392,5 +395,17 @@ tinymce.init({
 	static function addArray(&$arr, $s, $v) {
 		if (!isset($arr[$s])) $arr[$s]=array();
 		array_push($arr[$s], $v);
+	}
+	static function validateEmpty($rs, $arr)  {
+		foreach ($arr as $s) {
+			if (strlen($rs[$s])<1) {
+				return self::toggleCase($s)." can't be empty";
+			}
+		}
+		return "";
+	}
+	static function toggleCase($s) {
+		return ucwords(str_replace('_',' ',$s));
+		
 	}
 }

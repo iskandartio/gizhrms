@@ -105,7 +105,7 @@
 				adder='<tr><td>';
 				adder+=msg+"</td>"; 
 				adder+='<td></td><td></td><td></td><td style="display:none"></td><td style="display:none"></td><td></td><td></td><td></td><td></td>';
-				adder+='<td><?php _p(getImageTags(array('edit','delete')))?></td>';
+				adder+="<td><?php _p(getImageTags(array('edit','delete')))?></td>";
 				adder+='</tr>';	
 				currentRow=$('#tbl_vacancy tbody').children().length;
 				

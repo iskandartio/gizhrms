@@ -51,7 +51,7 @@
 		var data={}
 		data['type']='save_recontract';
 		data['user_id']=user_id;
-		data=prepareDataText(data, ['salary_band','reason','start_date','end_date', 'project_name','project_number','project_location','principal_advisor','team_leader','responsible_superior','SAP_No','position','job_title']);
+		data=prepareDataText(data, ['salary_band','reason','start_date','end_date', 'project_name','project_number','project_location','principle_advisor','team_leader','responsible_superior','SAP_No','position','job_title']);
 		data=prepareDataDecimal(data, ['salary']);
 		var success=function(msg) {
 			if (msg!='') alert(msg);

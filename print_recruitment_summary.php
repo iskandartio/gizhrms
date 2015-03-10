@@ -146,7 +146,7 @@ Human Resource Service Request – <?php _p($res['vacancy_type'])?>
 	<tr class='row'><td class="no_bottom_border font10"><b>Project/Program Name</b></td><td class="font11"><?php _p($res['project_name'])?></td></tr>
 	<tr class='row'><td class="no_top_border no_bottom_border font10"><b>Project Number</b></td><td class="font11"><?php _p($res['project_number'])?></td></tr>
 	<tr class='row'><td class="no_top_border no_bottom_border font10"><b>Project Location</b></td><td class="font11"><?php _p($res['project_location'])?></td></tr>
-	<tr class='row'><td class="no_top_border no_bottom_border font10"><b>Team Leader / Principle Advisor</b></td><td class="font11"><?php _p($res['team_leader']." / ".$res['principal_advisor'])?></td></tr>
+	<tr class='row'><td class="no_top_border no_bottom_border font10"><b>Team Leader / Principle Advisor</b></td><td class="font11"><?php _p($res['team_leader']." / ".$res['principle_advisor'])?></td></tr>
 	<tr class='row'><td class="no_bottom_border font10"><b>Name of Employee</b></td><td class="font11"><?php _p($res['name'])?></td></tr>
 	<tr class='row'><td class="no_bottom_border no_top_border font10"><b>Current Title</b></td>
 	<td class="font11"><?php _p($res['job_title'])?><span class='float_right font8'><b><i>for prolongation/ amendment request only</i></b></span></td></tr>
@@ -231,10 +231,3 @@ Human Resource Service Request – <?php _p($res['vacancy_type'])?>
 
 <?php 
 die;
-require_once("libs/MPDF/mpdf.php");
-	
-$mpdf=new mPDF(); 
-
-$mpdf->WriteHTML($result);
-$mpdf->Output();
-exit;

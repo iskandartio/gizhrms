@@ -1,4 +1,3 @@
-
 <?php
 	
 	function combo_gender($selected='') {
@@ -41,14 +40,12 @@
 		$cities.="{".$row['city_id'].":'".$row['city_val']."'}";
 	}
 	$edit_id=$_SESSION['edit_id'];
+	
 	$data=employee::getApplicantData($edit_id);
 	foreach ($data as $key=>$val) {
 		$$key=$val;
 	}
 	
-	$sql="select salary_band from salary_band order by salary_band";
-	$res=db::DoQuery($sql);
-	$salary_band_option=shared::select_combo_complete($res, 'salary_band', '-Choose One-', '', $salary_band);
 	
 	$language=db::select('applicants_language a
 	left join language b on a.language_id=b.language_id
@@ -56,19 +53,21 @@
 	,'ifnull(a.language_val, b.language_val) language_val, a.language_id, a.language_skill_id, c.language_skill_val, a.applicants_language_id'
 	,'user_id=?','language_val', array($edit_id));
 	
-	$combo_language=language::getChoice();
-	$combo_language.="<option value=-1>Other</option>";
-	$combo_language_skill=language_skill::getChoice();
+	$combo_language_def=language::getChoice();
+	$combo_language_skill_def=shared::select_combo_complete(language_skill::getAll(), 'language_skill_id','-Skill-','language_skill_val');
+	
+	$combo_project_name_def=shared::select_combo_complete(Project::getProjectName(), 'project_name', '-Project Name-');
+	$project_view=employee::getProjectView($applicant, $combo_project_name_def);
 ?>
 <script>
 	var city_list=new Object();
-	var language_choice="<?php _p($combo_language)?>";
-	var language_skill_choice="<?php _p($combo_language_skill)?>";
+	var language_choice="<?php _p($combo_language_def)?>";
+	var language_skill_choice="<?php _p($combo_language_skill_def)?>";
+	var fields=generate_assoc(['applicants_language_id','language_id','language_skill_id','btn']);
 	function bindAll() {
 		bind('#province','change', ChangeProvince);
 		bind('#country','change', ChangeCountry);
 		bind('#btn_save_project','click', SaveProject);
-		bind('#btn_save_salary','click', SaveSalary);
 		bind('#div_personal_data #btn_save','click', SavePersonalData);
 		bind('#div_contract_data #btn_save','click', SaveContractData);
 		bind('#nationality','change', ChangeNationality);
@@ -80,7 +79,14 @@
 		bind('#am1_end_date','change',ValidateAm1EndDate);
 		bind('#contract2_end_date','change',ValidateSecondEndDate);
 		bind('#am2_end_date','change',ValidateAm2EndDate);
+		bind('.project_name','change',ChangeProjectName);
+		bind('.project_number','change',ChangeProjectNumber);
+		
+		bind(".btn_add", "click", AddSalarySharing);
+		bind('.btn_deleteSalarySharing','click',DeleteSalarySharing);
+		
 	}
+	
 	function ValidateFirstEndDate() {
 		validateContractLength('contract1_start_date', 'contract1_end_date', 2);
 	}
@@ -97,6 +103,12 @@
 		location.href="employee";
 	}
 	$(function() {
+		$( "#tabs" ).tabs({
+			activate: function( event, ui ) {
+				setCookie("employee_detail_tabs", $( "#tabs" ).tabs( "option", "active" ), 1);
+			}
+		});
+		$( "#tabs" ).tabs( "option", "active", getCookie('employee_detail_tabs'));
 		$('#btnUpload').click(function() {
 			
 			$.ajax({
@@ -114,7 +126,7 @@
 			});
 			return false;	
 		});
-		bindAll();
+		
 		<?php if ($edit_id==0) {  ?>
 			$('#div_personal_data').insertAfter('h1#name');
 			$('#div_current_contract').hide();
@@ -144,9 +156,9 @@
 			_p("$('#nationality_val').hide();");
 		}
 		?>
-		
-		fixSelect();
+		bindAll();
 		bindLanguage();
+		fixSelect();
 		hideColumns('tbl_salary_history');
 	});
 
@@ -157,12 +169,11 @@
 		
 		var success=function(msg) {
 			var obj=jQuery.parseJSON(msg);
-			setTextArr(obj, ['project_name','project_number','project_location','principal_advisor','team_leader','responsible_superior','SAP_no','position','job_title','salary','salary_band','reason']);
+			setTextArr(obj, ['project_name','project_number','project_location','principle_advisor','team_leader','responsible_superior','SAP_no','position','job_title','salary','salary_band','reason']);
 			numeric_blur($('#salary')[0], true);
 			
 		}
 		ajax('employee_detailAjax.php', data, success);
-		aaa
 	}
 	
 	function build_city() {
@@ -243,9 +254,32 @@
 		ajax("employeeAjax.php",data,success);
 	}
 	function SaveProject() {
+		var p=$('#div_current_contract');
+		if (!validate_empty_col(p,['job_title','position','project_name_id','project_number_id','project_location','responsible_superior','salary','salary_band'])) return;
+		
 		var data={}
 		data['type']='save_current_contract';
-		data=prepareDataText(data, ['start_date','end_date','project_name','project_number','project_location','principal_advisor','team_leader','responsible_superior','SAP_No','position','job_title']);
+		data = prepareDataMultiInput(data
+		, ['job_title','position','project_name','project_number','principle_advisor','team_leader','project_location'
+		,'responsible_superior','SAP_No','salary','salary_band','working_time']
+		, p);
+		data['salary_sharing_project_name']=new Array();
+		data['salary_sharing_project_number']=new Array();
+		data['salary_sharing_percentage']=new Array();
+		var percentage=0;
+		var flag=false;
+		$(p).find('.div_salary_sharing').find('.row').each(function(idx) {
+			data['salary_sharing_project_name'].push($(this).find('.project_name').val());
+			data['salary_sharing_project_number'].push($(this).find('.project_number').val());
+			data['salary_sharing_percentage'].push($(this).find('.percentage').val());
+			percentage=percentage+1*$(this).find('.percentage').val();
+			flag=true;
+		});
+		if (percentage!=100 && flag) {
+			alert('salary sharing not correct');
+			return;
+		}
+		
 		var success=function(msg) {
 			$('#tbl_salary_history tbody').empty();
 			$('#tbl_salary_history').append(msg);
@@ -253,19 +287,7 @@
 		}
 		ajax('employeeAjax.php',data, success);
 	}
-	function SaveSalary() {
-		var data={}
-		data['type']='save_current_contract';
-		data=prepareDataText(data, ['salary_band','reason']);
-		data=prepareDataDecimal(data , ['salary']);
-		var success=function(msg) {
-			$('#tbl_salary_history tbody').html('');
-			$('#tbl_salary_history').append(msg);
-			hideColumns('tbl_salary_history');
-		}
-		ajax('employeeAjax.php',data, success);
-	}
-
+	
 	function SavePersonalData() {
 		if (!validate_empty(['first_name','last_name', 'user_name', 'place_of_birth','date_of_birth','nationality','address','country','post_code','phone1'])) return;
 		if ($('#country').val()==-1) {
@@ -316,6 +338,7 @@
 		bind('#tbl_language .btn_delete', 'click', DeleteLanguage);
 		bind('#tbl_language .btn_edit', 'click', EditLanguage);
 		bind('#tbl_language .btn_cancel', 'click', CancelLanguage);
+		fixSelect();
 		hideColumns('tbl_language');
 	}
 	function LanguageChange() {
@@ -325,7 +348,7 @@
 			$(this).closest("td").children(".language_val").hide();
 		}
 	}
-	var fields=generate_assoc(['applicants_language_id','language_id','language_skill_id','btn']);
+	
 	function SaveLanguage() {
 		var par=$(this).closest("tr");
 		var data={}
@@ -366,15 +389,15 @@
 		if (obj.children("span").html()==-1) {
 			var html=obj.html();
 			html=html.substr(html.indexOf('</span>')+7);
-			labelToSelect(par, 'language_id', ' - Language -', language_choice);
+			labelToSelect(getChildObj(par, 'language_id', fields), language_choice);
 			obj.append(" <input type='text' class='language_val' value='"+html+"'/>");
 		} else {
-			labelToSelect(par, 'language_id', ' - Language -', language_choice);
+			labelToSelect(getChildObj(par, 'language_id', fields), language_choice);
 			obj.append(" <input style='display:none' type='text' class='language_val'/>");
 		}
 		
 		
-		labelToSelect(par, 'language_skill_id', ' - Skill Level-', language_skill_choice);
+		labelToSelect(getChildObj(par, 'language_skill_id', fields), language_skill_choice);
 		btnChange(par, ['save','cancel']);
 			
 		
@@ -397,20 +420,70 @@
 		bindLanguage();
 	
 	}
+	function ChangeProjectName() {
+		var data={}
+		data['type']='getProjectNameAndNumber';
+		data['project_name']=$(this).val();
+		var p=$(this).closest(".row");
+		if (p.length==0) p=document;
+		var success=function(msg) {
+			var d=jQuery.parseJSON(msg);
+			$(p).find('.project_number:first').html(d['combo_project_number']);
+			$(p).find('.team_leader').html(d['team_leader']);
+			$(p).find('.principle_advisor').html('');
+			fixSelect();
+		}
+		ajax('projectAjax.php',data, success);
+	}
+	function ChangeProjectNumber() {
+		if ($(this).closest('.div_salary_sharing').length>0) return;
+		var data={}
+		data['type']='getProjectNumberByName';
+		data['project_number']=$(this).val();
+		var success=function(msg) {
+			$('.principle_advisor').html(msg);
+		}
+		ajax('projectAjax.php',data, success);
+	}
+	function AddSalarySharing() {
+	
+		var s="<div class='row'><div class='label width120'><?php _p($combo_project_name_def)?></div>";
+		s+="<div class='label width120'><select class='project_number'><option value=''>-Project Number-</option></select></div>";
+		s+="<div class='label width80'><?php _t("percentage","","1")?> % ";
+		s+=getImageTags(['delete'],'SalarySharing');
+		s+="</div></div>";
+		var p=$(this).closest(".row").next();
+		$(p).append(s);
+		bindAll();
+		fixSelect();
+		
+	}
+	function DeleteSalarySharing() {
+		$(this).closest(".row").remove();
+	}
 </script>
 <button id='btn_back' class="button_link">Back</button>
-<h1 id="name"><img id='photo' src="show_picture.php" width="75px" height="100px"/><?php _p($applicant['first_name']." ".$applicant['last_name'])?></h1>
 
+<div id="tabs">
+	<ul>
+		<li><a href="#div_personal_data">Personal Data</a></li>
+		<li><a href="#div_current_contract">Project</a></li>
+		<li><a href="#div_salary_history">Salary History</a></li>
+		<li><a href="#div_contract_data">Contract Data</a></li>
+		<li><a href="#div_other">Others</a></li>
+	</ul>
+	
 <div id="div_personal_data">
-<h1>Personal Data</h1>
-
 <form action="upload.php" id="data" method="post" enctype="multipart/form-data">
-<table>
-<tr><td>Photo</td><td>:</td><td><input type="file" id="uploadPhoto" name="uploadPhoto" accept=".png,.jpg"></td></tr>
-</table>
+<div class='row'><div class='label'>Photo</div><div class='label width200'><input type="file" id="uploadPhoto" name="uploadPhoto" accept=".png,.jpg"></div>
 <button class="button_link" id="btnUpload">Upload</button>
+</div>
+
  
 </form>
+<h1 id="name"><img id='photo' src="show_picture.php" width="75px" height="100px"/> <?php _p($applicant['first_name']." ".$applicant['last_name'])?></h1>
+
+
 
 
 <table>
@@ -435,30 +508,7 @@
 <button class='button_link' id='btn_save'>Save</button>
 </div>
 <div id="div_current_contract">
-<h1>Project</h1>
-<table>
-	<?php if (startsWith($applicant['start_date'],'1900')||!isset($applicant)) {?>
-	<tr><td>Start Date</td><td>:</td><td><?php _t("start_date");?></td></tr>
-	<tr><td>End Date</td><td>:</td><td><?php _t("end_date");?></td></tr>
-	<?php }?>
-	<tr><td>Project Name</td><td>:</td><td><?php _t("project_name", $applicant);?></td></tr>
-	<tr><td>Project Number</td><td>:</td><td><?php _t("project_number", $applicant);?></td></tr>
-	<tr><td>Project Location</td><td>:</td><td><?php _t("project_location", $applicant);?></td></tr>
-	<tr><td>Principal Advisor</td><td>:</td><td><?php _t("principal_advisor", $applicant);?></td></tr>
-	<tr><td>Team Leader</td><td>:</td><td><?php _t("team_leader", $applicant);?></td></tr>
-	<tr><td>Responsible Superior</td><td>:</td><td><?php _t("responsible_superior", $applicant);?></td></tr>
-	<tr><td>SAP No</td><td>:</td><td><?php _t("SAP_No", $applicant);?></td></tr>
-	<tr><td>Position</td><td>:</td><td><?php _t("position", $applicant);?></td></tr>
-	<tr><td>Job Title</td><td>:</td><td><?php _t("job_title", $applicant, "60");?></td></tr>
-</table>
-<button class='button_link' id='btn_save_project'>Change Project</button>
-<h1>Salary</h1>
-<table>
-	<tr><td>Salary</td><td>:</td><td><?php _t("salary", formatNumber($applicant['salary']));?></td></tr>
-	<tr><td>Salary Band</td><td>:</td><td><?php _p($salary_band_option) ?></td></tr>
-	<tr><td>Reason</td><td>:</td><td><?php _t("reason", $applicant);?></td></tr>
-</table>
-<button class='button_link' id='btn_save_salary'>Change Salary</button>
+<?php _p($project_view)?>
 </div>
 
 <div id="div_salary_history">
@@ -528,4 +578,4 @@
 	</table>
 </div>
 
-
+</div>

@@ -1,6 +1,8 @@
 @media 
 only screen and (max-width: 310px)  {
-
+	.middle_div {
+		width:auto!important;
+	}
 	/* Force table to not be like tables anymore */
 	#tbl_region  {
 		width:100%;
@@ -101,15 +103,31 @@ only screen and (max-width: 440px)  {
 	margin-left:10px!important;
 }
 .textbox  {
-	margin-left:100px;
 	padding:3px;
 }
 .label  {
 	float:left;
 	width:100px;
-	line-height:20px;
-	vertical-align:middle;
-	padding:3px;
+	margin-top:6px;
+	padding:2px;
+}
+div.row:after {
+	clear: both;
+	content: '';
+	display: block;
+	height: 0;
+}
+.width200 {
+	width:200px!important;
+}
+.width160 {
+	width:160px!important;
+}
+.width80 {
+	width:80px!important;
+}
+.width120 {
+	width:120px!important;
 }
 .label2 {
 	float:left;
@@ -245,13 +263,18 @@ table.tbl tr th {
 	background-image: linear-gradient(to bottom, #26759e, #133d5b);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#26759e, endColorstr=#133d5b);
 }
 
-input[type=text], input[type=password], select, textarea {
+input[type=text], input[type=password], textarea, select {
 	padding : 3px;
 	border: solid 1px #ddd;
 	border-radius: 3px;
 	cursor : pointer;
 	box-shadow: 2px 2px 2px #999;
 	font-size:12px;
+	height:18px;
+	max-width:100%;
+}
+select {
+	height:26px!important;
 }
 input[type=checkbox] {
 	margin: 2px 2px 2px 2px;
@@ -278,10 +301,10 @@ button[class^="btn"] {
 }
 
 .menu {
-position: relative;
-float: left;
+position: absolute;
 text-align: left;
-top: 0px;
+float:left;
+top: 100px;
 height: auto;
 padding: 0 0 10px 0;
 background-color: #FFF;

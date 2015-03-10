@@ -1,12 +1,13 @@
 <?php
 	$res=db::select('region','*','','sort_id');
-	$combo_region=shared::select_combo($res, 'region_id', 'region_val');
+	$combo_region_def=shared::select_combo_complete($res, 'region_id', '-Region-','region_val');
 	$res=db::select('province a 
 	left join region b on a.region_id=b.region_id','a.*, b.region_val', '', 'b.sort_id, a.sort_id');
 	
 ?>
 <script>
 	var fields=generate_assoc(['province_id','province_val','region_id','btn']);
+	var region_choice="<?php _p($combo_region_def)?>";
 	$(function() {
 		bindAll();
 		
@@ -18,6 +19,7 @@
 		bind('.btn_save',"click", Save);
 		bind('.btn_cancel',"click", Cancel);
 		hideColumnsArr('tbl_province', ['province_id']);
+		fixSelect();
 	}
 	function Delete() {
 		par=$(this).closest("tr");
@@ -33,7 +35,7 @@
 	
 	function Add() {
 		var a='';
-		a+="<tr><td></td><td><?php _t("province_val")?></td><td><select id='region_id'><option value=''>-Region-</option><?php _p($combo_region)?></select>";
+		a+="<tr><td></td><td><?php _t("province_val")?></td><td>"+region_choice;
 		a+="<td>"+getImageTags(['save','delete'])+"</td>";
 		a+="</tr>";
 		
@@ -43,7 +45,7 @@
 	function Edit() {
 		var par=$(this).closest("tr");
 		labelToText(par, {'province_val':0});
-		labelToSelect(par, 'region_id', ' -Region- ', "<?php _p($combo_region)?>");
+		labelToSelect(getChildObj(par, 'region_id', fields), region_choice);
 		btnChange(par, ['save','cancel']);
 		bindAll();
 	}

@@ -17,7 +17,7 @@ order by a.first_name, a.last_name";
 , e.start_date, e.end_date
 , e.salary, e.salary_band, e.reason
 , e.project_name, e.project_number, e.project_location
-, e.principal_advisor, e.team_leader, e.responsible_superior, e.SAP_No
+, e.principle_advisor, e.team_leader, e.responsible_superior, e.SAP_No
 , e.job_title, e.position 
 from applicants a
 left join m_user_role b on a.user_id=b.user_id
@@ -66,7 +66,7 @@ where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate'".$filt
 		$sql="create temporary table a
 		select b.user_id, ? start_date, coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date) end_date
 , a.adj_salary, b.job_title, a.adj_salary_band
-, b.project_name, b.project_number, b.principal_advisor
+, b.project_name, b.project_number, b.principle_advisor
 , b.team_leader, b.project_location, b.responsible_superior
 , b.SAP_No, b.position, a.adj_reason from applicants a
 left join contract_history b on b.user_id=a.user_id and curdate() between b.start_date and b.end_date
@@ -81,7 +81,7 @@ where a.adj_salary!=c.salary";
 		db::ExecMe($sql, array($end_date),$con);
 		
 		$sql="insert into contract_history(user_id, start_date, end_date, 
-salary, job_title, salary_band, project_name, project_number, principal_advisor
+salary, job_title, salary_band, project_name, project_number, principle_advisor
 , team_leader, project_location, responsible_superior, SAP_No, position, reason)
 select * from a";
 		db::ExecMe($sql, array(),$con);
@@ -144,7 +144,7 @@ select * from a";
 	<tr><td>Project Name</td><td>:</td><td>"._t2("project_name", $applicant)."</td></tr>
 	<tr><td>Project Number</td><td>:</td><td>"._t2("project_number", $applicant)."</td></tr>
 	<tr><td>Project Location</td><td>:</td><td>"._t2("project_location", $applicant)."</td></tr>
-	<tr><td>Principal Advisor</td><td>:</td><td>"._t2("principal_advisor", $applicant)."</td></tr>
+	<tr><td>Principle Advisor</td><td>:</td><td>"._t2("principle_advisor", $applicant)."</td></tr>
 	<tr><td>Team Leader</td><td>:</td><td>"._t2("team_leader", $applicant)."</td></tr>
 	<tr><td>Responsible Superior</td><td>:</td><td>"._t2("responsible_superior", $applicant)."</td></tr>
 	<tr><td>SAP No</td><td>:</td><td>"._t2("SAP_No", $applicant)."</td></tr>
@@ -178,23 +178,23 @@ select * from a";
 			}
 			$result.="<tr>
 			<td>$contract_history_id</td>
-			<td>
-			<table class='top'>
-			<tr><td><b>Start Date</b></td><td>:</td><td>".formatDate($start_date)."</td></tr>
-			<tr><td><b>End Date</b></td><td>:</td><td>".formatDate($end_date)."</td></tr>
+			<td style='min-width:80px'>
+			<div class='row'><b>Start Date</b></div>
+			<div class='row'>".formatDate($start_date)."</div>
+			<div class='row'><b>End Date</b></div>
+			<div class='row'>".formatDate($end_date)."</div>
 			
+			</td>
+			<td>
+			<table class='top'>
+			<tr><td><b>Proj Name</b></td><td>:</td><td>$project_name</td></tr>
+			<tr><td><b>Proj Number</b></td><td>:</td><td>$project_number</td></tr>
+			<tr><td><b>Proj Location</b></td><td>:</td><td>$project_location</td></tr>
 			</table>
 			</td>
 			<td>
 			<table class='top'>
-			<tr><td><b>Project Name</b></td><td>:</td><td>$project_name</td></tr>
-			<tr><td><b>Project Number</b></td><td>:</td><td>$project_number</td></tr>
-			<tr><td><b>Project Location</b></td><td>:</td><td>$project_location</td></tr>
-			</table>
-			</td>
-			<td>
-			<table class='top'>
-			<tr><td><b>Principal Advisor</b></td><td>:</td><td>$principal_advisor</td></tr>
+			<tr><td><b>Principle Advisor</b></td><td>:</td><td>$principle_advisor</td></tr>
 			<tr><td><b>Team Leader</b></td><td>:</td><td>$team_leader</td></tr>
 			<tr><td><b>Responsible Superior</b></td><td>:</td><td>$responsible_superior</td></tr>
 			<tr><td><b>SAP No</b></td><td>:</td><td>$SAP_No</td></tr>
@@ -245,11 +245,12 @@ select * from a";
 		$applicant=db::select_one('applicants a
 left join contract_history b on a.user_id=b.user_id and curdate() between b.start_date and b.end_date
 left join m_user c on c.user_id=a.user_id'
-,'*, (datediff(contract1_end_date, contract1_start_date)+1)/365+ 
+,'a.*, b.*, c.*, (datediff(contract1_end_date, contract1_start_date)+1)/365+ 
 ifnull((datediff(am1_end_date, am1_start_date)+1)/365,0)+
 ifnull((datediff(contract2_end_date, contract2_start_date)+1)/365,0)+
 ifnull((datediff(am2_end_date, am2_start_date)+1)/365,0)
  count_years','a.user_id=?','', array($edit_id));
+		
 		if ($applicant!=null) {
 			$_SESSION['contract_history_id']=$applicant['contract_history_id'];
 			$salary_history=db::select('contract_history','*','user_id=?', '',array($edit_id));
@@ -303,6 +304,62 @@ ifnull((datediff(am2_end_date, am2_start_date)+1)/365,0)
 			<td>".getImageTags(['edit','delete'])."</td></tr>";
 		}
 		$result.="</tbody></table>";
+		return $result;
+	}
+	static function getProjectView($applicant, $combo_project_name_def='') {
+		$sql="select salary_band from salary_band order by salary_band";
+		$res=db::DoQuery($sql);
+		$salary_band_option=shared::select_combo_complete($res, 'salary_band', '-Choose One-', '', $applicant['salary_band']);
+
+		$project_name=Project::getProjectName();
+		if ($combo_project_name_def=='') {
+			$combo_project_name_def=shared::select_combo_complete($project_name, 'project_name', '-Project Name-');
+		}
+		$project_name_option=shared::set_selected($applicant['project_name'], $combo_project_name_def);
+		
+		$combo_project_number=shared::select_combo_complete(Project::getProjectNumberByProjectName($applicant['project_name']), 'project_number', '-Project Number-', 'project_number', $applicant['project_number']);
+		$result="<h1>Project</h1><table>";
+		if (startsWith($applicant['start_date'],'1900')||!isset($applicant)) {
+			$result.="<tr><td>Start Date</td><td>:</td><td>"._t2("start_date")."</td></tr>
+					<tr><td>End Date</td><td>:</td><td>"._t2("end_date")."</td></tr>";
+		}
+		$result.="<tr><td>Project Name</td><td>:</td><td>".$project_name_option."</td></tr>
+			<tr><td>Team Leader</td><td>:</td><td><span class='team_leader'>"._lbl("team_leader", $applicant)."</span></td></tr>
+	<tr><td>Project Number</td><td>:</td><td>".$combo_project_number."</td></tr>
+	<tr><td>Principle Advisor</td><td>:</td><td><span class='principle_advisor'>"._lbl("principle_advisor", $applicant)."</span></td></tr>
+	<tr><td>Project Location</td><td>:</td><td>"._t2("project_location", $applicant)."</td></tr>
+	<tr><td>Responsible Superior</td><td>:</td><td>"._t2("responsible_superior", $applicant)."</td></tr>
+	<tr><td>SAP No</td><td>:</td><td>"._t2("SAP_No", $applicant)."</td></tr>
+	<tr><td>Position</td><td>:</td><td>"._t2("position", $applicant)."</td></tr>
+	<tr><td>Job Title</td><td>:</td><td>"._t2("job_title", $applicant, "60")."</td></tr>
+	<tr><td>Salary</td><td>:</td><td>"._t2("salary", formatNumber($applicant['salary']))."</td></tr>
+	<tr><td>Salary Band</td><td>:</td><td>".$salary_band_option."</td></tr>
+	<tr><td>Reason</td><td>:</td><td>"._t2("reason", $applicant)."</td></tr>
+	<tr><td>Working Time</td><td>:</td><td>"._t2("working_time", $applicant,"1")." %</td></tr>
+</table>";
+		$result.=employee::getSalarySharingView($applicant, $combo_project_name_def);
+		$result.="<button class='button_link' id='btn_save_project'>Change Project</button>";
+		return $result;
+	}
+	static function getSalarySharingView($row, $combo_project_name_def='') {
+		$result="
+<div class='row'><div class='label'>Salary Sharing</div><div class='label'>".getImageTags(['add'])."</div></div>
+<div class='div_salary_sharing'>";
+
+		$res_salary_sharing=db::select('salary_sharing','*','contract_history_id=?','',array($row['contract_history_id']));
+		if ($combo_project_name_def=='') {
+			$combo_project_name_def=shared::select_combo_complete($project_name, 'project_name', '-Project Name-');
+			
+		}
+		foreach ($res_salary_sharing as $rs)  {
+			
+			$project_name_option=shared::set_selected($rs['project_name'], $combo_project_name_def);
+			$project_number_option=shared::select_combo_complete(Project::getProjectNumberByProjectName($rs['project_name']), 'project_number', '-Project Number-', 'project_number', $rs['project_number']);
+			$result.="<div class='row'><div class='label width120'>".$project_name_option."</div>
+				<div class='label width120'>".$project_number_option."</div>
+				<div class='label width80'>"._t2("percentage", $rs,"1")." % ".getImageTags(['delete'],'SalarySharing')."</div></div>";
+		}
+		$result.="</div>";
 		return $result;
 	}
 }

@@ -3,7 +3,6 @@ require "pages/startup.php";
 	
 	
 	if ($type=='save') {
-		
 		$res=db::select_one('applicants','user_id','user_id=?','', array($_SESSION['uid']));
 		if (count($res)==0) {
 			//db::insert('applicants','user_id, first_name, last_name, place_of_birth, date_of_birth, gender, nationality, address, country, province, city, post_code, phone1, phone2', array($_SESSION['uid'], $first_name, $last_name, $place_of_birth, $date_of_birth, $gender, $nationality, $address, $country, $province, $city, $post_code, $phone1, $phone2));
@@ -12,7 +11,6 @@ require "pages/startup.php";
 			//db::update('applicants','first_name,last_name, place_of_birth, date_of_birth, gender, nationality, address, country, province, city, post_code, phone1, phone2', 'user_id=?', array($first_name, $last_name, $place_of_birth, $date_of_birth, $gender, $nationality, $address, $country, $province, $city, $post_code, $phone1, $phone2, $user_id));
 			db::updateEasy('applicants', $_POST);
 		}
-
 		die($applicants_id);
 	}
 	if ($type=='delete') {
@@ -47,6 +45,14 @@ require "pages/startup.php";
 		die ($r);
 	}
 	if ($type=='apply') {
+		$required=Applicant::validateApply();
+		if (count($required)>0) {
+			foreach ($required as $s) {
+				$data['err']=shared::toggleCase($s)." should not be empty";
+				die(json_encode($data));
+			}
+		}
+		
 		$con=db::beginTrans();
 		$insert=false;
 		$job_applied_id=db::select_single('job_applied','job_applied_id v','vacancy_id=? and user_id=?','',array($vacancy_id, $_SESSION['uid']), $con);
@@ -69,10 +75,11 @@ require "pages/startup.php";
 		}
 		$vacancy_name=db::select_single('vacancy','vacancy_name v','vacancy_id=?','', array($vacancy_id), $con);
 		db::commitTrans($con);
+		$data['data']="";
 		if ($insert) {
-			_p("<tr><td>$job_applied_id</td><td><span style='display:none'>$vacancy_id</span>$vacancy_name</td><td>".getImageTags(array('edit','delete'))."</td></tr>");
+			$data['data']="<tr><td>$job_applied_id</td><td><span style='display:none'>$vacancy_id</span>$vacancy_name</td><td>".getImageTags(array('edit','delete'))."</td></tr>";
 		}
-		die;
+		die(json_encode($data));
 	}
 	if ($type=='show_job_desc') {
 		$vacancy_description=db::select_single('vacancy','vacancy_description v','vacancy_id=?','',array($vacancy_id));

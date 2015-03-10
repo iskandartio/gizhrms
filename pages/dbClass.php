@@ -5,13 +5,18 @@ class db {
 		$db_driver=$db[0];
 		$db_uid=$db[1];
 		$db_pwd=$db[2];
-		return new PDO($db_driver, $db_uid, $db_pwd);
+		$con=new PDO($db_driver, $db_uid, $db_pwd);
+		$con->setAttribute(PDO::ATTR_ERRMODE,true); 
+		$con->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+		return $con;
 	}
 	
 	
 	
 	static function DoQuery($query, $params=array(), $con=null) {
+		
 		if (!isset($con)) $con= db::Connect();
+		
 		$res=$con->prepare($query);
 		$res->execute($params);
 		$result= $res->fetchAll(PDO::FETCH_ASSOC);
@@ -20,6 +25,7 @@ class db {
 				$result[$k][$key]=shared::sanitize($row[$key]);
 			}
 		}
+		
 		return $result;
 	}
 	
@@ -198,7 +204,7 @@ class db {
 		
 	}
 	static function beginTrans($db_str='db') {
-		$con=db::connect($db_str);
+		$con=db::Connect($db_str);
 		$con->beginTransaction();
 		return $con;
 	}
@@ -227,6 +233,19 @@ class db {
 			}
 		}
 		return $result;
+	}
+	static function saveSimple($tbl, $post) {
+		$id=$post[$tbl.'_id'];
+		if ($id=='') {
+			$id=db::insertEasy($tbl, $post);
+		} else {
+			db::updateEasy($tbl, $post);
+		}
+		return $id;
+	}
+	
+	static function deleteSimple($tbl, $key) {
+		db::delete($tbl, $tbl."_id=?", array($key));
 	}
 }
 

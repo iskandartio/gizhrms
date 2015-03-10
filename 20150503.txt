@@ -1,3 +1,4 @@
+validate before apply
 salary sharing per project
 report salary sharing:
 Name, Project Number, Project Name, %Sharing
@@ -12,3 +13,16 @@ Lens paid 0.9%
 
 filter applicant for employee
 summary medical
+registration email content
+
+call for interview button=>next step
+tampilkan no telp applicant
+
+project number dan principle advisor dan project name+team leader jadi combobox
+
+HRSR:
+Issued By: PrincipalAdvisor
+
+if photo blank tampilan gak bagus
+
+default initial salary reason for new employee

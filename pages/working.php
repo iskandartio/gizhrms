@@ -18,9 +18,8 @@
 		bind('#may_contact',"change", MayContactChange);
 		$('#email').hide();
 		$('#phone').hide();
-		fixSelect();
 		bindAll();
-		
+		fixSelect();
 	});
 	function MayContactChange() {
 		if ($('#may_contact').prop('checked')) {
@@ -71,7 +70,7 @@
 				adder+='<td style="border-right:0 !important"></td><td style="border-left:0 !important"></td>';
 				adder+='<td style="border-right:0 !important"></td><td style="border-left:0 !important"></td>';
 				adder+='<td></td><td></td><td></td><td></td><td></td>';
-				adder+='<td><?php _p(getImageTags(array('edit','delete')))?></td>';
+				adder+="<td><?php _p(getImageTags(array('edit','delete')))?></td>";
 				adder+='</tr>';	
 				currentRow=$('#tbl_working tbody').children().length;
 				

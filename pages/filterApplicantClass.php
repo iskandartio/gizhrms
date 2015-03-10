@@ -24,7 +24,7 @@ static function get_call_interview_table($res, $vacancy_progress_val) {
 				<div class='label'>Project Name</div><div class='label2'>: $project_name</div><br>
 				<div class='label'>Project Number</div><div class='label2'>: $project_number</div><br>
 				<div class='label'>Project Location</div><div class='label2'>: $project_location</div><br>
-				<div class='label'>Principal Advisor</div><div class='label2'>: $principal_advisor</div><br>
+				<div class='label'>Principle Advisor</div><div class='label2'>: $principle_advisor</div><br>
 				<div class='label'>Team Leader</div><div class='label2'>: $team_leader</div><br>
 				<div class='label'>Responsible Superior</div><div class='label2'>: $responsible_superior</div><br>
 				<div class='label'>SAP No</div><div class='label2'>: $SAP_No</div></td>
@@ -63,24 +63,25 @@ static function get_call_interview_table($res, $vacancy_progress_val) {
 static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 	$vacancy_progress_val=shared::get_table_data('vacancy_progress', $next_vacancy_progress_id);
 	if ($vacancy_progress_val=='Closing') {
+		$combo_project_name_def=shared::select_combo_complete(Project::getProjectName(), 'project_name', '-Project Name-', 'project_name');
+		
 		$sql="select salary_band from salary_band order by salary_band";
 		$res=db::DoQuery($sql, array(), $con);
-		$salary_band_option_def="<select id='salary_band'><option value=''></option>";
-		foreach ($res as $row) {
-			$salary_band_option_def.="<option value='".$row['salary_band']."'>".$row['salary_band']."</option>";
-		}
-		$salary_band_option_def.="</select>";
+		$salary_band_option_def=shared::select_combo_complete($res, 'salary_band','-');
+		
 		$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist
 		, c.contract_history_id, c.start_date, c.end_date, c.salary, c.job_title
-		, c.contract_status, c.salary_band, c.project_name, c.project_number, c.principal_advisor
+		, c.contract_status, c.salary_band, c.project_name, c.project_number, c.principle_advisor
 		, c.team_leader, c.project_location, c.responsible_superior, c.SAP_No
-		, c.position from $tbl a
+		, c.position, ifnull(c.working_time,100) working_time from $tbl a
 	left join applicants b on a.user_id=b.user_id
 	left join contract_history c on a.user_id=c.user_id and c.end_date>curdate()";
 		$res=db::DoQuery($sql, array(), $con);
-	
-		$result="<table class='tbl' id='tbl_result'><thead><tr><th>Contract History Id</th><th>User Id</th><th>First Name</th><th>Last Name</th><th>Job</th><th>Contract Duration</th><th>Salary</th><th>Salary Band</th><th></th></tr></thead><tbody>";
+		
+		$result="<table class='tbl' id='tbl_result'><thead><tr><th>Contract History Id</th><th>User Id</th><th>Name</th><th>Job</th><th>Contract Duration/Salary</th>
+		<th></th></tr></thead><tbody>";
 		foreach ($res as $row) {
+			$res_salary_sharing=db::select('salary_sharing','*','contract_history_id=?','',array($row['contract_history_id']));
 			$btn=array();
 			if ($_SESSION['role_name']=='employee') {
 				
@@ -96,19 +97,33 @@ static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id=''
 				}
 			}
 			$salary_band_option=shared::set_selected($row['salary_band'], $salary_band_option_def);
-			$result.="<tr><td>".$row['contract_history_id']."</td><td>".$row['user_id']."</td><td>".$row['first_name']."</td><td>".$row['last_name']."</td>";
+			
+			$project_name_option=shared::set_selected($row['project_name'], $combo_project_name_def);
+			$team_leader=$row['team_leader'];
+			
+			$project_number=Project::getProjectNumberByProjectName($row['project_name']);
+			
+			$combo_project_number_def=shared::select_combo_complete($project_number, 'project_number', '-Project Number-', 'project_number','','110px');
+			
+			$project_number_option=shared::set_selected($row['project_number'], $combo_project_number_def);
+			$principle_advisor=$row['principle_advisor'];
+			$result.="<tr><td>".$row['contract_history_id']."</td><td>".$row['user_id']."</td><td style='vertical-align:top'>".$row['first_name']." ".$row['last_name']."</td>";
 			$result.="
-			<td>"._t2("job_title", $row['job_title'],'40')."<br/>
+			<td style='vertical-align:top'>"._t2("job_title", $row['job_title'],'40')."<br/>
 				"._t2("position", $row['position'],'40')."<br/>
-				"._t2("project_name", $row['project_name'],'20')." "._t2("project_number", $row['project_number'],'20')."<br/>
+				".$project_name_option." <span class='team_leader'>".$team_leader."</span><br/>
+				".$project_number_option." <span class='principle_advisor'>".$principle_advisor."</span><br/>
 				"._t2("project_location", $row['project_location'],'40')."<br/>
-				"._t2("principal_advisor", $row['principal_advisor'],'20')." "._t2("team_leader", $row['team_leader'],'20')."<br/>
+				"._t2("principle_advisor", $row['principle_advisor'],'20')."<br/>
 				"._t2("responsible_superior", $row['responsible_superior'],'20')." "._t2("SAP_No", $row['SAP_No'],'20')."<br/>
 			</td>";
-			$result.="<td><input type='text' id='start_date".$row['user_id']."' class='start_date' placeholder='Start Date' size='10' value='".formatDate($row['start_date'])."'/> 
-			<input type='text' id='end_date".$row['user_id']."'  class='end_date' placeholder='End Date' size='10' value='".formatDate($row['end_date'])."'/></td>";
-			$result.="<td><input type='text' id='salary' size='10' placeholder='Salary' value='".formatNumber($row['salary'])."'/></td>";
-			$result.="<td>".$salary_band_option."</td>";
+			$result.="<td>Contract Duration:<br><input type='text' id='start_date".$row['user_id']."' title='Start Date' class='start_date' placeholder='Start Date' size='10' value='".formatDate($row['start_date'])."'/> 
+			<input type='text' id='end_date".$row['user_id']."' title='End Date'  class='end_date' placeholder='End Date' size='10' value='".formatDate($row['end_date'])."'/><br><br>
+			<div class='row'><div class='label'>Salary</div>"._t2("salary", formatNumber($row['salary']))."</div>
+			<div class='row'><div class='label'>Salary Band</div>".$salary_band_option."</div>
+			<div class='row'><div class='label'>Working Time</div><div class='textbox'>"._t2("working_time", $row['working_time'], "1","text","","")." %</div></div>";
+			$result.=employee::getSalarySharingView($row, $combo_project_name_def);
+			$result.="</td>";
 			$result.="<td>".getImageTags($btn)."</td>";
 			$result.="</tr>";
 		}

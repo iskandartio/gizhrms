@@ -154,6 +154,7 @@ class URLParse
 				P_METD => "",
 				P_METK => ""),				
 			"employee_detail" => array(
+				P_WIDTH=> "900",
 				P_FILE => "employee_detail.php",
 				P_TITL => "Employee Detail",
 				P_METD => "",
@@ -226,6 +227,11 @@ class URLParse
 				P_TITL => "Print Recruitment Summary",
 				P_METD => "Applicant Registration ",
 				P_METK => "Applicant, Apply, Registration"),
+			"project" => array(
+				P_FILE => "project.php",
+				P_TITL => "Project",
+				P_METD => "",
+				P_METK => ""),	
 			"province" => array(
 				P_FILE => "province.php",
 				P_TITL => "Province",

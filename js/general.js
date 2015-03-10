@@ -14,7 +14,7 @@ function setDOB() {
 function setDatePickerPrivate(o) {
 	if (!$(o).hasClass('hasDatepicker')) {
 		$(o).datepicker({ dateFormat: "dd-mm-yy", changeMonth:true, changeYear:true });
-		$(o).css('width','100px');
+		$(o).css('width','80px');
 	}
 }
 
@@ -269,17 +269,16 @@ function checkboxToLabelSub(par, name, trueLabel, falseLabel, f, val) {
 		td.html("<span style='display:none'>"+val+"</span> "+trueLabel);
 	}
 }
-function labelToSelect(par, name, def, options, f) {
-	if (!f) f=fields;
-	var a='';
-	a+='<select id="'+name+'" class="'+name+'" title="'+toggleCase(name)+'"><option value="" disabled> '+def+'</option>';
-	i=getChildObj(par, name, f).children("span").html();
-	a+=options;
-	a+='</select>';
-	var td=par.children('td:eq('+f[name]+')');
-	td.html(a);
-	td.children("select").val(i);
-	td.children("select").data("originalValue", i);
+function labelToSelect(td, combo) {
+	var selected='';
+	if (td.children().is("span")) {
+		selected=td.children().html();	
+	} else {
+		selected=td.html();
+	}
+	td.html(combo);
+	td.children("select").val(selected);
+	td.children("select").data("originalValue", selected);
 }
 function labelToCheckbox(par, nameArr, f) {
 	if (!f) f=fields;
@@ -306,7 +305,7 @@ function labelToText(par, nameArr, f) {
 			var a='';
 			var name=key;
 			var def=getChildHtml(par, key, f);
-			a+='<input type="text" placehoder="'+toggleCase(name)+'" class="'+name+'" id="'+name+'" value="'+def+'"';
+			a+='<input type="text" placeholder="'+toggleCase(name)+'" class="'+name+'" id="'+name+'" value="'+def+'"';
 			var size=nameArr[key];
 			if (size!=0) a+=' size="'+size+'"';
 			a+='/>';
@@ -338,18 +337,20 @@ function labelToTextArr(par, name, arr, f) {
 	td.html(a);
 	
 }
-function btnChange(par, types, f) {
+function btnChange(par, types, f, adder) {
+	if (!adder)  adder='';
 	if (!f) f=fields;
 	var td=par.children("td:eq("+f['btn']+")");
-	var s=getImageTags(types);
+	var s=getImageTags(types, adder);
 	
 	td.html(s);
 	
 }
-function getImageTags(types) {
+function getImageTags(types, adder) {
+	if (!adder)  adder='';
 	var s='';
 	for (var i=0;i<types.length;i++) {
-		s+='<img src="images/'+types[i]+'.png" class="btn_'+types[i]+'"/> ';
+		s+='<img src="images/'+types[i]+'.png" class="btn_'+types[i]+adder+'"/> ';
 	}
 	return s;
 }
@@ -478,6 +479,21 @@ function validate_empty_tbl(par, arr, header, f) {
 	}
 	return true;
 }
+function validate_empty_col(col, arr, header) {
+	if (!header) {
+		header=toggleCaseArr(arr);
+	}
+	for (var i=0;i<arr.length;i++) {
+		var obj=$(col).find('.'+arr[i]);
+		if ($(obj).val()=='') {
+			alert(header[i]+" is required");
+			$(obj).focus();
+			return false;
+		}
+	}
+	return true;
+}
+
 function validate_one_required_tbl(par, arr, header, f, name) {
 	if (!header) {
 		header=toggleCaseArr(arr);
@@ -523,12 +539,21 @@ function numeric(o) {
 	$.fn.numeric(o, 'decimal',true);
 	$(o).css("text-align","right");
 	$(o).css("width","75px");
-	
+	$(o).attr("placeholder","");
 }
 
 function prepareDataMultiInput(data, arr, par) {
 	for (var i=0;i<arr.length;i++) {
-		data[arr[i]]=$(par).children('.'+arr[i]).val();
+		if ($(par).find('.'+arr[i]).data("type")=='numeric') {
+			data[arr[i]]=cNum($(par).find('.'+arr[i]).val());
+		} else {
+			var obj=$(par).find('.'+arr[i]);
+			if ($(obj).is('span')) {
+				data[arr[i]]=$(obj).html();
+			} else {
+				data[arr[i]]=$(obj).val();
+			}
+		}
 	}
 	return data;
 }
@@ -608,4 +633,29 @@ function setTextArr(obj, arr) {
 	for (var i=0;i<arr.length;i++) {
 		$('#'+arr[i]).val(obj[arr[i]]);
 	}
+}
+function repeat(pattern, count) {
+    if (count < 1) return '';
+    var result = '';
+    while (count > 1) {
+        if (count & 1) result += pattern;
+        count >>= 1, pattern += pattern;
+    }
+    return result + pattern;
+}
+function setCookie(cname, cvalue, hours) {
+    var d = new Date();
+    d.setTime(d.getTime() + (hours*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
 }

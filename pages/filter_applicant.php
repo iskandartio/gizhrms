@@ -15,7 +15,9 @@
 	foreach ($res as $row) {
 		$combo_user.="<option value='".$row['user_id']."'>".$row['first_name']." ".$row['last_name']."</option>";
 	}
-*/
+*/	
+	$combo_project_name_def=shared::select_combo_complete(Project::getProjectName(), 'project_name', '-Project Name-', 'project_name');
+	
 	$res=db::select('business','business_id,business_val','','sort_id');
 	$combo_business="<select id='filter_business' title='Nature of Business'><option value=''>-Nature of Business-</option>";
 	foreach ($res as $row) {
@@ -68,8 +70,9 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 ?>
 <script>
 	var fields={'user_id':0, 'ranking_id':4, 'user_comment':5, 'interview_place':6, 'interview_date':7, 'interview_time':8, 'btn':9}
-	var field_closing=generate_assoc(['contract_history_id','user_id','first_name','last_name','job','contract_duration','salary','salary_band','btn']);
+	var field_closing=generate_assoc(['contract_history_id','user_id','name','job','contract_duration','btn']);
 	var field_user=generate_assoc(['vacancy_employee_id','employee_id','btn']);
+	var project_name_choice="<?php _p($combo_project_name_def)?>";
 	<?php _p($status_choice);?>;
 	<?php _p($status_choice_sorted);?>;
 	<?php _p($vacancy_progress);?>;
@@ -95,8 +98,13 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		});
 		numeric($('#salary_expectation_start'));
 		numeric($('#salary_expectation_end'));
+		
 	});
-	
+	function bindClosing() {
+		bind('.project_name','change', ChangeProjectName);
+		bind('.project_number','change', ChangeProjectNumber);
+		bind('.btn_deleteSalarySharing','click',DeleteSalarySharing);
+	}
 
 
 	function ShowDetail() {
@@ -222,39 +230,67 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			bind('.btn_restart',"click",Restart);
 			bind('.btn_detail',"click",ShowDetail);
 			bind('.btn_accept',"click",Accept);
+			bind('.btn_add','click',AddSalarySharing);
+			bind('.btn_deleteSalarySharing','click',DeleteSalarySharing);
+			$('#tbl_result tbody td').css('vertical-align','top');
 			hideColumns('tbl_filter_applicant');
 			$('#tbl_filter_applicant tbody tr').each(function() { 
 				var v=$(this).children("td:eq("+fields['ranking_id']+")").children("select");
 				$(v).data("originalValue", $(v).val());
 			});
-			fixSelect();
 			setDatePicker();
 			hideColumnsArr('tbl_result',['contract_history_id','user_id'],field_closing);
 			
 			$('input[id="salary"]').each(function(idx) {
 				numeric($(this));
 			});
+			bindClosing();
+			fixSelect();
+			
 			
 		}
 		ajax("filter_applicantAjax.php", data, success);
 		
 	}
+	
 	function Accept() {
-		par=$(this).closest("tr");
+		var par=$(this).closest("tr");
+		var p=getChildObj(par, 'job', field_closing);
+		if (!validate_empty_col(p,['job_title','position','project_name','project_number','project_location','responsible_superior'])) return;
+		p=getChildObj(par, 'contract_duration', field_closing);
+		if (!validate_empty_col(p,['start_date','end_date','salary','salary_band'])) return;
 		var data={};
 		data['type']="accept";
 		
 		data = prepareDataMultiInput(data
-		, ['job_title','position','project_name','project_number','principal_advisor','team_leader','project_location'
-		,'responsible_superior','SAP_No']
+		, ['job_title','position','principle_advisor','team_leader','project_location'
+		,'responsible_superior','SAP_No','project_name','project_number']
 		, getChildObj(par, 'job', field_closing));
 		
-		data=prepareDataMultiInput(data, ['start_date','end_date'], getChildObj(par, 'contract_duration', field_closing));
-		data=prepareDataDecimal(data, ['salary'], par, field_closing);
-		data=prepareDataText(data, ['salary_band'], par, field_closing);
+		data=prepareDataMultiInput(data, ['start_date','end_date','salary','salary_band'], getChildObj(par, 'contract_duration', field_closing));
 		data=prepareDataHtml(data, ['user_id','contract_history_id'], par, field_closing);
 		data= prepareDataText(data, ['vacancy_id','next_vacancy_progress_id']);
+		data['working_time']=$(par).find('.working_time').val();
+		var p= getChildObj(par, 'contract_duration', field_closing);
+		data['salary_sharing_project_name']=new Array();
+		data['salary_sharing_project_number']=new Array();
+		data['salary_sharing_percentage']=new Array();
+		var percentage=0;
+		var flag=false;
+		$(p).find('.div_salary_sharing').find('.row').each(function(idx) {
+			data['salary_sharing_project_name'].push($(this).find('.project_name').val());
+			data['salary_sharing_project_number'].push($(this).find('.project_number').val());
+			data['salary_sharing_percentage'].push($(this).find('.percentage').val());
+			percentage=percentage+1*$(this).find('.percentage').val();
+			flag=true;
+		});
+		if (percentage!=100 && flag) {
+			alert('salary sharing not correct');
+			return;
+		}
+
 		var success=function(msg) {
+		
 			Search();
 		}
 		ajax("filter_applicantAjax.php", data, success);
@@ -483,23 +519,70 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		ajax("filter_applicantAjax.php", data, success);
 		
 	}
+
+	function AddSalarySharing() {
+	
+		var s="<div class='row'><div class='label width120'>"+project_name_choice+"</div>";
+		s+="<div class='label width120'><select class='project_number'><option value=''>-Project Number-</option></select></div>";
+		s+="<div class='label width80'><?php _t("percentage","","1")?> % ";
+		s+=getImageTags(['delete'],'SalarySharing');
+		s+="</div></div>";
+		var p=$(this).closest(".row").next();
+		$(p).append(s);
+		var par=$(this).closest("tr");
+		var obj=getChild(par, 'job', fields);
+		$(p).find('.project_name_id:last').val($(obj).find('.project_name_id').val());
+		bindClosing();
+		fixSelect();
+		
+	}
+	function ChangeProjectName() {
+		var data={}
+		data['type']='getProjectNameAndNumber';
+		data['project_name']=$(this).val();
+		
+		par=$(this).closest(".row");
+		if (par.length==0) par=$(this).closest("td");
+		var success=function(msg) {
+			var d=jQuery.parseJSON(msg);
+			par.find('.project_number').html(d['combo_project_number']);
+			par.find('.team_leader').html(d['team_leader']);
+			par.find('.principle_advisor').html('');
+			fixSelect();
+		}
+		ajax('projectAjax.php',data, success);
+	}
+	function ChangeProjectNumber() {
+		if ($(this).closest('.div_salary_sharing').length>0) return;
+		var data={}
+		data['type']='getProjectNumberByName';
+		data['project_number']=$(this).val();
+		par=$(this).closest(".row");
+		if (par.length==0) par=$(this).closest("td");
+		var success=function(msg) {
+			par.find('.principle_advisor').html(msg);
+		}
+		ajax('projectAjax.php',data, success);
+	}
+	function DeleteSalarySharing() {
+		$(this).closest(".row").remove();
+	}
 </script>
-<table>
-<tr><td>Vacancy</td><td>:</td><td><select id="vacancy_id" title='Vacancy'>
+<div class='label width160'>Vacancy</div><div class='textbox'><select id="vacancy_id" title='Vacancy'>
 <option selected value=''>Vacancy</option>
 <?php _p($combo_vacancy) ?>
-</select></td></tr>
-<tr><td>Current Recruitment Process</td><td>:</td><td>
+</select></div>
+
+<div class='label width160'>Current Recruitment Process</div><div class='textbox'>
 <select id="vacancy_progress_id" title='Recruitment Process'>
 <option selected value=''>Vacancy Progress</option>
 <?php _p($combo_status)?>
-</select></td></tr>
-<tr><td>Next Recruitment Process</td><td>:</td><td>
+</select></div>
+<div class='label width160'>Next Recruitment Process</div><div class='textbox'>
 <select id="next_vacancy_progress_id" title='Next Recruitment Process'>
 <option selected value=''>Next Vacancy Progress</option>
 
-</select></td></tr>
-</table>
+</select></div>
 <?php if ($_SESSION['role_name']=='admin') {?>
 <button class="button_link" id="btn_add_user">Add User</button> 
 <?php }?>
@@ -519,7 +602,7 @@ if ($_SESSION['role_name']=='admin') {
 <div id="advance_filter">
 	<table>
 		<tr><td>Salary Expectation</td><td>:</td><td><?php _t("salary_expectation_start")?> &nbsp;to <?php _t("salary_expectation_end")?></td></tr>
-		<tr><td>Age</td><td>:</td><td><?php _t("age_start")?> &nbsp;to <?php _t("age_end")?></td></tr>
+		<tr><td>Age</td><td>:</td><td><?php _t("age_start","","2")?> &nbsp;to <?php _t("age_end","","2")?></td></tr>
 	</table>
 </div>
 <input type="checkbox" id="filter_rejected"/><label for="filter_rejected">Filter Rejected</label>

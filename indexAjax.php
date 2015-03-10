@@ -58,7 +58,7 @@
 		$param=array();
 		$param['email']=$email;
 		$param['password']=$_POST['password'];
-		$param['link']=$activation_code;
+		$param['link']="http://".$_SERVER['HTTP_HOST']."/gizhrms/activate.php?link=".$activation_code;
 		shared::email("register", $param, $con);
 		db::commitTrans($con);
 		

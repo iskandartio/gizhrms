@@ -1208,3 +1208,2648 @@ create temporary table temp_rank2
 	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
 	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
 
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			left join vacancy_employee  b on a.vacancy_id=b.vacancy_id and b.vacancy_progress_id=?
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and b.employee_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+
+ExecMe
+update question set question_val=? where question_id=9
+update choice set choice_val=?, sort_id=? where choice_id=?
+ExecMe
+update choice set choice_val=?, sort_id=? where choice_id=?
+ExecMe
+insert into choice(choice_val, question_id, sort_id) values(?,?,?)
+ExecMe
+update question set question_val=? where question_id=15
+update choice set choice_val=?, sort_id=? where choice_id=?
+ExecMe
+update choice set choice_val=?, sort_id=? where choice_id=?
+ExecMe
+insert into choice(choice_val, question_id, sort_id) values(?,?,?)
+ExecMe
+update question set question_val=? where question_id=16
+ExecMe
+insert into choice(choice_val, question_id, sort_id) values(?,?,?)
+ExecMe
+insert into choice(choice_val, question_id, sort_id) values(?,?,?)
+ExecMe
+insert into choice(choice_val, question_id, sort_id) values(?,?,?)
+
+
+
+ExecMe
+insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
+ExecMe
+update email_setup set email_type=?,email_to=?,email_subject=?,params=?,email_content=? where email_setup_id=2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+update job_applied set vacancy_shortlist=0, next_vacancy_progress_id=null where vacancy_id=? and user_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+update job_applied set vacancy_progress_id=next_vacancy_progress_id, vacancy_shortlist=0, next_vacancy_progress_id=null 
+where vacancy_id=? and next_vacancy_progress_id=? and vacancy_shortlist=1
+ExecMe
+update vacancy set vacancy_progress_id=? where vacancy_id=?
+delete from vacancy_timeline where vacancy_id=? and vacancy_progress_id=?
+2
+5
+ExecMe
+delete from vacancy_timeline where vacancy_id=? and vacancy_progress_id=?
+ExecMe
+insert into vacancy_timeline(vacancy_id, vacancy_progress_id) values(?,?)
+ExecMe
+insert into email(email_from, email_to, email_cc, email_bcc, email_subject, email_content) values(?,?,?,?,?,?)
+ExecMe
+insert into email(email_from, email_to, email_cc, email_bcc, email_subject, email_content) values(?,?,?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			left join vacancy_employee  b on a.vacancy_id=b.vacancy_id and b.vacancy_progress_id=?
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and b.employee_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into vacancy_interview(vacancy_id, user_id, vacancy_progress_id, interview_place, interview_date, interview_time) values(?,?,?,?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into vacancy_interview(vacancy_id, user_id, vacancy_progress_id, interview_place, interview_date, interview_time) values(?,?,?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+update vacancy_interview set interview_place=?, interview_date=?, interview_time=? where vacancy_interview_id=?
+ExecMe
+update vacancy_interview set interview_place=?, interview_date=?, interview_time=? where vacancy_interview_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+update vacancy_interview set interview_place=?, interview_date=?, interview_time=? where vacancy_interview_id=?
+ExecMe
+update vacancy_interview set interview_place=?, interview_date=?, interview_time=? where vacancy_interview_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+update job_applied set vacancy_progress_id=next_vacancy_progress_id, vacancy_shortlist=0, next_vacancy_progress_id=null 
+where vacancy_id=? and next_vacancy_progress_id=? and vacancy_shortlist=1
+ExecMe
+update vacancy set vacancy_progress_id=? where vacancy_id=?
+delete from vacancy_timeline where vacancy_id=? and vacancy_progress_id=?
+2
+1
+ExecMe
+delete from vacancy_timeline where vacancy_id=? and vacancy_progress_id=?
+ExecMe
+insert into vacancy_timeline(vacancy_id, vacancy_progress_id) values(?,?)
+ExecMe
+insert into email(email_from, email_to, email_cc, email_bcc, email_subject, email_content) values(?,?,?,?,?,?)
+ExecMe
+insert into email(email_from, email_to, email_cc, email_bcc, email_subject, email_content) values(?,?,?,?,?,?)
+ExecMe
+insert into email(email_from, email_to, email_cc, email_bcc, email_subject, email_content) values(?,?,?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+insert into vacancy_employee(vacancy_id, employee_id, vacancy_progress_id) values(?,?,?)
+ExecMe
+insert into user_ranking(vacancy_employee_id, user_id, ranking_id, user_comment) values(?,?,?,?)
+ExecMe
+insert into vacancy_interview(vacancy_id, user_id, vacancy_progress_id, interview_place, interview_date, interview_time) values(?,?,?,?,?,?)
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+update vacancy_interview set interview_place=?, interview_date=?, interview_time=? where vacancy_interview_id=?
+ExecMe
+update vacancy_interview set interview_place=?, interview_date=?, interview_time=? where vacancy_interview_id=?
+ExecMe
+update job_applied set vacancy_shortlist=0, next_vacancy_progress_id=null where vacancy_id=? and user_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+ExecMe
+update user_ranking set ranking_id=?, user_comment=? where vacancy_employee_id=? and user_id=?
+update vacancy_interview set interview_place=?, interview_date=?, interview_time=? where vacancy_interview_id=?
+ExecMe
+update vacancy_interview set interview_place=?, interview_date=?, interview_time=? where vacancy_interview_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+update job_applied set vacancy_progress_id=next_vacancy_progress_id, vacancy_shortlist=0, next_vacancy_progress_id=null 
+where vacancy_id=? and next_vacancy_progress_id=? and vacancy_shortlist=1
+ExecMe
+update vacancy set vacancy_progress_id=? where vacancy_id=?
+delete from vacancy_timeline where vacancy_id=? and vacancy_progress_id=?
+2
+3
+ExecMe
+delete from vacancy_timeline where vacancy_id=? and vacancy_progress_id=?
+ExecMe
+insert into vacancy_timeline(vacancy_id, vacancy_progress_id) values(?,?)
+ExecMe
+insert into email(email_from, email_to, email_cc, email_bcc, email_subject, email_content) values(?,?,?,?,?,?)
+ExecMe
+update email set sent=now() where email_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+insert into contract_history(user_id, start_date, end_date, salary, job_title, position
+			, project_name, project_number, principal_advisor, team_leader, project_location, responsible_superior, SAP_No
+			, salary_band) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+update applicants set contract0_start_date=?, contract0_end_date=? where user_id=?
+ExecMe
+update applicants set contract0_start_date=?, contract0_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
+where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1
+ExecMe
+update m_user_role a inner join job_applied b on a.user_id=b.user_id set role_id=3
+where vacancy_id=? and next_vacancy_progress_id=?
+ExecMe
+update job_applied set vacancy_progress_id=next_vacancy_progress_id, vacancy_shortlist=0, next_vacancy_progress_id=null 
+where vacancy_id=? and next_vacancy_progress_id=?
+ExecMe
+update vacancy set vacancy_progress_id=? where vacancy_id=?
+delete from vacancy_timeline where vacancy_id=? and vacancy_progress_id=?
+2
+4
+ExecMe
+delete from vacancy_timeline where vacancy_id=? and vacancy_progress_id=?
+ExecMe
+insert into vacancy_timeline(vacancy_id, vacancy_progress_id) values(?,?)
+
+
+
+save_current_contract:27
+ExecMe
+update contract_history set salary_band=?,reason=?,salary=? where contract_history_id=27
+
+
+
+
+ExecMe
+insert into employee_outpatient(user_id, invoice_date, invoice_val, claim) values(?,?,?,?)
+
+
+
+
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1 and a.salary_expectation>=? and a.salary_expectation<=?
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter2 select a.user_id, a.vacancy_id, a.vacancy_progress_id, vacancy_shortlist from filter a
+			inner join applicants b on a.user_id=b.user_id
+			left join city c on b.city=c.city_id
+			where 1=1 and date_add(date_of_birth, interval ? year)<curdate() and date_add(date_of_birth, interval ? year)>curdate()
+ExecMe
+drop table if exists filter
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter2 c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter2 c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter2 select a.user_id, a.vacancy_id, a.vacancy_progress_id, vacancy_shortlist from filter a
+			inner join applicants b on a.user_id=b.user_id
+			left join city c on b.city=c.city_id
+			where 1=1 and date_add(date_of_birth, interval ? year)<curdate() and date_add(date_of_birth, interval ? year)>curdate()
+ExecMe
+drop table if exists filter
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter2 c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter2 c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter2 select a.user_id, a.vacancy_id, a.vacancy_progress_id, vacancy_shortlist from filter a
+			inner join applicants b on a.user_id=b.user_id
+			left join city c on b.city=c.city_id
+			where 1=1 and date_add(date_of_birth, interval ? year)<curdate() and date_add(date_of_birth, interval ? year)>curdate()
+ExecMe
+drop table if exists filter
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter2 c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter2 c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+insert into project_name(project_name,team_leader) values(?,?)
+ExecMe
+update project_name set project_name=?,team_leader=? where project_name_id=1
+ExecMe
+update project_name set project_name=?,team_leader=? where project_name_id=1
+ExecMe
+update project_name set project_name=?,team_leader=? where project_name_id=1
+ExecMe
+update project_name set project_name=?,team_leader=? where project_name_id=1
+ExecMe
+update project_name set project_name=?,team_leader=? where project_name_id=1
+ExecMe
+update project_name set project_name=?,team_leader=? where project_name_id=1
+ExecMe
+update project_name set project_name=?,team_leader=? where project_name_id=1
+ExecMe
+update project_name set project_name=?,team_leader=? where project_name_id=1
+ExecMe
+insert into project_name(project_name,team_leader) values(?,?)
+delete from project_name where project_name_id=?
+1
+ExecMe
+delete from project_name where project_name_id=?
+delete from project_name where project_name_id=?
+2
+ExecMe
+delete from project_name where project_name_id=?
+delete from project_name where project_name_id=?
+
+ExecMe
+delete from project_name where project_name_id=?
+ExecMe
+insert into project_name(project_name,team_leader) values(?,?)
+ExecMe
+update project_name set project_name=?,team_leader=? where project_name_id=3
+ExecMe
+insert into project_name(project_name,team_leader) values(?,?)
+
+
+
+ExecMe
+update project_name set project_name=?,team_leader=? where project_name_id=3
+ExecMe
+update project_name set project_number_id=?,project_number=?,principle_advisor=? where project_name_id=1
+ExecMe
+update project_name set project_number_id=?,project_number=?,principle_advisor=? where project_name_id=1
+ExecMe
+update project_name set project_number_id=?,project_number=?,principle_advisor=? where project_name_id=1
+ExecMe
+update project_name set project_number_id=?,project_number=?,principle_advisor=? where project_name_id=1
+ExecMe
+update project_name set project_number_id=?,project_number=?,principle_advisor=? where project_name_id=4
+ExecMe
+update project_name set project_number_id=?,project_number=?,principle_advisor=? where project_name_id=3
+ExecMe
+update project_name set project_number_id=?,project_number=?,principle_advisor=? where project_name_id=3
+ExecMe
+update project_number set project_number=?,principle_advisor=?,project_name_id=? where project_number_id=1
+ExecMe
+update project_number set project_number=?,principle_advisor=?,project_name_id=? where project_number_id=1
+ExecMe
+update project_number set project_number=?,principle_advisor=?,project_name_id=? where project_number_id=1
+ExecMe
+insert into project_number(project_number,principle_advisor,project_name_id) values(?,?,?)
+delete from project_number where project_number_id=?
+1
+ExecMe
+delete from project_number where project_number_id=?
+ExecMe
+update project_number set project_number=?,principle_advisor=?,project_name_id=? where project_number_id=2
+ExecMe
+update project_number set project_number=?,principle_advisor=?,project_name_id=? where project_number_id=2
+ExecMe
+update project_number set project_number=?,principle_advisor=?,project_name_id=? where project_number_id=2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+delete from region where region_id=?
+4
+ExecMe
+delete from region where region_id=?
+ExecMe
+insert into region(region_val,sort_id) values(?,?)
+ExecMe
+update province set province_val=?,region_id=? where province_id=61
+ExecMe
+update province set province_val=?,region_id=? where province_id=62
+ExecMe
+update province set province_val=?,region_id=? where province_id=63
+ExecMe
+update province set province_val=?,region_id=? where province_id=64
+ExecMe
+update province set province_val=?,region_id=? where province_id=65
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+insert into project_name(project_name,team_leader) values(?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+update project_number set project_number=?,principle_advisor=?,project_name_id=? where project_number_id=2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+insert into project_number(project_number,principle_advisor,project_name_id) values(?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, salary_sharing, percentage) values(?,?,?)
+ExecMe
+insert into salary_sharing(contract_history_id, salary_sharing, percentage) values(?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+
+save_current_contract:27
+ExecMe
+update contract_history set project_location=?,responsible_superior=?,SAP_No=?,position=?,job_title=?,team_leader=?,principle_advisor=?,project_name=?,project_number=? where contract_history_id=27
+save_current_contract:27
+ExecMe
+update contract_history set project_location=?,responsible_superior=?,SAP_No=?,position=?,job_title=?,team_leader=?,principle_advisor=?,project_name=?,project_number=? where contract_history_id=27
+save_current_contract:27
+ExecMe
+update contract_history set project_location=?,responsible_superior=?,SAP_No=?,position=?,job_title=?,team_leader=?,principle_advisor=?,project_name=?,project_number=? where contract_history_id=27
+save_current_contract:27
+ExecMe
+update contract_history set project_location=?,responsible_superior=?,SAP_No=?,position=?,job_title=?,team_leader=?,principle_advisor=?,project_name=?,project_number=? where contract_history_id=27
+save_current_contract:27
+ExecMe
+update contract_history set project_location=?,responsible_superior=?,SAP_No=?,position=?,job_title=?,team_leader=?,principle_advisor=?,project_name=?,project_number=? where contract_history_id=27
+
+
+delete from contract_history where start_date>=? and user_id=?
+2015-04-01
+9
+ExecMe
+delete from contract_history where start_date>=? and user_id=?
+update contract_history set end_date=? where contract_history_id=?
+ExecMe
+update contract_history set end_date=? where contract_history_id=?
+ExecMe
+insert into contract_history(salary_band,reason,start_date,end_date,project_location,responsible_superior,SAP_No,position,job_title,team_leader,principle_advisor,project_name,project_number,salary,user_id) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+save_current_contract:27
+ExecMe
+update contract_history set project_location=?,responsible_superior=?,SAP_No=?,position=?,job_title=?,team_leader=?,principle_advisor=?,project_name=?,project_number=? where contract_history_id=27
+
+ExecMe
+insert into applicants_language(language_skill_id,language_id,language_val,user_id) values(?,?,?,?)
+ExecMe
+insert into applicants_language(language_skill_id,language_id,language_val,user_id) values(?,?,?,?)
+save_current_contract:27
+ExecMe
+update contract_history set project_location=?,responsible_superior=?,SAP_No=?,position=?,job_title=?,team_leader=?,principle_advisor=?,project_name=?,project_number=? where contract_history_id=27
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+
+
+
+
+
+ExecMe
+update contract_history set job_title=?,position=?,principle_advisor=?,team_leader=?,project_location=?,responsible_superior=?,SAP_No=?,salary=?,salary_band=?,working_time=?,project_name=?,project_number=? where contract_history_id=27
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+update contract_history set job_title=?,position=?,principle_advisor=?,team_leader=?,project_location=?,responsible_superior=?,SAP_No=?,salary=?,salary_band=?,working_time=?,project_name=?,project_number=? where contract_history_id=27
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+update contract_history set job_title=?,position=?,principle_advisor=?,team_leader=?,project_location=?,responsible_superior=?,SAP_No=?,salary=?,salary_band=?,working_time=?,project_name=?,project_number=? where contract_history_id=27
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+update contract_history set job_title=?,position=?,principle_advisor=?,team_leader=?,project_location=?,responsible_superior=?,SAP_No=?,salary=?,salary_band=?,working_time=?,project_name=?,project_number=? where contract_history_id=27
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+
+ExecMe
+update contract_history set job_title=?,position=?,principle_advisor=?,team_leader=?,project_location=?,responsible_superior=?,SAP_No=?,salary=?,salary_band=?,working_time=?,project_name=?,project_number=? where contract_history_id=27
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+update contract_history set job_title=?,position=?,principle_advisor=?,team_leader=?,project_location=?,responsible_superior=?,SAP_No=?,salary=?,salary_band=?,working_time=?,project_name=?,project_number=? where contract_history_id=27
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+update contract_history set job_title=?,position=?,principle_advisor=?,team_leader=?,project_location=?,responsible_superior=?,SAP_No=?,salary=?,salary_band=?,working_time=?,project_name=?,project_number=? where contract_history_id=27
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+update contract_history set job_title=?,position=?,principle_advisor=?,team_leader=?,project_location=?,responsible_superior=?,SAP_No=?,salary=?,salary_band=?,working_time=?,project_name=?,project_number=? where contract_history_id=27
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, percentage) values(?,?,?)
+ExecMe
+insert into applicants_education(user_id, education_id, major, place, year_from, year_to, country) values(?,?,?,?,?,?,?)
+ExecMe
+update applicants set user_id=?,first_name=?,last_name=?,place_of_birth=?,date_of_birth=?,gender=?,nationality=?,nationality_val=?,address=?,country=?,country_name=?,province=?,city=?,post_code=?,phone1=?,phone2=?,computer_skills=?,professional_skills=? where applicants_id=12
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+
+
+
+ExecMe
+update city set city_val=?,province_id=? where city_id=474
+ExecMe
+update city set city_val=?,province_id=? where city_id=474
+ExecMe
+insert into applicants_education(user_id, education_id, major, place, year_from, year_to, country) values(?,?,?,?,?,?,?)
+ExecMe
+update city set city_val=?,province_id=? where city_id=474
+ExecMe
+update city set city_val=?,province_id=? where city_id=474
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+ExecMe
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+ExecMe
+update applicants_education set education_id=?, major=?, place=?, year_from=?, year_to=?, country=? where applicants_education_id=?
+
+ExecMe
+insert into applicants_language(language_skill_id,language_id,language_val,user_id) values(?,?,?,?)
+ExecMe
+update applicants_language set language_skill_id=?,language_id=?,language_val=?,user_id=? where applicants_language_id=6
+ExecMe
+update applicants_language set language_skill_id=?,language_id=?,language_val=?,user_id=? where applicants_language_id=5
+ExecMe
+insert into applicants_language(language_skill_id,language_id,language_val,user_id) values(?,?,?,?)
+delete from applicants_language where applicants_language_id=?
+6
+ExecMe
+delete from applicants_language where applicants_language_id=?
+ExecMe
+update project_number set project_number=?,principle_advisor=?,project_name=? where project_number_id=2
+ExecMe
+update project_number set project_number=?,principle_advisor=?,project_name=? where project_number_id=3
+ExecMe
+insert into project_number(project_number,principle_advisor,project_name) values(?,?,?)
+
+ExecMe
+update project_name set project_name=?,team_leader=? where project_name_id=5
+ExecMe
+insert into project_name(project_name,team_leader) values(?,?)
+delete from project_name where project_name_id=?
+6
+ExecMe
+delete from project_name where project_name_id=?
+delete from project_number where project_number_id=?
+
+ExecMe
+delete from project_number where project_number_id=?
+delete from project_number where project_number_id=?
+
+ExecMe
+delete from project_number where project_number_id=?
+delete from project_number where project_number_id=?
+4
+ExecMe
+delete from project_number where project_number_id=?
+ExecMe
+insert into project_number(project_number,principle_advisor,project_name) values(?,?,?)
+ExecMe
+insert into project_number(project_number,principle_advisor,project_name) values(?,?,?)
+
+ExecMe
+update contract_history set job_title=?,position=?,project_name=?,project_number=?,principle_advisor=?,team_leader=?,project_location=?,responsible_superior=?,SAP_No=?,salary=?,salary_band=?,working_time=? where contract_history_id=27
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, project_number, percentage) values(?,?,?,?)
+ExecMe
+update contract_history set job_title=?,position=?,project_name=?,project_number=?,principle_advisor=?,team_leader=?,project_location=?,responsible_superior=?,SAP_No=?,salary=?,salary_band=?,working_time=? where contract_history_id=27
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, project_number, percentage) values(?,?,?,?)
+ExecMe
+update contract_history set job_title=?,position=?,project_name=?,project_number=?,principle_advisor=?,team_leader=?,project_location=?,responsible_superior=?,SAP_No=?,salary=?,salary_band=?,working_time=? where contract_history_id=27
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, project_number, percentage) values(?,?,?,?)
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, project_number, percentage) values(?,?,?,?)
+ExecMe
+insert into applicants_language(user_id, language_id, language_skill_id) values(?,?,?)
+ExecMe
+insert into applicants_other_language(user_id, language_val, language_skill_id) values(?,?,?)
+ExecMe
+insert into applicants_language(user_id, language_id, language_skill_id) values(?,?,?)
+ExecMe
+update province set province_val=?,region_id=? where province_id=11
+ExecMe
+update province set province_val=?,region_id=? where province_id=11
+ExecMe
+insert into province(province_val,region_id,sort_id) values(?,?,?)
+delete from province where province_id=?
+95
+ExecMe
+delete from province where province_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, project_number, percentage) values(?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, project_number, percentage) values(?,?,?,?)
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, project_number, percentage) values(?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+ExecMe
+update contract_history set start_date=?, end_date=?, salary=?, job_title=?, position
+			=?, project_name=?, project_number=?, principle_advisor=?, team_leader=?, project_location=?, responsible_superior=?, SAP_No
+			=?, salary_band=?, working_time=? where contract_history_id=?
+delete from salary_sharing where contract_history_id=?
+27
+ExecMe
+delete from salary_sharing where contract_history_id=?
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update applicants set contract1_start_date=?, contract1_end_date=? where user_id=?
+ExecMe
+update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, project_number, percentage) values(?,?,?,?)
+ExecMe
+insert into salary_sharing(contract_history_id, project_name, project_number, percentage) values(?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+
+

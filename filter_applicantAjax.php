@@ -267,7 +267,7 @@ where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_s
 		} else if ($vacancy_progress_val=='Closing') {
 			$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist
 				, c.start_date, c.end_date, c.salary, c.salary_band, c.job_title
-				, c.contract_status, c.salary_band, c.project_name, c.project_number, c.principal_advisor
+				, c.contract_status, c.salary_band, c.project_name, c.project_number, c.principle_advisor
 				, c.team_leader, c.project_location, c.responsible_superior, c.SAP_No
 				, c.position from filter a
 				left join applicants b on a.user_id=b.user_id
@@ -566,20 +566,27 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 		
 		if ($contract_history_id!='') {
 			db::update('contract_history','start_date, end_date, salary, job_title, position
-			, project_name, project_number, principal_advisor, team_leader, project_location, responsible_superior, SAP_No
-			, salary_band','contract_history_id=?', array($start_date, $end_date, $salary, $job_title, $position
-			, $project_name, $project_number, $principal_advisor, $team_leader, $project_location, $responsible_superior, $SAP_No
-			, $salary_band,$contract_history_id), $con);
-			
+			, project_name, project_number, principle_advisor, team_leader, project_location, responsible_superior, SAP_No
+			, salary_band, working_time','contract_history_id=?', array($start_date, $end_date, $salary, $job_title, $position
+			, $project_name, $project_number, $principle_advisor, $team_leader, $project_location, $responsible_superior, $SAP_No
+			, $salary_band, $working_time, $contract_history_id), $con);
+			db::delete('salary_sharing','contract_history_id=?', array($contract_history_id), $con);
 		} else {
 			db::insert('contract_history','user_id, start_date, end_date, salary, job_title, position
-			, project_name, project_number, principal_advisor, team_leader, project_location, responsible_superior, SAP_No
-			, salary_band', array($user_id, $start_date, $end_date, $salary, $job_title, $position
-			, $project_name, $project_number, $principal_advisor, $team_leader, $project_location, $responsible_superior, $SAP_No
-			, $salary_band), $con);
+			, project_name, project_number, principle_advisor, team_leader, project_location, responsible_superior, SAP_No
+			, salary_band, working_time', array($user_id, $start_date, $end_date, $salary, $job_title, $position
+			, $project_name, $project_number, $principle_advisor, $team_leader, $project_location, $responsible_superior, $SAP_No
+			, $salary_band, $working_time), $con);
 		}
-		db::update('applicants','contract0_start_date, contract0_end_date','user_id=?',array($start_date, $end_date, $user_id), $con);
+		
+		db::update('applicants','contract1_start_date, contract1_end_date','user_id=?',array($start_date, $end_date, $user_id), $con);
 		db::ExecMe('update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?', array($next_vacancy_progress_id, $vacancy_id, $user_id), $con);		
+		if (isset($salary_sharing_project_name)) {
+			foreach ($salary_sharing_project_name as $key=>$val) {
+				db::insert('salary_sharing','contract_history_id, project_name, project_number, percentage', array($contract_history_id, $val, $salary_sharing_project_number[$key], $salary_sharing_percentage[$key]), $con);
+			}
+		}
+
 		db::commitTrans($con);
 		die;
 		

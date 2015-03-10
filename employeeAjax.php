@@ -112,16 +112,26 @@ require "pages/startup.php";
 	if ($type=='save_current_contract') {
 		$user_id=$_SESSION['edit_id'];
 		$_POST['contract_history_id']=$_SESSION['contract_history_id'];
-		db::Log("save_current_contract:".$_SESSION['contract_history_id']);
 		$contract_history_id=$_POST['contract_history_id'];
 		$con=db::beginTrans();
 		if (!isset($start_date)) {
 			unset($_POST['start_date']);
 			unset($_POST['end_date']);
 		}
+		$salary_sharing_project_name=$_POST['salary_sharing_project_name'];
+		$salary_sharing_project_number=$_POST['salary_sharing_project_number'];
+		$salary_sharing_percentage=$_POST['salary_sharing_percentage'];
+		unset($_POST['salary_sharing_project_name']);
+		unset($_POST['salary_sharing_project_number']);
+		unset($_POST['salary_sharing_percentage']);
 		db::updateEasy('contract_history',$_POST, $con);
 		if (isset($start_date)) {
 			db::update('applicants','contract1_start_date, contract1_end_date','user_id=? and contract1_start_date is null', array($start_date, $end_date, $user_id), $con);
+		}
+		db::delete('salary_sharing','contract_history_id=?', array($contract_history_id), $con);
+		foreach ($salary_sharing_project_name as $key=>$val) {
+			db::insert('salary_sharing','contract_history_id, project_name, project_number, percentage'
+			, array($contract_history_id, $val, $salary_sharing_project_number[$key], $salary_sharing_percentage[$key]),$con);
 		}
 		db::commitTrans($con);
 		
@@ -150,13 +160,10 @@ inner join contract_history b on a.user_id=b.user_id','b.*','a.contract_history_
 		die(json_encode($data));
 	}
 	if ($type=='add_language') {
-		$combo_language="<select id='language_id' class='language_id'><option value=''>- Language -</option>";
-		$combo_language.=language::getChoice();
-		$combo_language.="<option value='-1'>Others</option>";
-		$combo_language.="</select>";
-		$res=db::select('language_skill','*');
-		$combo_language_skill=shared::select_combo_complete($res, 'language_skill_id', "- Skill Level -",'language_skill_val');
-		$str="<tr><td></td><td>".$combo_language." "._t2('language_val')."</td><td>".$combo_language_skill."</td><td>".getImageTags(array('save','cancel'))."</td></tr>";
+		$combo_language_def=shared::select_combo_complete(language::getAll(), 'language_id','-Language-','language_val');
+		$combo_language_def=str_replace("</select>","<option value='-1'>Others</option></select>", $combo_language_def);
+		$combo_language_skill=shared::select_combo_complete(language_skill::getAll(), 'language_skill_id', "- Skill Level -",'language_skill_val');
+		$str="<tr><td></td><td>".$combo_language_def." "._t2('language_val')."</td><td>".$combo_language_skill."</td><td>".getImageTags(array('save','cancel'))."</td></tr>";
 		die($str);
 	}
 	if ($type=='save_language') {

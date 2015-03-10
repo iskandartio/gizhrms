@@ -11,7 +11,7 @@
 	if (!isset($_SESSION['check_abused'])) {
 		$_SESSION['check_abused']=1;
 	}
-	
+	set_error_handler('exceptions_error_handler');
 	if (count($_POST)==0) {
 		if (!isset($_SESSION['captcha_text'])) {
 			$_SESSION['captcha_text']='';
@@ -26,6 +26,11 @@
 			if (!is_array($value)) {
 				$$key=dbDate($value);	
 				$_POST[$key]=$$key;
+			} else {
+				foreach ($value as $key2=>$val) {
+					$_POST[$key][$key2]=dbDate($val);
+				}
+				$$key=$_POST[$key];
 			}
 		} else {
 			$$key=$value;
@@ -41,7 +46,7 @@
 			die(json_encode($data));
 		}
 	}
-	set_error_handler('exceptions_error_handler');
+	
 	function exceptions_error_handler($severity, $message, $filename, $lineno) {
 	  if (error_reporting() == 0) {
 		return;
@@ -71,9 +76,16 @@
 	}
 	function _t2($name, $value='', $size='', $type='text', $class='', $placeholder='') {
 		
-		if ($value!='' && is_array($value)) $value=$value[$name];
+		if (is_array($value)) {
+			if (count($value)>0) {
+				$value=$value[$name];
+			} else {
+				$value='';
+			}
+		}
 		if (startsWith($name,'date')||endsWith($name,'date')) {
 			$value=formatDate($value);
+			
 		}
 		if ($class=='') {
 			$class=$name;
@@ -81,10 +93,12 @@
 		if ($placeholder=='') {
 			$placeholder=ucwords(str_replace('_',' ',$name));
 		}
+		$title=$placeholder;
+		if ($size<'5' && $size!='') $placeholder="";
 		if ($type=='') {
 			$type='text';
 		}
-		return ("<input type='$type' id='$name' name='$name' class='$class' placeholder='$placeholder' value='$value'".($size=='' ? '' : "size='$size'")."/>");
+		return ("<input type='$type' id='$name' name='$name' title='$title' class='$class' placeholder='$placeholder' value='$value'".($size=='' ? '' : "size='$size'")."/>");
 	}
 	function month_options() {
 		$month_options='<option value=1>January</option>';
@@ -117,6 +131,19 @@
 	}
 	function _l($link, $key, $val) {
 		_p("<a href='$link?key=$key'>$val</a>&nbsp;");
+	}
+	function _lbl($str, $rs='')  {
+		if (is_array($rs))  {
+			
+			if (count($rs)>0) {
+				return $rs[$str]; 
+			} else {
+				return "";
+			}
+		} else {
+			return $str;
+		}
+		
 	}
 	function cNum($str) {
 		if (strlen($str)==0) return 0;
@@ -222,10 +249,10 @@
 		}
 		return $r;
 	}
-	function getImageTags($types) {
+	function getImageTags($types, $adder='') {
 		$s='';
 		foreach($types as $t) {
-			$s.='<img src="images/'.$t.'.png" class="btn_'.$t.'"/> ';
+			$s.="<img src='images/$t.png' class='btn_$t$adder'/> ";
 		}
 		return $s;
 		

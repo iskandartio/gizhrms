@@ -29,7 +29,7 @@
 		<th>Project Name</th>
 		<th>Project Number</th>
 		<th>Project Location</th>
-		<th>Principal Advisor</th>
+		<th>Principle Advisor</th>
 		<th>Team Leader</th>
 		<th>Employee Name</th>
 		<th>Current Title</th>
@@ -48,7 +48,7 @@
 					<td>$project_name</td>
 					<td>$project_number</td>
 					<td>$project_location</td>
-					<td>$principal_advisor</td>
+					<td>$principle_advisor</td>
 					<td>$team_leader</td>
 					<td>$name</td>
 					<td>$job_title</td>

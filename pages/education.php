@@ -1,7 +1,7 @@
 <?php
 
 	$res=db::select('education','education_id, education_val','','sort_id');
-	$combo_education=shared::select_combo($res,'education_id', 'education_val');
+	$combo_education_def=shared::select_combo_complete($res,'education_id', '-Education', 'education_val');
 	$education=db::DoQuery('select a.applicants_education_id, a.education_id, b.education_val, a.major, a.place, a.year_from, a.year_to, a.country from applicants_education a left join education b on a.education_id=b.education_id where user_id=? order by year_from desc', array($_SESSION['uid']));
 	
 ?>
@@ -9,7 +9,7 @@
 	
 	var fields=generate_assoc(['applicants_education_id','education_id','major','place','year_from','year_to','country','btn']);
 	var table='tbl_education';
-
+	var education_choice="<?php _p($combo_education_def)?>";
 	$(function() {
 		bind('#btn_add', 'click', AddNew);
 		
@@ -60,9 +60,7 @@
 	function AddNew() {
 		var a='';
 		a+='<tr><td></td><td>';
-		a+='<select id="education_id" title="Education Level"><option value=""> - Education Level -</option>';
-		a+="<?php _p($combo_education)?>";
-		a+='</select>';
+		a+=education_choice;
 		a+="</td><td><?php _t("major")?></td>";
 		a+="<td><?php _t("place")?></td>";
 		a+="<td><?php _t("year_from","","3")?></td>";
@@ -78,7 +76,7 @@
 
 	function Edit() {
 		var par=$(this).closest("tr");
-		labelToSelect(par, 'education_id', ' - Education Level -', "<?php _p($combo_education)?>")
+		labelToSelect(getChildObj(par,'education_id', fields), education_choice);
 		labelToText(par, {'major':0,'place':0,'year_from':3,'year_to':3,'country':0});
 		btnChange(par, ['save','cancel']);
 			
