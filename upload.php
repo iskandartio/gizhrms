@@ -1,15 +1,22 @@
 <?php
 require_once("pages/startup.php");
 
+function deleteFile($file) {
+	if (file_exists($file)) {
+		unlink($file);
+	}
+}
 if (isset($_FILES["uploadPhoto"]["name"])) {
 	$target_dir = "uploads/";
 
 	$file_name=$_FILES["uploadPhoto"]["name"];
 	$ext=substr($file_name, strrpos($file_name, "."));
-	$target_file = $target_dir . $_SESSION['edit_id'].'-photo'.$ext;
-
+	$target_file = $target_dir . $_SESSION['edit_id'].'-photo';
+	deleteFile($target_file.".png");
+	deleteFile($target_file.".jpg");
+	$target_file.=$ext;
 	$uploadOk=1;
-	echo  $_FILES["uploadPhoto"]["tmp_name"];
+	
 	if (move_uploaded_file($_FILES["uploadPhoto"]["tmp_name"], $target_file)) {
 		echo "The file ". basename( $_FILES["uploadPhoto"]["name"]). " has been uploaded.";
 	} else {

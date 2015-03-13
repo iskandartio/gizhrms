@@ -19,7 +19,9 @@
 		$captcha_tag=shared::get_captcha_text();
 	}
 	
-		
+	if ($_SESSION['page_name']=='outpatient') $medical_type='employee_outpatient';
+	if ($_SESSION['page_name']=='pregnancy') $medical_type='employee_pregnancy';
+	
 	foreach ($_POST as $key=>$value) {
 		
 		if (startsWith($key,'date')||endsWith($key,'date')) {
@@ -94,7 +96,7 @@
 			$placeholder=ucwords(str_replace('_',' ',$name));
 		}
 		$title=$placeholder;
-		if ($size<'5' && $size!='') $placeholder="";
+		
 		if ($type=='') {
 			$type='text';
 		}
@@ -226,6 +228,11 @@
 	}
 	function formatNumber($s, $prec=0) {
 		if ($s=='') return '';
+		$min="";
+		if ($s[0]=='-') {
+			$min="-";
+			$s=substr($s,1);
+		}
 		$s=round($s,5);
 		$s=str_replace(',','',$s);
 		
@@ -247,7 +254,7 @@
 		if (count($z)>1&&$prec!=0) {
 			$r.=".".$z[1];
 		}
-		return $r;
+		return $min.$r;
 	}
 	function getImageTags($types, $adder='') {
 		$s='';

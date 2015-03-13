@@ -12,7 +12,7 @@
 	
 ?>
 <script>
-	var fields=generate_assoc(['invoice_date','invoice_val','btn']);
+	
 	$(function() {
 		autoCompleteEmployee();
 	});

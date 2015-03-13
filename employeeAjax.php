@@ -13,8 +13,7 @@ require "pages/startup.php";
 			$filter.=" and a.last_name like ?";
 			array_push($arr, "%$last_name%");
 		}
-		db::Log($filter);
-		db::Log($arr);
+
 		$res=employee::get_active_employee($filter, $arr);
 
 		$result="<table id='tbl_employee' class='tbl'>
@@ -24,9 +23,9 @@ require "pages/startup.php";
 				$$key=$val;
 			}
 			$result.="<tr><td>$user_id</td><td>$first_name</td><td>$last_name</td><td>$project_name</td><td>$project_location</td>
-			<td><button class='btn_edit_project'>Edit Project Data</button> 
+			<td><button class='btn_edit_project'>Edit Data</button> 
 			<button class='btn_update'>Change Project Data</button> 
-			<button class='btn_edit_dependent'>Edit Dependents</button> 
+			<button class='btn_terminate'>Terminate</button> 
 			</td>
 			</tr>";
 		}
@@ -42,6 +41,7 @@ require "pages/startup.php";
 		$_POST['user_id']=$_SESSION['edit_id'];
 		$contract_history_id=$_SESSION['contract_history_id'];
 		$user_id=$_POST['user_id'];
+		$end_date=db::select_single('applicants', 'coalesce(am2_end_date, contract2_end_date, am1_end_date, contract1_end_date) v','user_id=?','',array($user_id));
 		if (strcmp($start_date, $end_date)>=0) die("End Date must be bigger then Start Date");
 		$con=db::beginTrans();
 		db::delete('contract_history','start_date>=? and user_id=?', array($start_date, $user_id), $con);
@@ -60,7 +60,7 @@ require "pages/startup.php";
 		$_POST['user_id']=$_SESSION['edit_id'];
 		$user_id=$_POST['user_id'];
 		unset($_POST['user_name']);
-		$rs=db::select_one('m_user','user_id, user_name','user_name=?', '', array($user_name));
+		$rs=db::select_one('m_user','user_id, user_name','user_name=? and user_id!=?', '', array($user_name,$user_id));
 		if ($rs['user_name']!=null) {
 			$data['err']="Email already used by another user";
 			die(json_encode($data));
@@ -76,7 +76,7 @@ require "pages/startup.php";
 			$_SESSION['edit_id']=$user_id;
 			$contract_history_id=db::insert('contract_history','user_id, start_date, end_date', array($user_id, '1900-01-01', '3000-01-01'), $con);
 			$_SESSION['contract_history_id']=$contract_history_id;
-			db::Log("contract_history_id=".$contract_history_id);
+			$_POST['contract1_end_date']='3000-01-01';
 			$i=db::insertEasy('applicants', $_POST,$con);
 		} else {
 			$data['is_new']=0;
@@ -84,15 +84,15 @@ require "pages/startup.php";
 			if ($rs['user_name']!=$user_name) {
 				$password=shared::random(10);
 				$activation_code=shared::random(30);
+				db::ExecMe('update m_user set user_name=?, pwd=sha2(?,512), activation_code=?, status_id=null 
+					where user_id=?', array($user_name, $password, $activation_code, $user_id), $con);
 			}
-			db::ExecMe('update m_user set user_name=?, pwd=sha2(?,512), activation_code=?, status_id=null 
-			where user_id=?', array($user_name, $password, $activation_code, $user_id), $con);
 			$i=db::updateEasy('applicants', $_POST,$con);
 			
 			
 		}
 		if ($activation_code!="") {
-			$role_id=db::select_single('m_role','role_id v','role_name=?','',array('applicant'), $con);
+			$role_id=db::select_single('m_role','role_id v','role_name=?','',array('employee'), $con);
 			db::insert('m_user_role','user_id, role_id', array($user_id, $role_id), $con);
 			$param=array();
 			$param['email']=$user_name;
@@ -106,8 +106,9 @@ require "pages/startup.php";
 			$data['id']=$user_id;
 			die(json_encode($data));
 		}
-		if ($i>0) die("Success");
-		die("Failed");
+		$data['type']='edit_employee';
+		die(json_encode($data));
+		
 	}
 	if ($type=='save_current_contract') {
 		$user_id=$_SESSION['edit_id'];
@@ -118,20 +119,29 @@ require "pages/startup.php";
 			unset($_POST['start_date']);
 			unset($_POST['end_date']);
 		}
-		$salary_sharing_project_name=$_POST['salary_sharing_project_name'];
-		$salary_sharing_project_number=$_POST['salary_sharing_project_number'];
-		$salary_sharing_percentage=$_POST['salary_sharing_percentage'];
-		unset($_POST['salary_sharing_project_name']);
-		unset($_POST['salary_sharing_project_number']);
-		unset($_POST['salary_sharing_percentage']);
+		$flag_salary_sharing=0;
+		if (isset($_POST['salary_sharing_project_name'])) $flag_salary_sharing=1;
+		if ($flag_salary_sharing==1) {
+			$salary_sharing_project_name=$_POST['salary_sharing_project_name'];
+			$salary_sharing_project_number=$_POST['salary_sharing_project_number'];
+			$salary_sharing_percentage=$_POST['salary_sharing_percentage'];
+			unset($_POST['salary_sharing_project_name']);
+			unset($_POST['salary_sharing_project_number']);
+			unset($_POST['salary_sharing_percentage']);
+		}
+		if ($_POST['reason']=='') $_POST['reason']="Initial Salary";
 		db::updateEasy('contract_history',$_POST, $con);
 		if (isset($start_date)) {
 			db::update('applicants','contract1_start_date, contract1_end_date','user_id=? and contract1_start_date is null', array($start_date, $end_date, $user_id), $con);
 		}
-		db::delete('salary_sharing','contract_history_id=?', array($contract_history_id), $con);
-		foreach ($salary_sharing_project_name as $key=>$val) {
-			db::insert('salary_sharing','contract_history_id, project_name, project_number, percentage'
-			, array($contract_history_id, $val, $salary_sharing_project_number[$key], $salary_sharing_percentage[$key]),$con);
+		if ($flag_salary_sharing==1){
+			db::delete('salary_sharing','contract_history_id=?', array($contract_history_id), $con);
+		}
+		if ($flag_salary_sharing==1) {
+			foreach ($salary_sharing_project_name as $key=>$val) {
+				db::insert('salary_sharing','contract_history_id, project_name, project_number, percentage'
+				, array($contract_history_id, $val, $salary_sharing_project_number[$key], $salary_sharing_percentage[$key]),$con);
+			}
 		}
 		db::commitTrans($con);
 		
@@ -179,10 +189,29 @@ inner join contract_history b on a.user_id=b.user_id','b.*','a.contract_history_
 		$i=db::delete('applicants_language','applicants_language_id=?', array($applicants_language_id));
 		die($i);
 	}
-	if ($type=='terminate') {
+	if ($type=='show_terminate') {
+		$_SESSION['user_id']=$user_id;
+		$result=employee::getShowTerminate('');
+		die($result);
+	}
+	if ($type=='show_terminate_immediately') {
+		$_SESSION['user_id']=$user_id;
+		$result=employee::getShowTerminateImmediately();
+		$result.="<script src='js/terminate_immediately.js'></script>";
+		die($result);
+	}
+	if ($type=='calculate_severance') {
+		$result=employee::getShowTerminate($terminate_date);
+		die($result);
+	}
+	if ($type=='save_terminate') {
 		
 		db::update('applicants','contract_state','user_id=?',array('Terminate', $user_id));
 		die;
+	}
+	if ($type=='terminate') {
+		if (!isset($terminate_date)) $terminate_date=null;
+		employee::terminate($severance, $service, $new_severance, $reason, $terminate_date);
 	}
 	if ($type=='recontract') {
 		$name=db::select_single('applicants',"concat(first_name,' ',last_name) v", 'user_id=?','',array($user_id));
@@ -209,19 +238,20 @@ inner join contract_history b on a.user_id=b.user_id','b.*','a.contract_history_
 		die($result);
 	}
 	if ($type=='get_dependent') {
-		$_SESSION['edit_id']=$user_id;
+		$user_id=$_SESSION['edit_id'];
+		$applicant=db::select_one('applicants','spouse_name, marry_date','user_id=?','',array($user_id));
 		$res=employee::get_dependent_res($user_id);
-		$user_name=employee::get_user_name($user_id);
-		$result=employee::get_dependent_table($user_name, $res);
+		$result=employee::get_dependent_table($res, $applicant['spouse_name'], $applicant['marry_date']);
 		die($result);
 	}
 	if ($type=='save_dependent') {
 		$user_id=$_SESSION['edit_id'];
 		$_POST['user_id']=$user_id;
+		$dob=dbDate($dob);
 		if ($employee_dependent_id=='') {
-			$employee_dependent_id=db::insertEasy('employee_dependent', $_POST);
+			$employee_dependent_id=db::insert('employee_dependent','user_id, relation, name, date_of_birth', array($user_id,$relation,$name,$dob));
 		} else {
-			db::updateEasy('employee_dependent', $_POST);
+			db::update('employee_dependent', 'relation, name, date_of_birth', 'employee_dependent_id=?', array($relation, $name, $dob, $employee_dependent_id));
 		}
 		die ($employee_dependent_id);
 	}
@@ -229,5 +259,31 @@ inner join contract_history b on a.user_id=b.user_id','b.*','a.contract_history_
 		db::delete('employee_dependent','employee_dependent_id=?',array($employee_dependent_id));
 		die;
 	}
+	if ($type=='save_spouse') {
+		db::update('applicants','spouse_name, marry_date','user_id=?', array($spouse_name, $marry_date, $_SESSION['edit_id']));
+	}
+	if ($type=='get_working') {
+		$user_id=$_SESSION['edit_id'];
+		
+		$res=employee::get_working_res($user_id);
+		
+		$result=employee::get_working_table($res);
+		die($result);
+	}
+	if ($type=='save_working') {
+		$user_id=$_SESSION['edit_id'];
+		$_POST['user_id']=$user_id;
+		if ($applicants_working_id=='') {
+			$applicants_working_id=db::insertEasy('applicants_working',$_POST);
+			
+		} else {
+			db::updateEasy('applicants_working', $_POST);
+		}
+		die($applicants_working_id);
+	}
+	if ($type=='delete_dependent') {
+		db::delete('employee_dependent','employee_dependent_id=?',array($employee_dependent_id));
 		die;
+	}
+	
 ?>

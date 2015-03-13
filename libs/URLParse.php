@@ -132,6 +132,11 @@ class URLParse
 				P_TITL => "Change Project Data",
 				P_METD => "",
 				P_METK => ""),
+			"change_password" => array(
+				P_FILE => "change_password.php",
+				P_TITL => "Change Password",
+				P_METD => "",
+				P_METK => ""),
 			"contract_termination" => array(
                 P_FILE => "contract_termination.php",
                 P_TITL => "Contract Termination",
@@ -205,6 +210,11 @@ class URLParse
 				P_TITL => "Medical Checkup",
 				P_METD => "",
 				P_METK => ""),
+			"medical_summary" => array(
+				P_FILE => "medical_summary.php",
+				P_TITL => "Medical Summary",
+				P_METD => "",
+				P_METK => ""),
 			"nationality" => array(
 				P_FILE => "nationality.php",
 				P_TITL => "Nationality",
@@ -247,6 +257,11 @@ class URLParse
 				P_TITL => "Question",
 				P_METD => "",
 				P_METK => ""),
+			"recruitment" => array(
+				P_FILE => "recruitment.php",
+				P_TITL => "Recruitment",
+				P_METD => "",
+				P_METK => ""),		
 			"recruitment_report" => array(
 				P_FILE => "recruitment_report.php",
 				P_TITL => "Recruitment Report",

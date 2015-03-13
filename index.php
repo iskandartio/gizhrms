@@ -10,7 +10,7 @@ shared::contract_reminder_email();
 $activation_email= (isset($_SESSION['activation_email'])? $_SESSION['activation_email'] : '');
 $_SESSION['activation_email']="";
 $name = URLParse::ProcessURL();
-
+$_SESSION['page_name']=$name;
 if ($name=='activate'){
 	URLParse::IncludePageContents();
 	
@@ -353,6 +353,7 @@ header('Content-Type: text/html; charset=utf-8');
 			<li><a href="/gizhrms/language">Language</a></li>
 			<li><a href="/gizhrms/references">References</a></li>
 			<li><a href="/gizhrms/uploadcv">Upload CV + Cover Letter</a></li>
+			<li><a href="/gizhrms/change_password">Change Password</a></li>
 			<li><a href="/gizhrms">Logout</a></li>
 		</ul>
 		
@@ -404,6 +405,7 @@ header('Content-Type: text/html; charset=utf-8');
 		<li><a href="/gizhrms/call_interview">Call for Interview</a></li>
 		<li><a href="/gizhrms/accept_employee">Accept as Employee</a></li>
 		<li><a href="/gizhrms/summary">Recruitment Summary</a></li>
+		<li><a href="/gizhrms/change_password">Change Password</a></li>
 		<li><a href="/gizhrms">Logout</a></li>
 		</ul>
 		
@@ -414,8 +416,9 @@ header('Content-Type: text/html; charset=utf-8');
 		<span>Administration</span>
 		<div style="margin:5px">
 		<ul>
-		<li><a href="/gizhrms/filter">Filter Applicants</a></li>
+		<li><a href="/gizhrms/recruitment">Recruitment</a></li>
 		<li><a href="/gizhrms/recruitment_report">Recruitment Report</a></li>
+		<li><a href="/gizhrms/change_password">Change Password</a></li>
 		<li><a href="/gizhrms">Logout</a></li>
 		</ul>
 		</div>

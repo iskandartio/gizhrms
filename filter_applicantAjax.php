@@ -121,6 +121,7 @@ while (true) {
 		
 		db::ExecMe("drop table if exists $tbl2", array(), $con);
 		$sql="";
+		
 		$result=FilterApplicant::get_table_string($con, $tbl, $type, $next_vacancy_progress_id);
 		
 		db::commitTrans($con);
@@ -167,9 +168,10 @@ where a.vacancy_id=?", array($vacancy_id));
 		} else {
 			db::update('user_ranking','ranking_id, user_comment','vacancy_employee_id=? and user_id=?', array($ranking_id, $user_comment, $vacancy_employee_id, $user_id), $con);
 		}
-		
+		db::update('vacancy','vacancy_progress_id, next_vacancy_progress_id','vacancy_id=?',array($vacancy_progress_id, $next_vacancy_progress_id, $vacancy_id), $con);
+		db::update('job_applied','next_vacancy_progress_id','vacancy_id=? and user_id=?',array($next_vacancy_progress_id, $vacancy_id, $user_id), $con);
 		$vacancy_progress_val=db::select_single('vacancy_progress','vacancy_progress_val v','vacancy_progress_id=?', '', array($next_vacancy_progress_id), $con);
-		
+		db::ExecMe('update job_applied set next_vacancy_progress_id=? where vacancy_id=? and user_id=?', array($next_vacancy_progress_id, $vacancy_id, $user_id), $con);
 		if ($vacancy_progress_val!='Shortlist') {
 			$vacancy_interview_id = db::select_single('vacancy_interview', 'vacancy_interview_id v', 'vacancy_id=? and user_id=? and vacancy_progress_id=?', '', array($vacancy_id, $user_id, $next_vacancy_progress_id), $con);
 			if (!isset($vacancy_interview_id)) {
@@ -352,7 +354,7 @@ where vacancy_id=? and next_vacancy_progress_id=? and vacancy_shortlist=1', arra
 			$param['interview_location']=$row['interview_place'];
 			$interviewer_list=db::select("vacancy_employee a
 			left join applicants b on a.employee_id=b.user_id
-			left join contract_history c on c.user_id=b.user_id and curdate() between c.start_date and c.end_date
+			left join contract_history c on c.user_id=b.user_id ".shared::joinContractHistory("c","b")."
 			left join m_user d on d.user_id=b.user_id",
 			"a.employee_id, b.first_name, b.last_name, c.*, d.user_name"
 			, "a.vacancy_id=? and a.vacancy_progress_id=?"
@@ -574,9 +576,9 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 		} else {
 			db::insert('contract_history','user_id, start_date, end_date, salary, job_title, position
 			, project_name, project_number, principle_advisor, team_leader, project_location, responsible_superior, SAP_No
-			, salary_band, working_time', array($user_id, $start_date, $end_date, $salary, $job_title, $position
+			, salary_band, working_time, reason', array($user_id, $start_date, $end_date, $salary, $job_title, $position
 			, $project_name, $project_number, $principle_advisor, $team_leader, $project_location, $responsible_superior, $SAP_No
-			, $salary_band, $working_time), $con);
+			, $salary_band, $working_time, 'Initial Salary'), $con);
 		}
 		
 		db::update('applicants','contract1_start_date, contract1_end_date','user_id=?',array($start_date, $end_date, $user_id), $con);
@@ -594,8 +596,9 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 	if ($type=='closing') {
 		$con=db::beginTrans();
 		$next_vacancy_progress_id=db::select_single('vacancy_progress','vacancy_progress_id v',"vacancy_progress_val='Closing'",'',array(), $con);
-		db::ExecMe('update m_user_role a inner join job_applied b on a.user_id=b.user_id set role_id=3
-where vacancy_id=? and next_vacancy_progress_id=?', array($vacancy_id, $next_vacancy_progress_id), $con);
+		$role_id=db::select_single('m_role','role_id v','role_name=?','',array('employee'));
+		db::ExecMe('update m_user_role a inner join job_applied b on a.user_id=b.user_id set role_id=?
+where vacancy_id=? and next_vacancy_progress_id=?', array($role_id, $vacancy_id, $next_vacancy_progress_id), $con);
 		db::ExecMe('update job_applied set vacancy_progress_id=next_vacancy_progress_id, vacancy_shortlist=0, next_vacancy_progress_id=null 
 where vacancy_id=? and next_vacancy_progress_id=?', array($vacancy_id, $next_vacancy_progress_id), $con);
 		db::ExecMe('update vacancy set vacancy_progress_id=? where vacancy_id=?', array($next_vacancy_progress_id, $vacancy_id), $con);

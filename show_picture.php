@@ -3,8 +3,14 @@ session_start();
 
 
 
-header('Content-Type: image/jpeg');
-$im=imageCreateFromAny("uploads/".$_SESSION['edit_id']."-photo.jpg");
+header('Content-Type: image');
+if (file_exists("uploads/".$_SESSION['edit_id']."-photo.jpg")) {
+	$im=imageCreateFromAny("uploads/".$_SESSION['edit_id']."-photo.jpg");
+} else if (file_exists("uploads/".$_SESSION['edit_id']."-photo.png")) {
+	$im=imageCreateFromAny("uploads/".$_SESSION['edit_id']."-photo.png");
+} else {
+	$im=imageCreateFromAny("images/no-photo.png");
+}
 
 imagejpeg($im);
 imagedestroy($im);

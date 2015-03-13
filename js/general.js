@@ -6,10 +6,15 @@ function setDatePicker() {
 	$("input[class$='date']").each(function(idx) {
 		setDatePickerPrivate(this);
 	});
+	
 }
 
-function setDOB() {
-	$('#date_of_birth').datepicker({ dateFormat: "dd-mm-yy", changeMonth:true, changeYear:true, yearRange:'-65:-17' });
+function setDOB(dob) {
+	if (!dob) dob='.date_of_birth';
+	setDatePickerPrivate($(dob));
+	$(dob).datepicker("option","yearRange", '-65:-0');
+	$(dob).datepicker("option","defaultDate", "-0y-m-d");
+	
 }
 function setDatePickerPrivate(o) {
 	if (!$(o).hasClass('hasDatepicker')) {
@@ -31,7 +36,7 @@ function bindAll(t)  {
 	hideColumns(t);
 }
 function bind(obj, event, func) {
-	$(obj).unbind();
+	$(obj).unbind(event);
 	$(obj).bind(event, func);
 }
 function hideColumns(t) {
@@ -144,6 +149,12 @@ function clearDiv(arr) {
 	}
 }
 
+function inputFromTableToText(obj, arr, f, p) {
+	var par=$(obj).closest("tr");
+	for (var i=0;i<arr.length;i++) {
+		$('.'+arr[i], p).val(getChildHtml(par, arr[i], f));
+	}
+}
 function inputText(obj, arr, f) {
 	if (!f) f=fields;
 	var par=$(obj).closest("tr");
@@ -158,6 +169,13 @@ function inputDiv(obj, arr, f) {
 		$('#'+arr[i]).html(par.children('td:eq('+f[arr[i]]+')').html());
 	}
 }
+function inputFromTableToSelect(obj, arr, f, p) {
+	if (!f) f=fields;
+	var par=$(obj).closest("tr");
+	for (var i=0;i<arr.length;i++) {		
+		$('.'+arr[i], p).val(getChildHtml(par, arr[i], f));
+	}
+}
 function inputSelect(obj, arr, f) {
 	if (!f) f=fields;
 	var par=$(obj).closest("tr");
@@ -165,6 +183,15 @@ function inputSelect(obj, arr, f) {
 		$('#'+arr[i]).val(getChildHtmlSpanVal(par, arr[i], f));
 	}
 }
+function inputFromTableToOther(obj, f1, arr, f,p) {
+	if (!f) f=fields;
+	var par=$(obj).closest("tr");
+	for (var i=0;i<arr.length;i++) {
+		$('.'+arr[i],p).val(getChildHtmlSpanVal(par, f1, f, '#_'+arr[i]));
+	}
+	
+}
+
 function inputFromOther(obj, f1, arr, f) {
 	if (!f) f=fields;
 	var par=$(obj).closest("tr");
@@ -539,7 +566,6 @@ function numeric(o) {
 	$.fn.numeric(o, 'decimal',true);
 	$(o).css("text-align","right");
 	$(o).css("width","75px");
-	$(o).attr("placeholder","");
 }
 
 function prepareDataMultiInput(data, arr, par) {

@@ -7,7 +7,7 @@
 	}
 	if ($type=='login') {
 		$data['err']='';
-		$res=db::select_one('m_user','user_id, user_name, pwd', 'status_id=1 and user_name=? and pwd=sha2(?,512)','',array($_POST['email'], $_POST['password']));
+		$res=db::select_one('m_user','user_id, user_name, pwd', 'status_id=1 and user_name=? and pwd=?','',array($_POST['email'], hash('sha512',$_POST['password'])));
 		$_SESSION['time']=microtime();
 		$_SESSION['check_abused']=$_SESSION['check_abused']+1;
 		
@@ -29,7 +29,7 @@
 		} else if ($_SESSION['role_name']=='admin') {
 			$data['url']=  "filter";
 		} else if ($_SESSION['role_name']=='employee') {
-			$data['url']=  "filter";
+			$data['url']=  "recruitment";
 		}
 		die (json_encode($data));
 	} 
@@ -49,7 +49,7 @@
 		}
 		$con=db::beginTrans();
 		$activation_code=shared::random(30);
-		$user_id=db::ExecMe('insert into m_user(user_name, pwd, activation_code) values(?,sha2(?,512),?)', array($_POST['email'], $_POST['password'], $activation_code), $con);
+		$user_id=db::ExecMe('insert into m_user(user_name, pwd, activation_code) values(?,?,?)', array($_POST['email'], hash('sha512',$_POST['password']), $activation_code), $con);
 		$_SESSION['uid']=$res['user_id'];
 		$_SESSION['email']=$_POST['email'];
 		$_SESSION['pwd']=$_POST['password'];
@@ -69,7 +69,7 @@
 		$data['err']='';
 		$con=db::beginTrans();
 		$password=shared::random(10);
-		$exists=db::ExecMe("update m_user set pwd=sha2(?,512) where user_name=?", array($password, $email), $con);
+		$exists=db::ExecMe("update m_user set pwd=? where user_name=?", array(hash('sha512',$password), $email), $con);
 		if ($exists>0) {
 			$param['email']=$email;
 			$param['password']=$password;
