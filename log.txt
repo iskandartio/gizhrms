@@ -5105,3 +5105,195 @@ ExecMe
 insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
 ExecMe
 insert into employee_eyeglasses(claim_type, user_id, invoice_date, invoice_val, claim, paid) values(?,?,?,?,?,?)
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table if exists temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+update applicants set cv=?,letter=? where user_id=?
+ExecMe
+update applicants set cv=?,letter=? where user_id=?
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table if exists temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table if exists temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table if exists temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table if exists temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table if exists temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id
+ExecMe
+create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
+			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
+			where ifnull(a.vacancy_progress_id,'')=? and ?!='' and a.vacancy_id=? and a.vacancy_shortlist!=-1
+ExecMe
+drop table if exists filter2
+ExecMe
+drop table if exists temp_rank
+ExecMe
+create temporary table temp_rank
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	where  a.ranking_id is not null
+ExecMe
+create temporary table temp_rank2
+	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
+	from user_ranking a
+	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
+	inner join filter c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id
+	left join applicants d on d.user_id=b.employee_id
+	left join ranking e on e.ranking_id=a.ranking_id
+	inner join vacancy f on f.vacancy_id=b.vacancy_id and f.vacancy_progress_id=b.vacancy_progress_id 
+	left join temp_rank g on g.vacancy_employee_id=b.vacancy_employee_id and a.user_id=g.user_id

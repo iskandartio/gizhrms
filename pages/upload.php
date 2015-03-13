@@ -1,6 +1,7 @@
-<?php
+<?php 
 require_once "pages/startup.php";
 $type=$_GET['type'];
+
 if (isset($_GET['user_id'])) {
 	$user_id=$_GET['user_id'];
 	
@@ -14,7 +15,9 @@ $ext=db::select_single("applicants", "$type v", "user_id=?","", array($user_id))
 
 $file=$user_id."-$type".$ext;
 
+
 if (file_exists("uploads/$file")) {
+		
 	header('Content-Disposition: attachment; filename="'.basename($file).'"');
 	ob_clean();
     flush();
@@ -26,5 +29,3 @@ if (file_exists("uploads/$file")) {
 	header('Content-Disposition: attachment;');
 }
 
-
-?>

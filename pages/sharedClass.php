@@ -43,7 +43,8 @@ group by user_id) b on a.user_id=b.user_id set a.contract_reminder_email=1");
 		return $_SESSION[$data];
 	}
 	static function validate_download($user_id, $uid, $role_name) {
-		if ($user_id==$uid || $role_name==$user_id) return $user_id;
+
+		if ($user_id==$uid || $role_name=='admin') return $user_id;
 		$res=db::DoQuery("select a.employee_id from vacancy_employee a
 inner join vacancy b on a.vacancy_id=b.vacancy_id and a.vacancy_progress_id>b.vacancy_progress_id
 inner join job_applied c on c.vacancy_id=a.vacancy_id and c.user_id=?

@@ -10,10 +10,15 @@ shared::contract_reminder_email();
 $activation_email= (isset($_SESSION['activation_email'])? $_SESSION['activation_email'] : '');
 $_SESSION['activation_email']="";
 $name = URLParse::ProcessURL();
+
+
 $_SESSION['page_name']=$name;
 if ($name=='activate'){
 	URLParse::IncludePageContents();
 	
+}
+if ($name=='uploadajax') {
+	URLParse::IncludePageContents();
 }
 if ($name==''||$name=='activate') {
 	
@@ -395,8 +400,6 @@ header('Content-Type: text/html; charset=utf-8');
 		<li><a href="/gizhrms/medical_checkup">Medical Checkup</a></li>
 		<li><a href="/gizhrms/medical_summary">Summary</a></li>
 		</ul>
-
-
 		<span id='menu_recruitment'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Recruitment</span>
 		<ul>
 		<li><a href="/gizhrms/vacancy">Vacancy</a></li>
@@ -410,8 +413,7 @@ header('Content-Type: text/html; charset=utf-8');
 		</ul>
 		
 	</div>
-<?php } else if ($_SESSION['role_name']=='employee') {?>
-	
+<?php } else if ($_SESSION['role_name']=='employee') {?>	
 	<div id="menu" class='menu'>
 		<span>Administration</span>
 		<div style="margin:5px">
