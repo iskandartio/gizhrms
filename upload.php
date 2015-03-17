@@ -11,7 +11,7 @@ if (isset($_FILES["uploadPhoto"]["name"])) {
 
 	$file_name=$_FILES["uploadPhoto"]["name"];
 	$ext=substr($file_name, strrpos($file_name, "."));
-	$target_file = $target_dir . $_SESSION['edit_id'].'-photo';
+	$target_file = $target_dir . $_SESSION['user_id'].'-photo';
 	deleteFile($target_file.".png");
 	deleteFile($target_file.".jpg");
 	$target_file.=$ext;

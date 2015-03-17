@@ -6,8 +6,8 @@ class db {
 		$db_uid=$db[1];
 		$db_pwd=$db[2];
 		$con=new PDO($db_driver, $db_uid, $db_pwd);
-		//$con->setAttribute(PDO::ATTR_ERRMODE,true); 
-		//$con->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+		$con->setAttribute(PDO::ATTR_ERRMODE,true); 
+		$con->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 		return $con;
 	}
 	
@@ -72,9 +72,7 @@ class db {
 	}
 	static function ExecMe($query, $params=array(), $con=null) {
 		if (!isset($con)) $con= db::Connect();
-	 	$res=$con->prepare($query);
-		db::Log('ExecMe');
-		db::Log($query);
+		$res=$con->prepare($query);
 		$res->execute($params);
 		if (substr($query,0,6)=='insert') {
 			return $con->lastInsertId();
@@ -174,7 +172,7 @@ class db {
 	static function update($tbl, $fields, $where, $params=array(), $con=null) {
 		$s="update $tbl set ".str_replace(',','=?,', $fields)."=?";
 		if ($where!='') $s.=" where $where";
-		db::Log($s);
+		
 		return db::ExecMe($s, $params, $con);
 	}
 
@@ -190,16 +188,12 @@ class db {
 		}
 		array_push($params, $post[$where]);
 		$s="update $tbl set ".str_replace(',','=?,', $fields)."=? where $where=?";
-		db::Log($s);
-		db::Log($params);
 		
 		return db::ExecMe($s, $params, $con);
 	}
 	
 	static function delete($tbl, $where, $params=array(), $con=null) {
 		$s="delete from $tbl where $where";
-		db::Log($s);
-		db::Log($params);
 		return db::ExecMe($s, $params, $con);
 		
 	}

@@ -18,7 +18,7 @@
 		}
 		$captcha_tag=shared::get_captcha_text();
 	}
-	
+	if (!isset($_SESSION['page_name'])) $_SESSION['page_name']="";
 	if ($_SESSION['page_name']=='outpatient') $medical_type='employee_outpatient';
 	if ($_SESSION['page_name']=='pregnancy') $medical_type='employee_pregnancy';
 	
@@ -103,18 +103,18 @@
 		return ("<input type='$type' id='$name' name='$name' title='$title' class='$class' placeholder='$placeholder' value='$value'".($size=='' ? '' : "size='$size'")."/>");
 	}
 	function month_options() {
-		$month_options='<option value=1>January</option>';
-		$month_options.='<option value=2>February</option>';
-		$month_options.='<option value=3>March</option>';
-		$month_options.='<option value=4>April</option>';
+		$month_options='<option value=1>Jan</option>';
+		$month_options.='<option value=2>Feb</option>';
+		$month_options.='<option value=3>Mar</option>';
+		$month_options.='<option value=4>Apr</option>';
 		$month_options.='<option value=5>May</option>';
-		$month_options.='<option value=6>June</option>';
-		$month_options.='<option value=7>July</option>';
-		$month_options.='<option value=8>August</option>';
-		$month_options.='<option value=9>September</option>';
-		$month_options.='<option value=10>October</option>';
-		$month_options.='<option value=11>November</option>';
-		$month_options.='<option value=12>December</option>';
+		$month_options.='<option value=6>Jun</option>';
+		$month_options.='<option value=7>Jul</option>';
+		$month_options.='<option value=8>Aug</option>';
+		$month_options.='<option value=9>Sep</option>';
+		$month_options.='<option value=10>Oct</option>';
+		$month_options.='<option value=11>Nov</option>';
+		$month_options.='<option value=12>Dec</option>';
 		return $month_options;
 	}
 	function get_month_name($m) {
@@ -138,7 +138,11 @@
 		if (is_array($rs))  {
 			
 			if (count($rs)>0) {
-				return $rs[$str]; 
+				if (isset($rs[$str])) {
+					return $rs[$str]; 
+				} else {
+					return "";
+				}
 			} else {
 				return "";
 			}
@@ -263,5 +267,14 @@
 		}
 		return $s;
 		
+	}
+	function _lbl2($data, $arr1, $arr2) {
+		return _lbl(_lbl($data, $arr1), $arr2);
+	}
+	function _name($data, $arr=array()) {
+		if (count($arr)==0) {
+			return _lbl($data, $_SESSION['employee']);
+		}
+		return _lbl2($data, $arr, $_SESSION['employee']);
 	}
 ?>

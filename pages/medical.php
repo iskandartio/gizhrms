@@ -1,19 +1,13 @@
 <?php
-	$res=employee::get_active_employee_simple();
+	$res=Employee::get_active_employee_simple();
 	$combo_user="";
-	$arr=array();
-	foreach ($res as $row) {
-		if ($combo_user!="") $combo_user.=",";
-		$combo_user.="'".$row['first_name']." ".$row['last_name']."'";
-		array_push($arr,array('label'=>$row['first_name']." ".$row['last_name'], 'value'=>$row['user_id']));
-	}
-	$combo_user=json_encode($arr);
 	
 ?>
 <script>
 	var fields=generate_assoc(['invoice_date','invoice_val','btn']);
+	var employee_choice=<?php _p(Employee::getComboEmployee())?>;
 	$(function() {
-		autoCompleteEmployee();
+		autoCompleteEmployee('#employee_id', EmployeeChange);
 	});
 	function bindAll() {
 		bind('#popup_detail_btn','click', PopupDetail);
@@ -157,26 +151,7 @@
 		ajax('medicalAjax.php',data, success);
 	}
 	
-	function autoCompleteEmployee() {
-		$('.employee_id').autocomplete({
-			matchContains: true,
-			minLength: 0,
-			source : <?php _p($combo_user)?>,
-			focus: function( event, ui ) {
-				$(this).val(ui.item.label);
-				
-				return false;
-			},
-			select: function( event, ui ) {
-				$(this).data("id", ui.item.value);
-				EmployeeChange();
-				return false;
-			}
-		}).focus(function() {
-			$(this).autocomplete('search', $(this).val())
-		});
-		
-	}
+	
 	function EmployeeChange() {
 		var data={}
 		data['type']='search';

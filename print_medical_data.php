@@ -8,8 +8,8 @@
 	$dependent=$data['dependent'];
 	
 	$remainder=$limit+$dependent;
-	$applicant=employee::get_active_employee(" and a.user_id=?", array($user_id));
-	if (count($applicant)>0) $app=$applicant[0];
+	$app=Employee::get_active_employee_one("a.user_id=?", array($user_id));
+	
 	$res_dependents=db::select('employee_dependent','*','user_id=?','', array($user_id));
 	$res_salary_sharing=db::select('salary_sharing','*','contract_history_id=?','',array($app['contract_history_id']));
 	
@@ -111,8 +111,8 @@
 	$result.="</div></div>";
 	$result.="<div>
 		<div class='float100'>Name</div><div>".$app['first_name'].' '.$app['last_name']."</div>
-		<div class='float100'>Project Name</div><div>".$app['project_name']."</div>
-		<div class='float100'>Year</div><div>".$y."</div>
+		<div class='float100'>Project Name</div><div>".$app['project_name']."&nbsp</div>
+		<div class='float100'>Year</div><div>".$y."&nbsp</div>
 		<div class='float100'>PN</div><div>".$app['project_number']."&nbsp</div>
 		<div class='float100'>Join Date</div><div>".formatDate($app['contract1_start_date'])."</div>
 		<div class='float100'>Acc No</div>
@@ -123,38 +123,17 @@
 	</div></div>";
 	
 	$result.="<div class='row'><div class='float80p'>";
-	$result.="<table class='tbl' id='tbl_claim'><thead><tr><th width='100px'>Date</th><th width='80px'>Invoice<br>(Rp)</th>
+	$result.="<table class='tbl' id='tbl_claim'><thead><tr><th width='100px'>Invoice Date</th><th width='80px'>Invoice<br>(Rp)</th>
 	<th width='80px'>Total<br>(Rp)</th><th width='80px'>Paid 90%<br>(Rp)</th><th width='80px'>Remainder</th></thead><tbody>";
 	$result.="<tr><td colspan='5' align='right'>".formatNumber($remainder)."</td></tr>";
-	$arr=array();
-	foreach($res as $rs) {
-		if (!isset($arr[$rs['invoice_date']]['invoice_val'])) $arr[$rs['invoice_date']]['invoice_val']=array();
-		array_push($arr[$rs['invoice_date']]['invoice_val'], $rs['invoice_val']);	
-		if (!isset($arr[$rs['invoice_date']]['paid'])) $arr[$rs['invoice_date']]['paid']=0;
-		$arr[$rs['invoice_date']]['paid']+=$rs['paid'];	
-		if (!isset($arr[$rs['invoice_date']]['claim'])) $arr[$rs['invoice_date']]['claim']=0;
-		$arr[$rs['invoice_date']]['claim']+=$rs['claim'];	
-	}
-	foreach ($arr as $key=>$val) {
-		$paid=$arr[$key]['paid'];
-		$invoice_val=$arr[$key]['invoice_val'];
-		$claim=$arr[$key]['claim'];
-		$remainder-=$paid;
+	
+	foreach ($res as $key=>$rs) {
+		$remainder-=$rs['paid'];
 		$result.="<tr>";
-		$result.="<td>".formatDate($key)."</td><td align='right'>";
-		$last_idx=count($invoice_val)-1;
-		$i=0;
-		foreach ($invoice_val as $inv_val) {
-			
-			if ($i>=$last_idx) {
-				$result.="<div>".formatNumber($inv_val)."</div>";
-			} else {
-				$result.="<div class='border_bottom'>".formatNumber($inv_val)."</div>";
-			}
-			$i++;
-		}
-		$result.="</td>";
-		$result.="<td align='right'>".formatNumber($claim)."</td><td align='right'>".formatNumber($paid)."</td>
+		$result.="<td>".formatDate($rs['invoice_date'])."</td>";
+		$result.="<td align='right'>".formatNumber($rs['invoice_val'])."</td>";
+		$result.="<td align='right'>".formatNumber($rs['claim'])."</td>";
+		$result.="<td align='right'>".formatNumber($rs['paid'])."</td>
 		<td align='right'>".formatNumber($remainder)."</td>";
 		$result.="</tr>";
 	}

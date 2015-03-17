@@ -1,6 +1,7 @@
 <?php
-	$fields=['project_name_id','project_name','team_leader','btn'];
-	$fieldsProjectNumber=['project_number_id','project_number','principle_advisor','project_name','btn'];
+	
+	$fields=['project_name_id','project_name','principal_advisor','financial_controller','btn'];
+	$fieldsProjectNumber=['project_number_id','project_number','team_leader','project_name','btn'];
 	$res=Project::getProjectName();
 	$combo_project_name_def=shared::select_combo_complete($res, 'project_name', '-Project Name-','project_name');
 	
@@ -9,6 +10,7 @@
 	var fields=generate_assoc(<?php _p(json_encode($fields))?>);
 	var fieldsProjectNumber=generate_assoc(<?php _p(json_encode($fieldsProjectNumber))?>);
 	var project_name_choice="<?php _p($combo_project_name_def)?>";
+	var employee_choice=<?php _p(Employee::getComboEmployee())?>;
 	$(function() {
 		
 		bindAll();
@@ -33,6 +35,7 @@
 		ajax("projectAjax.php",data, success);
 		
 	}
+	
 	function bindAll() {
 		hideColumns('tbl_project_name');
 		bind('#add_project_name','click',AddProjectName);
@@ -40,6 +43,8 @@
 		bind('.btn_edit','click',Edit);
 		bind('.btn_delete','click',Delete);
 		bind('.btn_cancel','click',Cancel);
+		autoCompleteEmployee('.principal_advisor');
+		autoCompleteEmployee('.financial_controller');
 	}
 	function bindAllProjectNumber() {
 		hideColumns('tbl_project_number');
@@ -48,15 +53,21 @@
 		bind('.btn_editProjectNumber','click',EditProjectNumber);
 		bind('.btn_deleteProjectNumber','click',DeleteProjectNumber);
 		bind('.btn_cancelProjectNumber','click',CancelProjectNumber);
+		autoCompleteEmployee('.team_leader');
 		fixSelect();
 	}
 	function editMode(par) {
-		labelToText(par, {'project_name':0,'team_leader':0}, fields);
+		labelToText(par, {'project_name':0}, fields);
+		
+		labelToAutoComplete(par, ['principal_advisor','financial_controller'], fields);
+		
 		btnChange(par, ['save','cancel']);
 		bindAll();
 	}
+	
 	function editModeProjectNumber(par) {
-		labelToText(par, {'project_number':0,'principle_advisor':0}, fieldsProjectNumber);
+		labelToText(par, {'project_number':0}, fieldsProjectNumber);
+		labelToAutoComplete(par, ['team_leader'], fieldsProjectNumber);
 		labelToSelect(getChildObj(par, 'project_name', fieldsProjectNumber), project_name_choice);
 		
 		bindAllProjectNumber();
@@ -83,13 +94,16 @@
 	}
 	function Cancel() {
 		var par=$(this).closest("tr");
-		textToDefaultLabel(par,['project_name','team_leader']);
+		textToDefaultLabel(par,['project_name','principal_advisor','financial_controller']);
+		autoCompleteToDefaultLabel(par, ['principal_advisor','financial_controller'], fields);
 		btnChange(par, ['edit','delete']);
 		bindAll();
 	}
+	
 	function CancelProjectNumber() {
 		var par=$(this).closest("tr");
-		textToDefaultLabel(par,['project_number','principle_advisor'], fieldsProjectNumber);
+		textToDefaultLabel(par,['project_number'], fieldsProjectNumber);
+		autoCompleteToDefaultLabel(par, ['team_leader'], fieldsProjectNumber);
 		selectedToDefaultLabel(par,['project_name'], fieldsProjectNumber);
 		btnChange(par, ['edit','delete'], fieldsProjectNumber,'ProjectNumber');
 		bindAllProjectNumber();
@@ -118,16 +132,20 @@
 		}
 		ajax("projectAjax.php", data, success);
 	}
+	
 	function Save() {
 		var par=$(this).closest("tr");
 		var data={}
 		data['type']='save';
 		data=prepareDataHtml(data,['project_name_id'], par);
-		data=prepareDataText(data, ['project_name','team_leader'],  par);
+		data=prepareDataText(data, ['project_name'],  par);
+		data=prepareDataAutoComplete(data, [ 'principal_advisor','financial_controller'], par, fields);
+		
 		var success=function(msg) {
 			
 			setHtmlText(par, 'project_name_id', msg);
-			textToLabel(par,['project_name','team_leader']);
+			textToLabel(par,['project_name']);
+			autoCompleteToLabel(par, ['principal_advisor','financial_controller'], fields);
 			btnChange(par, ['edit','delete']);
 			bindAll();
 		}
@@ -138,11 +156,13 @@
 		var data={}
 		data['type']='saveProjectNumber';
 		data=prepareDataHtml(data,['project_number_id'], par,  fieldsProjectNumber);
-		data=prepareDataText(data, ['project_number','principle_advisor','project_name','project_number'],  par,  fieldsProjectNumber);
+		data=prepareDataText(data, ['project_number','project_name','project_number'],  par,  fieldsProjectNumber);
+		data=prepareDataAutoComplete(data, [ 'team_leader'], par, fieldsProjectNumber);
 		var success=function(msg) {
 			
 			setHtmlText(par, 'project_number_id', msg, fieldsProjectNumber);
-			textToLabel(par,['project_number','principle_advisor'], fieldsProjectNumber);
+			textToLabel(par,['project_number'], fieldsProjectNumber);
+			autoCompleteToLabel(par, ['team_leader'], fieldsProjectNumber);
 			selectedToLabel(par, ['project_name'], fieldsProjectNumber);
 			btnChange(par, ['edit','delete'], fieldsProjectNumber,'ProjectNumber');
 			bindAllProjectNumber();
@@ -158,7 +178,7 @@
 	<div id="tabs-1">
 		<button class='button_link' id='add_project_name'>Add Project Name</button><br>
 		<table class='tbl' id='tbl_project_name'>
-		<thead><tr><th>ID</th><th>Project Name</th><th>Team Leader</th><th></th></tr></thead><tbody>
+		<thead><tr><th>ID</th><th>Project Name</th><th>Principal Advisor</th><th>Financial Controller</th><th></th></tr></thead><tbody>
 		<?php
 			foreach ($res as $rs) {
 				_p(Project::project_name_td($rs));

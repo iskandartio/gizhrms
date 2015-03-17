@@ -24,8 +24,8 @@ static function get_call_interview_table($res, $vacancy_progress_val) {
 				<div class='label'>Project Name</div><div class='label2'>: $project_name</div><br>
 				<div class='label'>Project Number</div><div class='label2'>: $project_number</div><br>
 				<div class='label'>Project Location</div><div class='label2'>: $project_location</div><br>
-				<div class='label'>Principle Advisor</div><div class='label2'>: $principle_advisor</div><br>
 				<div class='label'>Team Leader</div><div class='label2'>: $team_leader</div><br>
+				<div class='label'>Principal Advisor</div><div class='label2'>: $principal_advisor</div><br>
 				<div class='label'>Responsible Superior</div><div class='label2'>: $responsible_superior</div><br>
 				<div class='label'>SAP No</div><div class='label2'>: $SAP_No</div></td>
 				<td><div class='label'>From</div><div class='label2'>: ".formatDate($start_date)."</div><br>
@@ -71,8 +71,8 @@ static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id=''
 		
 		$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist
 		, c.contract_history_id, c.start_date, c.end_date, c.salary, c.job_title
-		, c.contract_status, c.salary_band, c.project_name, c.project_number, c.principle_advisor
-		, c.team_leader, c.project_location, c.responsible_superior, c.SAP_No
+		, c.contract_status, c.salary_band, c.project_name, c.project_number, c.team_leader
+		, c.principal_advisor, c.financial_controller, c.project_location, c.responsible_superior, c.SAP_No
 		, c.position, ifnull(c.working_time,100) working_time from $tbl a
 	left join applicants b on a.user_id=b.user_id
 	left join contract_history c on a.user_id=c.user_id and c.end_date>curdate()";
@@ -99,22 +99,28 @@ static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id=''
 			$salary_band_option=shared::set_selected($row['salary_band'], $salary_band_option_def);
 			
 			$project_name_option=shared::set_selected($row['project_name'], $combo_project_name_def);
-			$team_leader=$row['team_leader'];
+			$principal_advisor=$row['principal_advisor'];
+			$financial_controller=$row['financial_controller'];
 			
 			$project_number=Project::getProjectNumberByProjectName($row['project_name']);
 			
 			$combo_project_number_def=shared::select_combo_complete($project_number, 'project_number', '-Project Number-', 'project_number','','110px');
 			
 			$project_number_option=shared::set_selected($row['project_number'], $combo_project_number_def);
-			$principle_advisor=$row['principle_advisor'];
+			$team_leader=$row['team_leader'];
 			$result.="<tr><td>".$row['contract_history_id']."</td><td>".$row['user_id']."</td><td style='vertical-align:top'>".$row['first_name']." ".$row['last_name']."</td>";
 			$result.="
 			<td style='vertical-align:top'>"._t2("job_title", $row['job_title'],'40')."<br/>
 				"._t2("position", $row['position'],'40')."<br/>
-				".$project_name_option." <span class='team_leader'>".$team_leader."</span><br/>
-				".$project_number_option." <span class='principle_advisor'>".$principle_advisor."</span><br/>
+				".$project_name_option."<span class='principal_advisor hidden'>".$principal_advisor."</span>
+				<span class='principal_advisor_name'>"._name($principal_advisor)."</span>
+				 <span class='financial_controller hidden'>".$financial_controller."</span>
+				<span class='financial_controller_name'>"._name($financial_controller)."</span>
+				<br/>
+				".$project_number_option." <span class='team_leader hidden'>".$team_leader."</span>
+				<span class='team_leader_name'>"._name($team_leader)."</span>
+				<br/>
 				"._t2("project_location", $row['project_location'],'40')."<br/>
-				"._t2("principle_advisor", $row['principle_advisor'],'20')."<br/>
 				"._t2("responsible_superior", $row['responsible_superior'],'20')." "._t2("SAP_No", $row['SAP_No'],'20')."<br/>
 			</td>";
 			$result.="<td>Contract Duration:<br><input type='text' id='start_date".$row['user_id']."' title='Start Date' class='start_date' placeholder='Start Date' size='10' value='".formatDate($row['start_date'])."'/> 
@@ -122,7 +128,7 @@ static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id=''
 			<div class='row'><div class='label'>Salary</div>"._t2("salary", formatNumber($row['salary']))."</div>
 			<div class='row'><div class='label'>Salary Band</div>".$salary_band_option."</div>
 			<div class='row'><div class='label'>Working Time</div><div class='textbox'>"._t2("working_time", $row['working_time'], "1","text","","")." %</div></div>";
-			$result.=employee::getSalarySharingView($row, $combo_project_name_def);
+			$result.=Employee::getSalarySharingView($row, $combo_project_name_def);
 			$result.="</td>";
 			$result.="<td>".getImageTags($btn)."</td>";
 			$result.="</tr>";

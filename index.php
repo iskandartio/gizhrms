@@ -13,6 +13,7 @@ $name = URLParse::ProcessURL();
 
 
 $_SESSION['page_name']=$name;
+
 if ($name=='activate'){
 	URLParse::IncludePageContents();
 	
@@ -376,7 +377,7 @@ header('Content-Type: text/html; charset=utf-8');
 		<li><a href="/gizhrms/city">City</a></li>
 		<li><a href="/gizhrms/nationality">Nationality</a></li>
 		<li><a href="/gizhrms/gender">Gender</a></li>
-		<li><a href="/gizhrms/location">Location</a></li>
+		<li><a href="/gizhrms/location">Interview Location</a></li>
 		<li><a href="/gizhrms/vacancy_progress">Recruitment Process</a></li>
 		<li><a href="/gizhrms/settings">Settings</a></li>
 		</ul>

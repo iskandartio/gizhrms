@@ -269,8 +269,8 @@ where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_s
 		} else if ($vacancy_progress_val=='Closing') {
 			$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist
 				, c.start_date, c.end_date, c.salary, c.salary_band, c.job_title
-				, c.contract_status, c.salary_band, c.project_name, c.project_number, c.principle_advisor
-				, c.team_leader, c.project_location, c.responsible_superior, c.SAP_No
+				, c.contract_status, c.salary_band, c.project_name, c.project_number, c.team_leader
+				, c.principal_advisor, c.project_location, c.responsible_superior, c.SAP_No
 				, c.position from filter a
 				left join applicants b on a.user_id=b.user_id
 				left join contract_history c on a.user_id=c.user_id and c.end_date>curdate()";
@@ -568,16 +568,16 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 		
 		if ($contract_history_id!='') {
 			db::update('contract_history','start_date, end_date, salary, job_title, position
-			, project_name, project_number, principle_advisor, team_leader, project_location, responsible_superior, SAP_No
+			, project_name, project_number, team_leader, principal_advisor, project_location, responsible_superior, SAP_No
 			, salary_band, working_time','contract_history_id=?', array($start_date, $end_date, $salary, $job_title, $position
-			, $project_name, $project_number, $principle_advisor, $team_leader, $project_location, $responsible_superior, $SAP_No
+			, $project_name, $project_number, $team_leader, $principal_advisor, $project_location, $responsible_superior, $SAP_No
 			, $salary_band, $working_time, $contract_history_id), $con);
 			db::delete('salary_sharing','contract_history_id=?', array($contract_history_id), $con);
 		} else {
 			db::insert('contract_history','user_id, start_date, end_date, salary, job_title, position
-			, project_name, project_number, principle_advisor, team_leader, project_location, responsible_superior, SAP_No
+			, project_name, project_number, team_leader, principal_advisor, project_location, responsible_superior, SAP_No
 			, salary_band, working_time, reason', array($user_id, $start_date, $end_date, $salary, $job_title, $position
-			, $project_name, $project_number, $principle_advisor, $team_leader, $project_location, $responsible_superior, $SAP_No
+			, $project_name, $project_number, $team_leader, $principal_advisor, $project_location, $responsible_superior, $SAP_No
 			, $salary_band, $working_time, 'Initial Salary'), $con);
 		}
 		

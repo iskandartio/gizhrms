@@ -1,4 +1,5 @@
 <?php
+
 	$filter_first_name=shared::get_session('filter_first_name',"");
 	$filter_last_name=shared::get_session('filter_last_name',"");
 ?>
@@ -26,8 +27,8 @@
 
 	function Add() {
 		var data={}
-		data['type']="set_edit_id";
-		data['edit_id']=0;
+		data['type']="set_user_id";
+		data['user_id']=0;
 		var success=function(msg) {
 			location.href="employee_detail";
 		}
@@ -36,8 +37,8 @@
 	function ChangeProjectData() {
 		var par=$(this).closest("tr");
 		var data={}
-		data['type']="set_edit_id";
-		data['edit_id']=getChildHtml(par, 'user_id', fields);
+		data['type']="set_user_id";
+		data['user_id']=getChildHtml(par, 'user_id', fields);
 		var success=function(msg) {
 			location.href="change_project_data";
 		}
@@ -46,8 +47,8 @@
 	function Edit() {
 		var par=$(this).closest("tr");
 		var data={}
-		data['type']="set_edit_id";
-		data['edit_id']=getChildHtml(par, 'user_id', fields);
+		data['type']="set_user_id";
+		data['user_id']=getChildHtml(par, 'user_id', fields);
 		var success=function(msg) {
 			
 			location.href="employee_detail";

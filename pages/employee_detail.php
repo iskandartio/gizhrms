@@ -5,6 +5,11 @@
 		$combo_gender=shared::select_combo($res,'gender_val', '', $selected);
 		return $combo_gender;
 	}
+	function combo_marital_status($selected='') {
+		$res=db::select('marital_status','marital_status_val');
+		$combo_marital_status=shared::select_combo($res,'marital_status_val', '', $selected);
+		return $combo_marital_status;
+	}
 	
 	function combo_nationality($selected='') {
 		$res=db::select('nationality','nationality_id, nationality_val','','ifnull(sort_id,1000), nationality_val');
@@ -40,34 +45,55 @@
 		if ($cities!='') $cities.=",";
 		$cities.="{".$row['city_id'].":'".$row['city_val']."'}";
 	}
-	$edit_id=$_SESSION['edit_id'];
+	$user_id=$_SESSION['user_id'];
 	
-	$data=employee::getApplicantData($edit_id);
-	foreach ($data as $key=>$val) {
+	$applicant=Employee::get_active_employee_one('a.user_id=?',array($user_id));
+	
+	foreach ($applicant as $key=>$val) {
 		$$key=$val;
 	}
 	
+	$severanceData=shared::calculateSeverance($salary,  $contract1_start_date, $contract1_end_date
+	, $am1_start_date, $am1_end_date
+	, $contract2_start_date, $contract2_end_date
+	, $am2_start_date, $am2_end_date);
+	$salary_history=db::select('contract_history a
+inner join contract_history b on a.user_id=b.user_id','b.*','a.contract_history_id=?', 'start_date desc',array($applicant['contract_history_id']));
 	
 	$language=db::select('applicants_language a
 	left join language b on a.language_id=b.language_id
 	left join language_skill c on c.language_skill_id=a.language_skill_id'
 	,'ifnull(a.language_val, b.language_val) language_val, a.language_id, a.language_skill_id, c.language_skill_val, a.applicants_language_id'
-	,'user_id=?','language_val', array($edit_id));
+	,'user_id=?','language_val', array($user_id));
 	
 	$combo_language_def=language::getChoice();
 	$combo_language_skill_def=shared::select_combo_complete(language_skill::getAll(), 'language_skill_id','-Skill-','language_skill_val');
 	
 	$combo_project_name_def=shared::select_combo_complete(Project::getProjectName(), 'project_name', '-Project Name-');
-	$project_view=employee::getProjectView($applicant, $combo_project_name_def);
+	
+	$project_view=Employee::getProjectView($applicant, $combo_project_name_def);
+	$contract_data_view=Employee::getContractDataView($applicant, $severanceData);
+	
 ?>
 <script>
 	var city_list=new Object();
 	var language_choice="<?php _p($combo_language_def)?>";
 	var language_skill_choice="<?php _p($combo_language_skill_def)?>";
 	var fields=generate_assoc(['applicants_language_id','language_id','language_skill_id','btn']);
-	var fields_dependent=generate_assoc(['employee_dependent_id','relation','name','dob','btn']);
+	var fields_dependent=generate_assoc(['employee_dependent_id','relation','name','dob','entitled','btn']);
 	var tabs=generate_assoc(['personal_data','project','project_history','contract_data','dependents','language','working']);
+	var combo_project_name="<?php _p($combo_project_name_def) ?>";
 	$(function() {
+		$('input[id$="end_date"]').each(function(idx) {
+			if ($(this).val()!="") {
+				$(this).prop('disabled',true);
+			}
+		});
+		$('input[id$="start_date"]').each(function(idx) {
+			if ($(this).val()!="") {
+				$(this).prop('disabled',true);
+			}
+		});
 		$( "#tabs" ).tabs({
 			activate: function( event, ui ) {
 				setCookie("employee_detail_tabs", $( "#tabs" ).tabs( "option", "active" ), 1);
@@ -87,7 +113,7 @@
 			return false;	
 		});
 		
-		<?php if ($edit_id==0) {  ?>
+		<?php if ($user_id==0) {  ?>
 			$('#div_personal_data').insertAfter('h1#name');
 			$('#div_current_contract').hide();
 			$('#div_salary_history').hide();
@@ -161,6 +187,8 @@
 		bind(".btn_add", "click", AddSalarySharing);
 		bind('.btn_deleteSalarySharing','click',DeleteSalarySharing);
 		bind('.btn_print', "click",Print);
+		
+		
 	}
 	function Print() {		
 		window.open("print_recruitment_summary.php?contract_history_id="+$(this).closest("tr").children("td:eq(0)").html(),"_blank");
@@ -228,6 +256,7 @@
 		
 	}
 	function validateContractLength(d1, d2, y) {
+		if ($('#'+d2).length==0) return true;
 		if ($('#'+d2).datepicker('getDate')==null) return true;
 		var dateMin=$('#'+d1).datepicker('getDate');
 		var rMax = new Date(dateMin.getFullYear() + y, dateMin.getMonth(),dateMin.getDate() - 1); 
@@ -255,46 +284,50 @@
 			var d=jQuery.parseJSON(msg);
 			$('#projected_severance').val(d['severance']);
 			$('#projected_service').val(d['service']);
+			$('#projected_housing').val(d['housing']);
 			$('#contract_graph>tbody>tr>td:eq(0)').html(d['first']);
 			$('#contract_graph>tbody>tr>td:eq(1)').html(d['second']);
 		}
 		ajax("employeeAjax.php",data,success);
 	}
-	function SaveProject() {
-		var p=$('#div_current_contract');
-		if (!validate_empty_col(p,['job_title','position','project_name_id','project_number_id','project_location','responsible_superior','salary','salary_band'])) return;
-		
-		var data={}
-		data['type']='save_current_contract';
-		data = prepareDataMultiInput(data
-		, ['job_title','position','project_name','project_number','principle_advisor','team_leader','project_location'
-		,'responsible_superior','SAP_No','salary','salary_band','working_time','reason','start_date','end_date']
-		, p);
-		data['salary_sharing_project_name']=new Array();
-		data['salary_sharing_project_number']=new Array();
-		data['salary_sharing_percentage']=new Array();
-		var percentage=0;
-		var flag=false;
-		$(p).find('.div_salary_sharing').find('.row').each(function(idx) {
-			data['salary_sharing_project_name'].push($(this).find('.project_name').val());
-			data['salary_sharing_project_number'].push($(this).find('.project_number').val());
-			data['salary_sharing_percentage'].push($(this).find('.percentage').val());
-			percentage=percentage+1*$(this).find('.percentage').val();
-			flag=true;
-		});
-		if (percentage!=100 && flag) {
-			alert('salary sharing not correct');
-			return;
-		}
-		
-		var success=function(msg) {
-			$('#tbl_salary_history tbody').empty();
-			$('#tbl_salary_history').append(msg);
-			hideColumns('tbl_salary_history');
-			bindAll();
-		}
-		ajax('employeeAjax.php',data, success);
+function SaveProject() {
+	var p=$('#div_current_contract');
+	var data={}
+	data['type']='save_current_contract';
+	if (!SaveProject2(p, data)) return;
+}
+function SaveProject2(p, data) {
+	if (!validate_empty_col(p,['job_title','position','project_name_id','project_number_id','project_location','responsible_superior','salary','salary_band'])) return false;
+	data = prepareDataMultiInput(data
+	, ['job_title','position','project_name','project_number','team_leader','principal_advisor','financial_controller','project_location'
+	,'responsible_superior','SAP_No','salary','salary_band','working_time','reason','start_date','end_date']
+	, p);
+	data=prepareDataDecimal(data, ['salary']);
+	data['salary_sharing_project_name']=new Array();
+	data['salary_sharing_project_number']=new Array();
+	data['salary_sharing_percentage']=new Array();
+	var percentage=0;
+	var flag=false;
+	$(p).find('.div_salary_sharing').find('.row').each(function(idx) {
+		data['salary_sharing_project_name'].push($(this).find('.project_name').val());
+		data['salary_sharing_project_number'].push($(this).find('.project_number').val());
+		data['salary_sharing_percentage'].push($(this).find('.percentage').val());
+		percentage=percentage+1*$(this).find('.percentage').val();
+		flag=true;
+	});
+	if (percentage!=100 && flag) {
+		alert('salary sharing not correct');
+		return false;
 	}
+	
+	var success=function(msg) {
+		$('#tbl_salary_history tbody').empty();
+		$('#tbl_salary_history').append(msg);
+		hideColumns('tbl_salary_history');
+		bindAll();
+	}
+	ajax('employeeAjax.php',data, success);
+}
 	
 	function SavePersonalData() {
 		if (!validate_empty(['first_name','last_name', 'user_name', 'place_of_birth','date_of_birth','nationality','address','country','post_code','phone1'])) return;
@@ -305,7 +338,7 @@
 		}
 		var data ={};
 		data['type']='save';
-		data=prepareDataText(data, ['applicants_id','user_name','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','nationality','nationality_val','address','country','country_name','province','city','post_code','phone1','phone2','computer_skills','professional_skills','account_bank','account_number']);
+		data=prepareDataText(data, ['applicants_id','user_name','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','marital_status','nationality','nationality_val','address','country','country_name','province','city','post_code','phone1','phone2','computer_skills','professional_skills','account_bank','account_number','emergency_phone','emergency_email']);
 		var success=function(msg) {
 			
 			var d=jQuery.parseJSON(msg);
@@ -433,8 +466,11 @@
 		var success=function(msg) {
 			var d=jQuery.parseJSON(msg);
 			$(p).find('.project_number:first').html(d['combo_project_number']);
-			$(p).find('.team_leader').html(d['team_leader']);
-			$(p).find('.principle_advisor').html('');
+			$(p).find('.principal_advisor').html(d['principal_advisor']);
+			$(p).find('.principal_advisor_name').html(d['principal_advisor_name']);
+			$(p).find('.financial_controller').html(d['financial_controller']);
+			$(p).find('.financial_controller_name').html(d['financial_controller_name']);
+			$(p).find('.team_leader').html('');
 			fixSelect();
 		}
 		ajax('projectAjax.php',data, success);
@@ -445,25 +481,11 @@
 		data['type']='getProjectNumberByName';
 		data['project_number']=$(this).val();
 		var success=function(msg) {
-			$('.principle_advisor').html(msg);
+			var d=jQuery.parseJSON(msg);
+			$('.team_leader').html(d['team_leader']);
+			$('.team_leader_name').html(d['team_leader_name']);
 		}
 		ajax('projectAjax.php',data, success);
-	}
-	function AddSalarySharing() {
-	
-		var s="<div class='row'><div class='label width120'><?php _p($combo_project_name_def)?></div>";
-		s+="<div class='label width120'><select class='project_number'><option value=''>-Project Number-</option></select></div>";
-		s+="<div class='label width80'><?php _t("percentage","","1")?> % ";
-		s+=getImageTags(['delete'],'SalarySharing');
-		s+="</div></div>";
-		var p=$(this).closest(".row").next();
-		$(p).append(s);
-		bindAll();
-		fixSelect();
-		
-	}
-	function DeleteSalarySharing() {
-		$(this).closest(".row").remove();
 	}
 	function loadDependents() {
 		var data={}
@@ -495,6 +517,9 @@
 		var f= fields_dependent;
 		var par=$(this).closest("tr");
 		labelToText(par, {'relation':20,'name':20,'dob':10}, f);
+		var td_entitled=getChildObj(par, ['entitled'], f);
+		var employee_dependent_id=getChildHtml(par, ['employee_dependent_id'], f);
+		td_entitled.html("<input type='checkbox' "+(td_entitled.html()=='Yes' ? "checked" : "")+" class='entitled' id='entitled"+employee_dependent_id+"'/><label for='entitled"+employee_dependent_id+"'>Entitled</label>");
 		btnChange(par, ['save','cancel'],f);
 		bindDependent();
 		
@@ -503,6 +528,9 @@
 		var f=fields_dependent;
 		var par=$(this).closest("tr");
 		textToDefaultLabel(par,['relation','name','dob'], f);
+		var employee_dependent_id=getChildHtml(par, ['employee_dependent_id'], f);
+		td_entitled=getChildObj(par, 'entitled', f);
+		td_entitled.html(td_entitled.children().prop('defaultChecked') ? 'Yes' : 'No');
 		btnChange(par, ['edit','delete'], f);
 		bindDependent();
 	}
@@ -531,9 +559,12 @@
 		
 		data['employee_dependent_id']=getChildHtml(par,'employee_dependent_id', f);
 		data=prepareDataText(data, ['relation','name','dob'], par, f);
+		data=prepareDataCheckBox(data, ['entitled'], par, f);
 		var success= function(msg) {
 			setHtmlText(par, 'employee_dependent_id', msg, f);
 			textToLabel(par, ['relation','name','dob'],f);
+			var td_entitled=getChildObj(par, 'entitled', f);
+			td_entitled.html(td_entitled.children().prop('checked') ? "Yes" : "No");
 			btnChange(par, ['edit','delete'], f);
 			bindDependent();
 		}
@@ -543,11 +574,12 @@
 		var data={};
 		data['type']='save_spouse';
 		data=prepareDataText(data, ['spouse_name','marry_date']);
+		data=prepareDataCheckBox(data, ['spouse_entitled']);
 		var success=function(msg) {
 		}
 		ajax('employeeAjax.php',data, success);
 	}
-	var fields_working=generate_assoc(['applicants_working_id','month_from','year_from', 'month_to', 'year_to', 'employer', 'job_title', 'business_id', 'may_contact', 'leave_reason', 'btn']);
+	var fields_working=generate_assoc(['applicants_working_id','month_from','year_from', 'month_to', 'year_to', 'employer', 'country', 'job_title', 'business_id', 'may_contact', 'leave_reason', 'btn']);
 	var currentRow=-1;
 	function loadWorking() {
 		var data={}
@@ -566,12 +598,21 @@
 		bind('#tbl_working>tbody>tr>td>.btn_edit','click',EditWorking);
 		bind('#tbl_working>tbody>tr>td>.btn_cancel','click',CancelWorking);
 		bind('#tbl_working>tbody>tr>td>.btn_delete','click',DeleteWorking);
+		bind('#may_contact','change',ChangeMayContact);
 		hideColumns('tbl_working');
 		setDatePicker();
 		setDOB('#dob');
 		fixSelect();
 	}
+	function ChangeMayContact() {
+		if ($(this).prop('checked')) {
+			$('#reference_contact').show();
+		} else {
+			$('#reference_contact').hide();
+		}
+	}
 	function AddWorking()  {
+	
 		currentRow=-1;
 		clearText(['applicants_working_id','year_from','year_to','employer','job_title','leave_reason','month_from','month_to','business_id','email','phone']);
 		$('#may_contact').prop("checked", false);
@@ -581,24 +622,22 @@
 		fixSelect();
 	}
 	function EditWorking() {
-		clearText(['applicants_working_id','year_from','year_to','employer','job_title','leave_reason','month_from','month_to','business_id','email','phone']);
+		clearText(['applicants_working_id','year_from','year_to','employer','country','job_title','leave_reason','month_from','month_to','business_id','email','phone']);
 		
 		inputFromTableToText(this, ['applicants_working_id','year_from','year_to','employer','job_title','leave_reason'], fields_working, $('#div_working'));
-		
-		inputFromTableToSelect(this, ['month_from','month_to','business_id'], fields_working, $('#div_working'));
+		inputFromTableToSelect(this, ['month_from','month_to','business_id','country'], fields_working, $('#div_working'));
 		if (getChild($(this).closest("tr"), 'may_contact', fields_working)!='None') {
 			$('#may_contact','#div_working').prop("checked",true);
 			inputFromTableToOther(this, 'may_contact', ['email','phone'], fields_working, $('#div_working'));
-			$('#email','#div_working').show();
-			$('#phone','#div_working').show();
+			$('#reference_contact','#div_working').show();
 		} else {
 			$('#may_contact','#div_working').prop("checked",false);
-			$('#email','#div_working').hide();
-			$('#phone','#div_working').hide();
+			$('#reference_contact','#div_working').hide();
 			
 		}
 		$('#btn_save','#div_working').html('Update');
 		currentRow=$(this).closest("tr").index();
+		bindWorking();
 		fixSelect();
 
 	}
@@ -628,7 +667,7 @@
 		if (!validate_empty_col(col, ['month_from','year_from','month_to','year_to','employer','job_title','business_id'])) return;
 		var data={};
 		data['type']='save_working';
-		data=prepareDataMultiInput(data, ['applicants_working_id','month_from','year_from','month_to','year_to','employer','job_title','business_id','email','phone','leave_reason'], col);
+		data=prepareDataMultiInput(data, ['applicants_working_id','month_from','year_from','month_to','year_to','employer','country_id','job_title','business_id','email','phone','leave_reason'], col);
 		data=prepareDataCheckBox(data, ['may_contact']);
 		var success= function(msg) {
 			loadWorking();
@@ -649,9 +688,8 @@
 		<li><a href="#div_language">Language</a></li>
 		<li><a href="#div_working">Working Exp</a></li>
 	</ul>
-
-<h1 id="name" style='margin-left:10px'><img id='photo' src="show_picture.php" width="75px" height="100px"/> <?php _p($applicant['first_name']." ".$applicant['last_name'])?></h1>
-	
+<div class='row'><div class='float100'><img id='photo' src="show_picture.php" width="75px" height="100px"/></div>
+<div style='font-weight:bold;line-height:100px'><?php _p($applicant['first_name']." ".$applicant['last_name'])?></div></div>
 <div id="div_personal_data">
 <form action="upload.php" id="data" method="post" enctype="multipart/form-data">
 <div class='row'><div class='label'>Photo</div><div class='label width200'><input type="file" id="uploadPhoto" name="uploadPhoto" accept=".png,.jpg"></div>
@@ -668,6 +706,7 @@
 	<tr><td>Place of Birth *</td><td>:</td><td><?php _t("place_of_birth", $applicant)?></td></tr>
 	<tr><td>Date of Birth *</td><td>:</td><td><?php _t("date_of_birth", $applicant)?></td></tr>
 	<tr><td>Gender</td><td>:</td><td><select id='gender'><option value='' selected>-Gender-</option><?php _p(combo_gender($applicant['gender']))?></select></td></tr>
+	<tr><td>Marital Status</td><td>:</td><td><select id='marital_status'><option value='' selected>-Marital Status-</option><?php _p(combo_marital_status($applicant['marital_status']))?></select></td></tr>
 	<tr><td>Nationality *</td><td>:</td><td><select id='nationality'><option value='' selected disabled>-Nationality-</option><?php _p(combo_nationality($applicant['nationality']))?></select> <?php _t("nationality_val", $applicant)?></td></tr>
 	<tr><td valign='top'>Address *</td><td>:</td><td><textarea id='address' cols='30' rows='3'><?php _p($applicant['address'])?></textarea><br/>
 	<select id='country'><option value='' disabled selected>-Country-</option><?php _p(combo_country($applicant['country']))?><option value=-1>Other *</option></select> <?php _t("country_name", $applicant)?><br/>
@@ -681,6 +720,8 @@
 	<tr><td>Professionals Skills</td><td>:</td><td><textarea id="professional_skills" cols='30' rows='3'><?php _p($applicant['professional_skills'])?></textarea></td></tr>
 	<tr><td>Account Bank</td><td>:</td><td><?php _t("account_bank", $applicant)?></td></tr>
 	<tr><td>Account Number</td><td>:</td><td><?php _t("account_number", $applicant)?></td></tr>
+	<tr><td>Emergency Phone</td><td>:</td><td><?php _t("emergency_phone", $applicant)?></td></tr>
+	<tr><td>Emergency Email</td><td>:</td><td><?php _t("emergency_email", $applicant)?></td></tr>
 </table>
 <button class='button_link' id='btn_save'>Save</button>
 </div>
@@ -692,54 +733,16 @@
 <h1>Salary History</h1>
 <table id='tbl_salary_history' class='tbl'>
 <thead><tr><th>id</th><th>Date</th><th>Project</th><th>Leader</th><th>Position</th><th>Salary</th><th></th></tr></thead>
-<?php _p(employee::get_salary_history_tbl($salary_history));?>
+<?php _p(Employee::get_salary_history_tbl($salary_history));?>
 </table>
 </div>
 
 <div id="div_contract_data">
-<h1>Contract Data</h1>
-<table>
-<tr><td>First Contract</td><td>:</td><td>
-<?php _t("contract1_start_date",$applicant, "10", "text", "", "Start Date") ?> - 
-
-<?php _t("contract1_end_date",$applicant, "10", "text", "", "End Date") ?>
-</td></tr>
-<tr><td>First Amendment</td><td>:</td><td>
-<?php _t("am1_start_date",$applicant, "10", "text", "", "Start Date") ?> - <?php _t("am1_end_date",$applicant, "10", "text", "", "End Date") ?>
-</td></tr>
-<tr><td>Extension</td><td>:</td><td>
-<?php _t("contract2_start_date",$applicant, "10", "text", "", "Start Date") ?> - <?php _t("contract2_end_date",$applicant, "10", "text", "", "End Date") ?>
-</td></tr>
-<tr><td>Second Amendment</td><td>:</td><td>
-<?php _t("am2_start_date",$applicant, "10", "text", "", "Start Date") ?> - <?php _t("am2_end_date",$applicant, "10", "text", "", "End Date") ?>
-</td></tr>
-<tr><td>Projected Severance</td><td>:</td><td>
-<?php _t("projected_severance", $applicant)?>
-</td></tr>
-<tr><td>Projected Service</td><td>:</td><td>
-<?php _t("projected_service", $applicant)?>
-</td></tr>
-</table>
-<table id='contract_graph'><thead>
-<tr><th>First Contract</th><th>Extension Contract</th></tr></thead><tbody>
-<tr><td>
-<?php _p(employee::get_graph($applicant['contract1_start_date'],$applicant['contract1_end_date']
-					, $applicant['am1_start_date'],$applicant['am1_end_date']
-					, shared::addYear($applicant['contract1_start_date'], 2))); ?>
-</td><td>
-<?php _p(employee::get_graph($applicant['contract2_start_date'],$applicant['contract2_end_date']
-					, $applicant['am2_start_date'],$applicant['am2_end_date']
-					, shared::addYear($applicant['contract2_start_date'], 1))); ?>
-</td>
-</tr>
-</tbody>
-</table>
-<button class='button_link' id='btn_save'>Save</button>
+<?php _p($contract_data_view)?>
 </div>
 <div id='div_dependents'>
 </div>
 <div id='div_language'>
-	<h1>Language</h1>
 	<button id='btn_add_language' class='button_link'>Add</button>
 	<table class='tbl' id='tbl_language'>
 	<thead>

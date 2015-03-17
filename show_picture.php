@@ -4,10 +4,10 @@ session_start();
 
 
 header('Content-Type: image');
-if (file_exists("uploads/".$_SESSION['edit_id']."-photo.jpg")) {
-	$im=imageCreateFromAny("uploads/".$_SESSION['edit_id']."-photo.jpg");
-} else if (file_exists("uploads/".$_SESSION['edit_id']."-photo.png")) {
-	$im=imageCreateFromAny("uploads/".$_SESSION['edit_id']."-photo.png");
+if (file_exists("uploads/".$_SESSION['user_id']."-photo.jpg")) {
+	$im=imageCreateFromAny("uploads/".$_SESSION['user_id']."-photo.jpg");
+} else if (file_exists("uploads/".$_SESSION['user_id']."-photo.png")) {
+	$im=imageCreateFromAny("uploads/".$_SESSION['user_id']."-photo.png");
 } else {
 	$im=imageCreateFromAny("images/no-photo.png");
 }

@@ -765,7 +765,7 @@ CREATE TABLE IF NOT EXISTS `contract_history` (
   `project_name` varchar(50) DEFAULT NULL,
   `project_number` varchar(50) DEFAULT NULL,
   `principal_advisor` varchar(50) DEFAULT NULL,
-  `team_leader` varchar(50) DEFAULT NULL,
+  `principal_advisor` varchar(50) DEFAULT NULL,
   `project_location` varchar(50) DEFAULT NULL,
   `responsible_superior` varchar(50) DEFAULT NULL,
   `SAP_No` varchar(50) DEFAULT NULL,
@@ -778,7 +778,7 @@ CREATE TABLE IF NOT EXISTS `contract_history` (
 -- Dumping data for table hrms.contract_history: ~5 rows (approximately)
 DELETE FROM `contract_history`;
 /*!40000 ALTER TABLE `contract_history` DISABLE KEYS */;
-INSERT INTO `contract_history` (`contract_history_id`, `user_id`, `start_date`, `end_date`, `salary`, `job_title`, `contract_status`, `salary_band`, `project_name`, `project_number`, `principal_advisor`, `team_leader`, `project_location`, `responsible_superior`, `SAP_No`, `position`, `reason`, `contract_reminder_email`) VALUES
+INSERT INTO `contract_history` (`contract_history_id`, `user_id`, `start_date`, `end_date`, `salary`, `job_title`, `contract_status`, `salary_band`, `project_name`, `project_number`, `principal_advisor`, `principal_advisor`, `project_location`, `responsible_superior`, `SAP_No`, `position`, `reason`, `contract_reminder_email`) VALUES
 	(1, 56, '2015-02-01 00:00:00', '2015-02-15 00:00:00', 5000000, 'fjdsio jfioed', 0, 'Level 2', 'name', 'blabla', 'bambam', 'bimbim', 'location', 'bobo', '3423 fkdsop', 'Project', 'Initial Salary', 1),
 	(2, 56, '2015-02-16 00:00:00', '2015-02-20 00:00:00', 5000000, 'fjdsio jfioed', 0, 'Level 2', 'name', 'qqq2', 'bambam', 'bimbim', 'location', 'bobo', '3423 fkdsop', 'Project', 'Initial Salary', 1),
 	(3, 56, '2015-02-21 00:00:00', '2015-02-28 00:00:00', 5000000, 'fjdsio jfioed', 0, 'Level 2', 'Project baru', 'qqq2', 'bambam', 'bimbim', 'location', 'bobo', '3423 fkdsop', 'Project', 'Initial Salary', 1),
@@ -801,7 +801,7 @@ CREATE TABLE IF NOT EXISTS `contract_history2` (
   `project_name` varchar(50) DEFAULT NULL,
   `project_number` varchar(50) DEFAULT NULL,
   `principal_advisor` varchar(50) DEFAULT NULL,
-  `team_leader` varchar(50) DEFAULT NULL,
+  `principal_advisor` varchar(50) DEFAULT NULL,
   `project_location` varchar(50) DEFAULT NULL,
   `responsible_superior` varchar(50) DEFAULT NULL,
   `SAP_No` varchar(50) DEFAULT NULL,
@@ -814,7 +814,7 @@ CREATE TABLE IF NOT EXISTS `contract_history2` (
 -- Dumping data for table hrms.contract_history2: ~7 rows (approximately)
 DELETE FROM `contract_history2`;
 /*!40000 ALTER TABLE `contract_history2` DISABLE KEYS */;
-INSERT INTO `contract_history2` (`contract_history_id`, `user_id`, `start_date`, `end_date`, `salary`, `job_title`, `contract_status`, `salary_band`, `project_name`, `project_number`, `principal_advisor`, `team_leader`, `project_location`, `responsible_superior`, `SAP_No`, `position`, `reason`, `contract_reminder_email`) VALUES
+INSERT INTO `contract_history2` (`contract_history_id`, `user_id`, `start_date`, `end_date`, `salary`, `job_title`, `contract_status`, `salary_band`, `project_name`, `project_number`, `principal_advisor`, `principal_advisor`, `project_location`, `responsible_superior`, `SAP_No`, `position`, `reason`, `contract_reminder_email`) VALUES
 	(9, 5, '2015-02-01 00:00:00', '2016-02-01 00:00:00', 500000, 'a', 0, '6T', 'c', 'd', 'f', 'g', 'e', 'h', 'i', 'b', NULL, NULL),
 	(10, 5, '2015-04-01 00:00:00', '2015-09-01 00:00:00', 500000, 'a', 0, NULL, 'cekit', 'd', 'f', 'g', 'e', 'h', 'i', 'b', NULL, NULL),
 	(11, 5, '2015-05-01 00:00:00', '2015-08-31 00:00:00', 500000, 'a', 0, NULL, 'cekit', 'd', 'f', 'g', 'e', 'h', 'i', 'b', NULL, NULL),

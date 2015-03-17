@@ -1,7 +1,7 @@
 <?php
 	$res=db::select('salary_band','*');
 	$salary_band_option_def=shared::select_combo_complete($res, "salary_band", "-Salary Band-");
-	$res=employee::get_active_employee();
+	$res=Employee::get_active_employee();
 
 ?>
 <script>

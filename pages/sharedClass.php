@@ -287,6 +287,9 @@ tinymce.init({
 	}
 	
 	static function get_date_diff($date1, $date2) { 
+	
+		if ($date1==null) return 0;
+		if ($date2==null) return 0;
 		$current = $date1; 
 		$datetime2 = date_create($date2); 
 		$count = 0; 
@@ -297,6 +300,8 @@ tinymce.init({
 		return $count; 
 	} 
 	static function dateDiff ($start, $end) {
+		if ($start==null) return 0;
+		if ($end==null) return 0;
 		return round((strtotime($end)-strtotime($start))/86400);
 	}
 	static function addYearOnly($d,$y) {
@@ -323,6 +328,7 @@ tinymce.init({
 	static function fixDate($year, $month, $date) {
 		
 		$v=0;
+		if ($date==0) $date=-1;
 		while ($date<=0) {
 			$month=$month-1;
 			if ($month==0) {
@@ -346,21 +352,17 @@ tinymce.init({
 		if ($v==0) {
 			$d=$year."-".shared::zerofill($month)."-".shared::zerofill($date);
 			if ($date<29) return $d;
-			if ($date==31) {
+			if ($date<=31) {
 				if ($month==1||$month==3||$month==5||$month==7||$month==8||$month==10) return $d;
 			}
 			
-			if ($date==30) {
+			if ($date<=30) {
 				if ($month==4||$month==6||$month==9||$month==11) return $d;
 			}
-			if ($date==29) {
+			if ($date<=29) {
 				if ($month==2 && shared::is_leap_year($year)) return $d;
 			}
-			
-			
-			
-			
-			
+						
 			if ($month==4||$month==6||$month==9||$month==11) {
 				$date=$date-30;
 			} else if ($month==2) {
@@ -391,6 +393,7 @@ tinymce.init({
 		$month=substr($d, 5,2);
 		$date=substr($d, 8)+$i;
 		if ($date<=0) $date=$date-1;
+		
 		return shared::fixDate($year, $month, $date);
 	}
 	static function addArray(&$arr, $s, $v) {
@@ -412,5 +415,35 @@ tinymce.init({
 	static function joinContractHistory($right, $left) {
 		$s=" and $right.end_date=coalesce($left.am2_end_date, $left.contract2_end_date, $left.am1_end_date, $left.contract1_end_date)";
 		return $s;		
+	}
+	static function calculateSeverance($salary,  $contract1_start_date, $contract1_end_date
+	, $am1_start_date, $am1_end_date
+	, $contract2_start_date, $contract2_end_date
+	, $am2_start_date, $am2_end_date) {
+		
+		$numDays=array();
+		array_push($numDays, shared::dateDiff($contract1_start_date, $contract1_end_date));
+		array_push($numDays, shared::dateDiff($am1_start_date, $am1_end_date));
+		array_push($numDays, shared::dateDiff($contract2_start_date, $contract2_end_date));
+		array_push($numDays, shared::dateDiff($am2_start_date, $am2_end_date));
+		$sumDays= array_sum($numDays);
+		$severance=0;
+		$service=0;
+		if (shared::dateDiff($contract1_start_date, shared::addYearOnly($contract1_start_date,1))>$sumDays) {
+			$severance=$salary;
+		} else if (shared::dateDiff($contract1_start_date, shared::addYearOnly($contract1_start_date,2))>$sumDays) {
+			$severance=2*$salary;
+		} else if (shared::dateDiff($contract1_start_date, shared::addYearOnly($contract1_start_date,3))>$sumDays) {
+			$severance=3*$salary;
+		} else {
+			$severance=4*$salary;
+			$service=2*$salary+0.15*$severance;
+		}
+		$housing=0.15*($severance+$service);
+		$data['severance']=$severance;
+		$data['service']=$service;
+		$data['housing']=$housing;
+		$data['numDays']=$numDays;
+		return $data;
 	}
 }

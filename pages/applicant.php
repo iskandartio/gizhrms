@@ -4,6 +4,11 @@
 		$combo_gender=shared::select_combo($res,'gender_val', '', $selected);
 		return $combo_gender;
 	}
+	function combo_marital_status($selected='') {
+		$res=db::select('marital_status','marital_status_val','','marital_status_id');
+		$combo_marital_status=shared::select_combo($res,'marital_status_val', '', $selected);
+		return $combo_marital_status;
+	}
 	
 	function combo_nationality($selected='') {
 		$res=db::select('nationality','nationality_id, nationality_val','','ifnull(sort_id,1000), nationality_val');
@@ -130,7 +135,7 @@
 		var data ={};
 		data['type']='save';
 		data['user_id']='<?php _p($_SESSION['uid'])?>';
-		data=prepareDataText(data, ['applicants_id','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','nationality','nationality_val','address','country','country_name','province','city','post_code','phone1','phone2','computer_skills','professional_skills']);
+		data=prepareDataText(data, ['applicants_id','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','marital_status','nationality','nationality_val','address','country','country_name','province','city','post_code','phone1','phone2','computer_skills','professional_skills']);
 		var success=function(msg) {
 			alert('Success');
 			$('#applicants_id').val(msg);
@@ -148,6 +153,7 @@
 	<tr><td>Place of Birth *</td><td>:</td><td><?php _t("place_of_birth", $applicant)?></td></tr>
 	<tr><td>Date of Birth *</td><td>:</td><td><?php _t("date_of_birth", $applicant)?></td></tr>
 	<tr><td>Gender</td><td>:</td><td><select id='gender'><option value='' selected>-Gender-</option><?php _p(combo_gender($applicant['gender']))?></select></td></tr>
+	<tr><td>Marital Status</td><td>:</td><td><select id='marital_status'><option value='' selected>-Marital Status-</option><?php _p(combo_marital_status($applicant['marital_status']))?></select></td></tr>
 	<tr><td>Nationality *</td><td>:</td><td><select id='nationality'><option value='' selected disabled>-Nationality-</option><?php _p(combo_nationality($applicant['nationality']))?></select> <?php _t("nationality_val", $applicant)?></td></tr>
 	<tr><td valign='top'>Address *</td><td>:</td><td><textarea id='address' cols='30' rows='3'><?php _p($applicant['address'])?></textarea><br/>
 	<select id='country'><option value='' disabled selected>-Country-</option><?php _p(combo_country($applicant['country']))?><option value=-1>Other *</option></select> <?php _t("country_name", $applicant)?><br/>

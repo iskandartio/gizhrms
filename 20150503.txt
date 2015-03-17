@@ -18,7 +18,7 @@ registration email content
 call for interview button=>next step
 tampilkan no telp applicant
 
-project number dan principle advisor dan project name+team leader jadi combobox
+project number dan principal advisor dan project name+team leader jadi combobox
 
 HRSR:
 Issued By: PrincipalAdvisor

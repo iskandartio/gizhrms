@@ -2,12 +2,15 @@
 	require_once("pages/startup.php");
 	
 	if ($type=='search')  {
-		$data=Medical::getLimit($year, $employee_id, $medical_type);
+		if ($year=='this_year') $y=date('Y');else $y=date('Y')-1;
+		$res_dependents=EmployeeDependents::getLegitimateDependents($y, $employee_id);
+		$res_employee=Employee::get_active_employee_simple_one('a.user_id=?', array($employee_id));
+		if (count($res_employee)==0) die;
+		$data=Medical::getLimit($year, $employee_id, $medical_type, $res_dependents, $res_employee);
 		$limit=$data['limit'];
 		$dependent=$data['dependent'];
-		if ($year=='this_year') $y=date('Y');else $y=date('Y')-1;
-		$res=db::select($medical_type,'*','user_id=? and year(invoice_date)=?','invoice_date',array($employee_id, $y));
-		$result=Medical::get_table($limit, $dependent, $res);
+		$res=db::select($medical_type,'*','user_id=? and year(invoice_date)=?','input_date',array($employee_id, $y));
+		$result=Medical::get_table($limit, $dependent, $res, $res_dependents, $res_employee);
 		die($result);
 
 	}
@@ -37,7 +40,7 @@
 				$total=100*$paid/90;
 			}
 			$remainder=$remainder-$paid;
-			db::insert($medical_type,'user_id, invoice_date, invoice_val, claim, paid', array($user_id, $inv_date, $inv_val, $inv_val, $paid), $con);	
+			db::insert($medical_type,'user_id, invoice_date, invoice_val, claim, paid,input_date', array($user_id, $inv_date, $inv_val, $inv_val, $paid, date('Y-m-d')), $con);	
 		}
 		
 		db::commitTrans($con);

@@ -5,12 +5,12 @@
 		die("ok");
 	}
 	if ($type=='process_salary') {
-		employee::processSalaryAdjustment($start_date);
+		Employee::processSalaryAdjustment($start_date);
 		
 	}
 	if ($type=='get_process_salary') {
-		$res=employee::get_process_salary_data();
-		$result=employee::get_process_salary_table($start_date, $res);
+		$res=Employee::get_process_salary_data();
+		$result=Employee::get_process_salary_table($start_date, $res);
 		
 		die($result);
 	}

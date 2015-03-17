@@ -1,21 +1,5 @@
 <?php
-	$res=employee::get_active_employee_simple();
-	$combo_user="";
-	$arr=array();
-	foreach ($res as $row) {
-		if ($combo_user!="") $combo_user.=",";
-		$combo_user.="'".$row['first_name']." ".$row['last_name']."'";
-		array_push($arr,array('label'=>$row['first_name']." ".$row['last_name'], 'value'=>$row['user_id']));
-	}
 	
-	$combo_user=json_encode($arr);
-	
-/*
-	$combo_user="<select id='employee_id' class='user_id' title='User'><option value=''>-User-</option>";
-	foreach ($res as $row) {
-		$combo_user.="<option value='".$row['user_id']."'>".$row['first_name']." ".$row['last_name']."</option>";
-	}
-*/	
 	$combo_project_name_def=shared::select_combo_complete(Project::getProjectName(), 'project_name', '-Project Name-', 'project_name');
 	
 	$res=db::select('business','business_id,business_val','','sort_id');
@@ -57,6 +41,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 	var status_choice=<?php _p(json_encode($status_choice))?>;
 	var status_choice_sorted=<?php _p(json_encode($status_choice_sorted))?>;
 	var vacancy_progress=<?php _p(json_encode($vacancy_progress));?>;
+	var employee_choice=<?php _p(Employee::getComboEmployee())?>;
 	$(function() {
 		bind('#vacancy_id','change',ChangeVacancyId);
 		bind('#vacancy_progress_id','change',ChangeVacancyProgressId);
@@ -244,7 +229,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data['type']="accept";
 		
 		data = prepareDataMultiInput(data
-		, ['job_title','position','principle_advisor','team_leader','project_location'
+		, ['job_title','position','team_leader','principal_advisor','financial_controller','project_location'
 		,'responsible_superior','SAP_No','project_name','project_number']
 		, getChildObj(par, 'job', field_closing));
 		
@@ -406,53 +391,31 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		ajax("filter_applicantAjax.php", data, success);
 		
 	}
-	function autoCompleteEmployee() {
-		$('.employee_id').autocomplete({
-			matchContains: true,
-			minLength: 0,
-			source : <?php _p($combo_user)?>,
-			focus: function( event, ui ) {
-				$(this).val(ui.item.label);
-				
-				return false;
-			},
-			select: function( event, ui ) {
-				$(this).data("id", ui.item.value);
-				return false;
-			}
-		}).focus(function() {
-			$(this).autocomplete('search', $(this).val())
-		});
-		
-	}
 		
 	function AddUser() {
 		var a="<tr><td></td><td>";
-		//a+="<?php _p($combo_user)?>";
 		a+="<?php _t("employee_id");?>";
 		a+="</td><td><img src='images/save.png' class='btn_save_user'/> <img src='images/delete.png' class='btn_delete_user'/></td></tr>";
 		$('#tbl_user tbody').append(a);
 		
-		bind('.employee_id','change',ValidateUser);
 		bind('.btn_save_user',"click", SaveUser);
 		bind('.btn_delete_user',"click", DeleteUser);
-		autoCompleteEmployee();
+		autoCompleteEmployee('.employee_id', ValidateUser);
 		hideColumns('tbl_user');
 	}
-	function ValidateUser() {
-		validate_user(this);
+	function ValidateUser(obj) {
+		validate_user(obj);
 	}
 	function validate_user(obj) {
 		var par=$(obj).closest("tr");
 		var f=true;
-		current_idx=par.index();
-		
-		current_val=getChildHtml(par, 'employee_id', field_user);
+		current_idx=par.index();	
+		current_val=getChildSelect(par, 'employee_id', field_user);
 		par=$('#tbl_user tbody tr');
 		$.each(par, function(idx) {
 			
 			if (idx!=current_idx) {
-				v=getChildHtml($(this), 'employee_id', field_user);
+				var v=getChildSelect($(this), 'employee_id', field_user);
 				if (v==current_val) {
 					alert('User already exists!');
 					f=false;
@@ -528,8 +491,12 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var success=function(msg) {
 			var d=jQuery.parseJSON(msg);
 			par.find('.project_number').html(d['combo_project_number']);
-			par.find('.team_leader').html(d['team_leader']);
-			par.find('.principle_advisor').html('');
+			par.find('.principal_advisor').html(d['principal_advisor']);
+			par.find('.principal_advisor_name').html(d['principal_advisor_name']);
+			par.find('.financial_controller').html(d['financial_controller']);
+			par.find('.financial_controller_name').html(d['financial_controller_name']);
+			par.find('.team_leader').html('');
+			par.find('.team_leader_name').html('');
 			fixSelect();
 		}
 		ajax('projectAjax.php',data, success);
@@ -542,7 +509,9 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		par=$(this).closest(".row");
 		if (par.length==0) par=$(this).closest("td");
 		var success=function(msg) {
-			par.find('.principle_advisor').html(msg);
+			var d=jQuery.parseJSON(msg);
+			par.find('.team_leader').html(d['team_leader']);
+			par.find('.team_leader_name').html(d['team_leader_name']);
 		}
 		ajax('projectAjax.php',data, success);
 	}

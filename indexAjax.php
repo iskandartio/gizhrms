@@ -31,6 +31,7 @@
 		} else if ($_SESSION['role_name']=='employee') {
 			$data['url']=  "recruitment";
 		}
+		Employee::init_static_var();
 		die (json_encode($data));
 	} 
 	if ($type=='register') {

@@ -1,0 +1,26 @@
+dependents anak umur 23 di prorata (22tahun dan kebawah)ok
+-marital status combook
+Marry Date=>Date of Marriage  ok
+checkbox entitled to medical ok
+project_name->principle_advisor+financial_controller ok
+project_number->team_leader ok
+Emergency Contact ok
+working experience tambahin country ok
+housing allowance 15% dari service+severance  ok
+contract data tidak boleh edit2  ok
+print medical pakai nama invoice date  ok
+outpatient: tampilkan data dependent ok
+untuk new cycle tambahin data severance
+
+salary_sharing untuk new contract
+upload pics, education
+giz email untuk jadi employee, personal email untuk jadi applicant
+relation jadi combo
+history contract cycle
+salary encrypt
+financial_controller+principle_advisor+team_leader+admin+employee masing2 bisa liat gaji
+tambahin tab project location, di project location ada office manager
+office manager bisa: personal data, dependents, working exp, upload pic, medical, leave
+medical summary: per project name, per project number, per projectlocation
+signature
+contract reminder for team leader and employee

@@ -172,8 +172,9 @@ function inputDiv(obj, arr, f) {
 function inputFromTableToSelect(obj, arr, f, p) {
 	if (!f) f=fields;
 	var par=$(obj).closest("tr");
-	for (var i=0;i<arr.length;i++) {		
-		$('.'+arr[i], p).val(getChildHtml(par, arr[i], f));
+	for (var i=0;i<arr.length;i++) {	
+		var obj=getChildObj(par, arr[i], f);
+		$('.'+arr[i], p).val(obj.children("span").html());
 	}
 }
 function inputSelect(obj, arr, f) {
@@ -275,7 +276,7 @@ function selectedToDefaultLabel(par, name, f) {
 function checkboxToDefaultLabel(par, name, trueLabel, falseLabel, f) {
 	if (!f) f=fields;
 	var td=par.children("td:eq("+f[name]+")");
-	var val=td.children("#"+name).data("originalValue");
+	var val=td.children("#"+name).prop("defaultChecked");
 
 	checkboxToLabelSub(par, name, trueLabel, falseLabel, f, val);
 	
@@ -566,6 +567,7 @@ function numeric(o) {
 	$.fn.numeric(o, 'decimal',true);
 	$(o).css("text-align","right");
 	$(o).css("width","75px");
+	$(o).data("type","numeric");
 }
 
 function prepareDataMultiInput(data, arr, par) {
@@ -583,6 +585,7 @@ function prepareDataMultiInput(data, arr, par) {
 	}
 	return data;
 }
+
 
 function prepareDataText(data, arr, par, f) {
 	if (!par) {
@@ -617,7 +620,7 @@ function prepareDataCheckBox(data, arr, par, f) {
 		}
 	} else {
 		for (var i=0;i<arr.length;i++) {
-			data[arr[i]]=getChildObj(par, arr[i]).prop('checked') ? 1 : 0;
+			data[arr[i]]=getChildObj(par, arr[i], f).children().prop('checked') ? 1 : 0;
 		}
 	}
 	return data;
@@ -684,4 +687,63 @@ function getCookie(cname) {
         if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
     }
     return "";
+}
+function autoCompleteEmployee(obj, func) {
+	
+	$(obj).autocomplete({
+		matchContains: true,
+		minLength: 0,
+		source : employee_choice,
+		focus: function( event, ui ) {
+			$(this).val(ui.item.label);
+			
+			return false;
+		},
+		select: function( event, ui ) {
+			$(this).data("id", ui.item.value);
+			if (func) func(this);
+			return false;
+		}
+	}).focus(function() {
+		$(this).autocomplete('search', $(this).val())
+	});
+	
+}
+
+function autoCompleteToDefaultLabel(par, arr, f) {
+	for (var i=0;i<arr.length;i++) {
+		var name=arr[i];
+		var td=getChildObj(par, name, f);
+		var id=$(td).children("."+name).data("default_id");
+		var val=$(td).children("."+name).prop("defaultValue");
+		td.html("<span class='"+name+" hidden'>"+id+"</span><span class='"+name+"_name'>"+val+"</span>");
+	}
+}
+function autoCompleteToLabel(par, arr, f) {
+	for (var i=0;i<arr.length;i++) {
+		var name=arr[i];
+		var td=getChildObj(par, name, f);
+		var id=$(td).children("."+name).data("id");
+		var val=$(td).children("."+name).val();
+		td.html("<span class='"+name+" hidden'>"+id+"</span><span class='"+name+"_name'>"+val+"</span>");
+	}
+}
+function labelToAutoComplete(par, arr, f) {
+	for (var i=0;i<arr.length;i++) {
+		var name=arr[i];
+		var td=getChildObj(par, name, f);
+		var id=$(td).children("."+name).html();
+		var span=$(td).children("."+name+"_name");
+		td.html("<input type='text' class='"+name+"' value='"+span.html()+"'/>");
+		$('.'+name, td).data("id", id);
+		$('.'+name, td).data("default_id", id);
+	}
+}
+function prepareDataAutoComplete(data, arr, par,f) {
+	if (!f) f=fields;
+	for (var i=0;i<arr.length;i++) {
+		name=arr[i];
+		data[name]=getChildObj(par, name, f).children("."+name).data("id");
+	}
+	return data;
 }

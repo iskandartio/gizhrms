@@ -14,41 +14,45 @@ Class Medical {
 		$result.="<button class='button_link' id='btn_save_all'>Save All</button>";
 		return $result;
 	}
-	static function get_table($limit, $dependent, $res) {
-		
+	static function get_table($limit, $dependent, $res, $res_dependents, $res_employee) {
 		$remainder=$limit+$dependent;
 		$result="";
-		$result.="<h2>Entitlement</h2>";
+		
+		$result.="<div class='row'><div class='float200'>Entitlement:";
 		$result.="<table>
+<tr><td>Join Date</td><td>:</td><td>".formatDate(_lbl('contract1_start_date', $res_employee))."</td></tr>
 <tr><td>Employee</td><td>:</td><td align='right'>".formatNumber($limit)."</td></tr>
 <tr><td>Dependents</td><td>:</td><td align='right'>".formatNumber($dependent)."</td></tr>
 <tr><td>Total</td><td>:</td><td align='right'> <b><u>".formatNumber($remainder)."</u></b></td></tr>
-</table>";
+</table></div><div class='float300'>
+		<div class='row'>Spouse : ".$res_employee['spouse_name']."</div>
+		<div class='row'>Date of Marriage : ".formatDate($res_employee['marry_date'])."</div>
+		<div class='row'><b>".($res_employee['spouse_entitled']==1 ? "" : "* spouse not entitled")."</b></div>
+		<table class='tbl' id='tbl_dependents'>
+		<tr><th>Relation</th><th>Name</th><th>DOB</th></tr>";
+		foreach ($res_dependents as $rs) {
+			$result.="<tr><td>".$rs['relation']."</td><td>".$rs['name']."</td><td>".formatDate($rs['date_of_birth'])."</td></tr>";
+		}
+		$result.="</table>
+		</div></div>";
+		
+		
 		$result.="<button class='button_link' id='popup_detail_btn'>Add Claim</button>";
 		$result.="<button class='button_link' id='print_medical_data'>Print Medical Data</button>";
-		$result.="<table class='tbl' id='tbl_claim'><thead><tr><th>Date</th><th>Invoice<br>(Rp)</th><th>Total<br>(Rp)</th><th>Paid 90%<br>(Rp)</th><th>Remainder</th><th></th></thead><tbody>";
+		$result.="<table class='tbl' id='tbl_claim'><thead><tr><th>Invoice Date</th><th>Invoice<br>(Rp)</th><th>Total<br>(Rp)</th><th>Paid 90%<br>(Rp)</th><th>Remainder</th><th></th></thead><tbody>";
 		$result.="<tr><td colspan='5' align='right'>".formatNumber($remainder)."</td><td></td></tr>";
-		$arr=array();
-		foreach($res as $rs) {
-			if (!isset($arr[$rs['invoice_date']]['invoice_val'])) $arr[$rs['invoice_date']]['invoice_val']=array();
-			array_push($arr[$rs['invoice_date']]['invoice_val'], $rs['invoice_val']);	
-			if (!isset($arr[$rs['invoice_date']]['paid'])) $arr[$rs['invoice_date']]['paid']=0;
-			$arr[$rs['invoice_date']]['paid']+=$rs['paid'];	
-			if (!isset($arr[$rs['invoice_date']]['claim'])) $arr[$rs['invoice_date']]['claim']=0;
-			$arr[$rs['invoice_date']]['claim']+=$rs['claim'];	
-		}
-		foreach ($arr as $key=>$val) {
-			$paid=$arr[$key]['paid'];
-			$invoice_val=$arr[$key]['invoice_val'];
-			$claim=$arr[$key]['claim'];
-			$remainder-=$paid;
-			$result.="<tr>";
-			$result.="<td>".formatDate($key)."</td><td align='right'>";
-			foreach ($invoice_val as $inv_val) {
-				$result.="<div>".formatNumber($inv_val)."</div>";
-			}
-			$result.="</td>";
-			$result.="<td align='right'>".formatNumber($claim)."</td><td align='right'>".formatNumber($paid)."</td>
+		$last_input_date='';
+		$bgcolor='aliceblue';
+		foreach ($res as $key=>$rs) {
+			if ($last_input_date!=$rs['input_date']) {
+				if ($bgcolor=='aliceblue') $bgcolor='ghostwhite'; else $bgcolor='aliceblue';
+				$last_input_date=$rs['input_date'];
+				echo $bgcolor;
+			} 
+			$remainder-=$rs['paid'];
+			$result.="<tr style='background-color:".$bgcolor."'><td>".formatDate($rs['invoice_date']);
+			$result.="<td align='right'>".formatNumber($rs['invoice_val'])."</td>";
+			$result.="<td align='right'>".formatNumber($rs['claim'])."</td><td align='right'>".formatNumber($rs['paid'])."</td>
 			<td align='right'>".formatNumber($remainder)."</td>
 			<td><img src='images/delete.png' class='btn_delete_claim'/></td>";
 			$result.="</tr>";
@@ -57,8 +61,10 @@ Class Medical {
 		$result.="</tbody></table>";
 		return $result;
 	}
+	
 	static function get_limit($limit, $start_date, $start_date2, $end_date, $y) {
 		if ($start_date<$start_date2) $start_date=$start_date2;
+		if ($end_date<$start_date) return 0;
 		if ($y< substr($start_date,0,4)) return 0;
 		if ($y== substr($start_date,0,4)) {
 			$month=substr($start_date, 5,2);
@@ -71,7 +77,9 @@ Class Medical {
 		}
 		return $limit;
 	}
-	static function getLimit($year, $employee_id, $medical_type) {
+	
+	
+	static function getLimit($year, $employee_id, $medical_type, $res_dependents=null, $res_employee=null) {
 		if ($year=='this_year') {
 			$y=date('Y');
 		} else {
@@ -80,39 +88,57 @@ Class Medical {
 		if ($medical_type=='employee_outpatient') {
 			$limit_def=db::select_single('settings','setting_val v','setting_name=?','',array('Outpatient Limit'));
 			$dependent_limit=db::select_single('settings','setting_val v','setting_name=?','',array('Dependent Limit'));
-			$res=employee::get_active_employee_simple_one('a.user_id=?', array($employee_id));
-			$start_date=$res['start_date'];
-			$end_date=$res['end_date'];
+			if ($res_employee==null) {
+				$res_employee=Employee::get_active_employee_simple_one('a.user_id=?', array($employee_id));
+			}
+			$start_date=$res_employee['start_date'];
+			$end_date=$res_employee['end_date'];
 			
-			$limit=Medical::get_limit($limit_def, $start_date, $start_date, $res['end_date'], $y);
+			$limit=Medical::get_limit($limit_def, $start_date, $start_date, $res_employee['end_date'], $y);
 			$dependent=0;
-			if ($res['marry_date']!=null) {
-				$dependent+=Medical::get_limit($dependent_limit, $res['marry_date'], $start_date, $end_date, $y);
+			if ($res_employee['marry_date']!=null) {
+				if ($res_employee['spouse_entitled']==1) {
+					
+					$dependent+=Medical::get_limit($dependent_limit, $res_employee['marry_date'], $start_date, $end_date, $y);
+				}
 			}
-			$res=db::select('employee_dependent', 'relation, date_of_birth', "user_id=? and date_add(date_of_birth, interval 22 year)>'".date("$y-12-31")."'", 'date_of_birth limit 3', array($employee_id));
-			foreach ($res as $rs) {
-				$dependent+=Medical::get_limit($dependent_limit, $rs['date_of_birth'], $start_date, $end_date, $y);
+			if ($res_dependents==null) {
+				$res_dependents=EmployeeDependents::getLegitimateDependents($y, $employee_id);
 			}
+			
+			foreach ($res_dependents as $rs) {
+				$dob=$rs['date_of_birth'];
+				$end_date2=$end_date;
+				if (date('Y', strtotime($dob))+22==$y) {
+					if (shared::addYearOnly($dob, 22)<$end_date) $end_date2=shared::addYearOnly($dob, 22);
+				}
+				
+				$dependent+=Medical::get_limit($dependent_limit, $rs['date_of_birth'], $start_date, $end_date2, $y);
+				
+			}	
+			
 			$data['limit']=$limit;
 			$data['dependent']=$dependent;
 		} else {
 			$limit_def=db::select_single('settings','setting_val v','setting_name=?','',array('Pregnancy Limit'));
-			$res=employee::get_active_employee_simple_one('a.user_id=?', array($employee_id));
-			$start_date=$res['start_date'];
-			$end_date=$res['end_date'];
+			if ($res_employee==null) {
+				$res_employee=Employee::get_active_employee_simple_one('a.user_id=?', array($employee_id));
+				
+			}
+			$start_date=$res_employee['start_date'];
+			$end_date=$res_employee['end_date'];
 			$limit=0;
 			$dependent=0;
-			if ($res['gender']=='Male') {
-				$dependent=Medical::get_limit($limit_def, $res['marry_date'], $start_date, $res['end_date'], $y);
+			if ($res_employee['gender']=='Male') {
+				if ($res_employee['spouse_entitled']==1) {
+					$dependent=Medical::get_limit($limit_def, $res_employee['marry_date'], $start_date, $res_employee['end_date'], $y);
+				}
 			} else {
-				$limit=Medical::get_limit($limit_def, $start_date, $start_date, $res['end_date'], $y);
+				$limit=Medical::get_limit($limit_def, $start_date, $start_date, $res_employee['end_date'], $y);
 			}
 			$data['limit']=$limit;
 			$data['dependent']=$dependent;
-			
 		}
-		
-		
 		return $data;
 	}
 	static function getLimitMany($year, $medical_type) {
@@ -125,7 +151,7 @@ Class Medical {
 		if ($medical_type=='employee_outpatient') {
 			$limit_def=db::select_single('settings','setting_val v','setting_name=?','',array('Outpatient Limit'));
 			$dependent_limit=db::select_single('settings','setting_val v','setting_name=?','',array('Dependent Limit'));
-			$resMany=employee::get_active_employee_by_year($y);
+			$resMany=Employee::get_active_employee_by_year($y);
 			foreach ($resMany as $res) { 
 				$start_date=$res['start_date'];
 				$end_date=$res['end_date'];
@@ -157,7 +183,7 @@ Class Medical {
 			}
 		} else {
 			$limit_def=db::select_single('settings','setting_val v','setting_name=?','',array('Pregnancy Limit'));
-			$resMany=employee::get_active_employee_by_year($y);
+			$resMany=Employee::get_active_employee_by_year($y);
 			foreach ($resMany as $res) { 
 				$user_id=$res['user_id'];
 				$start_date=$res['start_date'];

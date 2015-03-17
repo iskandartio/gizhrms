@@ -1,5 +1,5 @@
 <?php
-	$res=employee::get_active_employee_simple();
+	$res=Employee::get_active_employee_simple();
 	$combo_user="";
 	$arr=array();
 	foreach ($res as $row) {

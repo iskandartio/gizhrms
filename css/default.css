@@ -515,3 +515,6 @@ select option[disabled]:first-child {
 	margin:0px auto;
 	width:340px;
 }
+.hidden {
+	display:none;
+}
