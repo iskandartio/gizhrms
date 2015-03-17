@@ -3,7 +3,7 @@
 -- Server version:               5.5.28a-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-03-05 01:39:17
+-- Date/time:                    2015-03-17 11:26:21
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -55,19 +55,21 @@ CREATE TABLE IF NOT EXISTS `applicants` (
   `adj_reason` varchar(100) DEFAULT NULL,
   `photo` varchar(100) DEFAULT NULL,
   `contract_state` varchar(50) DEFAULT NULL,
+  `spouse_name` varchar(50) DEFAULT NULL,
+  `marry_date` datetime DEFAULT NULL,
+  `account_bank` varchar(50) DEFAULT NULL,
+  `account_number` varchar(50) DEFAULT NULL,
+  `marital_status` varchar(50) DEFAULT NULL,
+  `spouse_entitled` int(11) DEFAULT NULL,
+  `emergency_phone` varchar(50) DEFAULT NULL,
+  `emergency_email` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants: ~6 rows (approximately)
-DELETE FROM `applicants`;
+-- Dumping data for table hrms.applicants: ~10 rows (approximately)
 /*!40000 ALTER TABLE `applicants` DISABLE KEYS */;
-INSERT INTO `applicants` (`first_name`, `last_name`, `place_of_birth`, `gender`, `nationality`, `address`, `country`, `province`, `city`, `post_code`, `phone1`, `phone2`, `giz_staff`, `computer_skills`, `professional_skills`, `applicants_id`, `user_id`, `date_of_birth`, `country_name`, `cv`, `letter`, `applicant_status`, `nationality_val`, `contract1_start_date`, `contract1_end_date`, `am1_start_date`, `am1_end_date`, `contract2_start_date`, `contract2_end_date`, `am2_start_date`, `am2_end_date`, `adj_salary`, `adj_salary_band`, `adj_reason`, `photo`, `contract_state`) VALUES
-	('admin', 'a', NULL, 'Female', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 4, '1930-12-04 21:31:10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('Susan', 'a', 'jambi', 'Male', '1', 'Duri utara 4 no.34', '1', '31', '156', '11270', '08888341165', NULL, NULL, NULL, NULL, 6, 10, '2015-02-19 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('Iskandar', 'Tio', 'Jambi', 'Male', '1', 'a', NULL, NULL, NULL, '112', '32', NULL, NULL, NULL, NULL, 9, 56, '1981-07-14 00:00:00', NULL, NULL, NULL, NULL, NULL, '2015-02-01 00:00:00', '2017-02-28 00:00:00', '2017-03-01 00:00:00', '2017-03-31 00:00:00', '2017-04-01 00:00:00', '2018-01-31 00:00:00', '2018-02-01 00:00:00', '2018-03-31 00:00:00', NULL, NULL, NULL, NULL, NULL),
-	('Rio', 'Ferdinand', 'England', 'Male', '5', 'dsdsfs', NULL, NULL, NULL, '1223', '322', NULL, NULL, NULL, NULL, 10, 5, '1976-10-11 00:00:00', NULL, NULL, NULL, NULL, NULL, '2014-03-01 00:00:00', '2015-03-31 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
-	('Maria', 'Maris', 'jiofsd', 'Male', '2', 'fdsfds', NULL, NULL, NULL, '123', '123', '123', NULL, NULL, NULL, 11, 8, '1961-02-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('Ahmad', 'a', 'a', NULL, '4', 'dsa', NULL, NULL, NULL, '432', '432', NULL, NULL, NULL, NULL, 12, 9, '2015-03-18 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `applicants` (`first_name`, `last_name`, `place_of_birth`, `gender`, `nationality`, `address`, `country`, `province`, `city`, `post_code`, `phone1`, `phone2`, `giz_staff`, `computer_skills`, `professional_skills`, `applicants_id`, `user_id`, `date_of_birth`, `country_name`, `cv`, `letter`, `applicant_status`, `nationality_val`, `contract1_start_date`, `contract1_end_date`, `am1_start_date`, `am1_end_date`, `contract2_start_date`, `contract2_end_date`, `am2_start_date`, `am2_end_date`, `adj_salary`, `adj_salary_band`, `adj_reason`, `photo`, `contract_state`, `spouse_name`, `marry_date`, `account_bank`, `account_number`, `marital_status`, `spouse_entitled`, `emergency_phone`, `emergency_email`) VALUES
+	('admin', 'a', NULL, 'Female', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 4, '1930-12-04 21:31:10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `applicants` ENABLE KEYS */;
 
 
@@ -79,15 +81,8 @@ CREATE TABLE IF NOT EXISTS `applicants_answer` (
   `question_id` int(11) DEFAULT NULL,
   `choice_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`applicant_answer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants_answer: ~2 rows (approximately)
-DELETE FROM `applicants_answer`;
-/*!40000 ALTER TABLE `applicants_answer` DISABLE KEYS */;
-INSERT INTO `applicants_answer` (`applicant_answer_id`, `job_applied_id`, `question_id`, `choice_id`) VALUES
-	(1, 1, 15, 165),
-	(2, 2, 15, 165);
-/*!40000 ALTER TABLE `applicants_answer` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.applicants_education
@@ -102,14 +97,32 @@ CREATE TABLE IF NOT EXISTS `applicants_education` (
   `year_to` int(11) DEFAULT NULL,
   `country` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_education_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants_education: ~1 rows (approximately)
-DELETE FROM `applicants_education`;
-/*!40000 ALTER TABLE `applicants_education` DISABLE KEYS */;
-INSERT INTO `applicants_education` (`applicants_education_id`, `user_id`, `education_id`, `major`, `place`, `year_from`, `year_to`, `country`) VALUES
-	(1, 10, 1, 'IPA', 'Ricci', 1999, 2004, 'Indonesia');
-/*!40000 ALTER TABLE `applicants_education` ENABLE KEYS */;
+
+
+-- Dumping structure for table hrms.applicants_history
+DROP TABLE IF EXISTS `applicants_history`;
+CREATE TABLE IF NOT EXISTS `applicants_history` (
+  `applicants_history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `contract1_start_date` date DEFAULT NULL,
+  `contract1_end_date` date DEFAULT NULL,
+  `am1_start_date` date DEFAULT NULL,
+  `am1_end_date` date DEFAULT NULL,
+  `contract2_start_date` date DEFAULT NULL,
+  `contract2_end_date` date DEFAULT NULL,
+  `am2_start_date` date DEFAULT NULL,
+  `am2_end_date` date DEFAULT NULL,
+  `severance` int(11) DEFAULT NULL,
+  `service` int(11) DEFAULT NULL,
+  `reason` varchar(1000) DEFAULT NULL,
+  `new_severance` int(11) DEFAULT NULL,
+  `terminate_date` datetime DEFAULT NULL,
+  `housing` int(11) DEFAULT NULL,
+  PRIMARY KEY (`applicants_history_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
 
 
 -- Dumping structure for table hrms.applicants_language
@@ -121,16 +134,8 @@ CREATE TABLE IF NOT EXISTS `applicants_language` (
   `language_skill_id` int(50) DEFAULT NULL,
   `language_val` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_language_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants_language: ~3 rows (approximately)
-DELETE FROM `applicants_language`;
-/*!40000 ALTER TABLE `applicants_language` DISABLE KEYS */;
-INSERT INTO `applicants_language` (`applicants_language_id`, `user_id`, `language_id`, `language_skill_id`, `language_val`) VALUES
-	(1, 56, 3, 2, NULL),
-	(2, 56, 1, 1, NULL),
-	(3, 5, 3, 3, NULL);
-/*!40000 ALTER TABLE `applicants_language` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.applicants_other_language
@@ -141,12 +146,7 @@ CREATE TABLE IF NOT EXISTS `applicants_other_language` (
   `language_skill_id` int(50) DEFAULT NULL,
   `language_val` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`applicants_other_language_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Dumping data for table hrms.applicants_other_language: ~0 rows (approximately)
-DELETE FROM `applicants_other_language`;
-/*!40000 ALTER TABLE `applicants_other_language` DISABLE KEYS */;
-/*!40000 ALTER TABLE `applicants_other_language` ENABLE KEYS */;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.applicants_other_reference
@@ -164,7 +164,6 @@ CREATE TABLE IF NOT EXISTS `applicants_other_reference` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.applicants_other_reference: ~0 rows (approximately)
-DELETE FROM `applicants_other_reference`;
 /*!40000 ALTER TABLE `applicants_other_reference` DISABLE KEYS */;
 /*!40000 ALTER TABLE `applicants_other_reference` ENABLE KEYS */;
 
@@ -183,14 +182,6 @@ CREATE TABLE IF NOT EXISTS `applicants_reference` (
   PRIMARY KEY (`applicants_reference_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants_reference: ~2 rows (approximately)
-DELETE FROM `applicants_reference`;
-/*!40000 ALTER TABLE `applicants_reference` DISABLE KEYS */;
-INSERT INTO `applicants_reference` (`applicants_reference_id`, `job_title`, `reference_name`, `email`, `phone`, `user_id`, `company_name`, `description`) VALUES
-	(1, 'jidosf', 'fdsjio', 'iskandar.tio@gmail.com', 'fjdiso', 8, 'fdjsifod', 'jdisofds'),
-	(2, 'dhsfudsi', 'ufudsoi urewio', 'iskfdsjfdiso', 'jdisofds', 5, 'fjdsiofds', NULL);
-/*!40000 ALTER TABLE `applicants_reference` ENABLE KEYS */;
-
 
 -- Dumping structure for table hrms.applicants_working
 DROP TABLE IF EXISTS `applicants_working`;
@@ -208,13 +199,10 @@ CREATE TABLE IF NOT EXISTS `applicants_working` (
   `leave_reason` varchar(500) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
+  `country_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`applicants_working_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants_working: ~0 rows (approximately)
-DELETE FROM `applicants_working`;
-/*!40000 ALTER TABLE `applicants_working` DISABLE KEYS */;
-/*!40000 ALTER TABLE `applicants_working` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.business
@@ -226,18 +214,6 @@ CREATE TABLE IF NOT EXISTS `business` (
   PRIMARY KEY (`business_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.business: ~7 rows (approximately)
-DELETE FROM `business`;
-/*!40000 ALTER TABLE `business` DISABLE KEYS */;
-INSERT INTO `business` (`business_id`, `business_val`, `sort_id`) VALUES
-	(1, 'NGO', 1),
-	(2, 'Private Sector', 2),
-	(3, 'Government', 3),
-	(4, 'International Organization', 4),
-	(5, 'University', 5),
-	(6, 'Self-Employed', 6),
-	(7, 'Others', 7);
-/*!40000 ALTER TABLE `business` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.choice
@@ -248,18 +224,8 @@ CREATE TABLE IF NOT EXISTS `choice` (
   `choice_val` varchar(1000) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`choice_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=170 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.choice: ~3 rows (approximately)
-DELETE FROM `choice`;
-/*!40000 ALTER TABLE `choice` DISABLE KEYS */;
-INSERT INTO `choice` (`choice_id`, `question_id`, `choice_val`, `sort_id`) VALUES
-	(165, 15, '1-2 years', 0),
-	(166, 1, '3-5 years', 0),
-	(167, 1, '>5 years', 1),
-	(168, 2, '3-5 years', 0),
-	(169, 2, '>7years', 1);
-/*!40000 ALTER TABLE `choice` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.city
@@ -271,8 +237,7 @@ CREATE TABLE IF NOT EXISTS `city` (
   PRIMARY KEY (`city_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=475 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.city: ~553 rows (approximately)
-DELETE FROM `city`;
+-- Dumping data for table hrms.city: ~473 rows (approximately)
 /*!40000 ALTER TABLE `city` DISABLE KEYS */;
 INSERT INTO `city` (`city_id`, `province_id`, `city_val`) VALUES
 	(1, 11, 'Simeulue'),
@@ -764,27 +729,19 @@ CREATE TABLE IF NOT EXISTS `contract_history` (
   `salary_band` varchar(50) DEFAULT NULL,
   `project_name` varchar(50) DEFAULT NULL,
   `project_number` varchar(50) DEFAULT NULL,
-  `principal_advisor` varchar(50) DEFAULT NULL,
-  `principal_advisor` varchar(50) DEFAULT NULL,
+  `principal_advisor` int(11) DEFAULT NULL,
+  `team_leader` int(11) DEFAULT NULL,
   `project_location` varchar(50) DEFAULT NULL,
   `responsible_superior` varchar(50) DEFAULT NULL,
   `SAP_No` varchar(50) DEFAULT NULL,
   `position` varchar(50) DEFAULT NULL,
   `reason` varchar(500) DEFAULT NULL,
   `contract_reminder_email` tinyint(4) DEFAULT NULL,
+  `working_time` int(11) DEFAULT NULL,
+  `financial_controller` int(11) DEFAULT NULL,
   PRIMARY KEY (`contract_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.contract_history: ~5 rows (approximately)
-DELETE FROM `contract_history`;
-/*!40000 ALTER TABLE `contract_history` DISABLE KEYS */;
-INSERT INTO `contract_history` (`contract_history_id`, `user_id`, `start_date`, `end_date`, `salary`, `job_title`, `contract_status`, `salary_band`, `project_name`, `project_number`, `principal_advisor`, `principal_advisor`, `project_location`, `responsible_superior`, `SAP_No`, `position`, `reason`, `contract_reminder_email`) VALUES
-	(1, 56, '2015-02-01 00:00:00', '2015-02-15 00:00:00', 5000000, 'fjdsio jfioed', 0, 'Level 2', 'name', 'blabla', 'bambam', 'bimbim', 'location', 'bobo', '3423 fkdsop', 'Project', 'Initial Salary', 1),
-	(2, 56, '2015-02-16 00:00:00', '2015-02-20 00:00:00', 5000000, 'fjdsio jfioed', 0, 'Level 2', 'name', 'qqq2', 'bambam', 'bimbim', 'location', 'bobo', '3423 fkdsop', 'Project', 'Initial Salary', 1),
-	(3, 56, '2015-02-21 00:00:00', '2015-02-28 00:00:00', 5000000, 'fjdsio jfioed', 0, 'Level 2', 'Project baru', 'qqq2', 'bambam', 'bimbim', 'location', 'bobo', '3423 fkdsop', 'Project', 'Initial Salary', 1),
-	(16, 5, '2015-03-01 00:00:00', '2015-03-19 00:00:00', 500000, 'a', 0, '3T', 'cekit', 'd', 'f', 'g', 'e', 'h', 'i', 'b', 'dsfdsfds', NULL),
-	(26, 5, '2015-03-20 00:00:00', '2015-03-31 00:00:00', 8000000, 'a', 0, '2T', 'cekit', 'd', 'f', 'g', 'e', 'h', 'i', 'b', 'dsfdsfds', NULL);
-/*!40000 ALTER TABLE `contract_history` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.contract_history2
@@ -800,29 +757,18 @@ CREATE TABLE IF NOT EXISTS `contract_history2` (
   `salary_band` varchar(50) DEFAULT NULL,
   `project_name` varchar(50) DEFAULT NULL,
   `project_number` varchar(50) DEFAULT NULL,
-  `principal_advisor` varchar(50) DEFAULT NULL,
-  `principal_advisor` varchar(50) DEFAULT NULL,
+  `principal_advisor` int(11) DEFAULT NULL,
+  `team_leader` int(11) DEFAULT NULL,
   `project_location` varchar(50) DEFAULT NULL,
   `responsible_superior` varchar(50) DEFAULT NULL,
   `SAP_No` varchar(50) DEFAULT NULL,
   `position` varchar(50) DEFAULT NULL,
   `reason` varchar(500) DEFAULT NULL,
   `contract_reminder_email` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`contract_history_id`)
+  `working_time` int(11) DEFAULT NULL,
+  `financial_controller` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.contract_history2: ~7 rows (approximately)
-DELETE FROM `contract_history2`;
-/*!40000 ALTER TABLE `contract_history2` DISABLE KEYS */;
-INSERT INTO `contract_history2` (`contract_history_id`, `user_id`, `start_date`, `end_date`, `salary`, `job_title`, `contract_status`, `salary_band`, `project_name`, `project_number`, `principal_advisor`, `principal_advisor`, `project_location`, `responsible_superior`, `SAP_No`, `position`, `reason`, `contract_reminder_email`) VALUES
-	(9, 5, '2015-02-01 00:00:00', '2016-02-01 00:00:00', 500000, 'a', 0, '6T', 'c', 'd', 'f', 'g', 'e', 'h', 'i', 'b', NULL, NULL),
-	(10, 5, '2015-04-01 00:00:00', '2015-09-01 00:00:00', 500000, 'a', 0, NULL, 'cekit', 'd', 'f', 'g', 'e', 'h', 'i', 'b', NULL, NULL),
-	(11, 5, '2015-05-01 00:00:00', '2015-08-31 00:00:00', 500000, 'a', 0, NULL, 'cekit', 'd', 'f', 'g', 'e', 'h', 'i', 'b', NULL, NULL),
-	(12, 5, '2015-05-01 00:00:00', '2015-08-31 00:00:00', 500000, 'a', 0, '3T', 'cekit', 'd', 'f', 'g', 'e', 'h', 'i', 'b', 'dsfdsfds', NULL),
-	(13, 5, '2015-03-01 00:00:00', '2015-09-30 00:00:00', 500000, 'a', 0, '3T', 'cekit', 'd', 'f', 'g', 'e', 'h', 'i', 'b', 'dsfdsfds', NULL),
-	(14, 5, '2015-03-01 00:00:00', '2015-09-30 00:00:00', 500000, 'a', 0, '3T', 'cekit', 'd', 'f', 'g', 'e', 'h', 'i', 'b', 'dsfdsfds', NULL),
-	(15, 5, '2015-03-01 00:00:00', '2015-04-30 00:00:00', 500000, 'a', 0, '3T', 'cekit', 'd', 'f', 'g', 'e', 'h', 'i', 'b', 'dsfdsfds', NULL);
-/*!40000 ALTER TABLE `contract_history2` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.country
@@ -834,7 +780,6 @@ CREATE TABLE IF NOT EXISTS `country` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.country: ~1 rows (approximately)
-DELETE FROM `country`;
 /*!40000 ALTER TABLE `country` DISABLE KEYS */;
 INSERT INTO `country` (`country_id`, `country_val`) VALUES
 	(1, 'Indonesia');
@@ -851,7 +796,6 @@ CREATE TABLE IF NOT EXISTS `education` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.education: ~5 rows (approximately)
-DELETE FROM `education`;
 /*!40000 ALTER TABLE `education` DISABLE KEYS */;
 INSERT INTO `education` (`education_id`, `education_val`, `sort_id`) VALUES
 	(1, 'Senior High School', 1),
@@ -875,14 +819,7 @@ CREATE TABLE IF NOT EXISTS `email` (
   `email_id` int(11) NOT NULL AUTO_INCREMENT,
   `sent` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`email_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
-
--- Dumping data for table hrms.email: ~1 rows (approximately)
-DELETE FROM `email`;
-/*!40000 ALTER TABLE `email` DISABLE KEYS */;
-INSERT INTO `email` (`email_from`, `email_to`, `email_cc`, `email_bcc`, `email_subject`, `email_content`, `updatetime`, `email_id`, `sent`) VALUES
-	('', 'iskandar.tio@gmail.com;zhao.iskandar@gmail.com', '', '', 'Contract Expiring Reminder', 'Below is the list of contract that will expired in 15 days<br><table border=1 cellpadding=3 cellspacing=0><tr><th>First Name</th><th>Last Name</th><th>Job Title</th><th>End Date</th></tr><tr><td>Iskandar</td><td>Tio</td><td>fjdsio jfioed</td><td>15-02-2015</td></tr>', '2015-03-04 09:35:25', 7, '2015-03-04 09:35:25');
-/*!40000 ALTER TABLE `email` ENABLE KEYS */;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.email_from
@@ -898,7 +835,6 @@ CREATE TABLE IF NOT EXISTS `email_from` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.email_from: ~1 rows (approximately)
-DELETE FROM `email_from`;
 /*!40000 ALTER TABLE `email_from` DISABLE KEYS */;
 INSERT INTO `email_from` (`host`, `port`, `user_name`, `pwd`, `security_type`, `sender_name`) VALUES
 	('smtp.gmail.com', 587, 'zhao.iskandar@gmail.com', 'Âu²èæ>ÿ¿€“¨°È', 'tls', 'Iskandar Tio');
@@ -924,11 +860,10 @@ CREATE TABLE IF NOT EXISTS `email_setup` (
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.email_setup: ~14 rows (approximately)
-DELETE FROM `email_setup`;
 /*!40000 ALTER TABLE `email_setup` DISABLE KEYS */;
 INSERT INTO `email_setup` (`email_type`, `email_from`, `email_to`, `email_cc`, `email_bcc`, `email_subject`, `email_content`, `updatetime`, `email_setup_id`, `params`, `general`, `email_type_name`) VALUES
-	('forgot_password', NULL, '@email', NULL, NULL, '[GIZ e-recruitment] Forgot Password', 'Your password is resetted to @password. You can login using your new password<br>Regards,<br>Iskandar Tio', NULL, 1, '@email,  @password', 1, 'Forgot Password'),
-	('register', 'iskandar.tio@gmail.com', '@email', NULL, NULL, 'Account Activation', 'Your password is: @password Please activate by clicking this link: <br> http://localhost:8081/gizhrms/activate.php?link=@link', NULL, 2, '@email, @link', 1, 'Registration'),
+	('forgot_password', NULL, '@email', NULL, NULL, '[GIZ e-recruitment] Forgot Password', 'Your password has been&nbsp;reset to @password. You can login using your new password<br>Regards,<br>Iskandar Tio', NULL, 1, '@email,  @password', 1, 'Forgot Password'),
+	('register', 'iskandar.tio@gmail.com', '@email', NULL, NULL, 'Account Activation', 'Your password is: @password Please activate by clicking this link: <br>&lt;a href="@link"&gt;@link&lt;/a&gt;', NULL, 2, '@email, @link', 1, 'Registration'),
 	('invitation_5', NULL, 'idjsaioj', NULL, NULL, 'dsjaio', '<p>s<strong>s</strong></p>', NULL, 3, 'hfjfjfh', NULL, NULL),
 	('rejection_5', NULL, 'jidosa', NULL, NULL, 'djsio', '<p>jfdsiofjds jfiods</p>', NULL, 4, NULL, NULL, NULL),
 	('invitation_1', NULL, '@applicant_email', NULL, NULL, 'First Interview', '<p>Thank you for applying.&nbsp;<br></p><p>You are selected for interview</p><p>Place: @interview_date</p><p>Time: @interview_time</p><p>Location: @interview_location</p><p>Regards,</p><p>&nbsp;<br></p>', NULL, 5, '@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer', NULL, NULL),
@@ -939,7 +874,7 @@ INSERT INTO `email_setup` (`email_type`, `email_from`, `email_to`, `email_cc`, `
 	('reference_1', NULL, '@reference_email', NULL, NULL, 'Asking for reference', '<p>Dear @reference_name,&nbsp;</p><p>&nbsp;</p><p>I hope this email finds you well.</p><p>&nbsp;</p><p>First of all I would like to introduce myself as HR Professional of Environment and Climate Change Programme of Deutsche Gesellschaft fuer Internationale Zusammenarbeit (GIZ) â€“ a German international cooperation for sustainable development in its Jakarta Office, Indonesia.</p><p>&nbsp;</p><p>I am writing you regarding @applicant_name, who considered to become Accounting/Finance Professional in GE-LAMA-I project.&nbsp;</p><p>As part of our recruitment process, we should conduct reference check for @applicant_name, as he has putting your name as his referee.</p><p>&nbsp;</p><p>It would be great if &nbsp;you could share your comments and impressions regarding @applicant_nameâ€™s qualifications and skills in @vacancy_criteria, as well as your connection with him.</p><p>&nbsp;</p><p>We do really hope that we could receive your recommendation by Tuesday, 27th January 2015.</p><p>&nbsp;&nbsp;</p><p>Many thanks for your kind assistance and I am looking forward to hearing from you.</p><p>&nbsp;</p><p>Best Regards,</p><p>Fitri Kusumayanti</p><p>HR Professional for Environment and Climate Change Programme</p><p>(PAKLIM, BMUB ICCTF and GE-LAMA-I Projects)</p><p><strong>&nbsp;</strong></p><p><strong>Deutsche Gesellschaft fÃ¼r </strong></p><p><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></p><p>c/o Kementerian Negara Lingkungan Hidup (KLH)</p><p>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</p><p>13410 Jakarta, Indonesia</p><p>T +62 21 851 7186</p><p>F +62 21 851 6110</p><p>M <strong>+62 8179 838467 </strong></p><p><strong>E </strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de"><strong>fitri.kusumayanti@giz.de</strong></a></p><p>&nbsp;</p><p>&nbsp;</p>', NULL, 10, '@reference_name, @reference_email, @applicant_name, @vacancy_criteria', NULL, NULL),
 	('invitation_6', NULL, '@applicant_email', NULL, NULL, 'Written Test', 'Dear @applicant_name,<br><br>We would like to invite you for written test<br><br><p>Place: @interview_date</p><p>Time: @interview_time</p><p>Location: @interview_location</p><p>Regards,</p><p>&nbsp;</p><br>', NULL, 11, '@applicant_email, @applicant_name, @vacancy_name, @interview_date, @interview_time, @interview_location, @interviewer', NULL, NULL),
 	('interviewer_6', NULL, '@interviewer_email', NULL, NULL, 'Interview', 'Here is the list,<br>@list', NULL, 12, '@interviewer_email, @interviewer_name, @list', NULL, NULL),
-	('reference_6', NULL, '@reference_email', NULL, NULL, 'Asking for reference', '<p>Dear @reference_name,&nbsp;</p><p>&nbsp;</p><p>I hope this email finds you well.</p><p>&nbsp;</p><p>First of all I would like to introduce myself as HR Professional of Environment and Climate Change Programme of Deutsche Gesellschaft fuer Internationale Zusammenarbeit (GIZ) â€“ a German international cooperation for sustainable development in its Jakarta Office, Indonesia.</p><p>&nbsp;</p><p>I am writing you regarding @applicant_name, who considered to become Accounting/Finance Professional in GE-LAMA-I project.&nbsp;</p><p>As part of our recruitment process, we should conduct reference check for @applicant_name, as he has putting your name as his referee.</p><p>&nbsp;</p><p>It would be great if &nbsp;you could share your comments and impressions regarding @applicant_nameâ€™s qualifications and skills in @vacancy_criteria, as well as your connection with him.</p><p>&nbsp;</p><p>We do really hope that we could receive your recommendation by Tuesday, 27th January 2015.</p><p>&nbsp;&nbsp;</p><p>Many thanks for your kind assistance and I am looking forward to hearing from you.</p><p>&nbsp;</p><p>Best Regards,</p><p>Fitri Kusumayanti</p><p>HR Professional for Environment and Climate Change Programme</p><p>(PAKLIM, BMUB ICCTF and GE-LAMA-I Projects)</p><p><strong>&nbsp;</strong></p><p><strong>Deutsche Gesellschaft fÃ¼r</strong></p><p><strong>Internationale Zusammenarbeit&nbsp;(GIZ) GmbH</strong></p><p>c/o Kementerian Negara Lingkungan Hidup (KLH)</p><p>Gedung B Lt.5, Jl. DI Panjaitan Kav 24</p><p>13410 Jakarta, Indonesia</p><p>T +62 21 851 7186</p><p>F +62 21 851 6110</p><p>M <strong>+62 8179 838467</strong></p><p><strong>E </strong><a href="mailto:fitri.kusumayanti@giz.de" data-mce-href="mailto:fitri.kusumayanti@giz.de"><strong>fitri.kusumayanti@giz.de</strong></a></p><p>&nbsp;</p><p>&nbsp;</p>', NULL, 13, '@reference_name, @reference_email, @applicant_name, @vacancy_criteria', NULL, NULL),
+	('reference_6', NULL, '@reference_email', NULL, NULL, 'Asking for reference', '<p>Dear @reference_name,&nbsp;</p><p>&nbsp;</p><p>I hope this email finds you well.</p><p>&nbsp;</p><p>First of all I would like to introduce myself as HR Professional of Environment and Climate Change Programme of Deutsche Gesellschaft fuer Internationale Zusammenarbeit (GIZ) â€“ a German international cooperation for sustainable development in its Jakarta Office, Indonesia.</p><p>&nbsp;</p><p>I am writing you regarding @applicant_name, who considered to become Accounting/Finance Professional in GE-LAMA-I project.&nbsp;</p><p>As part of our recruitment process, we should conduct reference check for @applicant_name, as he has putting your name as his referee.</p><p>&nbsp;</p><p>It would be great if &nbsp;you could share your comments and impressions regarding @applicant_nameâ€™s qualifications and skills in @vacancy_criteria, as well as your connection with him.</p><p>&nbsp;</p><p>We do really hope that we could receive your recommendation by Tuesday, 27th January 2015.</p><p>&nbsp;&nbsp;</p><p>Many thanks for your kind assistance and I am looking forward to hearing from you.</p><p>&nbsp;</p><p>@signature</p><p>&nbsp;</p><p>&nbsp;</p>', NULL, 13, '@reference_name, @reference_email, @applicant_name, @vacancy_criteria,@signature', NULL, NULL),
 	('contract_reminder', NULL, '@admin', NULL, NULL, 'Contract Expiring Reminder', 'Below is the list of contract that will expired in @days days<br>@list', NULL, 14, '@admin,  @days, @list', 1, 'Contract Reminder');
 /*!40000 ALTER TABLE `email_setup` ENABLE KEYS */;
 
@@ -952,16 +887,10 @@ CREATE TABLE IF NOT EXISTS `employee_dependent` (
   `relation` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `date_of_birth` datetime DEFAULT NULL,
+  `entitled` int(11) DEFAULT NULL,
   PRIMARY KEY (`employee_dependent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.employee_dependent: ~2 rows (approximately)
-DELETE FROM `employee_dependent`;
-/*!40000 ALTER TABLE `employee_dependent` DISABLE KEYS */;
-INSERT INTO `employee_dependent` (`employee_dependent_id`, `user_id`, `relation`, `name`, `date_of_birth`) VALUES
-	(1, 5, 'Spouse', 'Lenny', '1967-05-10 00:00:00'),
-	(2, 5, 'Anak', 'Jojon', '2015-07-10 00:00:00');
-/*!40000 ALTER TABLE `employee_dependent` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.employee_eyeglasses
@@ -975,17 +904,8 @@ CREATE TABLE IF NOT EXISTS `employee_eyeglasses` (
   `claim` int(11) DEFAULT NULL,
   `paid` int(11) DEFAULT NULL,
   PRIMARY KEY (`employee_eyeglasses_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.employee_eyeglasses: ~1 rows (approximately)
-DELETE FROM `employee_eyeglasses`;
-/*!40000 ALTER TABLE `employee_eyeglasses` DISABLE KEYS */;
-INSERT INTO `employee_eyeglasses` (`employee_eyeglasses_id`, `claim_type`, `user_id`, `invoice_date`, `invoice_val`, `claim`, `paid`) VALUES
-	(1, 'Frame', 5, '2015-03-05', '750000', 750000, 750000),
-	(2, 'Lens', 5, '2015-03-05', '500000', 500000, 500000),
-	(3, 'Frame', 5, '2018-03-12', '500000', 500000, 500000),
-	(4, 'Lens', 5, '2016-03-09', '565000', 565000, 565000);
-/*!40000 ALTER TABLE `employee_eyeglasses` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.employee_medical_checkup
@@ -1000,12 +920,6 @@ CREATE TABLE IF NOT EXISTS `employee_medical_checkup` (
   PRIMARY KEY (`employee_medical_checkup_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.employee_medical_checkup: ~0 rows (approximately)
-DELETE FROM `employee_medical_checkup`;
-/*!40000 ALTER TABLE `employee_medical_checkup` DISABLE KEYS */;
-INSERT INTO `employee_medical_checkup` (`employee_medical_checkup_id`, `user_id`, `invoice_date`, `invoice_val`, `claim`, `paid`) VALUES
-	(2, 5, '["2015-03-05"]', '["500000"]', 500000, NULL);
-/*!40000 ALTER TABLE `employee_medical_checkup` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.employee_outpatient
@@ -1013,20 +927,14 @@ DROP TABLE IF EXISTS `employee_outpatient`;
 CREATE TABLE IF NOT EXISTS `employee_outpatient` (
   `employee_outpatient_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `invoice_date` varchar(500) DEFAULT NULL,
-  `invoice_val` varchar(500) DEFAULT NULL,
+  `invoice_date` datetime DEFAULT NULL,
+  `invoice_val` int(11) DEFAULT NULL,
   `claim` int(11) DEFAULT NULL,
   `paid` int(11) DEFAULT NULL,
+  `input_date` datetime DEFAULT NULL,
   PRIMARY KEY (`employee_outpatient_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.employee_outpatient: ~2 rows (approximately)
-DELETE FROM `employee_outpatient`;
-/*!40000 ALTER TABLE `employee_outpatient` DISABLE KEYS */;
-INSERT INTO `employee_outpatient` (`employee_outpatient_id`, `user_id`, `invoice_date`, `invoice_val`, `claim`, `paid`) VALUES
-	(1, 5, '["2015-03-12","2015-03-12","2015-03-14"]', '["25000","80000","85000"]', 190000, NULL),
-	(8, 5, '["2015-03-04","2015-03-04"]', '["50000","75000"]', 125000, NULL);
-/*!40000 ALTER TABLE `employee_outpatient` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.employee_pregnancy
@@ -1034,20 +942,14 @@ DROP TABLE IF EXISTS `employee_pregnancy`;
 CREATE TABLE IF NOT EXISTS `employee_pregnancy` (
   `employee_pregnancy_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `invoice_date` varchar(500) DEFAULT NULL,
-  `invoice_val` varchar(500) DEFAULT NULL,
+  `invoice_date` datetime DEFAULT NULL,
+  `invoice_val` int(11) DEFAULT NULL,
   `claim` int(11) DEFAULT NULL,
   `paid` int(11) DEFAULT NULL,
+  `input_date` datetime DEFAULT NULL,
   PRIMARY KEY (`employee_pregnancy_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.employee_pregnancy: ~2 rows (approximately)
-DELETE FROM `employee_pregnancy`;
-/*!40000 ALTER TABLE `employee_pregnancy` DISABLE KEYS */;
-INSERT INTO `employee_pregnancy` (`employee_pregnancy_id`, `user_id`, `invoice_date`, `invoice_val`, `claim`, `paid`) VALUES
-	(1, 5, '["2015-03-05"]', '["75000"]', 75000, NULL),
-	(8, 5, '["2015-03-04","2015-03-04"]', '["10000","75000"]', 85000, NULL);
-/*!40000 ALTER TABLE `employee_pregnancy` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.gender
@@ -1060,7 +962,6 @@ CREATE TABLE IF NOT EXISTS `gender` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.gender: ~2 rows (approximately)
-DELETE FROM `gender`;
 /*!40000 ALTER TABLE `gender` DISABLE KEYS */;
 INSERT INTO `gender` (`gender_id`, `gender_val`, `sort_id`) VALUES
 	(1, 'Male', 1),
@@ -1082,16 +983,8 @@ CREATE TABLE IF NOT EXISTS `job_applied` (
   `salary_expectation` int(11) DEFAULT NULL,
   `negotiable` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`job_applied_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.job_applied: ~3 rows (approximately)
-DELETE FROM `job_applied`;
-/*!40000 ALTER TABLE `job_applied` DISABLE KEYS */;
-INSERT INTO `job_applied` (`job_applied_id`, `vacancy_id`, `user_id`, `date_applied`, `description`, `vacancy_progress_id`, `vacancy_shortlist`, `next_vacancy_progress_id`, `salary_expectation`, `negotiable`) VALUES
-	(1, 1, 5, '2015-02-16 12:18:15', NULL, 4, 0, NULL, 500000, 1),
-	(2, 1, 8, '2015-02-28 13:17:58', NULL, 6, 0, NULL, 2500000, 1),
-	(4, 1, 9, '2015-03-02 00:12:53', NULL, NULL, 0, NULL, 1500000, 1);
-/*!40000 ALTER TABLE `job_applied` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.language
@@ -1104,7 +997,6 @@ CREATE TABLE IF NOT EXISTS `language` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.language: ~3 rows (approximately)
-DELETE FROM `language`;
 /*!40000 ALTER TABLE `language` DISABLE KEYS */;
 INSERT INTO `language` (`language_id`, `language_val`, `sort_id`) VALUES
 	(1, 'Indonesian', 1),
@@ -1123,7 +1015,6 @@ CREATE TABLE IF NOT EXISTS `language_skill` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.language_skill: ~5 rows (approximately)
-DELETE FROM `language_skill`;
 /*!40000 ALTER TABLE `language_skill` DISABLE KEYS */;
 INSERT INTO `language_skill` (`language_skill_id`, `language_skill_val`, `sort_id`) VALUES
 	(1, 'Mother Tongue', 1),
@@ -1144,7 +1035,6 @@ CREATE TABLE IF NOT EXISTS `location` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.location: ~2 rows (approximately)
-DELETE FROM `location`;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
 INSERT INTO `location` (`location_id`, `location_code`, `location_val`) VALUES
 	(2, 'Wisma Bakrie2', '<p>Location: </p><p>Jalan Jend. Sudirman Kav.60</p>'),
@@ -1162,7 +1052,6 @@ CREATE TABLE IF NOT EXISTS `month_options` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.month_options: ~0 rows (approximately)
-DELETE FROM `month_options`;
 /*!40000 ALTER TABLE `month_options` DISABLE KEYS */;
 /*!40000 ALTER TABLE `month_options` ENABLE KEYS */;
 
@@ -1177,7 +1066,6 @@ CREATE TABLE IF NOT EXISTS `m_role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.m_role: ~3 rows (approximately)
-DELETE FROM `m_role`;
 /*!40000 ALTER TABLE `m_role` DISABLE KEYS */;
 INSERT INTO `m_role` (`role_id`, `role_name`, `role_description`) VALUES
 	(1, 'applicant', NULL),
@@ -1195,24 +1083,12 @@ CREATE TABLE IF NOT EXISTS `m_user` (
   `activation_code` varchar(50) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
--- Dumping data for table hrms.m_user: ~12 rows (approximately)
-DELETE FROM `m_user`;
+-- Dumping data for table hrms.m_user: ~15 rows (approximately)
 /*!40000 ALTER TABLE `m_user` DISABLE KEYS */;
 INSERT INTO `m_user` (`pwd`, `user_id`, `user_name`, `activation_code`, `status_id`) VALUES
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 1, 'Sarah', NULL, 1),
-	(_binary 0x6339326636666232653063333063663038623637653161633361306134653431313664663762373865386537383865616234343132343237376262653737363666356339353337343334356535386132646662323463613862343230373163636263303565323566343939366635343662393939626532333261633164616334, 2, 'bla', 'sfvvmnzfxmyw3n6sy7rnddshz2m53s', 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 3, 'Aulia', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 4, 'admin', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 5, 'Rio', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 6, 'Bella', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 7, 'Aditya', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 8, 'Maria', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 9, 'Ahmad', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 10, 'Susan', NULL, 1),
-	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 29, 'Jason', 'r6ktb2xz8vbmtyy64xmjffnjk6k57z', 1),
-	(_binary 0x3466626462623534393563613939303038373063356266313237313562306563363031326435383132366232346431643166623332343461366534663132343966386439613536323438633364343931343637613638386166643862613061663464623231363266343361323864643361626166366337373761346165636365, 56, 'iskandar.tio@gmail.com', '2tkycs5wxw55wp4kzv4xzhb5b7bhmt', NULL);
+	(_binary 0x3166343066633932646132343136393437353039373965653663663538326632643564376432386531383333356465303561626335346430353630653066353330323836306336353262663038643536303235326161356537343231303534366633363966626262636538633132636663373935376232363532666539613735, 4, 'admin', NULL, 1);
 /*!40000 ALTER TABLE `m_user` ENABLE KEYS */;
 
 
@@ -1223,72 +1099,11 @@ CREATE TABLE IF NOT EXISTS `m_user_role` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.m_user_role: ~62 rows (approximately)
-DELETE FROM `m_user_role`;
+-- Dumping data for table hrms.m_user_role: ~66 rows (approximately)
 /*!40000 ALTER TABLE `m_user_role` DISABLE KEYS */;
 INSERT INTO `m_user_role` (`role_id`, `user_id`) VALUES
-	(3, 1),
-	(3, 2),
-	(1, 3),
-	(2, 4),
-	(3, 5),
-	(3, 6),
-	(1, 7),
-	(1, 8),
-	(1, 9),
-	(3, 10),
-	(1, 11),
-	(1, 11),
-	(1, 12),
-	(1, 13),
-	(1, 14),
-	(1, 15),
-	(1, 16),
-	(1, 17),
-	(1, 18),
-	(1, 19),
-	(1, 20),
-	(1, 21),
-	(1, 22),
-	(1, 23),
-	(1, 24),
-	(1, 25),
-	(1, 26),
-	(1, 27),
-	(1, 28),
-	(1, 29),
-	(1, 30),
-	(1, 31),
-	(1, 32),
-	(1, 33),
-	(1, 34),
-	(1, 38),
-	(1, 39),
-	(1, 40),
-	(1, 41),
-	(1, 42),
-	(1, 43),
-	(1, 44),
-	(1, 45),
-	(1, 46),
-	(1, 2),
-	(1, 2),
-	(1, 2),
-	(1, 2),
-	(1, 2),
-	(1, 2),
-	(1, 2),
-	(1, 2),
-	(1, 47),
-	(1, 48),
-	(1, 49),
-	(1, 50),
-	(1, 51),
-	(1, 52),
-	(1, 53),
-	(1, 54),
-	(1, 55),
-	(1, 56);
+	(2, 4);
+
 /*!40000 ALTER TABLE `m_user_role` ENABLE KEYS */;
 
 
@@ -1302,7 +1117,6 @@ CREATE TABLE IF NOT EXISTS `nationality` (
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.nationality: ~11 rows (approximately)
-DELETE FROM `nationality`;
 /*!40000 ALTER TABLE `nationality` DISABLE KEYS */;
 INSERT INTO `nationality` (`nationality_id`, `nationality_val`, `sort_id`) VALUES
 	(1, 'Indonesia', 4),
@@ -1319,6 +1133,45 @@ INSERT INTO `nationality` (`nationality_id`, `nationality_val`, `sort_id`) VALUE
 /*!40000 ALTER TABLE `nationality` ENABLE KEYS */;
 
 
+-- Dumping structure for table hrms.project_name
+DROP TABLE IF EXISTS `project_name`;
+CREATE TABLE IF NOT EXISTS `project_name` (
+  `project_name_id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_name` varchar(50) DEFAULT NULL,
+  `principal_advisor` int(11) DEFAULT NULL,
+  `financial_controller` int(11) DEFAULT NULL,
+  PRIMARY KEY (`project_name_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table hrms.project_name: ~3 rows (approximately)
+/*!40000 ALTER TABLE `project_name` DISABLE KEYS */;
+INSERT INTO `project_name` (`project_name_id`, `project_name`, `principal_advisor`, `financial_controller`) VALUES
+	(3, 'PAKLIM', 60, 59),
+	(4, 'dsaf', 10, 9),
+	(5, 'Nama-Sutri', 5, 5);
+/*!40000 ALTER TABLE `project_name` ENABLE KEYS */;
+
+
+-- Dumping structure for table hrms.project_number
+DROP TABLE IF EXISTS `project_number`;
+CREATE TABLE IF NOT EXISTS `project_number` (
+  `project_number_id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_number` varchar(50) DEFAULT NULL,
+  `project_name` varchar(50) DEFAULT NULL,
+  `team_leader` int(11) DEFAULT NULL,
+  PRIMARY KEY (`project_number_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table hrms.project_number: ~4 rows (approximately)
+/*!40000 ALTER TABLE `project_number` DISABLE KEYS */;
+INSERT INTO `project_number` (`project_number_id`, `project_number`, `project_name`, `team_leader`) VALUES
+	(2, '001', 'PAKLIM', 5),
+	(3, '001-PAK', 'PAKLIM', 0),
+	(5, 'gfdgfd', 'Nama-Sutri', 59),
+	(6, 'tre', 'Nama-Sutri', 0);
+/*!40000 ALTER TABLE `project_number` ENABLE KEYS */;
+
+
 -- Dumping structure for table hrms.province
 DROP TABLE IF EXISTS `province`;
 CREATE TABLE IF NOT EXISTS `province` (
@@ -1330,7 +1183,6 @@ CREATE TABLE IF NOT EXISTS `province` (
 ) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.province: ~34 rows (approximately)
-DELETE FROM `province`;
 /*!40000 ALTER TABLE `province` DISABLE KEYS */;
 INSERT INTO `province` (`province_id`, `province_val`, `region_id`, `sort_id`) VALUES
 	(11, 'Aceh', 1, 1),
@@ -1352,11 +1204,11 @@ INSERT INTO `province` (`province_id`, `province_val`, `region_id`, `sort_id`) V
 	(51, 'Bali', 3, 1),
 	(52, 'Nusa Tenggara Barat', 3, 2),
 	(53, 'Nusa Tenggara Timur', 3, 3),
-	(61, 'Kalimantan Barat', 4, 1),
-	(62, 'Kalimantan Tengah', 4, 2),
-	(63, 'Kalimantan Selatan', 4, 3),
-	(64, 'Kalimantan Timur', 4, 4),
-	(65, 'Kalimantan Utara', 4, 5),
+	(61, 'Kalimantan Barat', 3, 1),
+	(62, 'Kalimantan Tengah', 3, 2),
+	(63, 'Kalimantan Selatan', 3, 3),
+	(64, 'Kalimantan Timur', 3, 4),
+	(65, 'Kalimantan Utara', 3, 5),
 	(71, 'Sulawesi Utara', 5, 1),
 	(72, 'Sulawesi Tengah', 5, 2),
 	(73, 'Sulawesi Selatan', 5, 3),
@@ -1379,7 +1231,6 @@ CREATE TABLE IF NOT EXISTS `question` (
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.question: ~6 rows (approximately)
-DELETE FROM `question`;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
 INSERT INTO `question` (`question_id`, `question_val`) VALUES
 	(1, 'Manage the team'),
@@ -1400,7 +1251,6 @@ CREATE TABLE IF NOT EXISTS `ranking` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.ranking: ~3 rows (approximately)
-DELETE FROM `ranking`;
 /*!40000 ALTER TABLE `ranking` DISABLE KEYS */;
 INSERT INTO `ranking` (`ranking_id`, `ranking_val`) VALUES
 	(1, 'A'),
@@ -1416,18 +1266,17 @@ CREATE TABLE IF NOT EXISTS `region` (
   `region_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`region_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.region: ~6 rows (approximately)
-DELETE FROM `region`;
 /*!40000 ALTER TABLE `region` DISABLE KEYS */;
 INSERT INTO `region` (`region_id`, `region_val`, `sort_id`) VALUES
 	(1, 'Sumatera', 1),
 	(3, 'Kalimantan', 6),
-	(4, 'Bali dan Nusa Tenggara', 3),
 	(5, 'Sulawesi', 5),
 	(6, 'Maluku dan Papua', 7),
-	(7, 'Jawa', 4);
+	(7, 'Jawa', 4),
+	(8, 'Kalimantan', 8);
 /*!40000 ALTER TABLE `region` ENABLE KEYS */;
 
 
@@ -1439,10 +1288,9 @@ CREATE TABLE IF NOT EXISTS `salary_band` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.salary_band: ~11 rows (approximately)
-DELETE FROM `salary_band`;
 /*!40000 ALTER TABLE `salary_band` DISABLE KEYS */;
 INSERT INTO `salary_band` (`salary_band`) VALUES
-	('1\r\n'),
+	('1'),
 	('2A'),
 	('2T'),
 	('3A'),
@@ -1456,6 +1304,19 @@ INSERT INTO `salary_band` (`salary_band`) VALUES
 /*!40000 ALTER TABLE `salary_band` ENABLE KEYS */;
 
 
+-- Dumping structure for table hrms.salary_sharing
+DROP TABLE IF EXISTS `salary_sharing`;
+CREATE TABLE IF NOT EXISTS `salary_sharing` (
+  `salary_sharing_id` int(11) NOT NULL AUTO_INCREMENT,
+  `contract_history_id` int(11) DEFAULT NULL,
+  `project_name` varchar(50) DEFAULT NULL,
+  `percentage` int(11) DEFAULT NULL,
+  `project_number` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`salary_sharing_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1;
+
+
+
 -- Dumping structure for table hrms.settings
 DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
@@ -1465,13 +1326,12 @@ CREATE TABLE IF NOT EXISTS `settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.settings: ~6 rows (approximately)
-DELETE FROM `settings`;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` (`setting_name`, `setting_val`) VALUES
 	('Contract Reminder', '60'),
 	('Dependent Limit', '1000000'),
 	('Frame Limit', '750000'),
-	('Medical Checkup Limit', '4500000'),
+	('Medical Checkup Limit', '1500000'),
 	('Outpatient Limit', '7800000'),
 	('Pregnancy Limit', '4500000');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
@@ -1486,7 +1346,6 @@ CREATE TABLE IF NOT EXISTS `training` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.training: ~0 rows (approximately)
-DELETE FROM `training`;
 /*!40000 ALTER TABLE `training` DISABLE KEYS */;
 /*!40000 ALTER TABLE `training` ENABLE KEYS */;
 
@@ -1500,20 +1359,7 @@ CREATE TABLE IF NOT EXISTS `user_ranking` (
   `user_comment` varchar(500) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_ranking_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
-
--- Dumping data for table hrms.user_ranking: ~7 rows (approximately)
-DELETE FROM `user_ranking`;
-/*!40000 ALTER TABLE `user_ranking` DISABLE KEYS */;
-INSERT INTO `user_ranking` (`user_ranking_id`, `vacancy_employee_id`, `ranking_id`, `user_comment`, `user_id`) VALUES
-	(1, 1, 1, 'no comment', 5),
-	(2, 2, 1, 'dsafds', 5),
-	(3, 2, 2, 'fdsfds', 8),
-	(4, 1, 2, 'gfdgfd', 8),
-	(5, 4, 1, 'hebat', 5),
-	(6, 4, 2, 'kurang', 8),
-	(7, 5, 1, 'dsafds', 5);
-/*!40000 ALTER TABLE `user_ranking` ENABLE KEYS */;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.vacancy
@@ -1531,15 +1377,9 @@ CREATE TABLE IF NOT EXISTS `vacancy` (
   `vacancy_type` varchar(50) DEFAULT NULL,
   `allowance` int(11) DEFAULT NULL,
   `vacancy_criteria` varchar(1000) DEFAULT NULL,
+  `next_vacancy_progress_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`vacancy_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
--- Dumping data for table hrms.vacancy: ~1 rows (approximately)
-DELETE FROM `vacancy`;
-/*!40000 ALTER TABLE `vacancy` DISABLE KEYS */;
-INSERT INTO `vacancy` (`vacancy_id`, `vacancy_code`, `vacancy_name`, `vacancy_startdate`, `vacancy_enddate`, `vacancy_description`, `vacancy_closedate`, `vacancy_progress_id`, `vacancy_code2`, `vacancy_type`, `allowance`, `vacancy_criteria`) VALUES
-	(1, 'Accounting', 'Accounting', '2015-02-15 00:00:00', '2016-02-28 00:00:00', _binary 0x6A666469736F66206A73696F6A206669646F73, NULL, 4, 'ACC', 'Intern', 50000, 'fjsifods');
-/*!40000 ALTER TABLE `vacancy` ENABLE KEYS */;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.vacancy_employee
@@ -1550,17 +1390,7 @@ CREATE TABLE IF NOT EXISTS `vacancy_employee` (
   `employee_id` varchar(50) DEFAULT NULL,
   `vacancy_progress_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`vacancy_employee_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
--- Dumping data for table hrms.vacancy_employee: ~4 rows (approximately)
-DELETE FROM `vacancy_employee`;
-/*!40000 ALTER TABLE `vacancy_employee` DISABLE KEYS */;
-INSERT INTO `vacancy_employee` (`vacancy_employee_id`, `vacancy_id`, `employee_id`, `vacancy_progress_id`) VALUES
-	(1, '1', '4', 5),
-	(2, '1', '4', 6),
-	(4, '1', '10', 5),
-	(5, '1', '4', 1);
-/*!40000 ALTER TABLE `vacancy_employee` ENABLE KEYS */;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.vacancy_interview
@@ -1574,18 +1404,7 @@ CREATE TABLE IF NOT EXISTS `vacancy_interview` (
   `vacancy_progress_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`vacancy_interview_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
--- Dumping data for table hrms.vacancy_interview: ~5 rows (approximately)
-DELETE FROM `vacancy_interview`;
-/*!40000 ALTER TABLE `vacancy_interview` DISABLE KEYS */;
-INSERT INTO `vacancy_interview` (`vacancy_interview_id`, `interview_date`, `interview_time`, `interview_place`, `vacancy_id`, `vacancy_progress_id`, `user_id`) VALUES
-	(1, NULL, NULL, NULL, 1, 5, 5),
-	(2, '2015-02-19 00:00:00', '12.30', 'Wisma Bakrie2', 1, 6, 5),
-	(3, '2015-02-25 00:00:00', '22.30', 'KLH', 1, 6, 8),
-	(4, NULL, NULL, NULL, 1, 5, 8),
-	(5, '2015-03-25 00:00:00', '12.30', 'Wisma Bakrie2', 1, 1, 5);
-/*!40000 ALTER TABLE `vacancy_interview` ENABLE KEYS */;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.vacancy_progress
@@ -1601,7 +1420,6 @@ CREATE TABLE IF NOT EXISTS `vacancy_progress` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.vacancy_progress: ~6 rows (approximately)
-DELETE FROM `vacancy_progress`;
 /*!40000 ALTER TABLE `vacancy_progress` DISABLE KEYS */;
 INSERT INTO `vacancy_progress` (`vacancy_progress_id`, `vacancy_progress_val`, `sort_id`, `process_name`, `required`, `active`) VALUES
 	(1, 'First Interview', 3, 'First Interview', b'00000000', 1),
@@ -1620,12 +1438,8 @@ CREATE TABLE IF NOT EXISTS `vacancy_question` (
   `question_id` int(11) DEFAULT NULL,
   `vacancy_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`vacancy_question_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.vacancy_question: ~0 rows (approximately)
-DELETE FROM `vacancy_question`;
-/*!40000 ALTER TABLE `vacancy_question` DISABLE KEYS */;
-/*!40000 ALTER TABLE `vacancy_question` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.vacancy_timeline
@@ -1639,15 +1453,7 @@ CREATE TABLE IF NOT EXISTS `vacancy_timeline` (
   `interview_time` varchar(10) DEFAULT NULL,
   `interview_place` varchar(5000) DEFAULT NULL,
   PRIMARY KEY (`vacancy_timeline_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
-
--- Dumping data for table hrms.vacancy_timeline: ~2 rows (approximately)
-DELETE FROM `vacancy_timeline`;
-/*!40000 ALTER TABLE `vacancy_timeline` DISABLE KEYS */;
-INSERT INTO `vacancy_timeline` (`vacancy_timeline_id`, `vacancy_id`, `vacancy_progress_id`, `update_time`, `interview_date`, `interview_time`, `interview_place`) VALUES
-	(12, 1, 6, '2015-02-28 22:49:43', NULL, NULL, NULL),
-	(13, 1, 4, '2015-03-02 21:38:28', NULL, NULL, NULL);
-/*!40000 ALTER TABLE `vacancy_timeline` ENABLE KEYS */;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 
 -- Dumping structure for table hrms.vacancy_type
@@ -1657,7 +1463,6 @@ CREATE TABLE IF NOT EXISTS `vacancy_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.vacancy_type: ~2 rows (approximately)
-DELETE FROM `vacancy_type`;
 /*!40000 ALTER TABLE `vacancy_type` DISABLE KEYS */;
 INSERT INTO `vacancy_type` (`vacancy_type`) VALUES
 	('Intern'),
