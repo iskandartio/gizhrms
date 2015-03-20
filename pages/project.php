@@ -30,9 +30,10 @@
 				$('#tabs-2').html(msg);
 				bindAllProjectNumber();
 			}
+			ajax("project_ajax",data, success);
 		}
 			
-		ajax("project_ajax",data, success);
+		
 		
 	}
 	

@@ -4,7 +4,7 @@ class shared {
 		$res=db::DoQuery("select a.user_id, b.first_name, b.last_name, c.job_title, a.end_date from (
 select user_id, max(end_date) end_date from contract_history a
 left join settings b on b.setting_name='Contract Reminder'
-where DATE_ADD(end_date,INTERVAL b.setting_val DAY)<curdate() and contract_reminder_email is null
+where DATE_ADD(curdate(),INTERVAL b.setting_val DAY)>=end_date and contract_reminder_email is null
 group by user_id) a
 left join applicants b on a.user_id=b.user_id
 left join contract_history c on c.user_id=a.user_id and c.end_date=a.end_date");
@@ -34,7 +34,7 @@ inner join m_user c on c.user_id=b.user_id");
 		db::ExecMe("update contract_history a inner join (
 select user_id, max(end_date) end_date from contract_history a
 left join settings b on b.setting_name='Contract Reminder'
-where DATE_ADD(end_date,INTERVAL b.setting_val DAY)<curdate() and contract_reminder_email is null
+where DATE_ADD(curdate(),INTERVAL b.setting_val DAY)>=end_date and contract_reminder_email is null
 group by user_id) b on a.user_id=b.user_id set a.contract_reminder_email=1");
 		
 	}
