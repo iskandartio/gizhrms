@@ -6,7 +6,7 @@ function personal_data(div, saveFunc) {
 		bindDiv('.country_id', div,'change',self.ChangeCountry);
 		bindDiv('.province_id', div,'change',self.ChangeProvince);
 		bindDiv('#btn_save', div,'click',self.Save);
-		bindDiv('#btn_upload', div,'click',self.Upload);
+		//bindDiv('#btn_upload', div,'click',self.Upload);
 		fixSelect();
 		setDatePicker();
 		setDOB();
@@ -76,6 +76,7 @@ function personal_data(div, saveFunc) {
 			success: function (data) {
 				alert(data);
 				$('#photo',div).attr('src','show_picture');
+				
 				return false;
 			},
 			cache: false,

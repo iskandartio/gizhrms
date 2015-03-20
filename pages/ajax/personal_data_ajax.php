@@ -23,9 +23,11 @@
 		
 		$result="";
 		$result.="<script src='js/personal_data.js'></script>";
-		$result.="<form action='#' id='data' method='post' enctype='multipart/form-data'>
+		$result.="<form id='data' action='upload_ajax' method='post' enctype='multipart/form-data' target='hidden_upload'>
 <div class='row'><div class='label'>Photo</div><div class='label width200'><input type='file' id='uploadPhoto' name='uploadPhoto' accept='.png,.jpg'></div>
 <button class='button_link' id='btn_upload'>Upload</button>
+<IFRAME id='hidden_upload' name='hidden_upload' src='' onLoad='uploadDone()'
+        style='width:0;height:0;border:0px solid #fff'></IFRAME>
 </div> 
 </form>";
 		$result.="<table>

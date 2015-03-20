@@ -348,13 +348,14 @@ header('Content-Type: text/html; charset=utf-8');
 		<span>Application Data</span>
 		<div style="margin:5px">
 		<ul>
-			<li><a href="/gizhrms/position_applied">Position Applied</a></li>
 			<li><a href="/gizhrms/applicant">Personal Details</a></li>
 			<li><a href="/gizhrms/education">Education</a></li>
 			<li><a href="/gizhrms/working">Working Experience</a></li>
 			<li><a href="/gizhrms/language">Language</a></li>
 			<li><a href="/gizhrms/references">References</a></li>
 			<li><a href="/gizhrms/uploadcv">Upload CV + Cover Letter</a></li>
+			<li><a href="/gizhrms/position_applied">Position Applied</a></li>
+
 			<li><a href="/gizhrms/change_password">Change Password</a></li>
 			<li><a href="/gizhrms">Logout</a></li>
 		</ul>
