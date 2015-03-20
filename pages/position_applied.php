@@ -30,7 +30,6 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and curdate() between b.vacan
 	if ($err!=''){
 		$err="You must complete the required data:<br/>".$err;
 	}
-	
 ?>
 <script>
 	var fields=generate_assoc(['question_id']);
@@ -189,7 +188,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and curdate() between b.vacan
 	}
 	
 </script>
-<?php _p($err)?>
+<font color='red'><?php _p($err)?></font>
 <table class='tbl' id='tbl_job_applied'>
 	<thead>
 	<tr><th></th><th>Position Applied</th><th></th></tr>

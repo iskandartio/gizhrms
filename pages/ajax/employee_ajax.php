@@ -275,6 +275,11 @@ where b.user_id=?", array($user_id), $con);
 		}
 		die($applicants_working_id);
 	}
+	if ($type=='delete_working') {
+		$user_id=$_SESSION['user_id'];
+		db::delete('applicants_working','user_id=?', array($user_id));
+		die;
+	}
 	if ($type=='delete_dependent') {
 		db::delete('employee_dependent','employee_dependent_id=?',array($employee_dependent_id));
 		die;
