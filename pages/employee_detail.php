@@ -233,7 +233,9 @@ function project_history(div) {
 function Back() {
 	location.href="employee";
 }
-
+function uploadDone(){
+	$('#photo').attr('src','show_picture');
+}
 
 </script>
 <button id='btn_back' class="button_link">Back</button>
