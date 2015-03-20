@@ -28,7 +28,7 @@
 			$('#freeze').hide();
 			par.remove();
 		}
-		ajax("educationAjax.php", data, success);
+		ajax("education_ajax", data, success);
 	}
 	function Save() {
 		
@@ -53,7 +53,7 @@
 			btnChange(par, ['edit','delete']);
 			bindAll();
 		}
-		ajax("educationAjax.php", data, success);
+		ajax("education_ajax", data, success);
 		
 		
 	}

@@ -4,7 +4,7 @@
 	date_default_timezone_set('Asia/Jakarta');
 	$_SESSION['db']=array('mysql:host=localhost:3306;dbname=hrms','root','123456');
 	//$_SESSION['db']=array('mysql:host=mysql.idhostinger.com;dbname=u169820922_prop','u169820922_admin','host123456a!');
-	$home="http://localhost:8081/gizhrms/";
+	
 	$timezone = "Asia/Bangkok";
 	if(function_exists('date_default_timezone_set')) date_default_timezone_set($timezone);
 	$captcha_tag='';
@@ -19,35 +19,10 @@
 		$captcha_tag=shared::get_captcha_text();
 	}
 	if (!isset($_SESSION['page_name'])) $_SESSION['page_name']="";
-	if ($_SESSION['page_name']=='outpatient') $medical_type='employee_outpatient';
-	if ($_SESSION['page_name']=='pregnancy') $medical_type='employee_pregnancy';
+
 	
-	foreach ($_POST as $key=>$value) {
-		
-		if (startsWith($key,'date')||endsWith($key,'date')) {
-			if (!is_array($value)) {
-				$$key=dbDate($value);	
-				$_POST[$key]=$$key;
-			} else {
-				foreach ($value as $key2=>$val) {
-					$_POST[$key][$key2]=dbDate($val);
-				}
-				$$key=$_POST[$key];
-			}
-		} else {
-			$$key=$value;
-		}
-		
-	}
 	
-	if (isset($captcha_text)) {
-		if ($_SESSION['captcha_text']!=$captcha_text) {
-			$data['err']='Wrong captcha text';
-			$data['captcha_tag']=shared::get_captcha_text(true);
-			$data['focus']='#captcha_text';
-			die(json_encode($data));
-		}
-	}
+
 	
 	function exceptions_error_handler($severity, $message, $filename, $lineno) {
 	  if (error_reporting() == 0) {
@@ -272,6 +247,7 @@
 		return _lbl(_lbl($data, $arr1), $arr2);
 	}
 	function _name($data, $arr=array()) {
+		Employee::init_static_var();
 		if (count($arr)==0) {
 			return _lbl($data, $_SESSION['employee']);
 		}

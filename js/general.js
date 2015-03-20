@@ -39,6 +39,10 @@ function bind(obj, event, func) {
 	$(obj).unbind(event);
 	$(obj).bind(event, func);
 }
+function bindDiv(obj, div, event, func) {
+	$(obj, div).unbind(event);
+	$(obj, div).bind(event, func);
+}
 function hideColumns(t) {
 	$.each($('#'+t+'>tbody>tr'), function(index) {
 		$(this).children('td:eq(0)').hide();
@@ -59,7 +63,20 @@ function hideColumnsArr(t, colArr,f) {
 		});
 	}
 }
+function hideColumnsArrDiv(t, colArr, div, f) {
+	if (!f) f=fields;
+	for (key in colArr) {
+		name=colArr[key];
+		$.each($('#'+t+'>tbody>tr', div), function(index) {
+			$(this).children('td:eq('+f[name]+')').hide();
+		});
+		$.each($('#'+t+'>thead>tr', div), function(index) {
+			$(this).children('th:eq('+f[name]+')').hide();
+		});
+	}
+}
 function ajax(url, data, Func, type) {
+	if (!data) data="";
 	$('#freeze').show();
 	$.ajax({
 		type: (type ? type : 'post'),
@@ -69,6 +86,12 @@ function ajax(url, data, Func, type) {
 			$('#freeze').hide();
 			if (Func) Func(msg);
 		}
+	});
+}
+function send_email() {
+	$.ajax({
+		type : "post",
+		url : "send_email"						
 	});
 }
 function getChildObj(par, name, f) {
@@ -143,6 +166,11 @@ function clearText(arr) {
 			$('#'+arr[i]).val('');
 		}
 	}
+function clearTextDiv(arr,div) {
+	for (var i=0;i<arr.length;i++) {
+		$('#'+arr[i],div).val('');
+	}
+}
 function clearDiv(arr) {
 	for (var i=0;i<arr.length;i++) {
 		$('#'+arr[i]).html('');

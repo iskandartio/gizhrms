@@ -956,14 +956,14 @@ CREATE TABLE IF NOT EXISTS `employee_pregnancy` (
 DROP TABLE IF EXISTS `gender`;
 CREATE TABLE IF NOT EXISTS `gender` (
   `gender_id` int(11) NOT NULL AUTO_INCREMENT,
-  `gender_val` varchar(50) DEFAULT NULL,
+  `gender` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`gender_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.gender: ~2 rows (approximately)
 /*!40000 ALTER TABLE `gender` DISABLE KEYS */;
-INSERT INTO `gender` (`gender_id`, `gender_val`, `sort_id`) VALUES
+INSERT INTO `gender` (`gender_id`, `gender`, `sort_id`) VALUES
 	(1, 'Male', 1),
 	(2, 'Female', 2);
 /*!40000 ALTER TABLE `gender` ENABLE KEYS */;

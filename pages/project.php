@@ -32,7 +32,7 @@
 			}
 		}
 			
-		ajax("projectAjax.php",data, success);
+		ajax("project_ajax",data, success);
 		
 	}
 	
@@ -118,7 +118,7 @@
 		var success=function(msg) {
 			par.remove();
 		}
-		ajax("projectAjax.php", data, success);
+		ajax("project_ajax", data, success);
 	}
 	function DeleteProjectNumber() {
 		if (!confirm("Are you sure to delete?")) return;
@@ -130,7 +130,7 @@
 		var success=function(msg) {
 			par.remove();
 		}
-		ajax("projectAjax.php", data, success);
+		ajax("project_ajax", data, success);
 	}
 	
 	function Save() {
@@ -149,7 +149,7 @@
 			btnChange(par, ['edit','delete']);
 			bindAll();
 		}
-		ajax('projectAjax.php',data, success);
+		ajax('project_ajax',data, success);
 	}
 	function SaveProjectNumber() {
 		var par=$(this).closest("tr");
@@ -167,7 +167,7 @@
 			btnChange(par, ['edit','delete'], fieldsProjectNumber,'ProjectNumber');
 			bindAllProjectNumber();
 		}
-		ajax('projectAjax.php',data, success);
+		ajax('project_ajax',data, success);
 	}
 </script>
 <div id="tabs">

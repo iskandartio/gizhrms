@@ -84,7 +84,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			$('#show_detail').dialog("open");
 			
 		};
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 	
 	function ToggleFilterQuestion(){
@@ -124,7 +124,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			bind('.btn_accept',"click",Accept);
 			
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 	function Restart() {
 		var par=$(this).parent().parent();
@@ -150,7 +150,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			bind('.btn_reject',"click",Reject);
 			bind('.btn_accept',"click",Accept);
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 
 	}
 	
@@ -162,10 +162,10 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
 		data['user_id']=getChildHtml(par, 'user_id', f);
 		var success=function(msg) {
-			alert('Success');
+			
 			Search();
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 	function Search() {
 		if (!validate_empty(['vacancy_id','next_vacancy_progress_id'])) return;
@@ -206,17 +206,13 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			});
 			setDatePicker();
 			hideColumnsArr('tbl_result',['contract_history_id','user_id'],field_closing);
-			
 			$('input[id="salary"]').each(function(idx) {
 				numeric($(this));
 			});
 			bindClosing();
 			fixSelect();
-			
-			
 		}
-		ajax("filter_applicantAjax.php", data, success);
-		
+		ajax("filter_applicant_ajax", data, success);
 	}
 	
 	function Accept() {
@@ -259,7 +255,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		
 			Search();
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 	function Interview() {
 		var par=$(this).closest("tr");
@@ -267,21 +263,17 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var data={};
 		data['type']='interview';
 		data['vacancy_id']=$('#vacancy_id').val();
+		data['vacancy_progress_id']=$('#vacancy_progress_id').val();
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
 		data=prepareDataText(data, ['interview_place','interview_date','interview_time','ranking_id','user_comment'], par, fields);
 		data=prepareDataHtml(data, ['user_id'], par, fields);
 
 		var success=function(msg) {
-			
-			if (msg!='') {
-				alert(msg);
-				return;
-			}
 			btnChange(par, ['save','delete'], fields);
 			bind('.btn_save',"click", Save);
 			bind('.btn_delete',"click", Delete);
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 	function Reject() {
 		var par=$(this).parent().parent();
@@ -299,7 +291,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			
 			bind('.btn_restart',"click", Delete);
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 	function ChangeVacancyId() {
 		var progress=vacancy_progress[$('#vacancy_id').val()]['vacancy_progress_id'];
@@ -318,7 +310,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			ChangeVacancyProgressId();
 			fixSelect();
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 	function ChangeVacancyProgressId() {
 		var progress=$('#vacancy_progress_id').val();
@@ -357,7 +349,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			$('#tbl_result tbody').empty();
 			fixSelect();
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 		
 		
 		
@@ -386,9 +378,9 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var success=function(msg) {
 			var v=$(par).children("td:eq("+fields['ranking_id']+")").children("select");
 			$(v).data("originalValue", $(v).val());
-			alert('Success');
+			
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 		
 	}
 		
@@ -450,7 +442,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			setHtmlText(par, 'btn', "<img src='images/delete.png' class='btn_delete_user'/>", field_user);
 			bind('.btn_delete_user',"click", DeleteUser);
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 		
 	}
 	function DeleteUser() {
@@ -461,7 +453,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var success=function(msg) {
 			par.remove();		
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 		
 	}
 
@@ -499,7 +491,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			par.find('.team_leader_name').html('');
 			fixSelect();
 		}
-		ajax('projectAjax.php',data, success);
+		ajax('project_ajax',data, success);
 	}
 	function ChangeProjectNumber() {
 		if ($(this).closest('.div_salary_sharing').length>0) return;
@@ -513,27 +505,27 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			par.find('.team_leader').html(d['team_leader']);
 			par.find('.team_leader_name').html(d['team_leader_name']);
 		}
-		ajax('projectAjax.php',data, success);
+		ajax('project_ajax',data, success);
 	}
 	function DeleteSalarySharing() {
 		$(this).closest(".row").remove();
 	}
 </script>
-<div class='label width160'>Vacancy</div><div class='textbox'><select id="vacancy_id" title='Vacancy'>
-<option selected value=''>Vacancy</option>
-<?php _p($combo_vacancy) ?>
-</select></div>
-
-<div class='label width160'>Current Recruitment Process</div><div class='textbox'>
-<select id="vacancy_progress_id" title='Recruitment Process'>
-<option selected value=''>Vacancy Progress</option>
-<?php _p($combo_status)?>
-</select></div>
-<div class='label width160'>Next Recruitment Process</div><div class='textbox'>
-<select id="next_vacancy_progress_id" title='Next Recruitment Process'>
-<option selected value=''>Next Vacancy Progress</option>
-
-</select></div>
+<div class='row'>
+<div class='float350'>
+	<div class='row'>
+	<div class='label160'>Vacancy</div>
+	<div class='float150'><select id="vacancy_id" title='Vacancy'><option selected value=''>Vacancy</option><?php _p($combo_vacancy) ?></select></div>
+	</div>
+	<div class='row'>
+	<div class='label160'>Current Recruitment Process</div>
+	<div class='float150'><select id="vacancy_progress_id" title='Recruitment Process'><option selected value=''>Vacancy Progress</option><?php _p($combo_status)?></select></div>
+	</div>	
+	<div class='row'>
+	<div class='label160'>Next Recruitment Process</div>
+	<div class='float150'><select id="next_vacancy_progress_id" title='Next Recruitment Process'><option selected value=''>Next Vacancy Progress</option></select></div>
+	</div>	
+</div>
 <?php if ($_SESSION['role_name']=='admin') {?>
 <button class="button_link" id="btn_add_user">Add User</button> 
 <?php }?>
@@ -546,7 +538,7 @@ if ($_SESSION['role_name']=='admin') {
 	</tr></thead>
 	<tbody></tbody>
 </table>
-
+</div>
 <p>
 <button id="toggle_filter_question" class='button_link'>Show Question Filter</button>
 <div id="filter_question"></div>

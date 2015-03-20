@@ -38,7 +38,7 @@
 			}
 			EmployeeChange();
 		}
-		ajax("medical_checkupAjax.php",data, success);
+		ajax("medical_checkup_ajax",data, success);
 	}
 		
 	function EmployeeChange() {
@@ -50,7 +50,7 @@
 			bindAll();
 			hideColumns('tbl_claim');
 		}
-		ajax("medical_checkupAjax.php",data, success);
+		ajax("medical_checkup_ajax",data, success);
 	}
 	function autoCompleteEmployee() {
 		$('.employee_id').autocomplete({

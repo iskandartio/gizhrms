@@ -29,7 +29,7 @@
 			$('#div_eyeglasses').html(d['eyeglasses']);
 			$('#div_medical_checkup').html(d['medical_checkup']);
 		}
-		ajax('medical_summaryAjax.php',data, success);
+		ajax('medical_summary_ajax',data, success);
 	}
 </script>
 <div class='row'><input type='radio' name='year' class='year' checked="checked" value='this_year'/>This Year<input type='radio' name='year' class='year' value='last_year'/>Last Year</div>

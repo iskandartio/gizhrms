@@ -82,7 +82,7 @@ if (move_uploaded_file($_FILES["uploadFileLetter"]["tmp_name"], $target_dir)) {
 			var formData = new FormData($(this)[0]);
 			
 			$.ajax({
-				url: "upload.php",
+				url: "upload_ajax",
 				type: 'POST',
 				data: formData,
 				async: false,
@@ -106,7 +106,7 @@ if (move_uploaded_file($_FILES["uploadFileLetter"]["tmp_name"], $target_dir)) {
 				}
 				location.href="uploadajax?type=cv";
 			}
-			ajax("upload.php", data, success);
+			ajax("upload_ajax", data, success);
 			
 		});
 		$('#btnDownloadLetter').click(function() {
@@ -119,11 +119,11 @@ if (move_uploaded_file($_FILES["uploadFileLetter"]["tmp_name"], $target_dir)) {
 				}
 				location.href="uploadajax?type=letter";
 			}
-			ajax("upload.php", data, success);
+			ajax("upload_ajax", data, success);
 		});
 	});
 </script>
-<form action="upload.php" id="data" method="post" enctype="multipart/form-data">
+<form action="#" id="data" method="post" enctype="multipart/form-data">
 <table>
 <tr><td>CV</td><td>:</td><td><input type="file" id="uploadFileCV" name="uploadFileCV" accept=".pdf,.docx,.doc"></td></tr>
 <tr><td>Covering Letter</td><td>:</td><td><input type="file" id="uploadFileLetter" name="uploadFileLetter" accept=".pdf,.docx,.doc"></td></tr>

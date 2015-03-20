@@ -1,5 +1,5 @@
 <?php
-
+	
 	$filter_first_name=shared::get_session('filter_first_name',"");
 	$filter_last_name=shared::get_session('filter_last_name',"");
 ?>
@@ -32,7 +32,7 @@
 		var success=function(msg) {
 			location.href="employee_detail";
 		}
-		ajax("employeeAjax.php", data, success);
+		ajax("employee_ajax", data, success);
 	}
 	function ChangeProjectData() {
 		var par=$(this).closest("tr");
@@ -42,7 +42,7 @@
 		var success=function(msg) {
 			location.href="change_project_data";
 		}
-		ajax("employeeAjax.php", data, success);
+		ajax("employee_ajax", data, success);
 	}
 	function Edit() {
 		var par=$(this).closest("tr");
@@ -53,7 +53,7 @@
 			
 			location.href="employee_detail";
 		}
-		ajax("employeeAjax.php", data, success);
+		ajax("employee_ajax", data, success);
 	}
 	function Search() {
 		var data={}
@@ -63,7 +63,7 @@
 			$('#div_result').html(msg);
 			bindAll();
 		}
-		ajax('employeeAjax.php', data, success);
+		ajax('employee_ajax', data, success);
 		
 	}
 	function Terminate() {
@@ -76,7 +76,7 @@
 			$('#div_terminate').dialog("open");
 			bindTerminate();
 		}
-		ajax('employeeAjax.php',data, success);
+		ajax('employee_ajax',data, success);
 		
 	}
 </script>

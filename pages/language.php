@@ -40,7 +40,7 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 		var success=function(msg) {
 			par.remove();
 		}
-		ajax("languageAjax.php", data, success);
+		ajax("language_ajax", data, success);
 	}
 
 	function Save() {
@@ -88,7 +88,7 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 			
 			bindAll();
 		}
-		ajax("languageAjax.php", data, success);
+		ajax("language_ajax", data, success);
 	}
 	function AddNew() {
 		var a='';
@@ -114,7 +114,7 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 			
 		
 		bindAll();
-		
+		fixSelect();
 	}
 	function Cancel() {
 		var par=$(this).closest("tr");

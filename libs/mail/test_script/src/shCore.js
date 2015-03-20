@@ -1314,7 +1314,7 @@ sh.Highlighter.prototype = {
 		{
 			var line = lines[i],
 				indent = /^(&nbsp;|\s)+/.exec(line),
-				lineClass = 'line alt' + (i % 2 == 0 ? 1 : 2),
+				lineclass= 'line alt' + (i % 2 == 0 ? 1 : 2),
 				lineNumber = sh.utils.padNumber(firstLine + i, padLength),
 				highlighted = highlightedLines.indexOf((firstLine + i).toString()) != -1,
 				spaces = null

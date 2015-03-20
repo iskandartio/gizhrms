@@ -1,9 +1,7 @@
 <?php
-
 	$res=db::DoQuery("select a.vacancy_id, concat(a.vacancy_name, ' (', a.vacancy_code, '-', a.vacancy_code2, ')') vacancy, a.vacancy_progress_id from vacancy a 
 left join vacancy_progress b on a.vacancy_progress_id=b.vacancy_progress_id 
 where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.vacancy_code2");
-	
 	$combo_vacancy=shared::select_combo_complete($res, 'vacancy_id', '- Vacancy -','vacancy');
 ?>
 <script src="js/chart.js"></script>
@@ -29,7 +27,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var data={}
 		data['type']="get_datatable";
 		data['vacancy_id']=$('#vacancy_id').val();
-		ajax('statisticsAjax.php',data, successDataTable);
+		ajax('statistics_ajax',data, successDataTable);
 		fixSelect();
 	}
 	function BasedOnChange() {
@@ -65,7 +63,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			$('#range').hide();
 			data['vacancy_id']=$('#vacancy_id').val();
 
-			ajax('statisticsAjax.php',data, success);
+			ajax('statistics_ajax',data, success);
 			
 			fixSelect();
 			return;
@@ -83,7 +81,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 				data['range']=cNum($(this).val());
 				data['vacancy_id']=$('#vacancy_id').val();
 				
-				ajax('statisticsAjax.php',data, success);
+				ajax('statistics_ajax',data, success);
 				fixSelect();	
 			});
 			fixSelect();	
@@ -102,7 +100,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 				data['range']=cNum($(this).val());
 				data['vacancy_id']=$('#vacancy_id').val();
 				
-				ajax('statisticsAjax.php',data, success);
+				ajax('statistics_ajax',data, success);
 				fixSelect();	
 			});
 			fixSelect();	
@@ -113,7 +111,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			var data={}
 			data['type']="questions";
 			data['vacancy_id']=$('#vacancy_id').val();
-			ajax('statisticsAjax.php',data, success);
+			ajax('statistics_ajax',data, success);
 			fixSelect();
 			return;
 		}
@@ -122,7 +120,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			var data={}
 			data['type']='education';
 			data['vacancy_id']=$('#vacancy_id').val();
-			ajax('statisticsAjax.php',data, success);
+			ajax('statistics_ajax',data, success);
 			fixSelect();
 		}
 	}

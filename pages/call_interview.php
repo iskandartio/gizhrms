@@ -1,5 +1,4 @@
 <?php
-
 	$res=Vacancy::getCurrentVacancy();
 	$vacancy_arr=array();
 	foreach ($res as $rs) {
@@ -61,7 +60,7 @@
 			
 			bindAll();
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 	function Interview() {
 		var data={};
@@ -73,11 +72,7 @@
 				alert(msg);
 			} else {
 				alert('Success');
-				
-				$.ajax({
-					type : "post",
-					url : "send_email.php"						
-				});
+				send_email();
 				location.reload();
 			}
 		}

@@ -4,14 +4,14 @@
 		$res=db::DoQuery("select a.vacancy_id, concat(a.vacancy_name,'(',a.vacancy_code,'-',a.vacancy_code2,')') vacancy from vacancy a
 left join vacancy_progress b on a.vacancy_progress_id=b.vacancy_progress_id 
 where curdate() between a.vacancy_startdate and a.vacancy_enddate and ifnull(b.vacancy_progress_val,'')!='Closing'
-order by vacancy_code",array($_SESSION['uid']));		
+order by vacancy_code");		
 		$combo_vacancy=shared::select_combo($res,'vacancy_id','vacancy');
 		return $combo_vacancy;
 	}
 	$pos=db::DoQuery("select a.job_applied_id, a.vacancy_id, b.vacancy_name from job_applied a
 left join vacancy b on a.vacancy_id=b.vacancy_id
 left join vacancy_progress c on c.vacancy_progress_id=b.vacancy_progress_id 
-where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESSION['uid']));
+where ifnull(c.vacancy_progress_val,'')!='Closing' and curdate() between b.vacancy_startdate and b.vacancy_enddate and a.user_id=?",array($_SESSION['uid']));
 	
 	$required=Applicant::validateApply();
 	$err='';
@@ -61,7 +61,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 			}
 			
 		}
-		ajax("applicantAjax.php", data, success);
+		ajax("applicant_ajax", data, success);
 	}
 	function ShowNext() {
 	
@@ -87,7 +87,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 				$('#tbl_job_applied').hide();
 			}
 		}
-		ajax("applicantAjax.php", data, success);
+		ajax("applicant_ajax", data, success);
 	};
 	function Apply() {
 		if (!validate_empty(['salary_expectation'])) return;
@@ -121,7 +121,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 			bindAll();
 			$('#tbl_job_applied').show();
 		}
-		ajax("applicantAjax.php", data, success);
+		ajax("applicant_ajax", data, success);
 		
 		
 	}
@@ -148,7 +148,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and a.user_id=?",array($_SESS
 			
 			
 		}
-		ajax("applicantAjax.php", data, success);
+		ajax("applicant_ajax", data, success);
 		
 	}
 	

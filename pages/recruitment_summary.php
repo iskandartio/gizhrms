@@ -8,7 +8,7 @@
 	left join vacancy_timeline d on d.vacancy_id=a.vacancy_id and a.vacancy_progress_id=d.vacancy_progress_id 
 	left join applicants e on e.user_id=a.user_id 
 	inner join contract_history f on f.start_date=e.contract1_start_date
-	where b.vacancy_progress_val='Closing'");
+	where ifnull(b.vacancy_progress_val,'')='Closing'");
 	$result="<h1>Print HRSR</h1>
 	<table class='tbl' id='tbl'><thead><tr><th>Contract History Id</th><th>Vacancy</th><th>Closing Date</th><th>Employee Date</th><th></th></tr></thead><tbody>";
 	foreach ($res as $row) {
@@ -30,7 +30,7 @@ left join vacancy_timeline b on a.vacancy_id=b.vacancy_id and a.vacancy_progress
 left join vacancy_progress c on c.vacancy_progress_id=b.vacancy_progress_id 
 left join applicants d on d.user_id=a0.user_id
 inner join job_applied e on e.vacancy_id=a.vacancy_id and e.user_id=a0.user_id and e.vacancy_progress_id=a0.vacancy_progress_id
-where c.vacancy_progress_val!='Closing'");
+where ifnull(c.vacancy_progress_val,'')!='Closing'");
 	$result.="<table class='tbl' id='tbl_current_recruitment'><thead><tr><th>Vacancy Timeline Id</th><th>Vacancy Name</th><th>Process</th><th>Update Time</th>
 	<th>Name</th>
 	<th>Interview Date</th><th>Time</th><th>Interview Place</th><th></th></tr></thead><tbody>";
@@ -64,14 +64,14 @@ where c.vacancy_progress_val!='Closing'");
 	});
 	 
 	function Print() {		
-		window.open("print_recruitment_summary.php?contract_history_id="+$(this).closest("tr").children("td:eq(0)").html(),"_blank");
+		window.open("print_recruitment_summary?contract_history_id="+$(this).closest("tr").children("td:eq(0)").html(),"_blank");
 	}
 	function Export() {
 		
 		var data={}
 		data['type']='export';
 		data['vacancy_id']=$(this).closest("tr").children("td:eq(0)").html();
-		location.href="recruitmentSummaryGet.php?"+$.param(data);
+		location.href="recruitment_summary_get?"+$.param(data);
 		
 	}
 	function Save() {

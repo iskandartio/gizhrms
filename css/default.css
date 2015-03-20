@@ -1,107 +1,24 @@
-@media 
-only screen and (max-width: 310px)  {
-	.middle_div {
-		width:auto!important;
-	}
-	/* Force table to not be like tables anymore */
-	#tbl_region  {
-		width:100%;
-	}
-	#tbl_region table,#tbl_region  thead,#tbl_region  tbody,#tbl_region  th,#tbl_region  td,#tbl_region  tr { 
-		display: block; 
-	}
-	
-	/* Hide table headers (but not display: none;, for accessibility) */
-	#tbl_region thead tr { 
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-	}
-	
-	#tbl_region tr { border: 1px solid #ccc; }
-	
-	#tbl_region td { 
-		/* Behave  like a "row" */
-		border: none;
-		border-bottom: 1px solid #eee; 
-		position: relative;
-		padding-left: 50%!important; 
-	}
-	
-	#tbl_region td:before { 
-		/* Now like a table header */
-		position: absolute;
-		/* Top/left values mimic padding */
-		top: 6px;
-		left: 6px;
-		width: 45%; 
-		padding-right: 10px; 
-		white-space: nowrap;
-	}
-	
-	/*
-	Label the data
-	*/
-	#tbl_region td:nth-of-type(2):before { content: "Region"; }
-	
+.label100 {
+	float:left;
+	width:100px;
+	margin-top:6px;
+}
+.label160 {
+	float:left;
+	width:160px;
+	margin-top:6px;
+}
+.row {
+	padding-top:2px;
+	padding-bottom:2px;
+}
+div.row:after {
+	clear: both;
+	content: '';
+	display: block;
+	height: 0;
 }
 
-@media 
-only screen and (max-width: 440px)  {
-
-	/* Force table to not be like tables anymore */
-	#tbl_province  {
-		width:100%;
-	}
-	#tbl_province table,#tbl_province  thead,#tbl_province  tbody,#tbl_province  th,#tbl_province  td,#tbl_province  tr { 
-		display: block; 
-	}
-	
-	/* Hide table headers (but not display: none;, for accessibility) */
-	#tbl_province thead tr { 
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-	}
-	
-	#tbl_province tr { border: 1px solid #ccc; }
-	
-	#tbl_province td { 
-		/* Behave  like a "row" */
-		border: none;
-		border-bottom: 1px solid #eee; 
-		position: relative;
-		padding-left: 30%!important; 
-	}
-	
-	#tbl_province td:before { 
-		/* Now like a table header */
-		position: absolute;
-		/* Top/left values mimic padding */
-		top: 6px;
-		left: 6px;
-		width: 45%; 
-		padding-right: 10px; 
-		white-space: nowrap;
-	}
-	
-	/*
-	Label the data
-	*/
-	#tbl_province td:nth-of-type(2):before { content: "Province"; }
-	#tbl_province td:nth-of-type(3):before { content: "Region"; }
-	
-}
-
-.show {
-	display:block!important;
-}
-.hide {
-	display:none!important;
-}
-.small_left_margin {
-	margin-left:10px!important;
-}
 .textbox  {
 	padding:3px;
 }
@@ -116,12 +33,7 @@ only screen and (max-width: 440px)  {
 	margin-top:6px;
 	padding:2px;
 }
-div.row:after {
-	clear: both;
-	content: '';
-	display: block;
-	height: 0;
-}
+
 .width400 {
 	width:400px!important;
 }
@@ -172,6 +84,9 @@ div.row:after {
 .float300 {
 	float:left;width:300px;
 	
+}
+.float350 {
+	float:left;width:350px;
 }
 .float400 {
 	float:left;width:400px;
@@ -405,7 +320,6 @@ display:block;
 		margin-left:10px;
 	}
 	.menu {
-		position:fixed;
 		top:0px;
 		left:0px;
 		z-index:1000000;
@@ -416,7 +330,6 @@ display:block;
 	}
 }
 .menu2 {
-	position:fixed;
 	top:0px;
 	left:0px;
 	z-index:1000000;

@@ -11,7 +11,7 @@ function jsCalculateSeverance() {
 		$('#div_severance_data').html(msg);
 		bindSeveranceData();
 	}
-	ajax("employeeAjax.php",data, success);
+	ajax("employee_ajax",data, success);
 }
 function bindSeveranceData() {
 	$('#change_severance',div).bind('click', jsChangeSeverance);
@@ -39,7 +39,7 @@ function jsTerminate() {
 		$(div).dialog("close");
 		loadData();
 	}
-	ajax('employeeAjax.php',data,success);
+	ajax('contract_termination_ajax',data,success);
 }
 function jsCancelChange() {
 	$('#new_severance',div).val('');

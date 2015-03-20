@@ -76,7 +76,7 @@ define('P_WIDTH', 5);
 class URLParse
 {
     private static $ROOT_FOLDER = "pages/";
-    private static $MASTER_HOST = "localhost:8081";
+    private static $MASTER_HOST = "localhost:80812";
     private static $ACCEPTED_HOSTS = array(
                                             "localhost",
                                             "helloworld.localhost",
@@ -219,8 +219,7 @@ class URLParse
 				P_FILE => "nationality.php",
 				P_TITL => "Nationality",
 				P_METD => "",
-				P_METK => ""),		
-				
+				P_METK => ""),
 			"position_applied" => array(
 				P_WIDTH=> "400",
 				P_FILE => "position_applied.php",
@@ -232,11 +231,6 @@ class URLParse
 				P_TITL => "Pregnancy",
 				P_METD => "",
 				P_METK => ""),
-			"print_recruitment_summary"=>array(
-				P_FILE => "print_recruitment_summary.php",
-				P_TITL => "Print Recruitment Summary",
-				P_METD => "Applicant Registration ",
-				P_METK => "Applicant, Apply, Registration"),
 			"project" => array(
 				P_FILE => "project.php",
 				P_TITL => "Project",
@@ -288,6 +282,9 @@ class URLParse
                 P_METD => "",
                 P_METK => "",
                 ),
+			"show_picture"=>array(
+				P_FILE=>"show_picture.php"
+				),
 			"statistics" => array(
 				P_FILE => "statistics.php",
 				P_TITL => "Statistics",
@@ -343,7 +340,7 @@ class URLParse
 
     public static function ProcessURL()
     {
-	
+
         // Check the host the request was made to, and redirect if necessary.
         self::checkHost(); 
         // Check the HTTPS status, redirect if necessary.
@@ -353,19 +350,56 @@ class URLParse
 		
         if($page_info_key === false)
         {
+			$full_path=self::$ROOT_FOLDER . "ajax/".self::getUrlCmsPage().".php";
+			if ($_SESSION['page_name']=='outpatient') $medical_type='employee_outpatient';
+			if ($_SESSION['page_name']=='pregnancy') $medical_type='employee_pregnancy';
+			if (file_exists($full_path)) {
+			
+				foreach ($_POST as $key=>$value) {
+			
+					if (startsWith($key,'date')||endsWith($key,'date')) {
+						if (!is_array($value)) {
+							$$key=dbDate($value);	
+							$_POST[$key]=$$key;
+						} else {
+							foreach ($value as $key2=>$val) {
+								$_POST[$key][$key2]=dbDate($val);
+							}
+							$$key=$_POST[$key];
+						}
+					} else {
+						$$key=$value;
+					}
+					
+				}
+				
+				if (isset($captcha_text)) {
+				
+					if ($_SESSION['captcha_text']!=$captcha_text) {
+						$data['err']='Wrong captcha text';
+						$data['captcha_tag']=shared::get_captcha_text(true);
+						$data['focus']='#captcha_text';
+						die(json_encode($data));
+					}
+				}
+				
+				include($full_path);
+				die;
+			}
             self::send404Headers();
             self::$to_show = self::$FILE_NOT_FOUND;
             return "404";
         }
         else
         {
-			
+					
             $page_array = self::$PAGE_INFO[$page_info_key];
 			
 			
             self::checkRedirectRequest($page_array);
-            self::ensureHTMOrSlashExtension($page_array, $page_info_key);
-            self::$to_show = $page_array;
+       
+			self::ensureHTMOrSlashExtension($page_array, $page_info_key);
+			self::$to_show = $page_array;
 			
             return $page_info_key;
         }
@@ -537,9 +571,9 @@ class URLParse
             {
                 $redir .= ".htm";
             }
-			echo self::getUrlFront() . $redir . self::getUrlParams();
+			
 			// Redirect, keeping the URL parameters.
-            //self::permRedirect(self::getUrlFront() . $redir . self::getUrlParams());
+            self::permRedirect(self::getUrlFront() . $redir . self::getUrlParams());
         }
     }
 

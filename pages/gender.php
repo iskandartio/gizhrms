@@ -1,10 +1,8 @@
 <?php
 	$res=db::select('gender','*','','sort_id');
-	
 ?>
-
 <script>
-	var fields=generate_assoc(['gender_id','gender_val','btn']);
+	var fields=generate_assoc(['gender_id','gender','btn']);
 	$(function() {
 		bindAll();
 		
@@ -27,13 +25,13 @@
 			par.remove();
 		
 		}
-		ajax('genderAjax.php', data, success);
+		ajax('gender_ajax', data, success);
 	}
 	
 	function Add() {
 		var a='';
 		a+='<tr><td></td>';
-		a+="<td><?php _t("gender_val")?></td>";
+		a+="<td><?php _t("gender")?></td>";
 		a+="<td>"+getImageTags(['save','delete','up','down'])+"</td>";
 		a+="</tr>";
 		
@@ -48,7 +46,7 @@
 		var data={}
 		data['type']="up";
 		data['gender_id']=getChildHtml(par, 'gender_id', fields);
-		ajax('genderAjax.php', data, success);
+		ajax('gender_ajax', data, success);
 	}
 	function Down() {
 		var par=$(this).closest("tr");
@@ -58,25 +56,25 @@
 		var data={}
 		data['type']="down";
 		data['gender_id']=getChildHtml(par, 'gender_id', fields);
-		ajax('genderAjax.php', data, success);
+		ajax('gender_ajax', data, success);
 	}
 	function Save() {
 		var par=$(this).closest("tr");
-		if (!validate_empty_tbl(par, ['gender_val'])) {
+		if (!validate_empty_tbl(par, ['gender'])) {
 			return;
 		}
 		
 		var data={};
 		data['type']='save';
 		data['gender_id']=getChildHtml(par,'gender_id', fields);
-		data['gender_val']=getChild(par,'gender_val', fields);
+		data['gender']=getChild(par,'gender', fields);
 		
 		
 		var success= function(msg) {
 			setHtmlText(par, 'gender_id', msg);
 			bindAll();
 		}
-		ajax('genderAjax.php', data, success);
+		ajax('gender_ajax', data, success);
 	}
 	
 
@@ -88,7 +86,7 @@
 <thead><tr><th></th><th>Gender</th><th></th></tr><tbody>
 <?php foreach ($res as $row) {
 	_p("<tr><td>".$row['gender_id']."</td>
-	<td>"._t2("gender_val", $row['gender_val'])."</td>
+	<td>"._t2("gender", $row['gender'])."</td>
 	<td>".getImageTags(array('save', 'delete', 'up','down'))."</td>
 	</tr>");
 }?>

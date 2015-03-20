@@ -1,25 +1,27 @@
-<!DOCTYPE html>
 <?php
 
-require "pages/autoload.php";
 require "pages/startup.php";
 
 require_once('libs/URLParse.php'); 
 
-shared::contract_reminder_email();
+
+$name = URLParse::ProcessURL();
+if ($name=='') {
+	$_SESSION['home']=$_SERVER['REQUEST_SCHEME']."://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+}
 $activation_email= (isset($_SESSION['activation_email'])? $_SESSION['activation_email'] : '');
 $_SESSION['activation_email']="";
-$name = URLParse::ProcessURL();
 
 
 $_SESSION['page_name']=$name;
 
 if ($name=='activate'){
 	URLParse::IncludePageContents();
-	
+	die;
 }
-if ($name=='uploadajax') {
+if ($name=='uploadajax'||$name=='show_picture'||$name=='test') {
 	URLParse::IncludePageContents();
+	die;
 }
 if ($name==''||$name=='activate') {
 	
@@ -27,6 +29,7 @@ if ($name==''||$name=='activate') {
 	
 	//file_put_contents("log.txt", "");
 }
+shared::contract_reminder_email();
 
 function set_session_menu($menu) {
 	if (isset($_SESSION[$menu])) {		
@@ -43,8 +46,7 @@ function set_session_menu($menu) {
 			
 header('Content-Type: text/html; charset=utf-8');
 
-?>
-
+?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <title><?php 
@@ -74,13 +76,10 @@ header('Content-Type: text/html; charset=utf-8');
 	<script>
 		$(function() {
 			bind('#btn_login','click',Login);
-			$.ajax({
-				type : "post",
-				url : "send_email.php"						
-			});
+			send_email();
 		});
 		function ChangeCaptchaText() {
-			$('#captcha img').attr('src','captcha.php');
+			$('#captcha img').attr('src','captcha');
 			$('#captcha_text').focus();
 		}
 		function new_registrant() {
@@ -126,7 +125,7 @@ header('Content-Type: text/html; charset=utf-8');
 				$('#captcha').html(msg);
 				bind('#change_captcha_text','click',ChangeCaptchaText);
 			}
-			ajax('indexAjax.php', data, success);
+			ajax('index_ajax', data, success);
 			
 		}
 		function Login() {
@@ -162,7 +161,7 @@ header('Content-Type: text/html; charset=utf-8');
 				}
 				location.href=obj['url'];
 			}		
-			ajax("indexAjax.php", data, success);
+			ajax("index_ajax", data, success);
 			
 		}
 		function registerAjax(o) {
@@ -183,14 +182,10 @@ header('Content-Type: text/html; charset=utf-8');
 					return;
 				}
 				already_registered();
-				
-				$.ajax({
-					type : "post",
-					url : "send_email.php"						
-				});
+				send_email();
 				alert('Thank you for the registration. The activation link has been sent to your email.  You could login after you click confirmation link from your email to activate the account');
 			}		
-			ajax("indexAjax.php", data, success);
+			ajax("index_ajax", data, success);
 			
 		}
 		
@@ -211,12 +206,10 @@ header('Content-Type: text/html; charset=utf-8');
 					return;
 				}
 				already_registered();
-				$.ajax({
-					type : "post",
-					url : "send_email.php"						
-				});
+				send_email();
+
 			}
-			ajax("indexAjax.php", data, success);
+			ajax("index_ajax", data, success);
 		}
 		function validateEmail(email) { 
 			var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -263,7 +256,8 @@ header('Content-Type: text/html; charset=utf-8');
 		});
 		function ShowMenu() {
 			$('#freeze').show();
-			$('div#menu').attr('class', 'menu menu2 show');
+			$('div#menu').attr('class', 'menu menu2');
+			$('div#menu').show();
 			$('.btn_hide').show();
 			bind('#freeze','click',HideMenu);
 		}
@@ -273,12 +267,14 @@ header('Content-Type: text/html; charset=utf-8');
 				AlwaysHideMenu();
 			} else {
 				$('div#menu').attr('class', 'menu');
+				$('div#menu').hide();
 				$('.btn_hide').hide();
 				
 			}
 		}
 		function AlwaysHideMenu() {
 			$('div#menu').attr('class', 'menu2');
+			$('div#menu').hide();
 			$('div#pagecontent').attr('class','pagecontent small_left_margin');
 			$('.btn_menu').show();
 			
@@ -304,7 +300,7 @@ header('Content-Type: text/html; charset=utf-8');
 					$('#freeze').css('display','block');
 				}
 			}
-			ajax('indexAjax.php', data, success);
+			ajax('index_ajax', data, success);
 			
 		}
 	</script>
@@ -373,9 +369,6 @@ header('Content-Type: text/html; charset=utf-8');
 		<li><a href="/gizhrms/project">Project</a></li>
 		<li><a href="/gizhrms/email_setting">Email Setting</a></li>
 		<li><a href="/gizhrms/region">Region</a></li>
-		<li><a href="/gizhrms/province">Province</a></li>
-		<li><a href="/gizhrms/city">City</a></li>
-		<li><a href="/gizhrms/nationality">Nationality</a></li>
 		<li><a href="/gizhrms/gender">Gender</a></li>
 		<li><a href="/gizhrms/location">Interview Location</a></li>
 		<li><a href="/gizhrms/vacancy_progress">Recruitment Process</a></li>

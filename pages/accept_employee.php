@@ -35,7 +35,7 @@
 			$('#search_result').html(msg);
 			bindAll();
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 	function Accept() {
 		var data={};
@@ -47,14 +47,11 @@
 			} else {
 				alert('Success');
 				
-				$.ajax({
-					type : "post",
-					url : "send_email.php"						
-				});
+				send_email();
 				
 			}
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 
 </script>

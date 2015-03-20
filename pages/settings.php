@@ -20,7 +20,7 @@ $res=db::select('settings','*');
 				alert(msg);
 			}
 		}
-		ajax('settingsAjax.php', data, success);
+		ajax('settings_ajax', data, success);
 	}
 </script>
 <table class='tbl'>

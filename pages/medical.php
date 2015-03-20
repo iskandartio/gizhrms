@@ -78,7 +78,7 @@
 			if (msg!='') alert(msg);
 			EmployeeChange();
 		}
-		ajax("medicalAjax.php",data, success);
+		ajax("medical_ajax",data, success);
 	}
 	
 	function goNextInput(tbl, o) {
@@ -136,7 +136,7 @@
 			if (msg!='') alert(msg);
 			par.remove();	
 		}
-		ajax('medicalAjax.php',data, success);
+		ajax('medical_ajax',data, success);
 	}
 	function PopupDetail()  {
 		var data={}
@@ -148,7 +148,7 @@
 			$('#popup_detail').dialog("open");
 			bindAll();
 		}
-		ajax('medicalAjax.php',data, success);
+		ajax('medical_ajax',data, success);
 	}
 	
 	
@@ -163,7 +163,7 @@
 			bindAll();
 			
 		}
-		ajax("medicalAjax.php",data, success);
+		ajax("medical_ajax",data, success);
 	}
 	function Print() {
 		window.open("print_medical_data.php?user_id="+$('#employee_id').data("id")+"&year="+$('.year:checked').val());

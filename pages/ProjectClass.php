@@ -15,10 +15,9 @@ Class Project {
 	static function project_number_td($rs=array()) {
 		$s="<tr><td>"._lbl('project_number_id',$rs)."</td><td>"._lbl('project_number',$rs)."</td>";
 		$s.="<td><span class='team_leader hidden'>"._lbl('team_leader',$rs)."</span>";
-		$s.="<span class='team_leader'>"._lbl('team_leader_name',$rs)."</span></td>";
+		$s.="<span class='team_leader_name'>"._lbl('team_leader_name',$rs)."</span></td>";
 		$s.="<td>"._lbl('project_name', $rs)."</td>";
 		$s.="<td>".getImageTags(['edit','delete'],'ProjectNumber')."</td></tr>";
-		db::Log($s);
 		return $s;
 	}
 	static function getProjectNumber() {

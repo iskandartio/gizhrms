@@ -16,6 +16,8 @@
 		bind('.btn_delete',"click", Delete);
 		bind('.btn_save',"click", Save);
 		hideColumnsArr('tbl', ['location_id']);
+		tinymce.remove();
+		
 		tinymce.init({
 			selector: "div.location_val",
 			inline:true,
@@ -41,19 +43,20 @@
 		data['location_id']=getChildHtml($(this).closest("tr"), 'location_id', fields);
 		var success=function(msg) {
 		}
-		ajax('locationAjax.php', data, success);
+		ajax('location_ajax', data, success);
 	}
 	
 	function Add() {
 		var a='';
 		a+='<tr><td></td>';
 		a+="<td><?php _t("location_code")?></td>";
-		a+="<td><div id='location_val' class='location_val' style='border-style:dotted'></div> &nbsp;</td>";
+		a+="<td><div class='location_val' style='border-style:dotted'>&nbsp;</div> &nbsp;</td>";
 		a+="<td>"+getImageTags(['save','delete'])+"</td>";
 		a+="</tr>";
 		
 		$('#tbl').append(a);
 		bindAll();
+		
 	}
 	
 	function Save() {
@@ -73,7 +76,7 @@
 			setHtmlText(par, 'location_id', msg);
 			bindAll();
 		}
-		ajax('locationAjax.php', data, success);
+		ajax('location_ajax', data, success);
 	}
 	
 

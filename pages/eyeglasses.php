@@ -29,7 +29,7 @@
 			}
 			EmployeeChange();
 		}
-		ajax("eyeglassesAjax.php",data, success);
+		ajax("eyeglasses_ajax",data, success);
 	}
 	function SaveLens() {
 		var data={}
@@ -45,7 +45,7 @@
 			}
 			EmployeeChange();
 		}
-		ajax("eyeglassesAjax.php",data, success);
+		ajax("eyeglasses_ajax",data, success);
 	}
 	
 		
@@ -58,7 +58,7 @@
 			bindAll();
 			hideColumns('tbl_claim');
 		}
-		ajax("eyeglassesAjax.php",data, success);
+		ajax("eyeglasses_ajax",data, success);
 	}
 
 </script>

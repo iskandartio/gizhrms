@@ -2,8 +2,10 @@
 class Employee {
 	static function get_active_employee_simple_one($filter="", $params=array()) {
 		$res=Employee::get_active_employee_simple($filter, $params);
-		if (count($res)>0) return $res[0];
-		$_SESSION['user_id']=$res[0]['user_id'];
+		if (count($res)>0) {
+			$_SESSION['user_id']=$res[0]['user_id'];
+			return $res[0];
+		}
 		return null;
 	}
 	static function get_active_employee_simple($filter="", $params=array()) {
@@ -42,6 +44,8 @@ inner join contract_history e on e.user_id=a.user_id ".shared::joinContractHisto
 where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate'".$filter;
 		$sql.=" order by a.first_name, a.last_name";
 		$res=db::DoQuery($sql, $params);
+		$res=shared::fixSalary($res);
+		$res=shared::fixSalary($res,'adj_salary');
 		
 		return $res;
 	}
@@ -73,39 +77,34 @@ where c.role_name='employee' and ifnull(a.contract_state,'')!='Terminate'".$filt
 		return $result;
 	}
 	static function get_process_salary_data() {
-		$res=db::select('applicants a
-		left join m_user_role b on a.user_id=b.user_id
-		left join m_role c on c.role_id=b.role_id
-		inner join contract_history d on a.user_id=d.user_id '.shared::joinContractHistory("d","a")
-		,'a.user_id, a.first_name, a.last_name, d.job_title, d.salary, d.salary_band, a.adj_salary, a.adj_salary_band, a.adj_reason'
-		, "c.role_name='employee' and a.adj_salary is not null");
+		$res=Employee::get_active_employee("a.adj_salary is not null");
 		return $res;
 	}
+	
 	static function processSalaryAdjustment($start_date) {
 		$end_date=shared::addDate($start_date,-1);
 		
 		$con=db::beginTrans();
 		$sql="create temporary table a
 		select b.user_id, ? start_date, coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date) end_date
-, a.adj_salary, b.job_title, a.adj_salary_band
-, b.project_name, b.project_number, b.team_leader
-, b.principal_advisor, b.project_location, b.responsible_superior
-, b.SAP_No, b.position, a.adj_reason from applicants a
+, b.job_title, b.position, b.project_name, b.principal_advisor, b.financial_controller
+, b.project_number, b.team_leader, b.project_location, b.responsible_superior, b.SAP_No
+, a.adj_salary, a.adj_salary_band, a.adj_reason from applicants a
 left join contract_history b on b.user_id=a.user_id ".shared::joinContractHistory("b","a")."
-where a.adj_salary!=b.salary";
+where a.adj_salary is not null";
 		db::ExecMe($sql, array($start_date),$con);
-		$sql="delete from contract_history where start_date>curdate()";
-		db::ExecMe($sql, array(),$con);
+		
 		$sql="update applicants a
 inner join contract_history c on c.user_id=a.user_id ".shared::joinContractHistory("c","a")."
 set c.end_date=?
-where a.adj_salary!=c.salary";
+where a.adj_salary is not null";
 		db::ExecMe($sql, array($end_date),$con);
 		
-		$sql="insert into contract_history(user_id, start_date, end_date, 
-salary, job_title, salary_band, project_name, project_number, team_leader
-, principal_advisor, project_location, responsible_superior, SAP_No, position, reason)
-select * from a";
+		$sql="insert into contract_history(user_id, start_date, end_date
+		, job_title, position, project_name, principal_advisor, financial_controller
+		, project_number, team_leader, project_location, responsible_superior, SAP_No
+		, salary, salary_band, reason)
+		select * from a";
 		db::ExecMe($sql, array(),$con);
 		$sql="drop table if exists a";
 		db::ExecMe($sql, array(),$con);
@@ -139,49 +138,11 @@ select * from a";
 	}
 	static function get_expiring_res() {
 		$days=db::select_single('settings','setting_val v',"setting_name='Contract Reminder'");
-		$res=db::DoQuery("select a.user_id, a.first_name, a.last_name
-	, a.contract1_start_date, a.contract1_end_date
-	, a.am1_start_date, a.am1_end_date
-	, a.contract2_start_date, a.contract2_end_date
-	, a.am2_start_date, a.am2_end_date
-	 from applicants a
-	where ifnull(a.contract_state,'')!='Terminate' and date_add(curdate(), interval ".$days." day)>coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date)
-	order by coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date)");
+		$res=Employee::get_active_employee("date_add(curdate(), interval ".$days." day)>coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date)");
+		
 		return $res;
 	}
-	static function get_recontract_table($name, $applicant) {
-		foreach ($applicant as $key=>$val) {
-			$$key=$val;
-		}
-		$sql="select salary_band from salary_band order by salary_band";
-		$res=db::DoQuery($sql);
-		$salary_band_option=shared::select_combo_complete($res, 'salary_band', '-Choose One-', '', $salary_band);
-		
-		$result="<h1>$name</h1>";
-		$result.="<button class='button_link btn_save'>Save</button>";
-		$result.="<table>";
-		$result.="<tbody>
-					<tr><td>Start Date</td><td>:</td><td>"._t2('start_date')."</td></tr>
-	<tr><td>End Date</td><td>:</td><td>"._t2("end_date")."</td></tr>
-	<tr><td>Project Name</td><td>:</td><td>"._t2("project_name", $applicant)."</td></tr>
-	<tr><td>Project Number</td><td>:</td><td>"._t2("project_number", $applicant)."</td></tr>
-	<tr><td>Project Location</td><td>:</td><td>"._t2("project_location", $applicant)."</td></tr>
-	<tr><td>Team Leader</td><td>:</td><td>"._t2("team_leader", $applicant)."</td></tr>
-	<tr><td>Principal Advisor</td><td>:</td><td>"._t2("principal_advisor", $applicant)."</td></tr>
-	<tr><td>Responsible Superior</td><td>:</td><td>"._t2("responsible_superior", $applicant)."</td></tr>
-	<tr><td>SAP No</td><td>:</td><td>"._t2("SAP_No", $applicant)."</td></tr>
-	<tr><td>Position</td><td>:</td><td>"._t2("position", $applicant)."</td></tr>
-	<tr><td>Job Title</td><td>:</td><td>"._t2("job_title", $applicant, "60");
-		$result.="</tbody></table>";
-		$result.="<h1>Salary</h1>
-<table>
-	<tr><td>Salary</td><td>:</td><td>"._t2("salary", formatNumber($applicant['salary']))."</td></tr>
-	<tr><td>Salary Band</td><td>:</td><td>".$salary_band_option."</td></tr>
-	<tr><td>Reason</td><td>:</td><td>"._t2("reason", $applicant)."</td></tr>
-</table>";
-		$result.="<button class='button_link btn_save'>Save</button>";
-		return $result;
-	}
+
 	static function get_choice($question_id, $choice_id) {
 		$res=db::select('choice','choice_id, choice_val', 'question_id=?', 'sort_id', array($question_id));
 		$r="<select id='choice".$question_id."' class='cls_choice' title='Choose Your Answer'><option value=0> - Choose Your Answer  - </option>";
@@ -191,6 +152,12 @@ select * from a";
 		$r.="</select>";
 		return $r;
 	}
+	static function get_salary_history_res($contract_history_id) {
+		$salary_history=db::select("contract_history a
+inner join contract_history b on a.user_id=b.user_id"
+,'b.*','a.contract_history_id=?', 'end_date  desc, start_date desc',array($contract_history_id));
+		return shared::fixSalary($salary_history);
+	}
 	static function get_salary_history_tbl($salary_history) {
 		
 		if ($salary_history=='') return;
@@ -198,7 +165,7 @@ select * from a";
 		foreach ($salary_history as $row) {
 			foreach ($row as $key=>$val) {
 				$$key=$val;
-			}
+			}		
 			$result.="<tr>
 			<td>$contract_history_id</td>
 			<td style='min-width:80px'>
@@ -235,13 +202,12 @@ select * from a";
 			<tr><td><b>Salary</b></td><td>:</td><td>".formatNumber($salary)."</td></tr>
 			<tr><td><b>Salary Band</b></td><td>:</td><td>$salary_band</td></tr>
 			<tr><td><b>Reason</b></td><td>:</td><td>$reason</td></tr>
-			
 			</table>
 			</td><td>".getImageTags(array("print"))."</td>
 			</tr>";
 			
 		}
-		echo $result;
+		return $result;
 	}	
 	static function get_graph($first, $first_end, $am1, $am1_end, $first_limit) {
 		$d1=shared::dateDiff($first, $first_end);
@@ -266,9 +232,6 @@ select * from a";
 		
 	}
 
-	static  function get_user_name($user_id) {
-		return db::select_single('applicants',"concat(first_name,' ',last_name) v", "user_id=?","", array($user_id));
-	}
 	static function get_dependent_res($user_id) {
 		$res=db::select('employee_dependent','*','user_id=?','relation, name', array($user_id));
 		return $res;
@@ -293,26 +256,30 @@ select * from a";
 			<td>".getImageTags(['edit','delete'])."</td></tr>";
 		}
 		$result.="</tbody></table>";
+		
 		return $result;
 	}
 	static function get_working_res($user_id) {
 		$res=db::select('applicants_working a
 		left join business b on a.business_id=b.business_id
-		left join countries c on c.country_id=a.country_id
-		','a.*, b.business_val, c.name_en','user_id=?','year_from, month_from', array($user_id));
+		left join countries c on c.countries_id=a.countries_id
+		','a.*, b.business_val, c.countries_val','user_id=?','year_from, month_from', array($user_id));
 		return $res;
 	}
+
 	static function get_working_table($res) {
-		$combo_countries_def=shared::select_combo_complete(db::select('countries','*','','name_en'), 'country_id','-Country-','name_en','','150px');
-		
+		$combo_countries_def=shared::select_combo_complete(db::select('countries','*','','countries_val'), 'countries_id','-Country-','countries_val','','150px');
 		$month_options=month_options();
 		$business_id=db::select('business','business_id, business_val','','sort_id');
 		$combo_business=shared::select_combo($business_id,'business_id', 'business_val');
+		
+		$combo_countries_def=utf8_encode($combo_countries_def);
 		
 		$result="";
 		$result.="<table class='tbl' id='tbl_working'>
 		<thead><tr><th>ID<th colspan='2'>From</th><th colspan='2'>To</th><th>Employer</th><th>Country</th><th>Job Title</th><th>Nature of Business</th><th>Contact</th><th>Leave Reason</th><th></th></tr></thead>
 		<tbody>";
+		
 		foreach($res as $row) {
 		
 			$result.='<tr><td>'.$row['applicants_working_id'].'</td>';
@@ -320,27 +287,38 @@ select * from a";
 			$result.='<td style="border-left:0 !important">'.$row['year_from'].'</td>';
 			$result.='<td style="border-right:0 !important"><span style="display:none">'.$row['month_to'].'</span>'.get_month_name($row['month_to']).'</td>';
 			$result.='<td style="border-left:0 !important">'.$row['year_to'].'</td>';
+			
 			$result.='<td>'.$row['employer'].'</td>';
-			$result.='<td><span style="display:none">'.$row['country_id'].'</span>'.$row['name_en']."</td>";
+			$result.='<td><span style="display:none">'.$row['countries_id'].'</span>'.$row['countries_val']."</td>";
 			$result.='<td>'.$row['job_title'].'</td>';
 			$result.='<td><span style="display:none">'.$row['business_id'].'</span>'.$row['business_val']."</td>";
 			$result.='<td>'.($row['may_contact']==0 ? 'None' : '<span id="_email">'.$row['email'].'</span> <span id="_phone">'.$row['phone']).'</span></td>';
 			$result.='<td>'.$row['leave_reason'].'</td>';
 			$result.="<td>".getImageTags(array('edit','delete'))."</td>";
 			$result.="</tr>";
+			
 		}
 		$result.="</tbody></table>";
 		$result.="<button class='button_link' id='btn_add'>Add New</button>";
+		
 		$result.="<table>
 <tr style='display:none'><td>Applicants Working ID</td><td>:</td><td>"._t2("applicants_working_id")."</td></tr>
 <tr><td>From *</td><td>:</td><td><select id='month_from' class='month_from'>
 <option value='' selected disabled>-Month-</option>".$month_options."</select> "._t2("year_from","",3)."</td></tr>
 <tr><td>To *</td><td>:</td><td><select id='month_to' class='month_to'><option value='' selected disabled>-Month-</option>".$month_options."</select> "._t2("year_to","",3)."</td></tr>
-<tr><td>Employer *</td><td>:</td><td>"._t2("employer","",50)."</td></tr>
-<tr><td>Country *</td><td>:</td><td>".$combo_countries_def."</td></tr>
-<tr><td>Job Title *</td><td>:</td><td>"._t2("job_title","",50)."</td></tr>
+<tr><td>Employer *</td><td>:</td><td>"._t2("employer","",50)."</td></tr>";
+		
+		$result.="
+<tr><td>Country *</td><td>:</td><td>".$combo_countries_def."</td></tr>";
+		
+		$result.="
+<tr><td>Job Title *</td><td>:</td><td>"._t2("job_title","",50)."</td></tr>";
+
+		$result.="
 <tr><td>Nature of Business *</td><td>:</td><td><select id='business_id' class='business_id' title='Nature of Business'><option value='' selected disabled>-Nature of Business-</option>
-".$combo_business."</select></td></tr>
+".$combo_business."</select></td></tr>";
+		
+		$result.="
 <tr><td>May Contact</td><td>:</td><td><input type='checkbox' id='may_contact' checked><label for='may_contact'>May we contact your employer?</label>
 <span id='reference_contact'>"._t2("email")." "._t2("phone")."</span></td></tr>
 <tr><td>Leave Reason</td><td>:</td><td><textarea id='leave_reason' class='leave_reason' cols='50'></textarea></td></tr>
@@ -396,7 +374,7 @@ select * from a";
 	<tr><td>Working Time</td><td>:</td><td>"._t2("working_time", $applicant,"1")." %</td></tr>
 </table>";
 		$result.=Employee::getSalarySharingView($applicant, $combo_project_name_def);
-		$result.="<button class='button_link' id='btn_save_project'>Change Project</button>";
+		$result.="<button class='button_link' id='btn_save_project'>Save</button>";
 		$result.="<script src='js/projectView.js'></script>";
 		
 		return $result;
@@ -478,7 +456,7 @@ select * from a";
 		$result.="<div class='row b'><div class='label width140'>Severance </div><div class='label2 severance'>".formatNumber($severance)."</div></div>";
 		$result.="<div class='row b'><div class='label width140'>Service </div><div class='label2 service'>".formatNumber($service)."</div></div>";
 		
-		$result.="<div class='row b'><div class='label width140'>Housing </div><div class='label2 service'>".formatNumber($housing)."</div></div>";
+		$result.="<div class='row b'><div class='label width140'>Housing </div><div class='label2 housing'>".formatNumber($housing)."</div></div>";
 		$result.="<div class='row b'><div class='label width140'>Total </div><div class='label2'>".formatNumber($service+$severance+$housing)."</div></div>";
 		if ($type!='recontract') {
 			$result.="<button class='button_link' id='change_severance'>Change Severance</button>";

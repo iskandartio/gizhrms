@@ -18,7 +18,7 @@
 			$('#show_detail').html(msg);
 			$('#show_detail').dialog("open");
 		};
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 	
 
@@ -29,7 +29,7 @@
 left join vacancy b on a.vacancy_id=b.vacancy_id and a.vacancy_progress_id=b.vacancy_progress_id
 left join vacancy_progress c on c.vacancy_progress_id=b.vacancy_progress_id
 left join applicants d on a.user_id=d.user_id 
-where c.vacancy_progress_val !='Closing'";
+where ifnull(c.vacancy_progress_val,'') !='Closing'";
 	$res=db::DoQuery($sql);
 	foreach ($res as $row) {
 		if (!isset($applicants[$row['vacancy_id']])) {
@@ -39,9 +39,9 @@ where c.vacancy_progress_val !='Closing'";
 	}
 	
 	$res=db::DoQuery("select distinct a.vacancy_id, concat(b.vacancy_name,' (',b.vacancy_code,'-',b.vacancy_code2,')') vacancy, c.process_name from vacancy_employee a
-left join vacancy b on a.vacancy_id=b.vacancy_id and b.vacancy_progress_id<a.vacancy_progress_id 
+left join vacancy b on a.vacancy_id=b.vacancy_id 
 left join vacancy_progress c on c.vacancy_progress_id=b.vacancy_progress_id 
-where c.vacancy_progress_val !='Closing' and a.employee_id=?", array($_SESSION['uid']));
+where ifnull(c.vacancy_progress_val,'') !='Closing' and a.employee_id=?", array($_SESSION['uid']));
 	$result="<table class='tbl' id='tbl'>";
 	$result.="<thead><tr><th></th><th>Vacancy</th><th>Process Name</th><th>Applicants</th></tr></thead>";
 	foreach ($res as $row) {	

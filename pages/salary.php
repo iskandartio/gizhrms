@@ -1,8 +1,9 @@
 <?php
 	$res=db::select('salary_band','*');
 	$salary_band_option_def=shared::select_combo_complete($res, "salary_band", "-Salary Band-");
+	
 	$res=Employee::get_active_employee();
-
+	
 ?>
 <script>
 	var fields=generate_assoc(['user_id','first_name','last_name','job_title','current_salary','salary_band','adj_salary','adj_salary_band','adj_reason']);
@@ -37,7 +38,7 @@
 		var success=function(msg) {
 			if (msg!='') alert(msg);
 		}
-		ajax('salaryAjax.php', data, success);
+		ajax('salary_ajax', data, success);
 	}
 	function PopupDetail()  {
 		if ($('#start_date').val()=='') {
@@ -52,7 +53,7 @@
 			$('#popup_detail').dialog("open");
 			bindAll();
 		}
-		ajax('salaryAjax.php',data, success);
+		ajax('salary_ajax',data, success);
 	}
 	function ProcessSalary() {
 		var data={}
@@ -62,7 +63,7 @@
 			$('#popup_detail').dialog("close");
 			location.reload();
 		}
-		ajax('salaryAjax.php',data, success);
+		ajax('salary_ajax',data, success);
 	}
 </script>
 

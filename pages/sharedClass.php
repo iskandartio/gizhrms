@@ -89,7 +89,7 @@ where a.employee_id=?", array($user_id, $uid));
 		return "";
 	}
 	static function get_captcha_string()  {
-		return "<img src='captcha.php'/><br><span class='span_link' id='change_captcha_text'>Change Captcha Text</span><p>Input the word above:</br><input type='text' id='captcha_text'/>";
+		return "<img src='captcha'/><br><span class='span_link' id='change_captcha_text'>Change Captcha Text</span><p>Input the word above:</br><input type='text' id='captcha_text'/>";
 	}
 	static function select_combo($res, $id, $val='', $selected='') {
 -		$result='';
@@ -102,7 +102,8 @@ where a.employee_id=?", array($user_id, $uid));
 	static function select_combo_complete($res, $id, $def, $val='', $selected='', $width='') {
 		$style='';
 		if ($width!='') $style="style='max-width:$width'";
-		$result="<select $style id='$id' class='$id' title='$id'><option value=''>$def</option>".shared::select_combo($res, $id, $val, $selected)."</select>";
+		$result="<select $style id='$id' class='$id' title='$id'><option value=''>$def</option>";
+		if ($res!=null) $result.=shared::select_combo($res, $id, $val, $selected)."</select>";
 		
 		return $result;
 	}
@@ -201,14 +202,11 @@ where a.employee_id=?", array($user_id, $uid));
 		*/
 	}
 	static function get_table_data($tbl, $id) {
-		unset($_SESSION["tbl_$tbl"]);
 		if (!isset($_SESSION["tbl_$tbl"])) {
 			$res=db::select($tbl,"$tbl"."_id, $tbl"."_val");
 			$result=array();
 			foreach($res as $row) {
 				$result[$row["$tbl"."_id"]]=$row["$tbl"."_val"];
-				
-				
 			}
 			$_SESSION["tbl_$tbl"]=$result;
 		}
@@ -217,6 +215,7 @@ where a.employee_id=?", array($user_id, $uid));
 		}
 		return $_SESSION["tbl_$tbl"][$id];
 	}
+	
 	static function create_checkbox($id, $label, $selected) {
 		$selected= $selected==0 ? '' : 'checked';
 		return "<input type='checkbox' id='$id' $selected/><label for='$id'>$label</label>";
@@ -233,7 +232,9 @@ where a.employee_id=?", array($user_id, $uid));
 		$result="";
 		$result.='
 		<script src="js/tinymce/tinymce.min.js"></script>
+		<script src="js/tinymce/jquery.tinymce.min.js"></script>
 <script type="text/javascript">
+
 tinymce.init({
     selector: "div#'.$obj.'",
 	inline:true,
@@ -429,6 +430,7 @@ tinymce.init({
 		$sumDays= array_sum($numDays);
 		$severance=0;
 		$service=0;
+		
 		if (shared::dateDiff($contract1_start_date, shared::addYearOnly($contract1_start_date,1))>$sumDays) {
 			$severance=$salary;
 		} else if (shared::dateDiff($contract1_start_date, shared::addYearOnly($contract1_start_date,2))>$sumDays) {
@@ -445,5 +447,121 @@ tinymce.init({
 		$data['housing']=$housing;
 		$data['numDays']=$numDays;
 		return $data;
+	}
+	static function generate_key($key) {
+		$_SESSION['key']=hash('ripemd128', $key, true);
+		
+	}
+	static function encrypt($text, $key="") {
+		if ($key=="") $key = $_SESSION['key'];
+		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+		
+		$ciphertext = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key,
+									 $text, MCRYPT_MODE_CBC,$iv);
+		$ciphertext = $iv . $ciphertext;
+		$rand=rand(0,255);
+		$seed=1000;
+		$enc="";
+		while ($seed>0) {
+			$i=rand(0,255);
+			$enc.=chr($i);
+			$seed-=$i;
+		}
+		$seed=-$seed;
+		
+		for ($i=0;$i<strlen($ciphertext);$i++) {
+			$i2=ord($ciphertext[$i])+$seed;
+			if ($i2>256) $i2=$i2-256;
+			$seed=$i2;
+			$enc.=chr($i2);
+		}
+		$enc=base64_encode($enc);
+		return $enc;
+	}
+	static function decrypt($enc) {
+		if ($enc==null) return "";
+		$enc=base64_decode($enc);
+		$seed=0;
+		$i=0;
+		while ($seed<1000) {
+			$seed+=ord($enc[$i]);
+			$i++;
+		}
+		
+		$seed=$seed-1000;
+		$dec="";
+		
+		for (;$i<strlen($enc);$i++) {
+			$i2=ord($enc[$i])-$seed;
+			$seed=ord($enc[$i]);
+			if ($i2<0) $i2=$i2+256;
+			$dec.=chr($i2);
+		}
+		
+		$key = $_SESSION['key'];
+		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+		$iv = substr($dec, 0, $iv_size);
+		$dec = substr($dec, $iv_size);
+		$plaintext_dec = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $dec, MCRYPT_MODE_CBC, $iv));
+		return $plaintext_dec;
+	}
+	static function genEncSalaryAll() {
+		$res=db::DoQuery("select a.user_id, b.contract_history_id, b.salary from applicants a
+		inner join contract_history b on a.user_id=b.user_id");
+		foreach ($res as $rs) {
+			$sql="update contract_history set salary=? where contract_history_id=?";
+			$salary=shared::encrypt($rs['salary']);
+			db::ExecMe($sql, array($salary, $rs['contract_history_id']));
+		}
+	}
+	
+	static function genEncSalaryByContractHistoryId($contract_history_id, $con=null) {
+		$res=db::DoQuery("select a.user_id, a.salary from contract_history a where a.contract_history_id=?", array($contract_history_id), $con);
+
+		foreach ($res as $rs) {
+			$sql="update contract_history set salary=? where contract_history_id=?";
+			$salary=shared::encrypt($rs['salary']);
+			db::ExecMe($sql, array($salary, $contract_history_id), $con);
+		}
+	}
+	
+	
+	static function generateEncSalary($user_id) {
+		db::ExecMe("delete from salary_enc where user_id=?", array($user_id));
+		$res=db::DoQuery("select a.user_id, b.contract_history_id, b.salary from applicants a
+		inner join contract_history b on a.user_id=b.user_id");
+		foreach ($res as $rs) {
+			$sql="insert into salary_enc(contract_history_id, user_id, salary_enc) values(?,?,?)";
+			db::ExecMe($sql, array($rs['contract_history_id'], $user_id, shared::encrypt($rs['salary'])));
+		}
+	}
+	static function generateEncSalaryByContractHistory($contract_history_id, $user_id, $con=null) {
+		db::ExecMe("delete from salary_enc where contract_history_id=?", array($contract_history_id), $con);
+		$res=db::DoQuery("select a.salary from contract_history a where a.contract_history_id=?", array($contract_history_id), $con);
+		foreach ($res as $rs) {
+			$sql="insert into salary_enc(contract_history_id, user_id, salary_enc) values(?,?,?)";
+			db::ExecMe($sql, array($contract_history_id, $user_id, shared::encrypt($rs['salary'])), $con);
+			db::ExecMe("update contract_history set salary=0 where contract_history_id=?", array($contract_history_id), $con);
+		}
+	}
+	
+	static function generateEncSalaryForEmployee() {
+		$res=db::DoQuery("select a.user_id, b.contract_history_id, b.salary, c.pwd from applicants a
+		inner join contract_history b on a.user_id=b.user_id
+		left join m_user c on c.user_id=a.user_id");
+		foreach ($res as $rs) {
+			db::ExecMe("delete from salary_enc2 where user_id=?", array($rs['user_id']));
+			$sql="insert into salary_enc2(contract_history_id, user_id, salary_enc) values(?,?,?)";
+			
+			db::ExecMe($sql, array($rs['contract_history_id'], $rs['user_id'], shared::encrypt($rs['salary'], substr($rs['pwd'],0,32))));
+		}
+	}
+	static function fixSalary($res, $field="") {
+		if ($field=="") $field='salary';
+		foreach($res as $key=>$rs) {
+			$res[$key][$field]=shared::decrypt($rs[$field]);
+		}
+		return $res;
 	}
 }

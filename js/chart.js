@@ -1992,7 +1992,7 @@
 			//Expose options as a scope variable here so we can access it in the ScaleClass
 			var options = this.options;
 
-			this.ScaleClass = Chart.Scale.extend({
+			this.Scaleclass= Chart.Scale.extend({
 				offsetGridLines : true,
 				calculateBarX : function(datasetCount, datasetIndex, barIndex){
 					//Reusable method for calculating the xPosition of a given bar based on datasetIndex & width of the bar
@@ -2032,7 +2032,7 @@
 			}
 
 			//Declare the extension of the default point, to cater for the options passed in to the constructor
-			this.BarClass = Chart.Rectangle.extend({
+			this.Barclass= Chart.Rectangle.extend({
 				strokeWidth : this.options.barStrokeWidth,
 				showStroke : this.options.barShowStroke,
 				ctx : this.chart.ctx
@@ -2479,7 +2479,7 @@
 		defaults : defaultConfig,
 		initialize:  function(data){
 			//Declare the extension of the default point, to cater for the options passed in to the constructor
-			this.PointClass = Chart.Point.extend({
+			this.Pointclass= Chart.Point.extend({
 				strokeWidth : this.options.pointDotStrokeWidth,
 				radius : this.options.pointDotRadius,
 				display: this.options.pointDot,
@@ -3106,7 +3106,7 @@
 		},
 
 		initialize: function(data){
-			this.PointClass = Chart.Point.extend({
+			this.Pointclass= Chart.Point.extend({
 				strokeWidth : this.options.pointDotStrokeWidth,
 				radius : this.options.pointDotRadius,
 				display: this.options.pointDot,

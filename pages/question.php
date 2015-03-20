@@ -41,7 +41,7 @@
 			bind('.btn_delete_choice',"click", DeleteChoice);
 			hideColumns('tbl_choice');
 		}
-		ajax("questionAjax.php", data, success);
+		ajax("question_ajax", data, success);
 	}
 	function Edit() {
 		currentRow=$(this).closest("tr").index();
@@ -134,10 +134,9 @@
 		data['type']='delete';
 		data['question_id']=getChildHtml(par, 'question_id', fields);
 		var success=function(msg) {
-			alert("Success");
 			par.remove();
 		}
-		ajax("questionAjax.php", data, success);
+		ajax("question_ajax", data, success);
 	}
 	function Cancel() {
 	}
@@ -157,7 +156,7 @@
 		data['choice_id']=choice_id;
 		
 		var success=function(msg) {
-			alert('Success');
+			
 			
 			tbl='tbl_question';
 			if (currentRow>=0) {
@@ -169,8 +168,8 @@
 				adder='<tr><td>';
 				adder+=msg+"</td>"; 
 				adder+='<td></td>';
-				adder+='<td><?php _p(getImageTags(array('edit','delete')))?></td>';
-				adder+='</tr>';	
+				adder+="<td><?php _p(getImageTags(array('edit','delete')))?></td>";
+				adder+="</tr>";	
 				currentRow=$('#tbl_question tbody').children().length;
 				
 				$('#tbl_question tbody').append(adder);
@@ -182,7 +181,7 @@
 			}
 			edit_data();
 		}
-		ajax("questionAjax.php", data, success);
+		ajax("question_ajax", data, success);
 		
 	}
 	function Search() {
@@ -194,7 +193,7 @@
 			bindAll();
 			
 		}
-		ajax("questionAjax.php", data, success);
+		ajax("question_ajax", data, success);
 	}
 </script>
 <?php _t("question_filter") ?>

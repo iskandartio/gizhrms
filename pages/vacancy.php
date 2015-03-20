@@ -1,6 +1,4 @@
 <?php
-
-	
 	$res_question=db::select('question','question_id, question_val','','question_val');
 	$res=db::select('vacancy_type','vacancy_type','','vacancy_type');
 	$vacancy_type_options=shared::select_combo_complete($res, 'vacancy_type','- Vacancy Type -');
@@ -58,7 +56,7 @@
 			});
 			fixSelect();
 		}
-		ajax("vacancyAjax.php", data, success);
+		ajax("vacancy_ajax", data, success);
 	}
 	
 	function Delete() {
@@ -71,7 +69,7 @@
 			par.remove();
 			Add();
 		}
-		ajax("vacancyAjax.php", data, success);
+		ajax("vacancy_ajax", data, success);
 		
 	}
 	function Cancel() {
@@ -120,7 +118,7 @@
 			setHtmlAllSelect(tbl, ['vacancy_type']);		
 			edit_data();
 		}
-		ajax("vacancyAjax.php", data, success);
+		ajax("vacancy_ajax", data, success);
 	}
 	function Search() {
 		var data={};
@@ -131,7 +129,7 @@
 			bindAll();
 			
 		}
-		ajax("vacancyAjax.php", data, success);
+		ajax("vacancy_ajax", data, success);
 		
 	}
 </script>

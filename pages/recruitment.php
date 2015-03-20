@@ -19,7 +19,7 @@
 			$('.vacancy_list').html(msg);
 			bindHeader();
 		}
-		ajax('recruitmentAjax.php',data, success);
+		ajax('recruitment_ajax',data, success);
 	}
 	function bindTblDetail() {
 		bind('.btn_detail','click', PopupDetail);
@@ -42,7 +42,7 @@
 			$('.applicant_list').html(msg);
 			bindTblDetail();
 		}
-		ajax('recruitmentAjax.php',data, success);
+		ajax('recruitment_ajax',data, success);
 	}
 	function PopupDetail() {
 		var data={};
@@ -55,7 +55,7 @@
 			$('#popup_detail').dialog("open");
 			
 		};
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 	function Save() {
 		var f=fields_detail;
@@ -69,7 +69,7 @@
 		var success=function(msg) {
 			if (msg!='') alert(msg);
 		}
-		ajax("recruitmentAjax.php", data, success);
+		ajax("recruitment_ajax", data, success);
 	}
 </script>
 <div class='vacancy_list'></div>

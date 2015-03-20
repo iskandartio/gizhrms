@@ -74,13 +74,14 @@ static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id=''
 		, c.contract_status, c.salary_band, c.project_name, c.project_number, c.team_leader
 		, c.principal_advisor, c.financial_controller, c.project_location, c.responsible_superior, c.SAP_No
 		, c.position, ifnull(c.working_time,100) working_time from $tbl a
-	left join applicants b on a.user_id=b.user_id
-	left join contract_history c on a.user_id=c.user_id and c.end_date>curdate()";
+		left join applicants b on a.user_id=b.user_id
+		left join contract_history c on a.user_id=c.user_id and c.start_date>curdate()";
 		$res=db::DoQuery($sql, array(), $con);
 		
 		$result="<table class='tbl' id='tbl_result'><thead><tr><th>Contract History Id</th><th>User Id</th><th>Name</th><th>Job</th><th>Contract Duration/Salary</th>
 		<th></th></tr></thead><tbody>";
 		foreach ($res as $row) {
+			$row['salary']=shared::decrypt($row['salary']);
 			$res_salary_sharing=db::select('salary_sharing','*','contract_history_id=?','',array($row['contract_history_id']));
 			$btn=array();
 			if ($_SESSION['role_name']=='employee') {
@@ -151,8 +152,9 @@ static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id=''
 	inner join $tbl c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
 	left join applicants d on d.user_id=b.employee_id
 	left join ranking e on e.ranking_id=a.ranking_id
-	where  a.ranking_id is not null";
+	where a.ranking_id is not null";
 		db::ExecMe($sql, array(), $con);
+		/*
 		$sql="create temporary table temp_rank2
 	select b.vacancy_employee_id, b.employee_id, a.user_id, a.ranking_id, a.user_comment, concat(d.first_name,' ', d.last_name) as name, e.ranking_val
 	from user_ranking a
@@ -165,7 +167,8 @@ static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id=''
 		db::ExecMe($sql, array(), $con);
 
 		$res_ranking=db::DoQuery("select * from temp_rank2 union all select * from temp_rank", array(), $con);
-		
+*/		
+		$res_ranking=db::DoQuery("select * from temp_rank", array(), $con);
 		$ranking=array();
 		foreach ($res_ranking as $row) {
 			$ranking[$row['user_id']][$row['employee_id']]['employee_id']=$row['employee_id'];
@@ -196,10 +199,10 @@ static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id=''
 				
 				uasort($ranking[$row['user_id']], 'cmp');
 				
-				$eval="<table class='tbl_inside'><thead><tr><th></th><th>User Name</th><th>Ranking</th><th>Comment</th></tr><tbody>";
+				$eval="<table class='tbl_inside'><thead><tr><th>User Name</th><th>Ranking</th><th>Comment</th></tr><tbody>";
 				foreach ($ranking[$row['user_id']] as $key=>$val) {
 					if ($val['employee_id']==$_SESSION['uid']) continue;					
-					$eval.="<tr><td></td><td>".$val['name']."</td><td>".$val['ranking_val']."</td><td>".$val['user_comment']."</td></tr>";
+					$eval.="<tr><td>".$val['name']."</td><td>".$val['ranking_val']."</td><td>".$val['user_comment']."</td></tr>";
 				}
 				$eval.="</body></table>";
 			}

@@ -5,6 +5,11 @@
 <script>
 	var fields=generate_assoc(['email_type','email_type_name','email_content']);
 	$(function() {
+		$.widget("ui.dialog", $.ui.dialog, {
+			_allowInteraction: function(event) {
+			return !!$(event.target).closest(".mce-container").length || this._super( event );
+			}
+		});
 		bindAll();
 	});
 	function bindAll() {
@@ -23,7 +28,7 @@
 		var data={}
 		data['type']='save';
 		data=prepareDataText(data, ['host','security_type','port','user_name','pwd','sender_name']);
-		ajax('email_settingAjax.php',data);
+		ajax('email_setting_ajax',data);
 	}
 	function EmailContent() {
 		var par=$(this).closest("tr");
@@ -36,7 +41,7 @@
 			bindAll();
 		}
 		
-		ajax('email_settingAjax.php', data, success);
+		ajax('email_setting_ajax', data, success);
 	}
 	function SaveEmail() {
 		var data={}
@@ -47,7 +52,7 @@
 			$('#show_detail').dialog("close");
 			
 		}
-		ajax('email_settingAjax.php', data, success);
+		ajax('email_setting_ajax', data, success);
 	}
 	
 </script>
@@ -68,4 +73,4 @@
 }?>
 
 </table>
-<div id='show_detail'/>
+<div id='show_detail'></div>

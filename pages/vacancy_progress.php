@@ -41,7 +41,7 @@
 			$('#show_detail').dialog("close");
 			
 		}
-		ajax('vacancy_progressAjax.php', data, success);
+		ajax('vacancy_progress_ajax', data, success);
 	}
 	
 	function Email() {
@@ -58,12 +58,18 @@
 			bindAll();
 		}
 		
-		ajax('vacancy_progressAjax.php', data, success);
+		ajax('vacancy_progress_ajax', data, success);
 	}
 
 	function Delete() {
 		par=$(this).closest("tr");
-		par.remove();
+		var data={}
+		data['type']='delete';
+		data['vacancy_progress_id'] = getChild(par, 'vacancy_progress_id', fields);
+		var success=function(msg) {
+			par.remove();
+		}
+		ajax('vacancy_progress_ajax', data, success);
 	}
 	function Add() {
 		var a='';
@@ -86,7 +92,7 @@
 		var data={}
 		data['type']="up";
 		data['vacancy_progress_id']=getChild(par, 'vacancy_progress_id', fields);
-		ajax('vacancy_progressAjax.php', data, success);
+		ajax('vacancy_progress_ajax', data, success);
 	}
 	function Down() {
 		var par=$(this).closest("tr");
@@ -96,7 +102,7 @@
 		var data={}
 		data['type']="down";
 		data['vacancy_progress_id']=getChild(par, 'vacancy_progress_id', fields);
-		ajax('vacancy_progressAjax.php', data, success);
+		ajax('vacancy_progress_ajax', data, success);
 	}
 	function Cancel() {
 		var par=$(this).closest("tr");
@@ -143,7 +149,7 @@
 			checkboxToLabel(par, 'active', 'Active','');
 			bindAll();
 		}
-		ajax('vacancy_progressAjax.php', data, success);
+		ajax('vacancy_progress_ajax', data, success);
 	}
 	
 	function Edit() {
@@ -168,7 +174,7 @@
 <?php foreach ($res as $row) {
 	_p("<tr><td>".$row['vacancy_progress_id']."</td><td>".$row['vacancy_progress_val']."</td><td>".$row['process_name']."</td><td>".$row['required']."</td>
 	<td><span style='display:none'>".$row['active']."</span>".($row['active']==1 ? 'Active' : '')."</td>
-	<td width='75px'>".($row['required']==1 ? getImageTags(array('edit','up','down')) : getImageTags(array('edit','up','down')))."</td>
+	<td width='100px'>".($row['required']==1 ? getImageTags(array('edit','up','down')) : getImageTags(array('edit','delete','up','down')))."</td>
 	<td><button class='btn_invitation'>Invitation</button> <button class='btn_rejection'>Rejection</button> 
 	<button class='btn_interviewer'>Interviewer</button> <button class='btn_reference'>Reference</button></td>
 	</tr>");

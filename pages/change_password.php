@@ -19,7 +19,7 @@
 		var success=function(msg) {
 			if (msg!='') alert(msg);
 		}
-		ajax("change_passwordAjax.php",data, success);
+		ajax("change_password_ajax",data, success);
 	}
 </script>
 <div class='row'><div class='label'>Old Password</div><div class='textbox'><?php _t("old_password","","","password")?></div></div>

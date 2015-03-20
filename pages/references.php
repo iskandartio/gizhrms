@@ -24,7 +24,7 @@
 		var success=function(msg) {
 			par.remove();
 		}
-		ajax("referenceAjax.php", data, success);
+		ajax("reference_ajax", data, success);
 	}
 
 	function Save() {
@@ -66,7 +66,7 @@
 			
 			bindAll();
 		}
-		ajax("referenceAjax.php", data, success);
+		ajax("reference_ajax", data, success);
 		
 		
 		
