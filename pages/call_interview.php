@@ -76,7 +76,7 @@
 				location.reload();
 			}
 		}
-		ajax("filter_applicantAjax.php", data, success);
+		ajax("filter_applicant_ajax", data, success);
 	}
 
 </script>

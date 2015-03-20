@@ -86,7 +86,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing'");
 		
 		var func=function(msg) {
 		}
-		ajax('recruitment_summaryAjax.php', data, func);
+		ajax('recruitment_summary_ajax', data, func);
 		
 	}
 </script>

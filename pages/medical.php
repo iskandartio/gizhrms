@@ -166,7 +166,7 @@
 		ajax("medical_ajax",data, success);
 	}
 	function Print() {
-		window.open("print_medical_data.php?user_id="+$('#employee_id').data("id")+"&year="+$('.year:checked').val());
+		window.open("print_medical_data?user_id="+$('#employee_id').data("id")+"&year="+$('.year:checked').val());
 	}
 	function ChangeYear() {
 		EmployeeChange();
