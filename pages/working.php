@@ -16,5 +16,6 @@
 		}
 		ajax("working_ajax", data, success);
 	}
+
 </script>
 <div id='div_working'></div>
