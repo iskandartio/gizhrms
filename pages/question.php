@@ -169,7 +169,11 @@
 				adder+=msg+"</td>"; 
 				adder+='<td></td>';
 				adder+="<td><?php _p(getImageTags(array('edit','delete')))?></td>";
+<<<<<<< Updated upstream
 				adder+="</tr>";	
+=======
+				adder+='</tr>';	
+>>>>>>> Stashed changes
 				currentRow=$('#tbl_question tbody').children().length;
 				
 				$('#tbl_question tbody').append(adder);
