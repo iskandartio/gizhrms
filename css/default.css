@@ -442,3 +442,6 @@ select option[disabled]:first-child {
 .hidden {
 	display:none;
 }
+.small_left_margin  {
+	margin-left:10px!important;
+}
