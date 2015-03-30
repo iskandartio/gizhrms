@@ -180,11 +180,6 @@ class URLParse
 				P_TITL => "Filter Applicant",
 				P_METD => "",
 				P_METK => ""),		
-			"gender" => array(
-				P_FILE => "gender.php",
-				P_TITL => "Gender",
-				P_METD => "",
-				P_METK => ""),				
 			"index" =>      array(
                 P_RDIR => "",
 				
@@ -220,6 +215,12 @@ class URLParse
 				P_TITL => "Nationality",
 				P_METD => "",
 				P_METK => ""),
+			"others" => array(
+				P_FILE => "others.php",
+				P_TITL => "Others",
+				P_METD => "",
+				P_METK => ""),				
+
 			"position_applied" => array(
 				P_WIDTH=> "400",
 				P_FILE => "position_applied.php",
@@ -282,9 +283,6 @@ class URLParse
                 P_METD => "",
                 P_METK => "",
                 ),
-			"show_picture"=>array(
-				P_FILE=>"show_picture.php"
-				),
 			"statistics" => array(
 				P_FILE => "statistics.php",
 				P_TITL => "Statistics",
@@ -350,13 +348,17 @@ class URLParse
 		
         if($page_info_key === false)
         {
-			$full_path=self::$ROOT_FOLDER . "ajax/".self::getUrlCmsPage().".php";
+			header('Content-Type: text/html; charset=utf-8');
+			$page=self::getUrlCmsPage();
+			$full_path=self::$ROOT_FOLDER . "ajax/".$page.".php";
 			if ($_SESSION['page_name']=='outpatient') $medical_type='employee_outpatient';
 			if ($_SESSION['page_name']=='pregnancy') $medical_type='employee_pregnancy';
-			if (file_exists($full_path)) {
-			
+			if (isset($_POST['module'])) {
+				$full_path=self::$ROOT_FOLDER."$page"."Class.php";
+				
+			}
+			if (file_exists($full_path)) {			
 				foreach ($_POST as $key=>$value) {
-			
 					if (startsWith($key,'date')||endsWith($key,'date')) {
 						if (!is_array($value)) {
 							$$key=dbDate($value);	
@@ -369,12 +371,10 @@ class URLParse
 						}
 					} else {
 						$$key=$value;
-					}
-					
+					}					
 				}
 				
 				if (isset($captcha_text)) {
-				
 					if ($_SESSION['captcha_text']!=$captcha_text) {
 						$data['err']='Wrong captcha text';
 						$data['captcha_tag']=shared::get_captcha_text(true);
@@ -382,8 +382,11 @@ class URLParse
 						die(json_encode($data));
 					}
 				}
-				
-				include($full_path);
+				if (isset($_POST['module'])) {
+					$page::$_POST['module']();
+				} else {
+					include($full_path);
+				}
 				die;
 			}
             self::send404Headers();

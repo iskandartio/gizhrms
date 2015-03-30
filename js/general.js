@@ -95,7 +95,7 @@ function send_email() {
 	});
 }
 function getChildObj(par, name, f) {
-	return par.children("td:eq("+f[name]+")");
+	return $(par).children("td:eq("+f[name]+")");
 }
 function getChild(par, name, f) {
 	var obj=getChildObj(par, name, f);
@@ -239,8 +239,8 @@ function textToLabel(par, nameArr, f) {
 	if (!f) f=fields;
 	for (key in nameArr) {
 		name=nameArr[key];
-		var td=par.children("td:eq("+f[name]+")");
-		td.html(td.children("#"+name).val());
+		var td=par.find("td:eq("+f[name]+")");
+		td.html(td.find("."+name).val());
 	}
 	
 }
@@ -254,15 +254,17 @@ function textToLabelArr(par, name, arr, f) {
 	}
 	td.html(a);
 }
-function selectedToLabel(par, name, f) {
+function selectedToLabel(par, nameArr, f) {
 	if (!f) f=fields;
-	var td=par.children("td:eq("+f[name]+")");
-	if (td.children("select").val()=='') {
-		td.html("<span style='display:none'></span>");
-	} else {
-		td.html("<span style='display:none'>"+td.children("#"+name).val()+"</span> "+td.children("select").children("option:selected").text());
+	for (key in nameArr) {
+		var name=nameArr[key];
+		var td=par.children("td:eq("+f[name]+")");
+		if (td.children("select").val()=='') {
+			td.html("<span style='display:none'></span>");
+		} else {
+			td.html("<span style='display:none'>"+td.children("."+name).val()+"</span> "+td.children("select").children("option:selected").text());
+		}
 	}
-	
 }
 
 function textToDefaultLabel(par, nameArr, f) {
@@ -290,15 +292,18 @@ function textToDefaultLabelArr(par, name, arr, f) {
 	}
 	td.html(a);
 }
-function selectedToDefaultLabel(par, name, f) {
+function selectedToDefaultLabel(par, nameArr, f) {
 	if (!f) f=fields;
-	var td=par.children("td:eq("+f[name]+")");
-	var originalValue=td.children("#"+name).data("originalValue");
-	if (originalValue=="") {
-		td.html("<span style='display:none'>"+originalValue+"</span> ");
-	} else {
-		td.children("select").val(originalValue);
-		td.html("<span style='display:none'>"+originalValue+"</span> "+td.children("select").children("option:selected").text());
+	for (key in nameArr) {
+		var name=nameArr[key];
+		var td=par.children("td:eq("+f[name]+")");
+		var originalValue=td.children("#"+name).data("originalValue");
+		if (originalValue=="") {
+			td.html("<span style='display:none'>"+originalValue+"</span> ");
+		} else {
+			td.children("select").val(originalValue);
+			td.html("<span style='display:none'>"+originalValue+"</span> "+td.children("select").children("option:selected").text());
+		}
 	}
 }
 function checkboxToDefaultLabel(par, name, trueLabel, falseLabel, f) {
@@ -774,4 +779,19 @@ function prepareDataAutoComplete(data, arr, par,f) {
 		data[name]=getChildObj(par, name, f).children("."+name).data("id");
 	}
 	return data;
+}
+function prepareTabs(name) {
+	activeTab=getCookie(name+'_tabs');
+	
+	$( "#tabs" ).tabs({
+		
+		create: function( event, ui ) {
+			if (activeTab==0) load(0);
+		},
+		activate: function( event, ui ) {
+			setCookie(name+'_tabs', $("#tabs").tabs("option","active"), 1);
+			load($('#tabs').tabs("option","active"));
+		},
+	});
+	$( "#tabs" ).tabs( "option", "active", activeTab);
 }

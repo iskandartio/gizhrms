@@ -3,6 +3,11 @@
 	width:100px;
 	margin-top:6px;
 }
+.label120 {
+	float:left;
+	width:120px;
+	margin-top:6px;
+}
 .label160 {
 	float:left;
 	width:160px;
@@ -62,6 +67,12 @@ div.row:after {
 .float100 {
 	float:left;width:100px;
 	padding:3px;
+}
+.float100-no-padding {
+	float:left;width:100px;
+}
+.float110 {
+	float:left;width:110px;
 }
 .rfloat100 {
 	float:right;

@@ -16,13 +16,13 @@ $ext=db::select_single("applicants", "$type v", "user_id=?","", array($user_id))
 $file=$user_id."-$type".$ext;
 
 
-if (file_exists("uploads/$file")) {
+if (file_exists("pages/uploads/$file")) {
 		
 	header('Content-Disposition: attachment; filename="'.basename($file).'"');
 	ob_clean();
     flush();
 	
-	readfile("uploads/$file");
+	readfile("pages/uploads/$file");
 	
 	exit;
 } else {

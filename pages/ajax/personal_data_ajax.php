@@ -1,11 +1,13 @@
 <?php
 
-	if ($type=='load')  {
+	if ($type=='load_personal_data')  {
 		$applicant=Employee::get_active_employee_simple_one("a.user_id=?", array($_SESSION['user_id']));
 		$combo_gender=shared::select_combo_complete(db::select('gender','*'),'gender','-Gender-','gender',$applicant['gender']);
 		$combo_marital_status=shared::select_combo_complete(db::select('marital_status','*'),'marital_status','-Status-','marital_status',$applicant['marital_status']);
 		$combo_nationality=shared::select_combo_complete(db::select('nationality','*'),'nationality_id','-Nationality-','nationality_val',$applicant['nationality_id']);
-		$combo_country=shared::select_combo(db::select('country','*'),'country_id','country_val',$applicant['country_id']);
+		$combo_country=shared::select_combo(db::select('country','*'),'country_id','country_val')."<option value='-1'>Other *</option>";
+		$combo_country=shared::set_selected($applicant['country_id'], $combo_country);
+		
 		$combo_province=shared::select_combo_complete(db::select('province','*'),'province_id','-Province-','province_val',$applicant['province_id']);
 		$res=db::select('city','*','','city_val');
 		$city_option=array();
@@ -31,7 +33,7 @@
 </div> 
 </form>";
 		$result.="<table>
-	<tr style='display:none'><td>Applicants ID</td><td>:</td><td>"._t2("applicants_id",$applicant)."</td></tr>
+	<tr style='display:none'><td>employee ID</td><td>:</td><td>"._t2("employee_id",$applicant)."</td></tr>
 	<tr><td>First Name *</td><td>:</td><td>"._t2("first_name",$applicant)."</td></tr>
 	<tr><td>Last Name *</td><td>:</td><td>"._t2("last_name", $applicant)."</td></tr>
 	<tr><td>Place of Birth *</td><td>:</td><td>"._t2("place_of_birth", $applicant)."</td></tr>
@@ -40,7 +42,7 @@
 	<tr><td>Marital Status</td><td>:</td><td>".$combo_marital_status."</td></tr>
 	<tr><td>Nationality *</td><td>:</td><td>".$combo_nationality."</td></tr>
 	<tr><td valign='top'>Address *</td><td>:</td><td><textarea class='address' cols='30' rows='3'>".$applicant['address']."</textarea><br/>
-	<select id='country_id' class='country_id'><option value='' disabled selected>-Country-</option>".$combo_country."<option value=-1>Other *</option></select> "._t2("country_name", $applicant)."<br/>
+	<select id='country_id' class='country_id'><option value='' disabled selected>-Country-</option>".$combo_country."</select> "._t2("country_name", $applicant)."<br/>
 	".$combo_province.$combo_city."
 	<tr><td>Post Code *</td><td>:</td><td>"._t2("post_code", $applicant)."</td></tr>
 	<tr><td>Phone1 *</td><td>:</td><td>"._t2("phone1", $applicant)."</td></tr>
@@ -59,7 +61,7 @@
 		die(json_encode($data));
 	}
 	
-	if ($type=='save') {
+	if ($type=='save_personal_data') {
 		$_POST['user_id']=$_SESSION['user_id'];
 		$user_id=$_POST['user_id'];
 		unset($_POST['user_name']);
@@ -80,7 +82,7 @@
 			$contract_history_id=db::insert('contract_history','user_id, start_date, end_date', array($user_id, '1900-01-01', '3000-01-01'), $con);
 			$_SESSION['contract_history_id']=$contract_history_id;
 			$_POST['contract1_end_date']='3000-01-01';
-			$i=db::insertEasy('applicants', $_POST,$con);
+			$i=db::insertEasy('employee', $_POST,$con);
 		} else {
 			$data['is_new']=0;
 			$rs=db::select_one('m_user', 'user_name','user_id=?','', array($user_id), $con);
@@ -90,7 +92,7 @@
 				db::ExecMe('update m_user set user_name=?, pwd=sha2(?,512), activation_code=?, status_id=null 
 					where user_id=?', array($user_name, $password, $activation_code, $user_id), $con);
 			}
-			$i=db::updateEasy('applicants', $_POST,$con);
+			$i=db::updateEasy('employee', $_POST,$con);
 			
 			
 		}
@@ -99,7 +101,7 @@
 			db::insert('m_user_role','user_id, role_id', array($user_id, $role_id), $con);
 			$param=array();
 			$param['email']=$user_name;
-			$param['link']=$activation_code;
+			$param['link']=$_SESSION['home']."activate?link=".$activation_code;
 			$param['password']=$password;
 			shared::email("register", $param, $con);			
 		}
@@ -112,6 +114,5 @@
 		$data['type']='edit_employee';
 		unset($_SESSION['employee']);
 		die(json_encode($data));
-		
 	}
 ?>

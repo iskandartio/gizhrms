@@ -1,7 +1,5 @@
-<?php
-	
+<?php	
 	$combo_project_name_def=shared::select_combo_complete(Project::getProjectName(), 'project_name', '-Project Name-', 'project_name');
-	
 	$res=db::select('business','business_id,business_val','','sort_id');
 	$combo_business="<select id='filter_business' title='Nature of Business'><option value=''>-Nature of Business-</option>";
 	foreach ($res as $row) {
@@ -33,9 +31,11 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 	}
 	
 ?>
+<script src='js/projectView.js'></script>
+<script src='js/filter_applicant_closing.js'></script>
 <script>
 	var fields={'user_id':0, 'ranking_id':4, 'user_comment':5, 'interview_place':6, 'interview_date':7, 'interview_time':8, 'btn':9}
-	var field_closing=generate_assoc(['contract_history_id','user_id','name','job','contract_duration','btn']);
+	var field_closing=generate_assoc(['user_id','name','job','contract_duration','btn']);
 	var field_user=generate_assoc(['vacancy_employee_id','employee_id','btn']);
 	var project_name_choice="<?php _p($combo_project_name_def)?>";
 	var status_choice=<?php _p(json_encode($status_choice))?>;
@@ -66,12 +66,6 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		numeric($('#salary_expectation_end'));
 		
 	});
-	function bindClosing() {
-		bind('.project_name','change', ChangeProjectName);
-		bind('.project_number','change', ChangeProjectNumber);
-		bind('.btn_deleteSalarySharing','click',DeleteSalarySharing);
-	}
-
 
 	function ShowDetail() {
 		var data={};
@@ -196,8 +190,6 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			bind('.btn_restart',"click",Restart);
 			bind('.btn_detail',"click",ShowDetail);
 			bind('.btn_accept',"click",Accept);
-			bind('.btn_add','click',AddSalarySharing);
-			bind('.btn_deleteSalarySharing','click',DeleteSalarySharing);
 			$('#tbl_result tbody td').css('vertical-align','top');
 			hideColumns('tbl_filter_applicant');
 			$('#tbl_filter_applicant tbody tr').each(function() { 
@@ -205,11 +197,13 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 				$(v).data("originalValue", $(v).val());
 			});
 			setDatePicker();
-			hideColumnsArr('tbl_result',['contract_history_id','user_id'],field_closing);
+			hideColumns('tbl_result');
 			$('input[id="salary"]').each(function(idx) {
 				numeric($(this));
 			});
-			bindClosing();
+			if ($('#next_vacancy_progress_id  option:selected').html()=='Closing') {
+				var a=new filter_applicant_closing($('#tbl_result'));
+			}
 			fixSelect();
 		}
 		ajax("filter_applicant_ajax", data, success);
@@ -220,17 +214,17 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var p=getChildObj(par, 'job', field_closing);
 		if (!validate_empty_col(p,['job_title','position','project_name','project_number','project_location','responsible_superior'])) return;
 		p=getChildObj(par, 'contract_duration', field_closing);
-		if (!validate_empty_col(p,['start_date','end_date','salary','salary_band'])) return;
+		if (!validate_empty_col(p,['contract1_start_date','contract1_end_date','salary','salary_band'])) return;
 		var data={};
 		data['type']="accept";
 		
 		data = prepareDataMultiInput(data
-		, ['job_title','position','team_leader','principal_advisor','financial_controller','project_location'
+		, ['job_title','position','team_leader','principal_advisor','financial_controller','office_manager','project_location'
 		,'responsible_superior','SAP_No','project_name','project_number']
 		, getChildObj(par, 'job', field_closing));
 		
-		data=prepareDataMultiInput(data, ['start_date','end_date','salary','salary_band'], getChildObj(par, 'contract_duration', field_closing));
-		data=prepareDataHtml(data, ['user_id','contract_history_id'], par, field_closing);
+		data=prepareDataMultiInput(data, ['contract1_start_date','contract1_end_date','salary','salary_band'], getChildObj(par, 'contract_duration', field_closing));
+		data=prepareDataHtml(data, ['user_id'], par, field_closing);
 		data= prepareDataText(data, ['vacancy_id','next_vacancy_progress_id']);
 		data['working_time']=$(par).find('.working_time').val();
 		var p= getChildObj(par, 'contract_duration', field_closing);
@@ -253,7 +247,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 
 		var success=function(msg) {
 		
-			Search();
+			//Search();
 		}
 		ajax("filter_applicant_ajax", data, success);
 	}
@@ -457,59 +451,6 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		
 	}
 
-	function AddSalarySharing() {
-	
-		var s="<div class='row'><div class='label width120'>"+project_name_choice+"</div>";
-		s+="<div class='label width120'><select class='project_number'><option value=''>-Project Number-</option></select></div>";
-		s+="<div class='label width80'><?php _t("percentage","","1")?> % ";
-		s+=getImageTags(['delete'],'SalarySharing');
-		s+="</div></div>";
-		var p=$(this).closest(".row").next();
-		$(p).append(s);
-		var par=$(this).closest("tr");
-		var obj=getChild(par, 'job', fields);
-		$(p).find('.project_name_id:last').val($(obj).find('.project_name_id').val());
-		bindClosing();
-		fixSelect();
-		
-	}
-	function ChangeProjectName() {
-		var data={}
-		data['type']='getProjectNameAndNumber';
-		data['project_name']=$(this).val();
-		
-		par=$(this).closest(".row");
-		if (par.length==0) par=$(this).closest("td");
-		var success=function(msg) {
-			var d=jQuery.parseJSON(msg);
-			par.find('.project_number').html(d['combo_project_number']);
-			par.find('.principal_advisor').html(d['principal_advisor']);
-			par.find('.principal_advisor_name').html(d['principal_advisor_name']);
-			par.find('.financial_controller').html(d['financial_controller']);
-			par.find('.financial_controller_name').html(d['financial_controller_name']);
-			par.find('.team_leader').html('');
-			par.find('.team_leader_name').html('');
-			fixSelect();
-		}
-		ajax('project_ajax',data, success);
-	}
-	function ChangeProjectNumber() {
-		if ($(this).closest('.div_salary_sharing').length>0) return;
-		var data={}
-		data['type']='getProjectNumberByName';
-		data['project_number']=$(this).val();
-		par=$(this).closest(".row");
-		if (par.length==0) par=$(this).closest("td");
-		var success=function(msg) {
-			var d=jQuery.parseJSON(msg);
-			par.find('.team_leader').html(d['team_leader']);
-			par.find('.team_leader_name').html(d['team_leader_name']);
-		}
-		ajax('project_ajax',data, success);
-	}
-	function DeleteSalarySharing() {
-		$(this).closest(".row").remove();
-	}
 </script>
 <div class='row'>
 <div class='float350'>

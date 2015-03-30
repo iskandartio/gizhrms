@@ -12,10 +12,18 @@ function dependents(div) {
 		
 		setDatePicker();
 		setDOB('#dob');
+		var data={}
+		data['type']='getRelationChoice';
+		var success=function(msg) {
+			relation_choice=msg;
+			fixSelect();
+		}
+		ajax('employee_detail_ajax',data, success);
+	
 	}
 	
 	self.Add=function()  {
-		s="<tr><td></td><td><input type='text' class='relation' id='relation' placeholder='relation'/></td>";
+		s="<tr><td></td><td>"+relation_choice+"</td>";
 		s+="<td><input type='text' class='name' id='name' placeholder='name'/></td>";
 		s+="<td><input type='text' class='dob' id='dob' placeholder='dob'/></td>";
 		s+="<td><input type='checkbox' checked class='entitled' id='entitled0'/><label for='entitled0'>Entitled</label></td>"
@@ -25,7 +33,8 @@ function dependents(div) {
 	}
 	self.Edit=function() {
 		var par=$(this).closest("tr");
-		labelToText(par, {'relation':20,'name':20,'dob':10}, f);
+		labelToText(par, {'name':20,'dob':10}, f);
+		labelToSelect(getChildObj(par, ['relation'],  f), relation_choice);
 		var td_entitled=getChildObj(par, ['entitled'], f);
 		var employee_dependent_id=getChildHtml(par, ['employee_dependent_id'], f);
 		td_entitled.html("<input type='checkbox' "+(td_entitled.html()=='Yes' ? "checked" : "")+" class='entitled' id='entitled"+employee_dependent_id+"'/><label for='entitled"+employee_dependent_id+"'>Entitled</label>");
@@ -35,7 +44,8 @@ function dependents(div) {
 	}
 	self.Cancel=function() {
 		var par=$(this).closest("tr");
-		textToDefaultLabel(par,['relation','name','dob'], f);
+		textToDefaultLabel(par,['name','dob'], f);
+		selectedToDefaultLabel(par, ['relation'], f);
 		var employee_dependent_id=getChildHtml(par, ['employee_dependent_id'], f);
 		td_entitled=getChildObj(par, 'entitled', f);
 		td_entitled.html(td_entitled.children().prop('defaultChecked') ? 'Yes' : 'No');

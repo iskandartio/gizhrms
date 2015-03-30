@@ -1,6 +1,6 @@
 function language(div) {
 	var self=this;
-	var f=generate_assoc(['applicants_language_id','language_id','language_skill_id','btn']);
+	var f=generate_assoc(['employee_language_id','language_id','language_skill_id','btn']);
 	self.AddLanguage=function() {
 		var data={}
 		data['type']='add_language';
@@ -35,10 +35,10 @@ function language(div) {
 		var data={}
 		
 		data['type']='save_language';
-		data=prepareDataText(data, ['applicants_language_id','language_skill_id'], par, f);
+		data=prepareDataText(data, ['employee_language_id','language_skill_id'], par, f);
 		data=prepareDataMultiInput(data, ['language_id','language_val'], getChildObj(par,'language_id',f));
 		var success=function(msg) {
-			setHtmlText(par, 'applicants_language_id', msg, f);
+			setHtmlText(par, 'employee_language_id', msg, f);
 			var obj=getChildObj(par, 'language_id', f);
 			var language_id=obj.children("select").val();
 			if (language_id==-1) {
@@ -57,7 +57,7 @@ function language(div) {
 		var par=$(this).closest("tr");
 		var data={}
 		data['type']='delete_language';
-		data['applicants_language_id']=getChildHtml(par, 'applicants_language_id', f);
+		data['employee_language_id']=getChildHtml(par, 'employee_language_id', f);
 		var success=function(msg) {
 			par.remove();
 		}

@@ -18,7 +18,7 @@ class MedicalCheckup {
 	}
 	static function get_medical_checkup_paid($y) {
 		$res=db::select("employee_medical_checkup a
-		inner join applicants b on a.user_id=b.user_id and a.invoice_date<='".date("$y-12-31")."' and b.contract1_start_date<'".date("$y-12-31")."'",'*','','a.invoice_date');
+		inner join employee b on a.user_id=b.user_id and a.invoice_date<='".date("$y-12-31")."' and b.contract1_start_date<'".date("$y-12-31")."'",'*','','a.invoice_date');
 		return $res;
 	}
 	static function get_summary_table($y, $res) {

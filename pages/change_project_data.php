@@ -1,11 +1,10 @@
 <?php
-
 	$user_id=$_SESSION['user_id'];
-	
 	$applicant=Employee::get_active_employee_one('a.user_id=?',array($user_id));
 	$combo_project_name_def=shared::select_combo_complete(Project::getProjectName(), 'project_name', '-Project Name-');
 	$project_view=Employee::getProjectView($applicant, $combo_project_name_def,'change_project_data');
 ?>
+<script src='js/ProjectView.js'></script>
 <script>
 	var combo_project_name="<?php _p($combo_project_name_def) ?>";
 	$(function() {
@@ -20,7 +19,7 @@
 		return true;
 	}
 	function afterSave(msg) {
-		location.href="employee";
+		location.href="change_project_data";
 	}
 	function bindAll() {
 		bind('#btn_back','click',Back);

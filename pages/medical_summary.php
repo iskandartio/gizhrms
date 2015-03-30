@@ -1,6 +1,5 @@
-<?php
-	
-?>
+<?php $project_name_choice=shared::select_combo_complete(db::select('project_name','*','','project_name'), 'project_name','-Project Name-');?>
+<script src='js/projectView.js'></script>
 <script>
 	$(function() {
 		bindAll();
@@ -11,9 +10,11 @@
 			}
 		});
 		$( "#tabs" ).tabs( "option", "active", getCookie('medical_summary_tabs'));
+		var a=new projectView(document);
 	});
 	function bindAll() {
 		bind('.year','change',ChangeYear);
+		bind('.btn_search','click', loadData);
 	}
 	function ChangeYear() {
 		loadData();
@@ -22,6 +23,9 @@
 		var data={}
 		data['type']='load_data';
 		data['year']=$('.year:checked').val();
+		data['project_name']=$('.project_name').val();
+		data['project_number']=$('.project_number').val();
+		data['project_location']=$('.project_location').val();
 		var success=function(msg) {
 			var d=jQuery.parseJSON(msg);
 			$('#div_outpatient').html(d['outpatient']);
@@ -33,6 +37,12 @@
 	}
 </script>
 <div class='row'><input type='radio' name='year' class='year' checked="checked" value='this_year'/>This Year<input type='radio' name='year' class='year' value='last_year'/>Last Year</div>
+<div class='div_project' style='display:none'>
+	<div class='row'><div class='float100'>Project Name</div><div class='float150'><?php _p($project_name_choice) ?></div>
+	<div class='label'>Project Number</div><div class='float150'><select class='project_number'></select></div>
+	<div class='label'>Project Location</div><div class='float'><select class='project_location'></select></div></div>
+	<button class='button_link btn_search'>Search</button>
+</div>
 <div id='tabs'>
 <ul>
 	<li><a href="#div_outpatient">Outpatient</a></li>

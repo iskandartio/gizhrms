@@ -103,7 +103,8 @@ where a.employee_id=?", array($user_id, $uid));
 		$style='';
 		if ($width!='') $style="style='max-width:$width'";
 		$result="<select $style id='$id' class='$id' title='$id'><option value=''>$def</option>";
-		if ($res!=null) $result.=shared::select_combo($res, $id, $val, $selected)."</select>";
+		if ($res!=null) $result.=shared::select_combo($res, $id, $val, $selected);
+		$result.="</select>";
 		
 		return $result;
 	}
@@ -209,9 +210,11 @@ where a.employee_id=?", array($user_id, $uid));
 				$result[$row["$tbl"."_id"]]=$row["$tbl"."_val"];
 			}
 			$_SESSION["tbl_$tbl"]=$result;
+			return $_SESSION["tbl_$tbl"][$id];
 		}
 		if (!isset($_SESSION["tbl_$tbl"][$id])) {
-			return null;
+			unset($_SESSION["tbl_$tbl"]);
+			get_table_data($tbl, $id);
 		}
 		return $_SESSION["tbl_$tbl"][$id];
 	}
@@ -507,7 +510,7 @@ tinymce.init({
 		return $plaintext_dec;
 	}
 	static function genEncSalaryAll() {
-		$res=db::DoQuery("select a.user_id, b.contract_history_id, b.salary from applicants a
+		$res=db::DoQuery("select a.user_id, b.contract_history_id, b.salary from employee a
 		inner join contract_history b on a.user_id=b.user_id");
 		foreach ($res as $rs) {
 			$sql="update contract_history set salary=? where contract_history_id=?";
@@ -515,7 +518,12 @@ tinymce.init({
 			db::ExecMe($sql, array($salary, $rs['contract_history_id']));
 		}
 	}
-	
+	static function genEncApplicantsSalary($user_id, $con) {
+		$rs=db::select_one('applicants','*','user_id=?','', $con);
+		
+		$sql="update applicants set salary=? where user_id=?";
+		db::ExecMe($sql, array(shared::encrypt($rs['salary']), $user_id), $con);
+	}
 	static function genEncSalaryByContractHistoryId($contract_history_id, $con=null) {
 		$res=db::DoQuery("select a.user_id, a.salary from contract_history a where a.contract_history_id=?", array($contract_history_id), $con);
 
@@ -525,17 +533,17 @@ tinymce.init({
 			db::ExecMe($sql, array($salary, $contract_history_id), $con);
 		}
 	}
-	
-	
+		
 	static function generateEncSalary($user_id) {
 		db::ExecMe("delete from salary_enc where user_id=?", array($user_id));
-		$res=db::DoQuery("select a.user_id, b.contract_history_id, b.salary from applicants a
+		$res=db::DoQuery("select a.user_id, b.contract_history_id, b.salary from employee a
 		inner join contract_history b on a.user_id=b.user_id");
 		foreach ($res as $rs) {
 			$sql="insert into salary_enc(contract_history_id, user_id, salary_enc) values(?,?,?)";
 			db::ExecMe($sql, array($rs['contract_history_id'], $user_id, shared::encrypt($rs['salary'])));
 		}
 	}
+
 	static function generateEncSalaryByContractHistory($contract_history_id, $user_id, $con=null) {
 		db::ExecMe("delete from salary_enc where contract_history_id=?", array($contract_history_id), $con);
 		$res=db::DoQuery("select a.salary from contract_history a where a.contract_history_id=?", array($contract_history_id), $con);
@@ -547,7 +555,7 @@ tinymce.init({
 	}
 	
 	static function generateEncSalaryForEmployee() {
-		$res=db::DoQuery("select a.user_id, b.contract_history_id, b.salary, c.pwd from applicants a
+		$res=db::DoQuery("select a.user_id, b.contract_history_id, b.salary, c.pwd from employee a
 		inner join contract_history b on a.user_id=b.user_id
 		left join m_user c on c.user_id=a.user_id");
 		foreach ($res as $rs) {
@@ -563,5 +571,11 @@ tinymce.init({
 			$res[$key][$field]=shared::decrypt($rs[$field]);
 		}
 		return $res;
+	}
+	static function copyToData($res, $data, $arr) {
+		foreach ($arr as $key) {
+			$data[$key]=$res[$key];
+		}
+		return $data;
 	}
 }

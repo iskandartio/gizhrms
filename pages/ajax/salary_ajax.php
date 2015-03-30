@@ -2,7 +2,7 @@
 	if ($type=='save_adj_salary') {	
 		
 		$_POST['adj_salary']=shared::encrypt($adj_salary);
-		db::updateShort('applicants', 'user_id', $_POST);
+		db::updateShort('employee', 'user_id', $_POST);
 		die;
 	}
 	if ($type=='process_salary') {

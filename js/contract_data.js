@@ -37,7 +37,7 @@ function contract_data(div) {
 			$('#contract_graph>tbody>tr>td:eq(1)',div).html(d['second']);
 			self.start();
 		}
-		ajax("employee_ajax",data,success);
+		ajax("employee_detail_ajax",data,success);
 	}
 	self.validateContractLength=function(d1, d2, y) {
 		if ($('#'+d2,div).length==0) return true;

@@ -1,11 +1,11 @@
 <?php
 	if ($type=='load_data') {
 		
-		$data_limit=Medical::getLimitMany($year, 'employee_outpatient');
+		$data_limit=Medical::getLimitMany($year, 'employee_outpatient', $project_name, $project_number, $project_location);
 		$data_paid=Medical::getPaidMany($year, 'employee_outpatient');
 		$data['outpatient']=Medical::medicalSummaryTable($year, $data_limit, $data_paid, 'employee_outpatient');
 		
-		$data_limit=Medical::getLimitMany($year, 'employee_pregnancy');
+		$data_limit=Medical::getLimitMany($year, 'employee_pregnancy', $project_name, $project_number, $project_location);
 		$data_paid=Medical::getPaidMany($year, 'employee_pregnancy');
 		
 		$data['pregnancy']=Medical::medicalSummaryTable($year, $data_limit, $data_paid, 'employee_pregnancy');

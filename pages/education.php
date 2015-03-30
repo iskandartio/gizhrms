@@ -48,7 +48,7 @@
 		
 		var success=function(msg) {
 			setHtmlText(par, 'applicants_education_id', msg);
-			selectedToLabel(par,'education_id');
+			selectedToLabel(par,['education_id']);
 			textToLabel(par,['major','place','year_from','year_to','country']);
 			btnChange(par, ['edit','delete']);
 			bindAll();
@@ -86,7 +86,7 @@
 	}
 	function Cancel() {
 		var par=$(this).closest("tr");
-		selectedToDefaultLabel(par,'education_id');
+		selectedToDefaultLabel(par,['education_id']);
 		textToDefaultLabel(par,['major','place','year_from','year_to','country']);
 		btnChange(par, ['edit','delete']);
 		bindAll();

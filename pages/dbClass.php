@@ -137,6 +137,7 @@ class db {
 		}
 		$fields=substr($fields,1);
 		$s="insert into $tbl($fields) values(".substr(str_repeat(',?', $count),1).")";
+		
 		return db::ExecMe($s, $params, $con);
 	}
 	
@@ -180,6 +181,7 @@ class db {
 		$fields='';
 		$params=array();
 		foreach ($post as $key=>$val) {
+			if (is_array($val)) continue;
 			if ($key=='type') continue;
 			if ($key==$where) continue;
 			if ($fields!='') $fields.=",";

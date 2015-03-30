@@ -75,13 +75,13 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 				
 				setHtmlText(par, 'applicants_other_language_id', msg, f);
 				textToLabel(par,['language_val'], f);
-				selectedToLabel(par,'language_skill_id', f);
+				selectedToLabel(par, ['language_skill_id'], f);
 				btnChange(par, ['edit','delete']);
 			} else {
 				setHtmlText(par, 'applicants_language_id', msg, f);
 				
 				setHtmlText(par,'language_id');
-				selectedToLabel(par,'language_skill_id', f);
+				selectedToLabel(par,['language_skill_id'], f);
 				btnChange(par, ['edit']);
 			
 			}
@@ -129,7 +129,7 @@ left join language_skill c on b.language_skill_id=c.language_skill_id', array($_
 			textToDefaultLabel(par,['language_id'],  f);
 			btnChange(par, ['edit']);
 		}
-		selectedToDefaultLabel(par,'language_skill_id',f);
+		selectedToDefaultLabel(par,['language_skill_id'],f);
 		
 		
 		bindAll();

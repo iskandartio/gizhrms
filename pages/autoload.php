@@ -3,8 +3,10 @@
 function autoload($classname)
 {
     //Can't use __DIR__ as it's only in PHP 5.3+
-    $filename = dirname(__FILE__).DIRECTORY_SEPARATOR.$classname.'Class.php';
-    if (is_readable($filename)) {
+	
+	$filename = dirname(__FILE__).DIRECTORY_SEPARATOR.$classname.'Class.php';
+	if (is_readable($filename)) {
+		
         require $filename;
     }
 }

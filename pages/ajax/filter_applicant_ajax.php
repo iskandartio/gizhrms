@@ -1,9 +1,10 @@
 <?php
+function cmp($a, $b) {	
+	return strcmp($a['name'], $b['name']);
+}
 while (true) { 
 	if ($type=='search') {
-		function cmp($a, $b) {	
-			return strcmp($a['name'], $b['name']);
-		}
+		
 		$res_ranking=db::select('ranking','ranking_id, ranking_val','','ranking_id');
 		
 		$con=db::beginTrans();
@@ -123,10 +124,10 @@ while (true) {
 		$result=FilterApplicant::get_table_string($con, $tbl, $type, $next_vacancy_progress_id);
 		
 		db::commitTrans($con);
-		
 		die($result);
 		
 	}
+	
 	if ($type=='get_question') {
 		$res=db::DoQuery("select a.question_id, a.choice_id, a.choice_val from choice a
 left join vacancy_question b on a.question_id=b.question_id where b.vacancy_id=?", array($vacancy_id));
@@ -265,18 +266,27 @@ where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_s
 				$res[$rs['user_id']]=array("first_name"=>$rs['first_name'], "last_name"=>$rs['last_name']);
 			}
 		} else if ($vacancy_progress_val=='Closing') {
-			$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist
-				, c.start_date, c.end_date, c.salary, c.salary_band, c.job_title
-				, c.contract_status, c.salary_band, c.project_name, c.project_number, c.team_leader
-				, c.principal_advisor, c.project_location, c.responsible_superior, c.SAP_No
-				, c.position from filter a
-				left join applicants b on a.user_id=b.user_id
-				left join contract_history c on a.user_id=c.user_id and c.end_date>curdate()";
+			$sql="select a.user_id, concat(b.first_name,' ', b.last_name) name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist
+				, b.contract1_start_date, b.contract1_end_date
+				, b.salary, b.salary_band, b.working_time
+				, b.job_title, b.position
+				, b.project_name, b.principal_advisor, b.financial_controller
+				, b.project_number, b.team_leader
+				, b.project_location, b.office_manager
+				, b.responsible_superior, b.SAP_No
+				from filter a
+				left join applicants b on a.user_id=b.user_id";
 			$rsApplicants=db::DoQuery($sql, array(), $con);
 			$res=array();
-			foreach ($rsApplicants as  $rs) {
+			
+			
+			foreach ($rsApplicants as  $key=>$rs) {
+				$rs['salary']=shared::decrypt($rs['salary']);
 				$res[$rs['user_id']]=$rs;
+				
 			}
+			uasort($res, 'cmp');
+			
 		}  else {
 			$sql="select a.user_id, a.first_name, a.last_name, c.interview_date, c.interview_time, c.interview_place from applicants a inner join filter b on a.user_id=b.user_id
 			inner join vacancy_interview c on b.vacancy_id=c.vacancy_id and b.vacancy_progress_id=c.vacancy_progress_id and b.user_id=c.user_id";
@@ -303,6 +313,7 @@ where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_s
 		db::commitTrans($con);
 		
 		$result=FilterApplicant::get_call_interview_table($res, $vacancy_progress_val);
+		
 		die($result);
 	}
 	if ($type=='interviewall') {
@@ -563,27 +574,21 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 	}
 	if ($type=='accept') {
 		$con=db::beginTrans();
-		$res_vacancy=db::select_one('vacancy','*','vacancy_id=?','',array($vacancy_id), $con);
-		if ($contract_history_id!='') {
-			db::update('contract_history','start_date, end_date, salary, job_title, position
-			, project_name, project_number, team_leader, principal_advisor, project_location, responsible_superior, SAP_No
-			, salary_band, working_time, vacancy_type, allowance','contract_history_id=?', array($start_date, $end_date, $salary, $job_title, $position
-			, $project_name, $project_number, $team_leader, $principal_advisor, $project_location, $responsible_superior, $SAP_No
-			, $salary_band, $working_time, $res_vacancy['vacancy_type'], $res_vacancy['allowance'], $contract_history_id), $con);
-			db::delete('salary_sharing','contract_history_id=?', array($contract_history_id), $con);
-		} else {
-			$contract_history_id=db::insert('contract_history','user_id, start_date, end_date, salary, job_title, position
-			, project_name, project_number, team_leader, principal_advisor, project_location, responsible_superior, SAP_No
-			, salary_band, working_time, reason, vacancy_type, allowance', array($user_id, $start_date, $end_date, $salary, $job_title, $position
-			, $project_name, $project_number, $team_leader, $principal_advisor, $project_location, $responsible_superior, $SAP_No
-			, $salary_band, $working_time, 'Initial Salary', $res_vacancy['vacancy_type'], $res_vacancy['allowance']), $con);
-		}
-		shared::genEncSalaryByContractHistoryId($contract_history_id, $con);
-		db::update('applicants','contract1_start_date, contract1_end_date','user_id=?',array($start_date, $end_date, $user_id), $con);
+		$_POST['salary']=shared::encrypt($salary);
+		db::Log($_POST['salary']);
+		db::Log(shared::decrypt("pfgeEaNCkv0IYTH35pQiGh/eozzTpoM1Q2QSXF89Dl7DKc1jDZPH0Q=="));
+
+		unset($_POST['vacancy_id']);
+		unset($_POST['next_vacancy_progress_id']);
+		db::updateShort('applicants', 'user_id', $_POST, $con);
+		
+		db::delete('applicants_salary_sharing','user_id=?', array($user_id), $con);
+
+		
 		db::ExecMe('update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?', array($next_vacancy_progress_id, $vacancy_id, $user_id), $con);		
 		if (isset($salary_sharing_project_name)) {
 			foreach ($salary_sharing_project_name as $key=>$val) {
-				db::insert('salary_sharing','contract_history_id, project_name, project_number, percentage', array($contract_history_id, $val, $salary_sharing_project_number[$key], $salary_sharing_percentage[$key]), $con);
+				db::insert('applicants_salary_sharing','user_id, project_name, project_number, percentage', array($user_id, $val, $salary_sharing_project_number[$key], $salary_sharing_percentage[$key]), $con);
 			}
 		}
 
@@ -594,15 +599,37 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 	if ($type=='closing') {
 		$con=db::beginTrans();
 		$next_vacancy_progress_id=db::select_single('vacancy_progress','vacancy_progress_id v',"ifnull(vacancy_progress_val,'')='Closing'",'',array(), $con);
-		$role_id=db::select_single('m_role','role_id v','role_name=?','',array('employee'));
-		db::ExecMe('update m_user_role a inner join job_applied b on a.user_id=b.user_id set role_id=?
-where vacancy_id=? and next_vacancy_progress_id=?', array($role_id, $vacancy_id, $next_vacancy_progress_id), $con);
+		$res=db::select('applicants a
+		inner join job_applied b on a.user_id=b.user_id and b.next_vacancy_progress_id=?
+		inner join vacancy c on c.vacancy_id=b.vacancy_id','a.*, c.vacancy_type, c.allowance','','', array($next_vacancy_progress_id), $con);
+		foreach ($res as $rs) {
+			$user_id=db::insert('m_user','user_name', array(''), $con);
+			$data=array();
+			$data['user_id']=$user_id;
+			$data=shared::copyToData($rs, $data, ['contract1_start_date','contract1_end_date','first_name', 'last_name', 'place_of_birth', 'date_of_birth', 'gender', 'marital_status', 'nationality_id', 'nationality_val'
+				, 'address', 'country_id', 'country_name', 'province_id', 'city_id', 'post_code', 'phone1', 'phone2', 'computer_skills', 'professional_skills']);
+			db::insertEasy('employee', $data, $con);
+			$data=array();
+			$data['start_date']=$rs['contract1_start_date'];
+			$data['end_date']=$rs['contract1_end_date'];
+			$data['user_id']=$user_id;
+			$data=shared::copyToData($rs, $data, ['job_title', 'position', 'project_name', 'principal_advisor', 'financial_controller'
+			, 'project_number', 'team_leader', 'project_location', 'office_manager', 'responsible_superior', 'SAP_No', 'salary', 'salary_band', 'working_time'
+			, 'vacancy_type', 'allowance']);
+			$data['reason']='Initial Salary';
+			$contract_history_id=db::insertEasy('contract_history', $data, $con);
+			
+			$sql="insert into salary_sharing(contract_history_id, project_name, project_number, percentage)
+				select ?, a.project_name, a.project_number, a.percentage from applicants_salary_sharing a
+				inner join job_applied b on a.user_id=b.user_id and b.next_vacancy_progress_id=? and a.user_id=?";
+			db::ExecMe($sql, array($contract_history_id, $next_vacancy_progress_id, $rs['user_id']), $con);
+			
+		}
 		db::ExecMe('update job_applied set vacancy_progress_id=next_vacancy_progress_id, vacancy_shortlist=0, next_vacancy_progress_id=null 
-where vacancy_id=? and next_vacancy_progress_id=?', array($vacancy_id, $next_vacancy_progress_id), $con);
+			where vacancy_id=? and next_vacancy_progress_id=?', array($vacancy_id, $next_vacancy_progress_id), $con);
 		db::ExecMe('update vacancy set vacancy_progress_id=? where vacancy_id=?', array($next_vacancy_progress_id, $vacancy_id), $con);
 		db::delete('vacancy_timeline','vacancy_id=? and vacancy_progress_id=?',array($vacancy_id, $next_vacancy_progress_id), $con);
 		db::insert('vacancy_timeline','vacancy_id, vacancy_progress_id',array($vacancy_id, $next_vacancy_progress_id), $con);
-		
 		db::commitTrans($con);
 		die;
 		

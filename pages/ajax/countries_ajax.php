@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	if ($type=='load') {
 		$res=db::select('countries','*','','code');
 		$result="";

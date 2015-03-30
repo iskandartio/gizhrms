@@ -63,7 +63,7 @@
 		if ($_POST['reason']=='') $_POST['reason']="Initial Salary";
 		db::updateEasy('contract_history',$_POST, $con);
 		if (isset($start_date)) {
-			db::update('applicants','contract1_start_date, contract1_end_date','user_id=? and contract1_start_date is null', array($start_date, $end_date, $user_id), $con);
+			db::update('employee','contract1_start_date, contract1_end_date','user_id=? and contract1_start_date is null', array($start_date, $end_date, $user_id), $con);
 		}
 		if ($flag_salary_sharing==1){
 			db::delete('salary_sharing','contract_history_id=?', array($contract_history_id), $con);
@@ -82,7 +82,7 @@
 		$_POST['user_id']=$_SESSION['user_id'];
 		$contract_history_id=$_SESSION['contract_history_id'];
 		$user_id=$_POST['user_id'];
-		$end_date=db::select_single('applicants', 'coalesce(am2_end_date, contract2_end_date, am1_end_date, contract1_end_date) v','user_id=?','',array($user_id));
+		$end_date=db::select_single('employee', 'coalesce(am2_end_date, contract2_end_date, am1_end_date, contract1_end_date) v','user_id=?','',array($user_id));
 		$_POST['end_date']=$end_date;
 		if (strcmp($start_date, $end_date)>=0) die("End Date must be bigger then Start Date");
 		$flag_salary_sharing=0;
@@ -117,38 +117,7 @@
 		die("Success");
 	}
 
-	if ($type=='save_contract_detail') {
-		$con=db::beginTrans();
-		
-		$_POST['user_id']=$_SESSION['user_id'];
-		$user_id=$_POST['user_id'];
-		$res_before = db::DoQuery("select coalesce(am2_start_date, contract2_start_date, am1_start_date, contract1_start_date) start_date, coalesce(am2_end_date, contract2_end_date, am1_end_date, contract1_end_date) end_date from applicants where user_id=?", array($user_id), $con);
-		
-		db::updateShort('applicants', 'user_id', $_POST, $con);
-		$res = db::DoQuery("select coalesce(am2_start_date, contract2_start_date, am1_start_date, contract1_start_date) start_date, coalesce(am2_end_date, contract2_end_date, am1_end_date, contract1_end_date) end_date from applicants where user_id=?", array($user_id), $con);
-		$end_date=$res[0]['end_date'];
-		$start_date=$res[0]['start_date'];
-		$res=db::DoQuery("select max(end_date) end_date from contract_history where user_id=?", array($user_id), $con);
-		if ($res[0]['end_date']>$end_date) {
-			db::ExecMe("update contract_history set end_date=? where user_id=? and end_date=?", array($end_date, $user_id, $res[0]['end_date']), $con);
-		} else if ($res[0]['end_date']<$end_date) {
-			db::ExecMe("insert into contract_history(".$_SESSION['contract_history_fields'].") 
-			 select ?,?,?".str_replace("user_id, start_date, end_date", "",$_SESSION['contract_history_fields'])." from contract_history where user_id=? and end_date=?", array($user_id, $start_date, $end_date, $user_id, $res[0]['end_date']), $con);
-		}
-		$data['first']=Employee::get_graph($contract1_start_date, $contract1_end_date, $am1_start_date, $am1_end_date, shared::addYear($contract1_start_date,2));
-		$data['second']=Employee::get_graph($contract2_start_date, $contract2_end_date, $am2_start_date, $am2_end_date, shared::addYear($contract2_start_date,1));
-		
-		db::commitTrans($con);
-		
-		$applicant=Employee::get_active_employee_one("a.user_id=?", array($user_id));	
-		$severanceData=shared::calculateSeverance($applicant['salary'], $applicant['contract1_start_date'], $applicant['contract1_end_date']
-			, $applicant['am1_start_date'], $applicant['am1_end_date'], $applicant['contract2_start_date'], $applicant['contract2_end_date']
-			, $applicant['am2_start_date'], $applicant['am2_end_date']);
-		$data['severance']=formatNumber($severanceData['severance']);
-		$data['service']=formatNumber($severanceData['service']);
-		$data['housing']=formatNumber($severanceData['housing']);
-		die(json_encode($data));
-	}
+
 	if ($type=='add_language') {
 		$combo_language_def=shared::select_combo_complete(language::getAll(), 'language_id','-Language-','language_val');
 		$combo_language_def=str_replace("</select>","<option value='-1'>Others</option></select>", $combo_language_def);
@@ -158,15 +127,15 @@
 	}
 	if ($type=='save_language') {
 		$_POST['user_id']=$_SESSION['user_id'];
-		if ($applicants_language_id=='') {
-			$applicants_language_id=db::insertEasy('applicants_language',$_POST);
+		if ($employee_language_id=='') {
+			$employee_language_id=db::insertEasy('employee_language',$_POST);
 		} else {
-			db::updateEasy('applicants_language',$_POST);
+			db::updateEasy('employee_language',$_POST);
 		}
-		die($applicants_language_id);
+		die($employee_language_id);
 	}
 	if ($type=='delete_language') {
-		$i=db::delete('applicants_language','applicants_language_id=?', array($applicants_language_id));
+		$i=db::delete('employee_language','employee_language_id=?', array($employee_language_id));
 		die($i);
 	}
 	if ($type=='save_recontract') {
@@ -198,13 +167,13 @@
 		$service=$severanceData['service'];
 		$housing=$severanceData['housing'];
 		
-		$sql="insert into applicants_history(user_id, contract1_start_date, contract1_end_date, am1_start_date, am1_end_date
+		$sql="insert into employee_history(user_id, contract1_start_date, contract1_end_date, am1_start_date, am1_end_date
 		, contract2_start_date, contract2_end_date, am2_start_date, am2_end_date, severance, service, housing)
 		select user_id, contract1_start_date, contract1_end_date, am1_start_date, am1_end_date
-		, contract2_start_date, contract2_end_date, am2_start_date, am2_end_date, ?,?,? from applicants where user_id=?";
+		, contract2_start_date, contract2_end_date, am2_start_date, am2_end_date, ?,?,? from employee where user_id=?";
 		db::ExecMe($sql, array($severance, $service, $housing, $user_id), $con);
 		
-		db::ExecMe('update applicants set contract1_start_date=?, contract1_end_date=?
+		db::ExecMe('update employee set contract1_start_date=?, contract1_end_date=?
 		, am1_start_date=null, am1_end_date=null
 		, contract2_start_date=null, contract2_end_date=null
 		, am2_start_date=null, am2_end_date=null
@@ -216,9 +185,10 @@ select b.user_id, b.end_date, a.project_name, a.percentage, a.project_number fro
 left join contract_history b on a.contract_history_id=b.contract_history_id 
 where b.user_id=?", array($user_id), $con);
 		
-		
+
 		db::ExecMe('delete a from salary_sharing a left join contract_history b on a.contract_history_id=b.contract_history_id where b.user_id=?', array($user_id), $con);
 		db::ExecMe('delete from contract_history where user_id=?', array($user_id), $con);
+		$_POST['salary']=shared::encrypt($_POST['salary']);
 		$contract_history_id=db::insertEasy('contract_history',$_POST, $con);
 		
 		if ($flag_salary_sharing==1){
@@ -227,7 +197,6 @@ where b.user_id=?", array($user_id), $con);
 				, array($contract_history_id, $val, $salary_sharing_project_number[$key], $salary_sharing_percentage[$key]),$con);
 			}
 		}
-		shared::genEncSalaryByContractHistoryId($contract_history_id, $con);
 		db::commitTrans($con);
 		die;
 	}
@@ -261,25 +230,9 @@ where b.user_id=?", array($user_id), $con);
 		die;
 	}
 	if ($type=='save_spouse') {
-		db::update('applicants','spouse_name, marry_date, spouse_entitled','user_id=?', array($spouse_name, $marry_date, $spouse_entitled, $_SESSION['user_id']));
+		db::update('employee','spouse_name, marry_date, spouse_entitled','user_id=?', array($spouse_name, $marry_date, $spouse_entitled, $_SESSION['user_id']));
 	}
 
-	if ($type=='save_working') {
-		$user_id=$_SESSION['user_id'];
-		$_POST['user_id']=$user_id;
-		if ($applicants_working_id=='') {
-			$applicants_working_id=db::insertEasy('applicants_working',$_POST);
-			
-		} else {
-			db::updateEasy('applicants_working', $_POST);
-		}
-		die($applicants_working_id);
-	}
-	if ($type=='delete_working') {
-		$user_id=$_SESSION['user_id'];
-		db::delete('applicants_working','user_id=?', array($user_id));
-		die;
-	}
 	if ($type=='delete_dependent') {
 		db::delete('employee_dependent','employee_dependent_id=?',array($employee_dependent_id));
 		die;

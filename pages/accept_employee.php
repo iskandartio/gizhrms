@@ -46,7 +46,7 @@
 				alert(msg);
 			} else {
 				alert('Success');
-				
+				$('#tbl_call_interview').empty();
 				send_email();
 				
 			}
@@ -59,5 +59,5 @@
 <div id='search_result'>
 </div>
 <div id='button'>
-	<button class='btn_accept'>Accept as Employee</button> 
+	<button class='button_link btn_accept'>Accept as Employee</button> 
 </div>

@@ -141,7 +141,7 @@ Class Medical {
 		}
 		return $data;
 	}
-	static function getLimitMany($year, $medical_type) {
+	static function getLimitMany($year, $medical_type, $project_name, $project_number, $project_location) {
 		if ($year=='this_year') {
 			$y=date('Y');
 		} else {

@@ -1,14 +1,18 @@
 <?php
 header('Content-Type: image');
-
-if (file_exists("uploads/".$_SESSION['user_id']."-photo.jpg")) {
-	$im=imageCreateFromAny("uploads/".$_SESSION['user_id']."-photo.jpg");
-} else if (file_exists("uploads/".$_SESSION['user_id']."-photo.png")) {
-	$im=imageCreateFromAny("uploads/".$_SESSION['user_id']."-photo.png");
+if (isset($_GET['a'])) {
+	$im=imageCreateFromAny("pages/uploads/".$_SESSION['user_id']."-others-".$_GET['a']);
 } else {
-	$im=imageCreateFromAny("images/no-photo.png");
+	if ($_SESSION['user_id']==0) {
+		$im=imageCreateFromAny("images/no-photo.png");
+	} else if (file_exists("pages/uploads/".$_SESSION['user_id']."-photo.jpg")) {
+		$im=imageCreateFromAny("pages/uploads/".$_SESSION['user_id']."-photo.jpg");
+	} else if (file_exists("pages/uploads/".$_SESSION['user_id']."-photo.png")) {
+		$im=imageCreateFromAny("pages/uploads/".$_SESSION['user_id']."-photo.png");
+	} else {
+		$im=imageCreateFromAny("images/no-photo.png");
+	}
 }
-
 imagejpeg($im);
 imagedestroy($im);
 die;

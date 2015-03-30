@@ -3,9 +3,9 @@
 		if (!isset($terminate_date)) $terminate_date=null;
 		Employee::terminate($severance, $service, $housing, $new_severance, $reason, $terminate_date);
 	}
-		if ($type=='save_terminate') {
+	if ($type=='save_terminate') {
 		
-		db::update('applicants','contract_state','user_id=?',array('Terminate', $user_id));
+		db::update('employee','contract_state','user_id=?',array('Terminate', $user_id));
 		die;
 	}
 	

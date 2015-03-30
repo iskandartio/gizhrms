@@ -3,7 +3,7 @@
 -- Server version:               5.5.28a-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-03-20 10:54:06
+-- Date/time:                    2015-03-27 21:31:11
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS `countries` (
   `name_fr` tinytext CHARACTER SET latin1,
   `countries_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`countries_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=utf8;
 
--- Dumping data for table hrms.countries: ~249 rows (approximately)
+-- Dumping data for table hrms.countries: ~248 rows (approximately)
 /*!40000 ALTER TABLE `countries` DISABLE KEYS */;
 INSERT INTO `countries` (`code`, `countries_val`, `name_fr`, `countries_id`) VALUES
 	('AD', 'Andorra', 'Andorre', 1),

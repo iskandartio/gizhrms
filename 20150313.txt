@@ -10,17 +10,30 @@ housing allowance 15% dari service+severance  ok
 contract data tidak boleh edit2  ok
 print medical pakai nama invoice date  ok
 outpatient: tampilkan data dependent ok
-untuk new cycle tambahin data severance
+untuk new cycle tambahin data severance ok 
 
-salary_sharing untuk new contract
-upload pics, education
-giz email untuk jadi employee, personal email untuk jadi applicant
-relation jadi combo
-history contract cycle
-salary encrypt
-financial_controller+principle_advisor+team_leader+admin+employee masing2 bisa liat gaji
-tambahin tab project location, di project location ada office manager
-office manager bisa: personal data, dependents, working exp, upload pic, medical, leave
+salary_sharing untuk new contract ok
+upload pics ok
+education ok
+giz email untuk jadi employee, personal email untuk jadi applicant ok
+relation jadi combo ok
+salary encrypt ok
+
+history contract cycle ok
+tambahin tab project location, di project location ada office manager ok
+job_title baru position ok
+
 medical summary: per project name, per project number, per projectlocation
+
+financial_controller+principle_advisor+team_leader+admin+employee masing2 bisa liat gaji
+office manager bisa: personal data, dependents, working exp, upload pic, medical, leave
 signature
 contract reminder for team leader and employee
+cek saat ganti nama
+terminate 
+former employee
+employee_working, language, education belum pindah
+statistic employee:
+staff berdasarkan gender, umur, pendidikan, admin & technical, salary band
+
+report data karyawan yang akan berakhir pada periode tertentu bagaimana ya? ada pilihan search berdasarkan akhir periode kontrak

@@ -1,6 +1,6 @@
 <?php
 if (isset($_FILES['uploadFileCV']['name'])) {
-$target_dir = "uploads/";
+$target_dir = "pages/uploads/";
 $target_dir = $target_dir . basename( $_FILES["uploadFileCV"]["name"]);
 $uploadOk=1;
 
