@@ -42,8 +42,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /.project
-upload
+uploads
 
 #startup
 pages/startup.php
-pages/upload
+pages/uploads

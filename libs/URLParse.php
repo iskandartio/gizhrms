@@ -159,7 +159,7 @@ class URLParse
 				P_METD => "",
 				P_METK => ""),				
 			"employee_detail" => array(
-				P_WIDTH=> "900",
+				P_WIDTH=> "1050",
 				P_FILE => "employee_detail.php",
 				P_TITL => "Employee Detail",
 				P_METD => "",

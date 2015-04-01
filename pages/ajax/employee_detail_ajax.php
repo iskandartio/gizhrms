@@ -310,6 +310,8 @@ if ($type=='load_historical_contract') {
 	$result="";
 	if (count($res)>0) {
 		$join_date=$res[0]['contract1_start_date'];
+	} else {
+		$join_date=$res_current[0]['contract1_start_date'];
 	}
 	$cycle_num=1;
 	$result.="Join Date : ".formatDate($join_date);
