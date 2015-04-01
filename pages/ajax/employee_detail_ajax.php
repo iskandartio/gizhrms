@@ -26,36 +26,36 @@ if ($type=='load_personal_data')  {
 	
 	$result="";
 	$result.="<form id='data' action='upload_ajax' method='post' enctype='multipart/form-data' target='hidden_upload'>
-<div class='row'><div class='label'>Photo</div><div class='label width200'><input type='file' id='uploadPhoto' name='uploadPhoto' accept='.png,.jpg'></div>
-<button class='button_link' id='btn_upload'>Upload</button>
-<IFRAME id='hidden_upload' name='hidden_upload' src='' onLoad='uploadDone()'
-	style='width:0;height:0;border:0px solid #fff'></IFRAME>
-</div> 
-</form>";
-	$result.="<table>
-<tr style='display:none'><td>employee ID</td><td>:</td><td>"._t2("employee_id",$applicant)."</td></tr>
-<tr><td>First Name *</td><td>:</td><td>"._t2("first_name",$applicant)."</td></tr>
-<tr><td>Last Name *</td><td>:</td><td>"._t2("last_name", $applicant)."</td></tr>
-<tr><td>Place of Birth *</td><td>:</td><td>"._t2("place_of_birth", $applicant)."</td></tr>
-<tr><td>Date of Birth *</td><td>:</td><td>"._t2("date_of_birth", $applicant)."</td></tr>
-<tr><td>Gender</td><td>:</td><td>".$combo_gender."</td></tr>
-<tr><td>Marital Status</td><td>:</td><td>".$combo_marital_status."</td></tr>
-<tr><td>Nationality *</td><td>:</td><td>".$combo_nationality." "._t2("nationality_val", $applicant)."</td></tr>
-<tr><td valign='top'>Address *</td><td>:</td><td><textarea class='address' cols='30' rows='3'>".$applicant['address']."</textarea><br/>
-<select id='country_id' class='country_id'><option value='' disabled selected>-Country-</option>".$combo_country."</select> "._t2("country_name", $applicant)."<br/>
-".$combo_province." ".$combo_city."
-<tr><td>Post Code *</td><td>:</td><td>"._t2("post_code", $applicant)."</td></tr>
-<tr><td>Phone1 *</td><td>:</td><td>"._t2("phone1", $applicant)."</td></tr>
-<tr><td>Phone2</td><td>:</td><td>"._t2("phone2", $applicant)."</td></tr>
-<tr><td>Email *</td><td>:</td><td>"._t2("user_name",$applicant,"","text","","Email")."</td></tr>
-<tr><td>Computer Skills</td><td>:</td><td><textarea class='computer_skills' cols='30' rows='3'>".$applicant['computer_skills']."</textarea></td></tr>
-<tr><td>Professionals Skills</td><td>:</td><td><textarea class='professional_skills' cols='30' rows='3'>".$applicant['professional_skills']."</textarea></td></tr>
-<tr><td>Account Bank</td><td>:</td><td>"._t2("account_bank", $applicant)."</td></tr>
-<tr><td>Account Number</td><td>:</td><td>"._t2("account_number", $applicant)."</td></tr>
-<tr><td>Emergency Phone</td><td>:</td><td>"._t2("emergency_phone", $applicant)."</td></tr>
-<tr><td>Emergency Email</td><td>:</td><td>"._t2("emergency_email", $applicant)."</td></tr>
+	<div class='row'><div class='label'>Photo</div><div class='label width200'><input type='file' id='uploadPhoto' name='uploadPhoto' accept='.png,.jpg'></div>
+	<button class='button_link' id='btn_upload'>Upload</button>
+	<IFRAME id='hidden_upload' name='hidden_upload' src='' onLoad='uploadDone()'
+		style='width:0;height:0;border:0px solid #fff'></IFRAME>
+	</div> 
+	</form>";
+		$result.="<table>
+	<tr style='display:none'><td>employee ID</td><td>:</td><td>"._t2("employee_id",$applicant)."</td></tr>
+	<tr><td>First Name *</td><td>:</td><td>"._t2("first_name",$applicant)."</td></tr>
+	<tr><td>Last Name *</td><td>:</td><td>"._t2("last_name", $applicant)."</td></tr>
+	<tr><td>Place of Birth *</td><td>:</td><td>"._t2("place_of_birth", $applicant)."</td></tr>
+	<tr><td>Date of Birth *</td><td>:</td><td>"._t2("date_of_birth", $applicant)."</td></tr>
+	<tr><td>Gender</td><td>:</td><td>".$combo_gender."</td></tr>
+	<tr><td>Marital Status</td><td>:</td><td>".$combo_marital_status."</td></tr>
+	<tr><td>Nationality *</td><td>:</td><td>".$combo_nationality." "._t2("nationality_val", $applicant)."</td></tr>
+	<tr><td valign='top'>Address *</td><td>:</td><td><textarea class='address' cols='30' rows='3'>".$applicant['address']."</textarea><br/>
+	<select id='country_id' class='country_id'><option value='' disabled selected>-Country-</option>".$combo_country."</select> "._t2("country_name", $applicant)."<br/>
+	".$combo_province." ".$combo_city."
+	<tr><td>Post Code *</td><td>:</td><td>"._t2("post_code", $applicant)."</td></tr>
+	<tr><td>Phone1 *</td><td>:</td><td>"._t2("phone1", $applicant)."</td></tr>
+	<tr><td>Phone2</td><td>:</td><td>"._t2("phone2", $applicant)."</td></tr>
+	<tr><td>Email *</td><td>:</td><td>"._t2("user_name",$applicant,"","text","","Email")."</td></tr>
+	<tr><td>Computer Skills</td><td>:</td><td><textarea class='computer_skills' cols='30' rows='3'>".$applicant['computer_skills']."</textarea></td></tr>
+	<tr><td>Professionals Skills</td><td>:</td><td><textarea class='professional_skills' cols='30' rows='3'>".$applicant['professional_skills']."</textarea></td></tr>
+	<tr><td>Account Bank</td><td>:</td><td>"._t2("account_bank", $applicant)."</td></tr>
+	<tr><td>Account Number</td><td>:</td><td>"._t2("account_number", $applicant)."</td></tr>
+	<tr><td>Emergency Phone</td><td>:</td><td>"._t2("emergency_phone", $applicant)."</td></tr>
+	<tr><td>Emergency Email</td><td>:</td><td>"._t2("emergency_email", $applicant)."</td></tr>
 	</table>
-<button class='button_link' id='btn_save'>Save</button>";
+	<button class='button_link' id='btn_save'>Save</button>";
 	$data['result']=$result;
 	$data['city_option']=$city_option;
 	die(json_encode($data));
@@ -291,7 +291,7 @@ if ($type=='load_pictures') {
 		$short=str_replace($file_pattern,'',$filename);
 		$link="show_picture?a=".$short;
 		$result.="<span><a href='$link' target='_blank'><img align='top' style='margin:5px;padding:5px;width:200px;border:1px solid black' src='$link'/></a>
-		<img style='margin-left:-12px;height:30px' src='images/delete.png' class='btn_delete'><span class='key hidden'>$short</span></span>";	
+		<img style='margin-left:-12px;height:30px;white-space:nowrap' src='images/delete.png' class='btn_delete'><span class='key hidden'>$short</span></span>";	
 	}
 	$result.=" </div>";
 	$data['result']=$result;

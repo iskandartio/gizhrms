@@ -35,5 +35,7 @@ former employee
 employee_working, language, education belum pindah
 statistic employee:
 staff berdasarkan gender, umur, pendidikan, admin & technical, salary band
-
+salary adjustment input start date
 report data karyawan yang akan berakhir pada periode tertentu bagaimana ya? ada pilihan search berdasarkan akhir periode kontrak
+contract reminder
+medical edit
