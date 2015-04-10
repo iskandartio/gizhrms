@@ -9,7 +9,7 @@
 		loadData();
 	});
 	function bindAll() {
-		bind('.btn_terminate','click',ShowTerminate);
+		bind('.btn_stop','click',ShowStop);
 		bind('.btn_recontract','click', ShowRecontract);
 		$('#recontract_detail').dialog({
 			autoOpen:false,
@@ -17,7 +17,7 @@
 			width:750,
 			modal:true
 		});
-		$('#terminate_detail').dialog({
+		$('#stop_detail').dialog({
 			autoOpen:false,
 			height:500,
 			width:750,
@@ -25,7 +25,7 @@
 		});
 		bind('#change_severance','click', ChangeSeverance);
 		bind('#cancel_change','click', CancelChange);
-		bind('#terminate','click', Terminate);
+		bind('#terminate','click', Stop);
 		fixSelect();
 		numeric($('#salary'));
 		numeric($('#new_severance'));
@@ -39,10 +39,10 @@
 		$('#reason').val('');
 		$('#div_severance').hide();
 	}
-	function Terminate() {
-		if (!confirm("Are you sure to terminate?")) return;
+	function Stop() {
+		if (!confirm("Are you sure to stop contract?")) return;
 		var data={}
-		data['type']='terminate';
+		data['type']='stop';
 		if ($('#new_severance').val()=='') {
 			$('#new_severance').val($('.severance').html());
 		}
@@ -53,24 +53,24 @@
 		data['reason']=$('#reason').val();
 		
 		var success=function(msg) {
-			$('#terminate_detail').dialog("close");
+			$('#stop_detail').dialog("close");
 			location.reload();
 		}
-		ajax('contract_termination_ajax',data,success);
+		ajax('contract_expiring_ajax',data,success);
 	}
 	
-	function ShowTerminate() {
+	function ShowStop() {
 		var par=$(this).closest("tr");
 		var data={}
-		data['type']='show_terminate';
+		data['type']='show_stop';
 		data['user_id']=par.children("td:eq(0)").html();
 		var success=function(msg) {
-			$('#terminate_detail').html(msg);
-			$('#terminate_detail').dialog("open");
+			$('#stop_detail').html(msg);
+			$('#stop_detail').dialog("open");
 			bindAll();
 			
 		}
-		ajax('contract_termination_ajax',data, success);
+		ajax('contract_expiring_ajax',data, success);
 	}
 	var user_id=0;
 	function ShowRecontract() {
@@ -94,9 +94,13 @@
 			return true;
 		}
 		var afterSave=function(msg) {
-			//location.reload();
+			if (msg!='') {
+				alert(msg);
+			} else {
+				location.reload();
+			}
 		}
-		ajax("contract_termination_ajax", data, success);
+		ajax("contract_expiring_ajax", data, success);
 	}
 
 	function loadData() {
@@ -107,12 +111,12 @@
 			bindAll();
 			hideColumns('tbl');
 		}
-		ajax('contract_termination_ajax', data, success);
+		ajax('contract_expiring_ajax', data, success);
 	}
 
 </script>
 <div id='search_expiring_result'>
 </div>
 
-<div id="terminate_detail"></div>
+<div id="stop_detail"></div>
 <div id="recontract_detail"></div>

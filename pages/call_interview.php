@@ -1,4 +1,5 @@
 <?php
+
 	$res=Vacancy::getCurrentVacancy();
 	$vacancy_arr=array();
 	foreach ($res as $rs) {
@@ -35,6 +36,8 @@
 		} else {
 			$('#button').hide();
 		}
+		bind('.btn_cancel', 'click', Cancel);
+		hideColumns('tbl_call_interview');
 	}
 	function VacancyChange() {
 		$('#next_vacancy_progress_id').empty();
@@ -57,7 +60,13 @@
 		data['next_vacancy_progress_id']=$('#next_vacancy_progress_id').val();
 		var success=function(msg) {
 			$('#search_result').html(msg);
-			
+			if ($('#next_vacancy_progress_id option:selected').html()=='Shortlist') {
+				$('#div_ask_reference').hide();
+				$('.btn_interview').html("Shortlist");
+			} else {
+				$('#div_ask_reference').show();
+				$('.btn_interview').html("Call for Interview");
+			}
 			bindAll();
 		}
 		ajax("filter_applicant_ajax", data, success);
@@ -78,6 +87,25 @@
 		}
 		ajax("filter_applicant_ajax", data, success);
 	}
+	function Cancel() {
+		var par=$(this).closest("tr");
+		var data={}
+		data['type']='cancel_interview';
+		data['id']=par.children("td:eq(0)").html();
+		var success=function(msg) {
+			
+			if (msg!='') {
+				alert(msg);
+				return;
+			}
+			if ($('#next_vacancy_progress_id option:selected').html()!='Shortlist') {
+				par.next().remove();
+			}
+			par.remove();
+			
+		}
+		ajax('filter_applicant_ajax', data, success);
+	}
 
 </script>
 <div class='label'>Vacancy</div><div class='textbox'><?php _p($combo_vacancy);?></div>
@@ -85,6 +113,11 @@
 <div id='search_result'>
 </div>
 <div id='button'>
+	<div id='div_ask_reference'>
 	<input type='checkbox' id='ask_reference'/><label for='ask_reference'>Ask for Reference</label>
-	<button class='btn_interview'>Call for Interview</button> 
+	</div>
+	<button class='button_link btn_interview'>Call for Interview</button>
+</div>
+
+<div id='rejected_result'>
 </div>

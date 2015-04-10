@@ -45,7 +45,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing'");
 		</tr>";
 	}
 	$result.="</tbody></table>";
-	$result.=shared::get_tinymce_script('interview_place');
+	$result.=shared::get_tinymce_script('#interview_place');
 ?>
 <?php _p($result);
 

@@ -40,7 +40,7 @@
 	
 		$row=db::select_one('email_setup','*','email_type=?', '', array($email_type));
 		$result="";
-		$result.=shared::get_tinymce_script('email_content');
+		$result.=shared::get_tinymce_script('#email_content');
 		
 		$result.="<h1>".$vacancy_progress_val." $invitereject</h1>";
 		$result.="<input type='hidden' value='".$email_type."' id='email_type'/>";
@@ -61,6 +61,10 @@
 			$_POST['email_setup_id']=$res[0]['email_setup_id'];
 			db::updateEasy('email_setup', $_POST);
 		}
+		die;
+	}
+	if ($type=='save_signature') {
+		db::update('signature','signature','', array($signature));
 		die;
 	}
 ?>

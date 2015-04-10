@@ -1,7 +1,10 @@
 <?php
-	$rs=db::select_one('email_from',"*, aes_decrypt(pwd,'iskandar tio') pwd");
+	$rs=db::select_one('email_from',"*");
 	$res=db::select('email_setup','*','general=1','email_type');
+	
 ?>
+<script src='js/aes.js'></script>
+<script src='js/gibberish-aes.js'></script>
 <script>
 	var fields=generate_assoc(['email_type','email_type_name','email_content']);
 	$(function() {
@@ -11,6 +14,8 @@
 			}
 		});
 		bindAll();
+	
+	
 	});
 	function bindAll() {
 		$('#show_detail').dialog({
@@ -27,8 +32,16 @@
 	function Save() {
 		var data={}
 		data['type']='save';
-		data=prepareDataText(data, ['host','security_type','port','user_name','pwd','sender_name']);
-		ajax('email_setting_ajax',data);
+		data=prepareDataText(data, ['host','security_type','port','user_name','sender_name']);
+		if ($('#pwd').val()=='') {
+			data['pwd']="";
+		} else {
+			data['pwd']=GibberishAES.enc($('#pwd').val(), "giz_hrms_iskandar_tio").replace("\n","");
+		}
+		var success=function(msg) {
+			if (msg!='') alert(msg);
+		}
+		ajax('email_setting_ajax',data, success);
 	}
 	function EmailContent() {
 		var par=$(this).closest("tr");
@@ -60,7 +73,7 @@
 <span class="label">Security Type</span> <div class='textbox'><?php _t("security_type",$rs)?></div>
 <span class="label">Port</span> <div class='textbox'><?php _t("port", $rs)?></div>
 <span class="label">User ID</span> <div class='textbox'><?php _t("user_name",  $rs)?></div>
-<span class="label">Password</span> <div class='textbox'><?php _t("pwd",$rs,"","password")?></div>
+<span class="label">Password</span> <div class='textbox'><?php _t("pwd","","","password")?></div>
 <span class="label">Sender Name</span> <div class='textbox'><?php _t("sender_name", $rs)?></div>
 <span><?php _t("btn_save","Save","","button","button_link")?></span>
 

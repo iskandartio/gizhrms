@@ -1,6 +1,6 @@
-function gender(div) {
+function others(div, tbl) {
 	var self=this;
-	var f=generate_assoc(['gender_id','gender','btn']);
+	var f=generate_assoc(['id','val','btn']);
 	self.start=function() {
 		self.bindAll();
 		
@@ -11,14 +11,15 @@ function gender(div) {
 		bindDiv('.btn_save',div,"click", self.Save);
 		bindDiv('.btn_up',div,"click", self.Up);
 		bindDiv('.btn_down',div,"click", self.Down);
-		hideColumns('tbl_gender');
+		hideColumns('tbl_'+tbl);
 	}
 
 	self.Delete=function() {
 		var par=$(this).closest("tr");
 		var data={}
-		data['type']='delete_gender';
-		data['gender_id']=getChildHtml($(this).closest("tr"), 'gender_id', f);
+		data['type']='delete';
+		data['tbl']=tbl;
+		data['id']=getChildHtml($(this).closest("tr"), 'id', f);
 		var success=function(msg) {
 			par.remove();
 		
@@ -27,7 +28,7 @@ function gender(div) {
 	}
 	
 	self.Add=function() {
-		$('#tbl_gender').append(self.adder);
+		$('#tbl_'+tbl).append(self.adder);
 		self.bindAll();
 	}
 	self.Up=function() {
@@ -36,8 +37,9 @@ function gender(div) {
 		var success=function(msg) {
 		}
 		var data={}
-		data['type']="up_gender";
-		data['gender_id']=getChildHtml(par, 'gender_id', f);
+		data['type']="up";
+		data['tbl']=tbl;
+		data['id']=getChildHtml(par, 'id', f);
 		ajax('others_ajax', data, success);
 	}
 	self.Down=function() {
@@ -46,24 +48,26 @@ function gender(div) {
 			var success=function(msg) {
 		}
 		var data={}
-		data['type']="down_gender";
-		data['gender_id']=getChildHtml(par, 'gender_id', f);
+		data['type']="down";
+		data['tbl']=tbl;
+		data['id']=getChildHtml(par, 'id', f);
 		ajax('others_ajax', data, success);
 	}
 	self.Save=function() {
 		var par=$(this).closest("tr");
-		if (!validate_empty_tbl(par, ['gender'], null, f)) {
+		if (!validate_empty_tbl(par, ['val'], null, f)) {
 			return;
 		}
 		
 		var data={};
-		data['type']='save_gender';
-		data['gender_id']=getChildHtml(par,'gender_id', f);
-		data['gender']=getChild(par,'gender', f);
+		data['type']='save';
+		data['tbl']=tbl;
+		data['id']=getChildHtml(par,'id', f);
+		data['val']=getChild(par,'val', f);
 		
 		
 		var success= function(msg) {
-			setHtmlText(par, 'gender_id', msg);
+			setHtmlText(par, 'id', msg, f);
 			self.bindAll();
 		}
 		ajax('others_ajax', data, success);

@@ -14,7 +14,7 @@ Class Medical {
 		$result.="<button class='button_link' id='btn_save_all'>Save All</button>";
 		return $result;
 	}
-	static function get_table($limit, $dependent, $res, $res_dependents, $res_employee) {
+	static function get_table($limit, $dependent, $res, $res_dependents, $res_employee, $medical_type) {
 		$remainder=$limit+$dependent;
 		$result="";
 		
@@ -37,28 +37,33 @@ Class Medical {
 		</div></div>";
 		
 		
-		$result.="<button class='button_link' id='popup_detail_btn'>Add Claim</button>";
+		$result.="<button class='button_link' id='btn_add'>Add Claim</button>";
 		$result.="<button class='button_link' id='print_medical_data'>Print Medical Data</button>";
-		$result.="<table class='tbl' id='tbl_claim'><thead><tr><th>Invoice Date</th><th>Invoice<br>(Rp)</th><th>Total<br>(Rp)</th><th>Paid 90%<br>(Rp)</th><th>Remainder</th><th></th></thead><tbody>";
-		$result.="<tr><td colspan='5' align='right'>".formatNumber($remainder)."</td><td></td></tr>";
+		$result.="<table class='tbl' id='tbl_claim'><thead><tr><th></th><th>Invoice Date</th><th>Invoice<br>(Rp)</th><th>Remarks</th><th>Total<br>(Rp)</th><th>Paid 90%<br>(Rp)</th><th>Remainder</th><th></th></thead><tbody>";
+		$result.="<tr><td colspan='7' align='right'>".formatNumber($remainder)."</td><td></td></tr>";
 		$last_input_date='';
 		$bgcolor='aliceblue';
 		foreach ($res as $key=>$rs) {
 			if ($last_input_date!=$rs['input_date']) {
 				if ($bgcolor=='aliceblue') $bgcolor='ghostwhite'; else $bgcolor='aliceblue';
 				$last_input_date=$rs['input_date'];
-				echo $bgcolor;
 			} 
 			$remainder-=$rs['paid'];
-			$result.="<tr style='background-color:".$bgcolor."'><td>".formatDate($rs['invoice_date']);
+			$result.="<tr style='background-color:".$bgcolor."'><td>".$rs['id']."</td><td>".formatDate($rs['invoice_date']);
 			$result.="<td align='right'>".formatNumber($rs['invoice_val'])."</td>";
+			$result.="<td>".$rs['remarks']."</td>";
 			$result.="<td align='right'>".formatNumber($rs['claim'])."</td><td align='right'>".formatNumber($rs['paid'])."</td>
-			<td align='right'>".formatNumber($remainder)."</td>
-			<td><img src='images/delete.png' class='btn_delete_claim'/></td>";
+			<td align='right'>".formatNumber($remainder)."</td>";
+			if ($rs['paid_status']==1) {
+				$result.="<td>&nbsp;</td>";
+			} else {
+				$result.="<td>".getImageTags(['edit','delete'])."</td>";
+			}
 			$result.="</tr>";
 		}
 		
 		$result.="</tbody></table>";
+		
 		return $result;
 	}
 	
@@ -75,6 +80,7 @@ Class Medical {
 			}
 			$limit=$limit*($m-$month+1)/12;
 		}
+		
 		return $limit;
 	}
 	
@@ -141,17 +147,44 @@ Class Medical {
 		}
 		return $data;
 	}
-	static function getLimitMany($year, $medical_type, $project_name, $project_number, $project_location) {
-		if ($year=='this_year') {
-			$y=date('Y');
-		} else {
-			$y=date('Y')-1;
+	static function getResMany($y, $tbl, $project_name, $project_number, $project_location) {
+		$sql_b="select a.user_id, max(a.end_date) end_date from contract_history a
+			where a.end_date>=?";
+		$params=array();
+		array_push($params, date("$y-01-01"));
+		if ($project_name!='') {
+			$sql_b.=" and a.project_name=?";
+			array_push($params, $project_name);
 		}
+		if ($project_number!='') {
+			$sql_b.=" and a.project_number=?";
+			array_push($params, $project_number);
+		}
+
+		if ($project_location!='') {
+			$sql_b.=" and a.project_location=?";
+			array_push($params, $project_location);
+		}
+		if (isset($_SESSION['project_location'])) {
+			$sql_b.=" and a.project_location in (".$_SESSION['in_project_location'].")";
+			$params=array_merge($params, $_SESSION['project_location']);
+		}
+		$sql_b.=" group by a.user_id";
+		
+		$sql="
+			select a.start_date, a.end_date, c.* from contract_history a
+			inner join ($sql_b) b on a.user_id=b.user_id and a.end_date=b.end_date 
+			inner join $tbl c on c.user_id=a.user_id";
+		
+		$resMany=db::DoQuery($sql, $params);
+		
+		return $resMany;
+	}
+	static function getLimitMany($y, $medical_type, $resMany) {
 		$data=array();
 		if ($medical_type=='employee_outpatient') {
 			$limit_def=db::select_single('settings','setting_val v','setting_name=?','',array('Outpatient Limit'));
 			$dependent_limit=db::select_single('settings','setting_val v','setting_name=?','',array('Dependent Limit'));
-			$resMany=Employee::get_active_employee_by_year($y);
 			foreach ($resMany as $res) { 
 				$start_date=$res['start_date'];
 				$end_date=$res['end_date'];
@@ -183,7 +216,6 @@ Class Medical {
 			}
 		} else {
 			$limit_def=db::select_single('settings','setting_val v','setting_name=?','',array('Pregnancy Limit'));
-			$resMany=Employee::get_active_employee_by_year($y);
 			foreach ($resMany as $res) { 
 				$user_id=$res['user_id'];
 				$start_date=$res['start_date'];
@@ -191,29 +223,28 @@ Class Medical {
 				$limit=0;
 				$dependent=0;
 				if ($res['gender']=='Male') {
-					$dependent=Medical::get_limit($limit_def, $res['marry_date'], $start_date, $res['end_date'], $y);
+					if ($res['marry_date']!=null && $res['spouse_entitled']==1) {
+						$dependent=Medical::get_limit($limit_def, $res['marry_date'], $start_date, $res['end_date'], $y);
+					}
 				} else {
 					$limit=Medical::get_limit($limit_def, $start_date, $start_date, $res['end_date'], $y);
 				}
-				$data[$user_id]['limit']=$limit;
-				$data[$user_id]['dependent']=$dependent;
-				$data[$user_id]['start_date']=$start_date;
-				$data[$user_id]['end_date']=$end_date;
-				$data[$user_id]['name']=$res['first_name']." ".$res['last_name'];
+				
+				if ($limit!=0||$dependent!=0) {
+					$data[$user_id]['limit']=$limit;
+					$data[$user_id]['dependent']=$dependent;
+					$data[$user_id]['start_date']=$start_date;
+					$data[$user_id]['end_date']=$end_date;
+					$data[$user_id]['name']=$res['first_name']." ".$res['last_name'];
+				}
+				
 			}
 		}
 		return $data;
 	}
-	static function getPaidMany($year, $medical_type) {
-		if ($year=='this_year') {
-			$y=date('Y');
-		} else {
-			$y=date('Y')-1;
-		}
-		$sql="select user_id, sum(paid) paid from $medical_type where year(invoice_date)=$y group by user_id";
-		$res=db::DoQuery($sql);
+	static function getPaidMany($medical_type, $resMany) {
 		$data=array();
-		foreach ($res as $rs) {
+		foreach ($resMany as $rs) {
 			$data[$rs['user_id']]=$rs['paid'];
 		}
 		return $data;
@@ -262,6 +293,26 @@ Class Medical {
 		</tbody></table>";
 		return $result;
 	}
-	
+	static function getMedicalTable($medical_type) {
+		$res=db::select($medical_type, "*", "ifnull(paid_status,0)=0", "user_id, input_date");
+		shared::setId('pay_medical_'.$medical_type.'_id', $medical_type.'_id', $res);
+		$result="";
+		if ($medical_type=='employee_outpatient') {
+			$result.="<h1>Outpatient</h1>";
+		} else {
+			$result.="<h1>Pregnancy</h1>";
+		}
+		$result.="<table class='tbl' id='tbl_result'><thead><tr><th></th><th>Employee</th><th>Invoice Date</th><th>Invoice<br>(Rp)</th><th>Paid<br>(Rp)</th>
+				<th>Remarks</th><th></th></tr></thead><tbody>";
+		foreach ($res as $rs) {
+			$result.="<tr><td>".$rs["id"]."</td><td>"._name($rs['user_id'])."</td><td>".formatDate($rs['invoice_date'])."</td>
+			<td align='right'>".formatNumber($rs['invoice_val'])."</td>
+			<td align='right'>".formatNumber($rs['paid'])."</td>
+			<td>".$rs['remarks']."</td>";
+			$result.="<td><button class='btn_paid' medical_type='".$medical_type."'>Pay</button></td></tr>";
+		}
+		$result.="</tbody></table>";
+		return $result;
+	}
 }
 ?>

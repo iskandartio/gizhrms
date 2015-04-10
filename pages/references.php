@@ -1,13 +1,14 @@
 <?php
-	$reference=db::select('applicants_reference','applicants_reference_id, job_title, reference_name, company_name, email, phone, description','user_id=?','', array($_SESSION['uid']));
-	$other_reference=db::select('applicants_other_reference','applicants_other_reference_id, job_title, reference_name, company_name, email, phone, description','user_id=?','', array($_SESSION['uid']));
-	
+	$reference=db::select('applicants_reference','applicants_reference_id, job_title, title, reference_name, company_name, email, phone, description','user_id=?','', array($_SESSION['uid']));
+	$other_reference=db::select('applicants_other_reference','applicants_other_reference_id, job_title, title, reference_name, company_name, email, phone, description','user_id=?','', array($_SESSION['uid']));
+	$combo_title_def=shared::select_combo_complete(db::select('title','*','','sort_id'), 'title','-Title-');
 ?>
 <script>
-	var fields=generate_assoc(['applicants_reference_id','job_title', 'reference_name', 'company_name', 'emailphone', 'description', 'btn']);
-	var other_fields=generate_assoc(['applicants_other_reference_id','job_title', 'reference_name', 'company_name', 'emailphone', 'description', 'btn']);
+	var fields=generate_assoc(['applicants_reference_id','job_title', 'title','reference_name', 'company_name', 'emailphone', 'description', 'btn']);
+	var other_fields=generate_assoc(['applicants_other_reference_id','job_title', 'title', 'reference_name', 'company_name', 'emailphone', 'description', 'btn']);
 	var table='tbl_reference';
 	var other_table='tbl_other_reference';
+	var title_choice="<?php _p($combo_title_def)?>";
 	$(function() {
 		bind('#btn_add',"click", AddNew);
 		bindAll();
@@ -29,7 +30,7 @@
 
 	function Save() {
 		var par=$(this).closest("tr");
-		if (!validate_empty_tbl(par, ['job_title','reference_name','company_name'])) {
+		if (!validate_empty_tbl(par, ['job_title','title','reference_name','company_name'])) {
 			return;
 		}
 		var v=par.closest("table").attr('id')=='tbl_other_reference';
@@ -44,7 +45,7 @@
 			data=prepareDataHtml(data, ['applicants_reference_id'], par, f);
 		}
 		if (!validate_one_required_tbl(par, ['email','phone'], null, f, 'emailphone')) return;
-		data=prepareDataText(data, ['job_title', 'reference_name', 'company_name', 'description'], par, f);
+		data=prepareDataText(data, ['job_title', 'title','reference_name', 'company_name', 'description'], par, f);
 		
 		var emailphone=getChildObj(par, 'emailphone', f);
 		data['email']=$(emailphone).children(".email").val();
@@ -61,6 +62,7 @@
 				btnChange(par, ['edit']);
 			}
 			textToLabel(par,['job_title','reference_name','company_name','description'], f);
+			selectedToLabel(par, ['title'], f);
 			textToLabelArr(par,'emailphone', ['email','phone'], f);
 			
 			
@@ -75,6 +77,7 @@
 		var a='';
 		a+='<tr><td></td>';
 		a+="<td><?php _t("job_title")?></td>";
+		a+="<td>"+title_choice+"</td>";
 		a+="<td><?php _t("reference_name")?></td>";
 		a+="<td><?php _t("company_name")?></td>";
 		a+="<td><?php _t("email")?><br><?php _t("phone")?></td>";
@@ -89,16 +92,18 @@
 	function Edit() {
 		var par=$(this).closest("tr");
 		labelToText(par, {'job_title':0, 'reference_name':0, 'company_name':0, 'description':0});
+		labelToSelect(getChildObj(par, 'title', fields), title_choice);
 		labelToTextArr(par, 'emailphone',['email','phone']);
 		btnChange(par, ['save','cancel']);
 		bindAll();
+		fixSelect();
 		
 	}
 	function Cancel() {
 		var par=$(this).closest("tr");
-		textToDefaultLabel(par,['job_title','reference_name','company_name','description']);
-		
-		textToDefaultLabelArr(par,'emailphone',['email','phone']);
+		textToDefaultLabel(par,['job_title','reference_name','company_name','description'], fields);
+		selectedToDefaultLabel(par, ['title'], fields);
+		textToDefaultLabelArr(par,'emailphone',['email','phone'], fields);
 		
 		
 		var v=par.closest("table").attr('id')=='tbl_other_reference';
@@ -114,12 +119,13 @@
 Please  list 3 references we may contact as your referees
 <table class='tbl' id='tbl_reference'>
 	<thead>
-	<tr><th>ID<th>Job Title *</th><th>Reference Name *</th><th>Company Name *</th><th>Email/Phone *</th><th>Description</th><th></th></tr>
+	<tr><th>ID<th>Job Title *</th><th>Title</th><th>Reference Name *</th><th>Company Name *</th><th>Email/Phone *</th><th>Description</th><th></th></tr>
 	</thead>
 	<tbody>
 	<?php foreach($reference as $row) {
 		_p('<tr><td>'.$row['applicants_reference_id'].'</td>');
 		_p('<td>'.$row['job_title'].'</td>');
+		_p('<td>'.$row['title'].'</td>');
 		_p('<td>'.$row['reference_name'].'</td>');
 		_p('<td>'.$row['company_name'].'</td>');
 		_p('<td>'.$row['email'].'<br/>');
@@ -130,7 +136,7 @@ Please  list 3 references we may contact as your referees
 		
 	}
 	for ($i=count($reference);$i<3;$i++) {
-		_p("<tr><td></td><td></td><td></td><td></td><td></td><td></td>");
+		_p("<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>");
 		_p("<td>".getImageTags(array('edit'))."</td>");
 		_p("</tr>");
 	}
@@ -141,12 +147,13 @@ Please  list 3 references we may contact as your referees
 <button class="button_link" id="btn_add">Add Other reference</button>
 <table class='tbl' id='tbl_other_reference'>
 	<thead>
-	<tr><th>ID<th>Job Title *</th><th>Reference Name *</th><th>Company Name *</th><th>Email/Phone *</th><th>Description</th><th></th></tr>
+	<tr><th>ID<th>Job Title *</th><th>Title</th><th>Reference Name *</th><th>Company Name *</th><th>Email/Phone *</th><th>Description</th><th></th></tr>
 	</thead>
 	<tbody>
 	<?php foreach($other_reference as $row) {
 		_p('<tr><td>'.$row['applicants_other_reference_id'].'</td>');
 		_p('<td>'.$row['job_title'].'</td>');
+		_p('<td>'.$row['title'].'</td>');
 		_p('<td>'.$row['reference_name'].'</td>');
 		_p('<td>'.$row['company_name'].'</td>');
 		_p('<td>'.$row['email'].'<br/>');

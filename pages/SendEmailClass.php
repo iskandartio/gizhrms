@@ -5,7 +5,7 @@ require_once('pages/startup.php');
 
 Class SendEmail {
 	static function send_email($send_to, $subject, $body) {
-		$rs=db::select_one("email_from","*, aes_decrypt(pwd,'iskandar tio') pwd");
+		$rs=db::select_one("email_from","*");
 		$mail             = new PHPMailer();
 
 		$body             = preg_replace("/\\\\/",'',$body); 
@@ -21,7 +21,7 @@ Class SendEmail {
 		$mail->Host       = $rs['host'];      // sets GMAIL as the SMTP server
 		$mail->Port       = $rs['port'];                   // set the SMTP port for the GMAIL server
 		$mail->Username   = $rs['user_name'];  // GMAIL username
-		$mail->Password   = $rs['pwd'];            // GMAIL password
+		$mail->Password   = shared::g_decrypt($rs['pwd']);            // GMAIL password
 
 		$mail->SetFrom($rs['user_name'], $rs['sender_name']);
 

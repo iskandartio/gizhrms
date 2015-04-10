@@ -1,8 +1,10 @@
 <?php
 	
+	$combo_employee=Employee::getComboEmployee();
+	
 ?>
 <script>
-	var employee_choice=<?php _p(Employee::getComboEmployee())?>;
+	var employee_choice=<?php _p($combo_employee)?>;
 	$(function() {
 		autoCompleteEmployee('.employee_id', EmployeeChange);
 	});
@@ -19,7 +21,7 @@
 		var data={}
 		data['type']='save_frame';
 		data['user_id']=$('#employee_id').data("id");
-		data=prepareDataText(data, ['frame_invoice_date']);
+		data=prepareDataText(data, ['frame_invoice_date','frame_remarks']);
 		data=prepareDataDecimal(data, ['frame_invoice_val']);
 		
 		var success=function(msg) {
@@ -35,7 +37,7 @@
 		var data={}
 		data['type']='save_lens';
 		data['user_id']=$('#employee_id').data("id");
-		data=prepareDataText(data, ['lens_invoice_date']);
+		data=prepareDataText(data, ['lens_invoice_date','lens_remarks']);
 		data=prepareDataDecimal(data, ['lens_invoice_val']);
 		
 		var success=function(msg) {

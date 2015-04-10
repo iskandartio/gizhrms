@@ -3,6 +3,10 @@
 		if (!isset($terminate_date)) $terminate_date=null;
 		Employee::terminate($severance, $service, $housing, $new_severance, $reason, $terminate_date);
 	}
+	if ($type=='stop') {
+		if (!isset($terminate_date)) $terminate_date=null;
+		Employee::terminate($severance, $service, $housing, $new_severance, $reason, $terminate_date);
+	}
 	if ($type=='save_terminate') {
 		
 		db::update('employee','contract_state','user_id=?',array('Terminate', $user_id));
@@ -19,12 +23,12 @@
 		$data['project_name_choice']=$project_name_choice;
 		die(json_encode($data));
 	}
-	if ($type=='show_terminate') {
+
+	if ($type=='show_stop') {
 		$_SESSION['user_id']=$user_id;
 		$result=Employee::getShowTerminate('');
 		die($result);
 	}
-
 	if ($type=='search_expiring') {
 		$res=Employee::get_expiring_res();
 		$result=Employee::get_expiring_table($res);

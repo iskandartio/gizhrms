@@ -28,7 +28,7 @@
 		var data={}
 		data['type']='save';
 		data['user_id']=$('#employee_id').data("id");
-		data=prepareDataText(data, ['invoice_date']);
+		data=prepareDataText(data, ['invoice_date','remarks']);
 		data=prepareDataDecimal(data, ['invoice_val']);
 		
 		var success=function(msg) {

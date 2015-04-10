@@ -1,14 +1,23 @@
 <?php
 	$res=db::select('vacancy_progress','*','','sort_id');
-	
+	$signature=db::select_single('signature','signature v');
+	$tiny_script=shared::get_tinymce_script('.div_signature');
 ?>
 
+<?php _p($tiny_script)?>
 
 <script>
 	var fields=generate_assoc(['vacancy_progress_id','vacancy_progress_val','process_name','required','active','btn','email']);
+			
 	$(function() {
+		$.widget("ui.dialog", $.ui.dialog, {
+			_allowInteraction: function(event) {
+			return !!$(event.target).closest(".mce-container").length || this._super( event );
+			}
+		});
 		bindAll();
 		
+
 	});
 	function bindAll() {
 		
@@ -24,12 +33,14 @@
 		bind('.btn_interviewer', "click", Email);
 		bind('.btn_reference', "click", Email);
 		bind('.btn_save_email',"click", SaveEmail);
+		bind('.btn_save_signature','click', SaveSignature);
 		$('#show_detail').dialog({
 			autoOpen:false,
 			height:500,
 			width:750,
 			modal:true
 		});
+
 		hideColumnsArr('tbl', ['vacancy_progress_id','required']);
 	}
 	function SaveEmail() {
@@ -165,7 +176,12 @@
 		bindAll();	
 	}
 	
-	
+	function SaveSignature() {
+		var data={}
+		data['type']='save_signature';
+		data['signature']=$('.div_signature').html();
+		ajax('vacancy_progress_ajax', data);
+	}
 
 </script>
 <button class="button_link" id="btn_add">Add</button>
@@ -181,4 +197,10 @@
 }?>
 
 </tbody></table>
-<div id='show_detail'/>
+
+
+<div id='show_detail'></div>
+<h2>Signature</h2>
+
+<div class='div_signature' style='border-style:dotted'><?php _p($signature)?></div>
+<button class='button_link btn_save_signature'>Save Signature</button>

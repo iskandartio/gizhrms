@@ -29,6 +29,9 @@ function contract_data(div) {
 		data=prepareDataMultiInput(data, ['contract1_start_date','contract1_end_date','am1_start_date','am1_end_date'
 		,'contract2_start_date','contract2_end_date','am2_start_date','am2_end_date'], div);
 		var success=function(msg) {
+			if (msg=='Failed') {
+				alert(msg);
+			}
 			var d=jQuery.parseJSON(msg);
 			$('#projected_severance',div).val(d['severance']);
 			$('#projected_service',div).val(d['service']);

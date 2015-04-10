@@ -23,17 +23,21 @@
 				$$key=$val;
 			}
 			$result.="<tr><td>$user_id</td><td>$first_name</td><td>$last_name</td><td>$project_name</td><td>$project_location</td>
-			<td><button class='btn_edit_project'>Edit Data</button> 
-			<button class='btn_update'>Change Project Data</button> 
-			<button class='btn_terminate'>Terminate</button> 
-			</td>
+			<td><button class='btn_edit_project'>Edit Data</button>";
+			if ($_SESSION['role_name']=='admin') {
+				$result.="<button class='btn_update'>Change Project Data</button> 
+				<button class='btn_terminate'>Terminate Immediately</button> ";
+			}
+			$result.="</td>
 			</tr>";
 		}
 		$result.="</tbody></table>";
 		die($result);
 	}
 	if ($type=='set_user_id') {
+		if (!Employee::validateEmployee($user_id)) die("Failed");
 		$_SESSION['user_id']=$user_id;
+		
 		die($_SESSION['user_id']);
 		
 	}
@@ -139,8 +143,11 @@
 		die($i);
 	}
 	if ($type=='save_recontract') {
-		$flag_salary_sharing=0;
 		$user_id=$_SESSION['user_id'];
+		$res=db::select('contract_history','*','end_date>? and user_id=?','', array($start_date, $user_id));
+		if (count($res)>0) die("Start Contract is not valid");
+		$flag_salary_sharing=0;
+		
 		$_POST['user_id']=$user_id;
 		if (isset($_POST['salary_sharing_project_name'])) $flag_salary_sharing=1;
 		if ($flag_salary_sharing==1) {

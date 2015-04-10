@@ -44,10 +44,10 @@ function language(div) {
 			if (language_id==-1) {
 				obj.html("<span style='display:none'>"+language_id+"</span>"+obj.children("input").val());
 			} else {
-				selectedToLabel(par,'language_id',  f);
+				selectedToLabel(par,['language_id'],  f);
 			}
 			
-			selectedToLabel(par,'language_skill_id',  f);
+			selectedToLabel(par,['language_skill_id'],  f);
 			btnChange(par, ['edit','delete'], f);
 			self.bindLanguage();
 		}
@@ -96,7 +96,7 @@ function language(div) {
 		} else {
 			td.html("<span style='display:none'>"+originalValue+"</span>"+td.children("input").prop("defaultValue"));
 		}
-		selectedToDefaultLabel(par, 'language_skill_id', f);
+		selectedToDefaultLabel(par, ['language_skill_id'], f);
 		btnChange(par, ['edit','delete'], f);
 		self.bindLanguage();
 	

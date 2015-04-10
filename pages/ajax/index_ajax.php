@@ -5,7 +5,13 @@
 	}
 	if ($type=='login') {
 		$data['err']='';
-		$res=db::select_one('m_user','user_id, user_name, pwd', 'status_id=1 and user_name=? and pwd=?','',array($_POST['email'], hash('sha512',$_POST['password'])));
+		if ($_SESSION['random_key']!=$random_key) {
+			$data['err']='Please relogin by refreshing your browser';			
+			$data['captcha_tag']=shared::get_captcha_text();
+			unset($_SESSION['random_key']);
+			die (json_encode($data));
+		}
+		$res=db::select_one('m_user','user_id, user_name, pwd', 'status_id=1 and user_name=? and pwd=?','',array($_POST['email'], $_POST['password']));
 		$_SESSION['time']=microtime();
 		$_SESSION['check_abused']=$_SESSION['check_abused']+1;
 		shared::generate_key("gizhrms");
@@ -35,6 +41,7 @@
 			$data['url']=  "recruitment";
 		}
 		Employee::init_static_var();
+		
 		die (json_encode($data));
 	} 
 	if ($type=='register') {

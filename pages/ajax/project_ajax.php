@@ -152,7 +152,7 @@
 		$sql="select a.project_name, a.user_id as responsible_superior, concat(b.first_name,' ',b.last_name) full_name from contract_history a
 			inner join employee b on coalesce(b.am2_end_date, b.contract2_end_date, b.am1_end_date, b.contract1_end_date)=a.end_date and b.user_id=a.user_id 
 			and ifnull(b.contract_state,'')!='Terminate'
-			where a.job_title='Senior Officer'";
+			where a.job_title='Senior Advisor'";
 		$senior_officer=db::DoQuery($sql);
 		
 		$result=array();

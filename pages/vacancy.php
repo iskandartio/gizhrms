@@ -3,7 +3,7 @@
 	$res=db::select('vacancy_type','vacancy_type','','vacancy_type');
 	$vacancy_type_options=shared::select_combo_complete($res, 'vacancy_type','- Vacancy Type -');
 ?>
-<?php _p(shared::get_tinymce_script("vacancy_description"));?>
+<?php _p(shared::get_tinymce_script("#vacancy_description"));?>
 
 <script>
 	var fields=generate_assoc(['vacancy_id','vacancy_code','vacancy_code2','vacancy_name', 'vacancy_description', 'vacancy_criteria', 'vacancy_startdate', 'vacancy_enddate','vacancy_type','allowance']);

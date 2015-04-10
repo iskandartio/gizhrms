@@ -1,16 +1,21 @@
 <?php
 	if ($type=='load_data') {
+		if ($year=='this_year') $y=date('Y'); else $y=date('Y')-1;
+		$resEmployee=Medical::getResMany($y, 'employee', $project_name, $project_number, $project_location);
 		
-		$data_limit=Medical::getLimitMany($year, 'employee_outpatient', $project_name, $project_number, $project_location);
-		$data_paid=Medical::getPaidMany($year, 'employee_outpatient');
+		$data_limit=Medical::getLimitMany($y, 'employee_outpatient', $resEmployee);
+		$resMany=Medical::getResMany($y, 'employee_outpatient', $project_name, $project_number, $project_location);
+		$data_paid=Medical::getPaidMany('employee_outpatient', $resMany);
+		
 		$data['outpatient']=Medical::medicalSummaryTable($year, $data_limit, $data_paid, 'employee_outpatient');
 		
-		$data_limit=Medical::getLimitMany($year, 'employee_pregnancy', $project_name, $project_number, $project_location);
-		$data_paid=Medical::getPaidMany($year, 'employee_pregnancy');
+		$data_limit=Medical::getLimitMany($y, 'employee_pregnancy', $resEmployee);
 		
+		$resMany=Medical::getResMany($y, 'employee_pregnancy', $project_name, $project_number, $project_location);
+		$data_paid=Medical::getPaidMany('employee_pregnancy', $resMany);
 		$data['pregnancy']=Medical::medicalSummaryTable($year, $data_limit, $data_paid, 'employee_pregnancy');
 		
-		if ($year=='this_year') $y=date('Y'); else $y=date('Y')-1;
+		
 		$res=Eyeglasses::get_eyeglasses_paid($y);
 		$res_by_year=Eyeglasses::get_eyeglasses_paid_by_year($y);
 		$data['eyeglasses']=Eyeglasses::get_summary_table($y, $res, $res_by_year);

@@ -1,13 +1,17 @@
 <?php
 	$res=db::select('location','*');
-	
+
 ?>
 <script src="js/tinymce/tinymce.min.js"></script>
-
 
 <script>
 	var fields=generate_assoc(['location_id','location_code','location_val','btn']);
 	$(function() {
+		$.widget("ui.dialog", $.ui.dialog, {
+			_allowInteraction: function(event) {
+			return !!$(event.target).closest(".mce-container").length || this._super( event );
+			}
+		});
 		bindAll();
 		
 	});
@@ -16,6 +20,7 @@
 		bind('.btn_delete',"click", Delete);
 		bind('.btn_save',"click", Save);
 		hideColumnsArr('tbl', ['location_id']);
+		
 		tinymce.remove();
 		
 		tinymce.init({
@@ -33,6 +38,7 @@
 			image_advtab: true,
 
 		});
+		
 	}
 
 	function Delete() {
@@ -83,6 +89,7 @@
 	
 
 </script>
+
 <button class="button_link" id="btn_add">Add</button>
 <table id='tbl' class='tbl'>
 <thead><tr><th></th><th>Location Code</th><th>Location</th><th></th></tr><tbody>

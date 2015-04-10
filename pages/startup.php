@@ -75,7 +75,7 @@
 		if ($type=='') {
 			$type='text';
 		}
-		return ("<input type='$type' id='$name' name='$name' title='$title' class='$class' placeholder='$placeholder' value='$value'".($size=='' ? '' : "size='$size'")."/>");
+		return ("<input type='$type' id='$name' name='$name' autocomplete='off' title='$title' class='$class' placeholder='$placeholder' value='$value'".($size=='' ? '' : "size='$size'")."/>");
 	}
 	function month_options() {
 		$month_options='<option value=1>Jan</option>';
@@ -246,11 +246,27 @@
 	function _lbl2($data, $arr1, $arr2) {
 		return _lbl(_lbl($data, $arr1), $arr2);
 	}
-	function _name($data, $arr=array()) {
-		Employee::init_static_var();
-		if (count($arr)==0) {
-			return _lbl($data, $_SESSION['employee']);
+	function _t_name($data) {
+		if (!isset($_SESSION['employee'][$data])) {
+			$_SESSION['employee']=Employee::getEmployeeHash();
 		}
-		return _lbl2($data, $arr, $_SESSION['employee']);
+		if (!isset($_SESSION['employee'][$data])) return "No Data";
+		foreach ($_SESSION['employee'][$data] as $key=>$val) {
+			return $key." ".$val;	
+		}
+	}
+	function _name($data, $arr=array()) {
+		if (count($arr)>0) {
+			if (!isset($arr[$data])) return "No Data";
+			$data=$arr[$data];
+		}
+		if (!isset($_SESSION['employee'][$data])) {
+			$_SESSION['employee']=Employee::getEmployeeHash();
+		}
+		if (!isset($_SESSION['employee'][$data])) return "No Data";
+		foreach ($_SESSION['employee'][$data] as $key=>$val) {
+			return $val;	
+		}	
+
 	}
 ?>

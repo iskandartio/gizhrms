@@ -49,8 +49,11 @@
 		data['type']="set_user_id";
 		data['user_id']=getChildHtml(par, 'user_id', fields);
 		var success=function(msg) {
-			
-			location.href="employee_detail";
+			if (msg=='Failed') {
+				location="failed";
+			} else {
+				location.href="employee_detail";
+			}
 		}
 		ajax("employee_ajax", data, success);
 	}
@@ -123,7 +126,7 @@ function jsTerminate() {
 		$(div).dialog("close");
 		Search();
 	}
-	ajax('contract_termination_ajax',data,success);
+	ajax('contract_expiring_ajax',data,success);
 }
 function jsCancelChange() {
 	$('#new_severance',div).val('');

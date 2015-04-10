@@ -53,7 +53,7 @@ function personal_data(div, saveFunc) {
 		}
 		var data ={};
 		data['type']='save_personal_data';
-		data=prepareDataMultiInput(data, ['employee_id','user_name','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','marital_status'
+		data=prepareDataMultiInput(data, ['employee_id','title','user_name','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','marital_status'
 		,'nationality_id','nationality_val','address','country_id','country_name','province_id','city_id'
 		,'post_code','phone1','phone2','computer_skills','professional_skills','account_bank','account_number','emergency_phone','emergency_email'], div);
 		var success=function(msg) {			

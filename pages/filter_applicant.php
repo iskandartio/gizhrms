@@ -136,10 +136,14 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			if (msg=='Closing') {
 				btnChange(par,['accept','reject'], field_closing);
 			} else {
-				btnChange(par, ['save','interview','reject'], fields);
+				if ($('#next_vacancy_progress_id option:selected').html()!='Shortlist') {				
+					btnChange(par, ['save','interview','reject'], fields);
+				} else {
+					btnChange(par, ['interview','reject'], fields);
+				}
 			}
-			
 			bind('.btn_save',"click",Save);
+			
 			bind('.btn_interview',"click",Interview);
 			bind('.btn_reject',"click",Reject);
 			bind('.btn_accept',"click",Accept);
@@ -180,7 +184,8 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var success=function(msg) {
 			$('#search_result').html(msg);
 			if ($('#next_vacancy_progress_id  option:selected').html()=='Shortlist') {
-				hideColumnsArr('tbl_filter_applicant', ['interview_place','interview_date','interview_time'],fields);
+				hideColumnsArr('tbl_filter_applicant', ['ranking_id','user_comment','interview_place','interview_date','interview_time'],fields);
+				$('.btn_save').hide();
 			}
 			bind('.btn_save',"click",Save);
 			
@@ -263,6 +268,10 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		data=prepareDataHtml(data, ['user_id'], par, fields);
 
 		var success=function(msg) {
+			if (msg!='') {
+				alert(msg);
+				return;
+			}
 			btnChange(par, ['save','delete'], fields);
 			bind('.btn_save',"click", Save);
 			bind('.btn_delete',"click", Delete);
@@ -425,7 +434,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		}
 		var data={};
 		data['type']='add_user';
-		data['employee_id']=getChildHtml(par,'employee_id',field_user);
+		data=prepareDataAutoComplete(data, ['employee_id'], par, field_user);
 		data['vacancy_progress_id']=$('#next_vacancy_progress_id').val(); 
 		data['vacancy_id']=$('#vacancy_id').val(); 
 		

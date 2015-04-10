@@ -1,13 +1,18 @@
 <?php
 	if ($type=='save') {
-		db::ExecMe("update email_from set host=?, security_type=?, port=?, user_name=?, pwd=aes_encrypt(?,'iskandar tio'), sender_name=?", array($host,$security_type,$port,$user_name,$pwd, $sender_name));
+		if ($pwd=="") {
+			db::ExecMe("update email_from set host=?, security_type=?, port=?, user_name=?, sender_name=?", array($host,$security_type,$port,$user_name, $sender_name));
+		} else {
+			$pwd=shared::g_enc_half($pwd);
+			db::ExecMe("update email_from set host=?, security_type=?, port=?, user_name=?, pwd=?, sender_name=?", array($host,$security_type,$port,$user_name,$pwd, $sender_name));
+		}
 		
 		die;
 	}
 	if ($type=='show_email') {
 		$row=db::select_one('email_setup','*','email_type=?', '', array($email_type));
 		$result="";
-		$result.=shared::get_tinymce_script('email_content');
+		$result.=shared::get_tinymce_script('#email_content');
 		
 		$result.="<h1>".$row['email_type_name']."</h1>";
 		$result.="<input type='hidden' value='".$email_type."' id='email_type'/>";

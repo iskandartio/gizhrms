@@ -22,20 +22,44 @@ salary encrypt ok
 history contract cycle ok
 tambahin tab project location, di project location ada office manager ok
 job_title baru position ok
+office manager bisa: personal data, dependents, working exp, upload pic, medical ok
+medical summary: per project name, per project number, per projectlocation ok
+change password hash in js ok
+signature ok
+contract reminder for team leader and employee ok
+add title to employee and applicant and applicant_reference ok
+terminate ok
+former employee ok
+bisa cancel saat accept employee atau call for interview ok
+contract reminder ok
+medical edit ok
 
-medical summary: per project name, per project number, per projectlocation
-
-financial_controller+principle_advisor+team_leader+admin+employee masing2 bisa liat gaji
-office manager bisa: personal data, dependents, working exp, upload pic, medical, leave
-signature
-contract reminder for team leader and employee
-cek saat ganti nama
-terminate 
-former employee
+show detail error on filter
 employee_working, language, education belum pindah
+
 statistic employee:
 staff berdasarkan gender, umur, pendidikan, admin & technical, salary band
 salary adjustment input start date
 report data karyawan yang akan berakhir pada periode tertentu bagaimana ya? ada pilihan search berdasarkan akhir periode kontrak
-contract reminder
-medical edit
+
+autologout after 5 mins idle
+https
+nggak bisa save
+encrypt di js before post
+export  to excel filter applicants
+periksa aes decrypt
+expected salary di encrypt
+financial_controller+principle_advisor+team_leader+admin+employee masing2 bisa liat gaji
+record update change
+check combo while save
+superadmin for creating admin
+
+algoritma:
+interview:
+1. update job_applied set vacancy_shortlist
+save:
+1. insert vacancy employee kalau belum ada, admin only, progressnya Shortlist
+2. if not shortlist check apakah sudah pernah comment, kalau belum insert, kalau sudah update
+3. job_applied set next_vacancy_progree_id
+4. if not Shortlist, insert to vacancy_interview
+

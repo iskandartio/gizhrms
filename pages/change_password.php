@@ -1,6 +1,7 @@
 <?php
 	
 ?>
+<script src="js/sha512.js"></script>
 <script>
 	$(function() {
 		bindAll();
@@ -9,13 +10,18 @@
 		bind('.btn_change_password','click',ChangePassword);
 	}
 	function ChangePassword() {
+		if ($('#new_password').val()!=$('#confirm_password').val()) {
+			alert('confirm password not match!');
+			
+		}
 		var data={}
 		data['type']='change_password';
-		data=prepareDataText(data, ['old_password','new_password','confirm_password']);
-		if (data['new_password']!=data['confirm_password']) {
-			alert('confirm password not match!');
-			//return;
-		}
+		
+		var hash = CryptoJS.SHA512($('#old_password').val());
+		data['old_password']=hash.toString();
+		hash = CryptoJS.SHA512($('#new_password').val());
+		data['new_password']=hash.toString();
+		
 		var success=function(msg) {
 			if (msg!='') alert(msg);
 		}

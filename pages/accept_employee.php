@@ -22,6 +22,22 @@
 		} else {
 			$('#button').hide();
 		}
+		bind('.btn_cancel', 'click', Cancel);
+		hideColumns('tbl_call_interview');
+	}
+	function Cancel() {
+		var par=$(this).closest("tr");
+		var data={}
+		data['type']='cancel_interview';
+		data['id']=par.children("td:eq(0)").html();
+		var success=function(msg) {
+			if (msg!='') {
+				alert(msg);
+				return;
+			}
+			par.remove();
+		}
+		ajax('filter_applicant_ajax', data, success);
 	}
 	function VacancyChange() {
 		loadData();

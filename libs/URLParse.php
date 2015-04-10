@@ -96,8 +96,11 @@ class URLParse
 
     private static $PAGE_INFO = array(
             "" =>           array(
-                P_FILE => "home.html",
+                P_FILE => "index.php",
                 ),
+			"logout"=>array(
+				P_FILE=>"index.php"
+				),
             // Handles /index and /index.htm
 			"accept_employee" => array(
 				P_WIDTH=> "900",
@@ -137,9 +140,9 @@ class URLParse
 				P_TITL => "Change Password",
 				P_METD => "",
 				P_METK => ""),
-			"contract_termination" => array(
-                P_FILE => "contract_termination.php",
-                P_TITL => "Contract Termination",
+			"contract_expiring" => array(
+                P_FILE => "contract_expiring.php",
+                P_TITL => "Contract Expiring",
                 P_METD => "",
                 P_METK => "",
                 ),
@@ -178,6 +181,11 @@ class URLParse
 				P_WIDTH=> "1050",
 				P_FILE => "filter_applicant.php",
 				P_TITL => "Filter Applicant",
+				P_METD => "",
+				P_METK => ""),		
+			"former_employee" => array(
+				P_FILE => "former_employee.php",
+				P_TITL => "Former Employee",
 				P_METD => "",
 				P_METK => ""),		
 			"index" =>      array(
@@ -220,7 +228,12 @@ class URLParse
 				P_TITL => "Others",
 				P_METD => "",
 				P_METK => ""),				
-
+			"pay_medical" => array(
+				P_FILE => "pay_medical.php",
+				P_TITL => "Pay Medical",
+				P_METD => "Applicant Registration",
+				P_METK => "Applicant, Apply, Registration"),
+			
 			"position_applied" => array(
 				P_WIDTH=> "400",
 				P_FILE => "position_applied.php",

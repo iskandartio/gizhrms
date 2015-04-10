@@ -1,4 +1,6 @@
-<?php $project_name_choice=shared::select_combo_complete(db::select('project_name','*','','project_name'), 'project_name','-Project Name-');?>
+<?php $project_name_choice=shared::select_combo_complete(db::select('project_name','*','','project_name'), 'project_name','-Project Name-');
+
+?>
 <script src='js/projectView.js'></script>
 <script>
 	$(function() {
@@ -37,12 +39,14 @@
 	}
 </script>
 <div class='row'><input type='radio' name='year' class='year' checked="checked" value='this_year'/>This Year<input type='radio' name='year' class='year' value='last_year'/>Last Year</div>
-<div class='div_project' style='display:none'>
+<?php if (!isset($_SESSION['project_location'])) {?>
+<div class='div_project'>
 	<div class='row'><div class='float100'>Project Name</div><div class='float150'><?php _p($project_name_choice) ?></div>
 	<div class='label'>Project Number</div><div class='float150'><select class='project_number'></select></div>
 	<div class='label'>Project Location</div><div class='float'><select class='project_location'></select></div></div>
 	<button class='button_link btn_search'>Search</button>
 </div>
+<?php }?>
 <div id='tabs'>
 <ul>
 	<li><a href="#div_outpatient">Outpatient</a></li>

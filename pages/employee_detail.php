@@ -1,5 +1,7 @@
 ﻿<?php
+	
 	$applicant=Employee::get_active_employee_simple_one("a.user_id=?", array($_SESSION['user_id']));
+
 ?>
 <script src='js/personal_data.js'></script>
 <script src='js/employee_project.js'></script>
@@ -21,7 +23,14 @@ $(function() {
 		$('#photo').closest(".row").show();
 	}
 	bind('#btn_back','click',Back);
+	<?php if ($_SESSION['role_name']!='admin') {
+		echo "$('[href=\"#div_contract_data\"]').closest('li').hide();";
+		echo "$('[href=\"#div_project_history\"]').closest('li').hide();";
+		echo "$('[href=\"#div_historical_contract\"]').closest('li').hide();";
+	}?>
+	
 	prepareTabs('employee_detail');
+	
 });
 function load(active) {
 	if ($('#div_'+tabs[active]).html()!='') return;
@@ -92,6 +101,7 @@ function uploadOthersDone(){
 		<li><a href="#div_employee_project">Project</a></li>
 		<li><a href="#div_project_history">Project History</a></li>
 		<li><a href="#div_contract_data">Contract Data</a></li>
+		
 		<li><a href="#div_dependents">Dependents</a></li>
 		<li><a href="#div_language">Language</a></li>
 		<li><a href="#div_working">Working Exp</a></li>

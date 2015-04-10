@@ -1,11 +1,16 @@
-alter table contract_history add office_manager int, change column responsible_superior responsible_superior int;
-alter table contract_history2 add office_manager int, change column responsible_superior responsible_superior int;
-alter table applicants add job_title varchar(50)
-, add position varchar(50), add project_name varchar(50)
-, add principal_advisor int, add financial_controller int, add project_number varchar(50)
-, add team_leader int, add project_location varchar(50), add office_manager int
-, add responsible_superior int, add SAP_No varchar(50), add working_time int
-, add salary varchar(300), add salary_band varchar(5);
-alter table employee_education change column country countries_id int;
-create table relation(relation_id int auto_increment primary key
-, relation varchar(50), sort_id int);
+alter table employee_outpatient add paid_status int, remarks varchar(200);
+alter table employee_pregnancy add paid_status int, remarks varchar(200);
+alter table employee_eyeglasses add paid_status int, remarks varchar(200);
+alter table employee_medical_checkup add paid_status int, remarks varchar(200);
+create table signature(signature_id int auto_increment primary key, signature varchar(1000));
+insert into signature(signature) values('test');
+insert into email_setup(email_type, email_type_name) values('contract_reminder_employee','Contract Reminder Employee');
+insert into email_setup(email_type, email_type_name) values('contract_reminder_team_leader','Contract Reminder Team Leader');
+alter table employee add title varchar(30);
+alter table applicants add title varchar(30);
+create table title(title_id int auto_increment primary key, title varchar(30), sort_id int);
+alter table applicants_reference add title varchar(30);
+alter table applicants_other_reference add title varchar(30);
+alter table vacancy_timeline drop column interview_date, drop column interview_time, drop column interview_place;
+alter table applicants_education change column country countries_id int;
+ALTER TABLE `email_setup` CHANGE COLUMN `email_subject` `email_subject` VARCHAR(100);

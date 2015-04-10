@@ -2,6 +2,8 @@
 if ($type=='load_personal_data')  {
 	$applicant=Employee::get_active_employee_simple_one("a.user_id=?", array($_SESSION['user_id']));
 	$combo_gender=shared::select_combo_complete(db::select('gender','*'),'gender','-Gender-','gender',$applicant['gender']);
+	$combo_title=shared::select_combo_complete(db::select('title','*'),'title','-Title-','title',$applicant['title']);
+	db::Log($combo_title);
 	$combo_marital_status=shared::select_combo_complete(db::select('marital_status','*'),'marital_status','-Status-','marital_status',$applicant['marital_status']);
 	$res_nationality=db::select('nationality','*','','nationality_val');
 	array_push($res_nationality, array("nationality_id"=>"-1", "nationality_val"=>"Others"));
@@ -34,6 +36,7 @@ if ($type=='load_personal_data')  {
 	</form>";
 		$result.="<table>
 	<tr style='display:none'><td>employee ID</td><td>:</td><td>"._t2("employee_id",$applicant)."</td></tr>
+	<tr><td>Title *</td><td>:</td><td>".$combo_title."</td></tr>
 	<tr><td>First Name *</td><td>:</td><td>"._t2("first_name",$applicant)."</td></tr>
 	<tr><td>Last Name *</td><td>:</td><td>"._t2("last_name", $applicant)."</td></tr>
 	<tr><td>Place of Birth *</td><td>:</td><td>"._t2("place_of_birth", $applicant)."</td></tr>
@@ -62,6 +65,7 @@ if ($type=='load_personal_data')  {
 }
 
 if ($type=='save_personal_data') {
+	
 	$_POST['user_id']=$_SESSION['user_id'];
 	$user_id=$_POST['user_id'];
 	unset($_POST['user_name']);
@@ -115,6 +119,7 @@ if ($type=='save_personal_data') {
 	unset($_SESSION['employee']);
 	die(json_encode($data));
 }
+
 if ($type=='load_employee_project') {
 	$applicant=Employee::get_active_employee_one("a.user_id=?", array($_SESSION['user_id']));
 	$combo_project_name_def=shared::select_combo_complete(Project::getProjectName(), 'project_name', '-Project Name-');
@@ -126,6 +131,7 @@ if ($type=='load_employee_project') {
 	die(json_encode($data));
 }
 if ($type=='load_project_history') {
+	if ($_SESSION['role_name']!='admin') die;
 	$applicant=Employee::get_active_employee_one("a.user_id=?", array($_SESSION['user_id']));
 	$salary_history=Employee::get_salary_history_res($applicant['contract_history_id']);
 	$result="";
@@ -139,6 +145,7 @@ if ($type=='load_project_history') {
 }
 
 if ($type=='load_contract_data') {
+	if ($_SESSION['role_name']!='admin') die;
 	$applicant=Employee::get_active_employee_one("a.user_id=?", array($_SESSION['user_id']));
 	foreach ($applicant as $key=>$val) {
 		$$key=$val;
@@ -154,10 +161,27 @@ if ($type=='load_contract_data') {
 }
 
 if ($type=='save_contract_detail') {
+	if ($_SESSION['role_name']!='admin') die("Failed");
+	
+	if ($am1_start_date!="") {
+		if ($am1_start_date<=$contract1_end_date) die("First Amendment not Valid");
+		if ($am1_start_date>=$am1_end_date) die("First Amendment not Valid");
+	}
+	if ($contract2_start_date!="") {
+		if ($contract2_start_date<=$am1_end_date) die("Contract Extension not Valid");
+		if ($contract2_start_date>=$contract2_end_date) die("Contract Extension not Valid");
+	}
+	if ($am2_start_date!="") {
+		if ($am2_start_date<=$contract2_end_date) die("Second Amendment not Valid");
+		if ($am2_start_date>=$am2_end_date) die("Second Amendment not Valid");
+	}
+	
+	
 	$con=db::beginTrans();
 	
 	$_POST['user_id']=$_SESSION['user_id'];
 	$user_id=$_POST['user_id'];
+	
 	$res_before = db::DoQuery("select coalesce(am2_start_date, contract2_start_date, am1_start_date, contract1_start_date) start_date, coalesce(am2_end_date, contract2_end_date, am1_end_date, contract1_end_date) end_date from employee where user_id=?", array($user_id), $con);
 	
 	db::updateShort('employee', 'user_id', $_POST, $con);
@@ -304,6 +328,7 @@ if ($type=='delete_file') {
 	die;
 }
 if ($type=='load_historical_contract') {
+	if ($_SESSION['role_name']!='admin') die;
 	$res=db::select("employee_history","*","user_id=?","contract1_start_date", array($_SESSION['user_id']));
 	$res_current=db::select('employee','*','user_id=?','', array($_SESSION['user_id']));
 	$res_all=array_merge($res, $res_current);

@@ -1,14 +1,28 @@
 <?php
-
 require "pages/startup.php";
-
 require_once('libs/URLParse.php'); 
 
-
+$home_dir="/gizhrms";
 $name = URLParse::ProcessURL();
 if ($name=='') {
 	$_SESSION['home']=$_SERVER['REQUEST_SCHEME']."://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+} else {
+	if ($_SESSION['role_name']=='employee') {
+		$roles=['outpatient','eyeglasses','pregnancy','medical_checkup','medical_summary','employee','employee_detail','recruitment','recruitment_report','change_password'];
+		
+	} else if ($_SESSION['role_name']=='admin') {
+		$roles=['project','email_setting','region','others','location','vacancy_progress','settings','statistics','employee','salary'
+			,'contract_expiring','former_employee','outpatient','eyeglasses','pregnancy','medical_checkup','pay_medical','medical_summary'
+			, 'vacancy','question','filter','call_interview','accept_employee','summary','change_password'];			
+	} else if ($_SESSION['role_name']=='applicant') {
+		$roles=['applicant','education','working','language','references','uploadcv','position_applied','change_password'];
+	}
+	if (!in_array($name, $roles)) {
+		$name="";
+	}
 }
+
+$_SESSION['random_key']=base64_encode(hash('ripemd128', shared::random(6) , true));
 $activation_email= (isset($_SESSION['activation_email'])? $_SESSION['activation_email'] : '');
 $_SESSION['activation_email']="";
 
@@ -23,10 +37,15 @@ if ($name=='uploadajax'||$name=='show_picture'||$name=='test') {
 	URLParse::IncludePageContents();
 	die;
 }
+	
+
 if ($name==''||$name=='activate') {
-	
+
 	unset($_SESSION['uid']);
-	
+	unset($_SESSION['role_name']);
+	unset($_SESSION['role_name2']);
+	unset($_SESSION['project_location']);
+	unset($_SESSION['employee']);
 	//file_put_contents("log.txt", "");
 }
 shared::contract_reminder_email();
@@ -69,10 +88,37 @@ header('Content-Type: text/html; charset=utf-8');
 	<script src="js/numeric.js"></script>
 
 	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
-
+	<?php if ($name!="") {?>
+	<script src="js/store.min.js" type="text/javascript"></script>
+	<script src="js/jquery-idleTimeout.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function (){
+			$(document).idleTimeout({
+				idleTimeLimit: 20,       // 'No activity' time limit in seconds. 1200 = 20 Minutes
+				redirectUrl: '<?php _p($home_dir)?>',    // redirect to this url on timeout logout. Set to "redirectUrl: false" to disable redirect
+				customCallback: false,     // set to false for no customCallback
+				activityEvents: 'click keypress scroll wheel mousewheel mousemove', // separate each event with a space
+				enableDialog: true,        // set to false for logout without warning dialog
+				dialogDisplayLimit: 20,   // time to display the warning dialog before logout (and optional callback) in seconds. 180 = 3 Minutes
+				dialogTitle: 'Session Expiration Warning',
+				dialogText: 'Because you have been inactive, your session is about to expire.',
+				sessionKeepAliveTimer: 600 // Ping the server at this interval in seconds. 600 = 10 Minutes
+			});
+			$('#freeze').hide();
+		});
+	</script>
+	<?php } else {?>
+		<script>
+			$(function() {
+				$('#freeze').hide();
+			});
+		</script>
+	<?php }?>
 	<link rel="stylesheet" href="css/default.css"/>
 <?php if ($name==''||$name=='activate') {
 	?>
+	<script src="js/sha512.js"></script>
+	
 	<script>
 		$(function() {
 			bind('#btn_login','click',Login);
@@ -143,13 +189,19 @@ header('Content-Type: text/html; charset=utf-8');
 				return;
 			}
 		}
+
 		function loginAjax(o) {
 			if (!validate_empty(['email','password','captcha_text'])) return;
 			$('#freeze').show();
 			var data={};
 			data['type']='login';
-			data=prepareDataText(data,['email','password','captcha_text']);
+			var hash = CryptoJS.SHA512($('#password').val());
+			data['password']=hash.toString();
+			data['random_key']="<?php _p($_SESSION['random_key'])?>";
+			data=prepareDataText(data,['email','captcha_text']);
+			
 			var success=function(msg) {
+				
 				obj = jQuery.parseJSON(msg);
 				$('#freeze').hide();
 				if (obj['err']!='')  {
@@ -305,12 +357,7 @@ header('Content-Type: text/html; charset=utf-8');
 		}
 	</script>
 <?php } ?>
-	<script>
-		$(function() {
-			$('#freeze').hide();
-		});
-	</script>
-	
+
 </head>
 <body>
 	<div align="center">
@@ -348,77 +395,95 @@ header('Content-Type: text/html; charset=utf-8');
 		<span>Application Data</span>
 		<div style="margin:5px">
 		<ul>
-			<li><a href="/gizhrms/applicant">Personal Details</a></li>
-			<li><a href="/gizhrms/education">Education</a></li>
-			<li><a href="/gizhrms/working">Working Experience</a></li>
-			<li><a href="/gizhrms/language">Language</a></li>
-			<li><a href="/gizhrms/references">References</a></li>
-			<li><a href="/gizhrms/uploadcv">Upload CV + Cover Letter</a></li>
-			<li><a href="/gizhrms/position_applied">Position Applied</a></li>
+			<li><a href="<?php _p($home_dir)?>/applicant">Personal Details</a></li>
+			<li><a href="<?php _p($home_dir)?>/education">Education</a></li>
+			<li><a href="<?php _p($home_dir)?>/working">Working Experience</a></li>
+			<li><a href="<?php _p($home_dir)?>/language">Language</a></li>
+			<li><a href="<?php _p($home_dir)?>/references">References</a></li>
+			<li><a href="<?php _p($home_dir)?>/uploadcv">Upload CV + Cover Letter</a></li>
+			<li><a href="<?php _p($home_dir)?>/position_applied">Position Applied</a></li>
 
-			<li><a href="/gizhrms/change_password">Change Password</a></li>
-			<li><a href="/gizhrms">Logout</a></li>
+			<li><a href="<?php _p($home_dir)?>/change_password">Change Password</a></li>
+			<li><a href="<?php _p($home_dir)?>">Logout</a></li>
 		</ul>
 		
 		</div>
 	</div>
-<?php } else if ($_SESSION['role_name']=='admin') {?>
+	
+<?php } else if ($_SESSION['role_name']=='admin') {
+	?>
+	
 	<div id="menu" class='menu'>
 		<?php _p(getImageTags(array('hide')))?>
 		<span id='menu_master'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Master Data</span>
 		<ul>
-		<li><a href="/gizhrms/project">Project</a></li>
-		<li><a href="/gizhrms/email_setting">Email Setting</a></li>
-		<li><a href="/gizhrms/region">Region</a></li>
-		<li><a href="/gizhrms/others">Others</a></li>
-		<li><a href="/gizhrms/location">Interview Location</a></li>
-		<li><a href="/gizhrms/vacancy_progress">Recruitment Process</a></li>
-		<li><a href="/gizhrms/settings">Settings</a></li>
+		<li><a href="<?php _p($home_dir)?>/project">Project</a></li>
+		<li><a href="<?php _p($home_dir)?>/email_setting">Email Setting</a></li>
+		<li><a href="<?php _p($home_dir)?>/region">Region</a></li>
+		<li><a href="<?php _p($home_dir)?>/others">Others</a></li>
+		<li><a href="<?php _p($home_dir)?>/location">Interview Location</a></li>
+		<li><a href="<?php _p($home_dir)?>/vacancy_progress">Recruitment Process</a></li>
+		<li><a href="<?php _p($home_dir)?>/settings">Settings</a></li>
 		</ul>
 		
 		<span id='menu_report'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Report</span>
 		<ul>
-		<li><a href="/gizhrms/statistics">Statistics</a></li>
+		<li><a href="<?php _p($home_dir)?>/statistics">Statistics</a></li>
 		</ul>
 		<span id='menu_administration'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Administration</span>
 		<ul>
-		<li><a href="/gizhrms/employee">Employee</a></li>
-		<li><a href="/gizhrms/salary">Salary Adjustment</a></li>
-		<li><a href="/gizhrms/contract_termination">Contract Termination</a></li>
+		<li><a href="<?php _p($home_dir)?>/employee">Employee</a></li>
+		<li><a href="<?php _p($home_dir)?>/salary">Salary Adjustment</a></li>
+		<li><a href="<?php _p($home_dir)?>/contract_expiring">Contract Expiring</a></li>
+		<li><a href="<?php _p($home_dir)?>/former_employee">Former Employee</a></li>
 		</ul>
 		
 		<span id='menu_medical'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Medical</span>
 		<ul>
-		<li><a href="/gizhrms/outpatient">Outpatient</a></li>
-		<li><a href="/gizhrms/eyeglasses">Eyeglasses</a></li>
-		<li><a href="/gizhrms/pregnancy">Pregnancy</a></li>
-		<li><a href="/gizhrms/medical_checkup">Medical Checkup</a></li>
-		<li><a href="/gizhrms/medical_summary">Summary</a></li>
+		<li><a href="<?php _p($home_dir)?>/outpatient">Outpatient</a></li>
+		<li><a href="<?php _p($home_dir)?>/eyeglasses">Eyeglasses</a></li>
+		<li><a href="<?php _p($home_dir)?>/pregnancy">Pregnancy</a></li>
+		<li><a href="<?php _p($home_dir)?>/medical_checkup">Medical Checkup</a></li>
+		<li><a href="<?php _p($home_dir)?>/pay_medical">Pay Medical</a></li>
+		<li><a href="<?php _p($home_dir)?>/medical_summary">Summary</a></li>
 		</ul>
 		<span id='menu_recruitment'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Recruitment</span>
 		<ul>
-		<li><a href="/gizhrms/vacancy">Vacancy</a></li>
-		<li><a href="/gizhrms/question">Question</a></li>
-		<li><a href="/gizhrms/filter">Filter Applicants</a></li>
-		<li><a href="/gizhrms/call_interview">Call for Interview</a></li>
-		<li><a href="/gizhrms/accept_employee">Accept as Employee</a></li>
-		<li><a href="/gizhrms/summary">Recruitment Summary</a></li>
-		<li><a href="/gizhrms/change_password">Change Password</a></li>
-		<li><a href="/gizhrms">Logout</a></li>
+		<li><a href="<?php _p($home_dir)?>/vacancy">Vacancy</a></li>
+		<li><a href="<?php _p($home_dir)?>/question">Question</a></li>
+		<li><a href="<?php _p($home_dir)?>/filter">Filter Applicants</a></li>
+		<li><a href="<?php _p($home_dir)?>/call_interview">Call for Interview</a></li>
+		<li><a href="<?php _p($home_dir)?>/accept_employee">Accept as Employee</a></li>
+		<li><a href="<?php _p($home_dir)?>/summary">Recruitment Summary</a></li>
+		<li><a href="<?php _p($home_dir)?>/change_password">Change Password</a></li>
+		<li><a href="<?php _p($home_dir)?>">Logout</a></li>
 		</ul>
 		
 	</div>
 <?php } else if ($_SESSION['role_name']=='employee') {?>	
 	<div id="menu" class='menu'>
-		<span>Administration</span>
-		<div style="margin:5px">
+		<?php if (Employee::isOfficeManager()==1) {
+			$_SESSION['role_name2']='office_manager';?>
+			<span id='menu_medical'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Medical</span>
+			<ul>
+			<li><a href="<?php _p($home_dir)?>/outpatient">Outpatient</a></li>
+			<li><a href="<?php _p($home_dir)?>/eyeglasses">Eyeglasses</a></li>
+			<li><a href="<?php _p($home_dir)?>/pregnancy">Pregnancy</a></li>
+			<li><a href="<?php _p($home_dir)?>/medical_checkup">Medical Checkup</a></li>
+			<li><a href="<?php _p($home_dir)?>/medical_summary">Summary</a></li>
+			</ul>
+		<?php }?>
+		
+		<span id='menu_administration'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Administration</span>
 		<ul>
-		<li><a href="/gizhrms/recruitment">Recruitment</a></li>
-		<li><a href="/gizhrms/recruitment_report">Recruitment Report</a></li>
-		<li><a href="/gizhrms/change_password">Change Password</a></li>
-		<li><a href="/gizhrms">Logout</a></li>
+		<li><a href="<?php _p($home_dir)?>/employee">Employee</a></li>
+		<li><a href="<?php _p($home_dir)?>/recruitment">Recruitment</a></li>
+		<li><a href="<?php _p($home_dir)?>/recruitment_report">Recruitment Report</a></li>
+		<li><a href="<?php _p($home_dir)?>/change_password">Change Password</a></li>
+		<li><a href="<?php _p($home_dir)?>">Logout</a></li>
 		</ul>
-		</div>
+		
+		
 	</div>
 <?php }?>
 	<?php _p(getImageTags(array('menu')))?>
@@ -426,7 +491,7 @@ header('Content-Type: text/html; charset=utf-8');
     
 	<div id="pagecontent" class='pagecontent'>
 		
-		<h3 id='title'><?php _p($title)?></h3>
+		<h3><?php _p($title)?></h3>
 	
 		<div style="margin:5px">
         <?php

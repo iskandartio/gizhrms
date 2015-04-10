@@ -1,16 +1,18 @@
 <?php
 class MedicalCheckup {
-	static function get_table($limit, $last) {
+	static function get_table($limit, $last, $current) {
 		$remainder=$limit;
 		$result="";
 		
 		$result.="<table>
 <tr><td>Medical Checkup</td><td>:</td><td>".formatNumber($limit)." / 3 years</td></tr>
-<tr><td>Last Invoice Date</td><td>:</td><td>".($last['date']=='' ? '-' : formatDate($last['date']))."</td></tr>
-<tr><td>Last Invoice Value</td><td>:</td><td>".($last['val']=='' ? '-' : formatNumber($last['val']))."</td></tr>
-<tr><td>Last Paid</td><td>:</td><td>".($last['paid']=='' ? '-' : formatNumber($last['paid']))."</td></tr>
-<tr><td>Invoice Date</td><td>:</td><td>"._t2("invoice_date")."</td></tr>
-<tr><td>Invoice Value</td><td>:</td><td>"._t2("invoice_val")."</td></tr>
+<tr><td>Last Invoice Date</td><td>:</td><td>".formatDate(_lbl('date', $last))."</td></tr>
+<tr><td>Last Invoice Value</td><td>:</td><td>".formatNumber(_lbl('val', $last))."</td></tr>
+<tr><td>Last Paid</td><td>:</td><td>".formatNumber(_lbl('paid', $last))."</td></tr>
+<tr><td>Last Remarks</td><td>:</td><td>"._lbl('remarks', $last)."</td></tr>
+<tr><td>Invoice Date</td><td>:</td><td>"._t2("invoice_date", _lbl('date', $current))."</td></tr>
+<tr><td>Invoice Value</td><td>:</td><td>"._t2("invoice_val", formatNumber(_lbl('paid',$current)))."</td></tr>
+<tr><td>Remarks</td><td>:</td><td>"._t2("remarks", _lbl('remarks',$current))."</td></tr>
 </table>";
 		$result.="<button class='button_link' id='btn_save'>Medical Checkup Claim</button><p>";
 		

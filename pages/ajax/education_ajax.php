@@ -4,9 +4,9 @@
 	}
 	if ($_POST['type']=='save') {
 		if ($applicants_education_id=='') {
-			$applicants_education_id=db::insert('applicants_education','user_id, education_id, major, place, year_from, year_to, country', array($_SESSION['uid'], $education_id, $major, $place, $year_from, $year_to, $country));
+			$applicants_education_id=db::insert('applicants_education','user_id, education_id, major, place, year_from, year_to, countries_id', array($_SESSION['uid'], $education_id, $major, $place, $year_from, $year_to, $countries_id));
 		} else {
-			db::update('applicants_education','education_id, major, place, year_from, year_to, country', 'applicants_education_id=?', array($education_id, $major, $place, $year_from, $year_to, $country, $applicants_education_id));
+			db::update('applicants_education','education_id, major, place, year_from, year_to, countries_id', 'applicants_education_id=?', array($education_id, $major, $place, $year_from, $year_to, $countries_id, $applicants_education_id));
 		}
 		die($applicants_education_id);
 	}

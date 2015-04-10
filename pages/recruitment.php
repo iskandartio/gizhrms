@@ -6,7 +6,6 @@
 	var fields_detail=generate_assoc(['user_id','first_name','last_name','dtl','ranking_id','user_comment','btn']);
 	$(function() {
 		loadData();
-
 	});
 	function bindHeader() {
 		bind('.btn_search','click', Search);

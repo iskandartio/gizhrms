@@ -1,25 +1,31 @@
 <?php
 Class FilterApplicant {
 
-static function get_call_interview_table($res, $vacancy_progress_val) {
+static function get_call_interview_table($res, $vacancy_progress_val, $resRejected,  $resUnknown) {
+	$result="";
 	if ($vacancy_progress_val=='Shortlist') {
 		//return (json_encode($res));
-		$result="<table class='tbl' id='tbl_call_interview'><thead><tr><th>First Name</th><th>Last Name</th></tr></thead><tbody>";
-		foreach ($res as $rs) {
-			
-			$result.="<tr><td>".$rs['first_name']."</td><td>".$rs['last_name']."</td></tr>";
+		//shared::setId('call_interview_table', $id_real, &$res)
+		$result="<table class='tbl' id='tbl_call_interview'><thead><tr><th>Id</th><th>First Name</th><th>Last Name</th><th></th></tr></thead><tbody>";
+		foreach ($res as $key=>$rs) {
+			$new_key=shared::random(12);
+			$_SESSION['call_interview_table'][$new_key]=$key;
+			$result.="<tr><td>".$new_key."</td><td>".$rs['first_name']."</td><td>".$rs['last_name']."</td><td>".getImageTags(['cancel'])."</td></tr>";
 		}
 		$result.="</table>";
 	} else if ($vacancy_progress_val=='Closing') {
-		$result="<table class='tbl' id='tbl_call_interview'><thead><tr><th>Name</th>
+		$result.="<h1>Accept</h1>";
+		$result.="<table class='tbl' id='tbl_call_interview'><thead><tr><th></th><th>Name</th>
 			<th>Job Title</th><th>Project Name</th><th>Project Number</th><th>Project Location</th>
-			<th>Responsible Superior</th><th>Salary</th><th>Duration</th>
+			<th>Responsible Superior</th><th>Salary</th><th>Duration</th><th></th>
 			</tr></thead>";
-		foreach ($res as $rs) {
+		foreach ($res as $job_applied_id=>$rs) {
+			$new_key=shared::random(12);
+			$_SESSION['call_interview_table'][$new_key]=$job_applied_id;
 			foreach ($rs as $key=>$val) {
 				$$key=$val;
 			}
-			$result.="<tr><td valign='top'>".$rs['name']."</td><td><u><b>Job Title</b></u><br>$job_title<br>
+			$result.="<tr><td>$new_key</td><td valign='top'>".$rs['name']."</td><td><u><b>Job Title</b></u><br>$job_title<br>
 			<u><b>Position</b></u><br>$position
 			</td>";
 			$result.="<td>
@@ -48,23 +54,24 @@ static function get_call_interview_table($res, $vacancy_progress_val) {
 			<u><b>Start Date</b></u><br>".formatDate($contract1_start_date)."
 			<br><u><b>End Date</b></u><br>".formatDate($contract1_end_date)."
 			</td>";
-			
+			$result.="<td>".getImageTags(['cancel'])."</td>";
 			$result.="</tr>";
 
 		}
 		$result.="</tbody></table>";
 	} else {
-		
-		$result="<table class='tbl' id='tbl_call_interview'><thead><tr><th>First Name</th><th>Last Name</th><th>Interview Place</th><th>Interview Date</th></tr></thead>";
-		foreach ($res as $rs) {
+		$result.="<h1>Interview</h1>";
+		$result.="<table class='tbl' id='tbl_call_interview'><thead><tr><th></th><th>First Name</th><th>Last Name</th><th>Interview Place</th><th>Interview Date</th><th></th></tr></thead>";
+		foreach ($res as $job_applied_id=>$rs) {
 			foreach ($rs as $key=>$val) {
 				$$key=$val;
 			}
-			
-			$result.="<tr><td>".$rs['first_name']."</td><td>".$rs['last_name']."</td>
-				<td>$interview_place</td><td>".formatDate($interview_date)." / "."$interview_time</td>
+			$new_key=shared::random(12);
+			$_SESSION['call_interview_table'][$new_key]=$job_applied_id;
+			$result.="<tr><td>$new_key</td><td>".$rs['first_name']."</td><td>".$rs['last_name']."</td>
+				<td>$interview_place</td><td>".formatDate($interview_date)." / "."$interview_time</td><td>".getImageTags(['cancel'])."</td>
 			</tr>";
-			$result.="<tr><td colspan='4'>
+			$result.="<tr><td></td><td colspan='5'>
 				<table class='tbl'>
 					<thead><tr><th>User</th><th>Ranking</th><th>Comment</th></tr></thead>";
 			foreach ($ranking as $rs2) {
@@ -73,8 +80,23 @@ static function get_call_interview_table($res, $vacancy_progress_val) {
 			$result.="</table>";
 			$result.="</td></tr>";
 		}
+		$result.="</tbody></table>";	
+	}
+	if (count($resRejected)>0) {
+		$result.="<h1>Rejected</h1>";
+		$result.="<table class='tbl' id='tbl_rejected'><thead><tr><th>First Name</th><th>Last Name</th><th>Progress</th></tr></thead><tbody>";
+		foreach ($resRejected as $rs) {
+			$result.="<tr><td>".$rs['first_name']."</td><td>".$rs['last_name']."</td><td>".shared::get_table_data("vacancy_progress", $rs['vacancy_progress_id'])."</td></tr>";
+		}
 		$result.="</tbody></table>";
-		
+	}
+	if (count($resUnknown)>0) {
+		$result.="<h1>Unknown</h1>";
+		$result.="<table class='tbl' id='tbl_rejected'><thead><tr><th>First Name</th><th>Last Name</th><th>Progress</th></tr></thead><tbody>";
+		foreach ($resUnknown as $rs) {
+			$result.="<tr><td>".$rs['first_name']."</td><td>".$rs['last_name']."</td><td>".shared::get_table_data("vacancy_progress", $rs['vacancy_progress_id'])."</td></tr>";
+		}
+		$result.="</tbody></table>";
 	}
 	return $result;
 }
@@ -186,7 +208,7 @@ static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id=''
 	from user_ranking a
 	left join vacancy_employee b on a.vacancy_employee_id=b.vacancy_employee_id 
 	inner join $tbl c on c.user_id=a.user_id and c.vacancy_id=b.vacancy_id and c.vacancy_progress_id=b.vacancy_progress_id
-	left join applicants d on d.user_id=b.employee_id
+	left join employee d on d.user_id=b.employee_id
 	left join ranking e on e.ranking_id=a.ranking_id
 	where a.ranking_id is not null";
 		db::ExecMe($sql, array(), $con);

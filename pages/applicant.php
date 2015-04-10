@@ -5,6 +5,11 @@
 		$combo_gender=shared::select_combo($res,'gender', '', $selected);
 		return $combo_gender;
 	}
+	function combo_title($selected='') {
+		$res=db::select('title','title','','title_id');
+		$combo_title=shared::select_combo($res,'title', '', $selected);
+		return $combo_title;
+	}
 	function combo_marital_status($selected='') {
 		$res=db::select('marital_status','marital_status','','marital_status_id');
 		$combo_marital_status=shared::select_combo($res,'marital_status', '', $selected);
@@ -136,7 +141,7 @@
 		var data ={};
 		data['type']='save';
 		data['user_id']='<?php _p($_SESSION['uid'])?>';
-		data=prepareDataText(data, ['applicants_id','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','marital_status','nationality_id','nationality_val','address','country_id','country_name','province_id','city_id','post_code','phone1','phone2','computer_skills','professional_skills']);
+		data=prepareDataText(data, ['applicants_id','title','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','marital_status','nationality_id','nationality_val','address','country_id','country_name','province_id','city_id','post_code','phone1','phone2','computer_skills','professional_skills']);
 		var success=function(msg) {
 			
 			$('#applicants_id').val(msg);
@@ -149,6 +154,7 @@
 
 <table>
 	<tr style='display:none'><td>Applicants ID</td><td>:</td><td><?php _t("applicants_id",$applicant)?></td></tr>
+	<tr><td>Title</td><td>:</td><td><select id='title'><option value='' selected>-Title-</option><?php _p(combo_title($applicant['title']))?></select></td></tr>
 	<tr><td>First Name *</td><td>:</td><td><?php _t("first_name",$applicant)?></td></tr>
 	<tr><td>Last Name *</td><td>:</td><td><?php _t("last_name", $applicant)?></td></tr>
 	<tr><td>Place of Birth *</td><td>:</td><td><?php _t("place_of_birth", $applicant)?></td></tr>

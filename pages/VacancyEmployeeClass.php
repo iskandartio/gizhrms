@@ -4,9 +4,9 @@ Class VacancyEmployee {
 		$res=db::DoQuery("select a.vacancy_id, a.vacancy_progress_id, concat(c.vacancy_name,' (',c.vacancy_code,'-',c.vacancy_code2,')') vacancy
 , d.vacancy_progress_val, count(*) applicant_count  from vacancy_employee a
 left join job_applied b on a.vacancy_id=b.vacancy_id and a.vacancy_progress_id=b.next_vacancy_progress_id
-inner join vacancy c on c.vacancy_id=a.vacancy_id and ifnull(c.vacancy_progress_id,0)=ifnull(b.vacancy_progress_id,0)
+inner join vacancy c on c.vacancy_id=a.vacancy_id 
 left join vacancy_progress d on ifnull(a.vacancy_progress_id,0)=d.vacancy_progress_id  
- where a.employee_id=? group by 
+ where a.employee_id=? and b.vacancy_shortlist=1 group by 
  a.vacancy_id, a.vacancy_progress_id, concat(c.vacancy_name,' (',c.vacancy_code,'-',c.vacancy_code2,')')
 , d.vacancy_progress_val", array($employee_id));
 		return $res;
@@ -24,8 +24,8 @@ left join job_applied b on a.vacancy_id=b.vacancy_id and a.vacancy_progress_id=b
 left join applicants c on c.user_id=b.user_id
 left join user_ranking d on d.vacancy_employee_id=a.vacancy_employee_id and d.user_id=b.user_id
 left join ranking e on e.ranking_id=d.ranking_id
-inner join vacancy f on f.vacancy_id=a.vacancy_id and f.vacancy_progress_id=ifnull(b.vacancy_progress_id,0)
- where $filter", $params);
+inner join vacancy f on f.vacancy_id=a.vacancy_id 
+ where $filter and b.vacancy_shortlist=1", $params);
 		return $res;
 	}
 }

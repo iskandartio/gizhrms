@@ -795,3 +795,31 @@ function prepareTabs(name) {
 	});
 	$( "#tabs" ).tabs( "option", "active", activeTab);
 }
+function decryptData(text){
+    var hash = CryptoJS.MD5('secret');
+    var key = CryptoJS.enc.Utf8.parse(hash);
+    var iv = CryptoJS.enc.Utf8.parse('1234567812345678');
+    var dec = CryptoJS.AES.decrypt(
+            text, 
+            key, 
+            {
+                iv: iv, 
+                mode: CryptoJS.mode.CBC, 
+                padding: CryptoJS.pad.ZeroPadding 
+            });
+    return CryptoJS.enc.Utf8.stringify(dec);
+}
+function encryptData(text){
+    var hash = CryptoJS.MD5('secret');
+    var key = CryptoJS.enc.Utf8.parse(hash);
+    var iv = CryptoJS.enc.Utf8.parse('1234567812345678');
+    var dec = CryptoJS.AES.decrypt(
+            text, 
+            key, 
+            {
+                iv: iv, 
+                mode: CryptoJS.mode.CBC, 
+                padding: CryptoJS.pad.ZeroPadding 
+            });
+    return CryptoJS.enc.Utf8.stringify(dec);
+}

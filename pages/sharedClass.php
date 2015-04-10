@@ -1,36 +1,17 @@
 <?php
 class shared {
 	static function contract_reminder_email() {
-		$res=db::DoQuery("select a.user_id, b.first_name, b.last_name, c.job_title, a.end_date from (
-select user_id, max(end_date) end_date from contract_history a
-left join settings b on b.setting_name='Contract Reminder'
-where DATE_ADD(curdate(),INTERVAL b.setting_val DAY)>=end_date and contract_reminder_email is null
-group by user_id) a
-left join applicants b on a.user_id=b.user_id
-left join contract_history c on c.user_id=a.user_id and c.end_date=a.end_date");
-		if (count($res)==0) return;
-		$list="<table border=1 cellpadding=3 cellspacing=0>";
-		$list.="<tr><th>First Name</th><th>Last Name</th><th>Job Title</th><th>End Date</th></tr>";
-		foreach ($res as $rs) {
-			$list.="<tr><td>".$rs['first_name']."</td><td>".$rs['last_name']."</td><td>".$rs['job_title']."</td><td>".formatDate($rs['end_date'])."</td></tr>";
-		}
-		
-		
-		$days=db::select_single('settings','setting_val v',"setting_name='Contract Reminder'");
-		$res=db::DoQuery("select c.user_name from m_role a
-inner join m_user_role b on a.role_id=b.role_id and a.role_name='admin'
-inner join m_user c on c.user_id=b.user_id");
-		$admins=array();
-		foreach ($res as $rs) {
-			array_push($admins, $rs['user_name']);
-		}
-		
+		$data=ContractReminder::getData();
+		if (count($data)==0) return;
 		$params=array();
-		$params['days']=$days;
-		$params['admin']=implode(";",$admins);
-		$params['list']=$list;
+		$params['days']=db::select_single('settings','setting_val v',"setting_name='Contract Reminder'");
+		$params['signature']=db::select_single("signature", 'signature v');
+					
+		ContractReminder::forAdmin($data, $params);
+		ContractReminder::forTeamLeader($data, $params);
+		ContractReminder::forEmployee($data, $params);
 		
-		shared::email("contract_reminder", $params);
+		
 		db::ExecMe("update contract_history a inner join (
 select user_id, max(end_date) end_date from contract_history a
 left join settings b on b.setting_name='Contract Reminder'
@@ -204,18 +185,25 @@ where a.employee_id=?", array($user_id, $uid));
 	}
 	static function get_table_data($tbl, $id) {
 		if (!isset($_SESSION["tbl_$tbl"])) {
+			
 			$res=db::select($tbl,"$tbl"."_id, $tbl"."_val");
 			$result=array();
 			foreach($res as $row) {
 				$result[$row["$tbl"."_id"]]=$row["$tbl"."_val"];
 			}
 			$_SESSION["tbl_$tbl"]=$result;
-			return $_SESSION["tbl_$tbl"][$id];
+			if (isset($_SESSION["tbl_$tbl"][$id])) {
+				return $_SESSION["tbl_$tbl"][$id];
+			} else {
+				return null;
+			}
 		}
 		if (!isset($_SESSION["tbl_$tbl"][$id])) {
 			unset($_SESSION["tbl_$tbl"]);
-			get_table_data($tbl, $id);
+			self::get_table_data($tbl, $id);
+			return;
 		}
+		
 		return $_SESSION["tbl_$tbl"][$id];
 	}
 	
@@ -237,9 +225,9 @@ where a.employee_id=?", array($user_id, $uid));
 		<script src="js/tinymce/tinymce.min.js"></script>
 		<script src="js/tinymce/jquery.tinymce.min.js"></script>
 <script type="text/javascript">
-
+tinymce.remove();
 tinymce.init({
-    selector: "div#'.$obj.'",
+    selector: "div'.$obj.'",
 	inline:true,
 	fontsize_formats: "8pt 9pt 10pt 11pt 12pt 26pt 36pt",
     theme: "modern",
@@ -578,4 +566,77 @@ tinymce.init({
 		}
 		return $data;
 	}
+	static function getId($type, $id) {
+		$old_id=$_SESSION[$type][$id];
+		unset($_SESSION[$type][$id]);
+		return $old_id;
+	}
+	static function setId($session_name, $id_real, &$res) {
+		unset($_SESSION[$session_name]);
+		foreach ($res as $key=>$rs) {
+			$id=shared::random(12);
+			$_SESSION[$session_name][$id]=$rs[$id_real];
+			$res[$key]['id']=$id;
+		}
+	}
+	static function g_encrypt($text) {
+		$text=str_replace("\n","", $text);
+		$ciphertext = GibberishAES::enc($text, "giz_hrms_iskandar_tio");
+		$enc=shared::g_enc_half($ciphertext);
+		return $enc;
+	}
+	static function g_enc_half($ciphertext) {
+		$rand=rand(0,255);
+		$seed=1000;
+		$enc="";
+		while ($seed>0) {
+			$i=rand(0,255);
+			$enc.=chr($i);
+			$seed-=$i;
+		}
+		$seed=-$seed;
+		
+		for ($i=0;$i<strlen($ciphertext);$i++) {
+			$i2=ord($ciphertext[$i])+$seed;
+			if ($i2>256) $i2=$i2-256;
+			$seed=$i2;
+			$enc.=chr($i2);
+		}
+		$enc=base64_encode($enc);
+		return $enc;
+	}
+	static function g_dec_half($enc) {
+		$enc=base64_decode($enc);
+		$seed=0;
+		$i=0;
+		while ($seed<1000) {
+			$seed+=ord($enc[$i]);
+			$i++;
+		}
+		
+		$seed=$seed-1000;
+		$dec="";
+		
+		for (;$i<strlen($enc);$i++) {
+			$i2=ord($enc[$i])-$seed;
+			$seed=ord($enc[$i]);
+			if ($i2<0) $i2=$i2+256;
+			$dec.=chr($i2);
+		}
+		return $dec;
+	}
+	static function g_decrypt($enc) {
+		if ($enc==null) return "";
+		if ($enc=="") return "";
+		$dec=shared::g_dec_half($enc);
+		$plaintext_dec = GibberishAES::dec($dec, "giz_hrms_iskandar_tio");
+		return $plaintext_dec;
+	}
+	static function setArr(&$z, $val) {
+		if (!isset($z)) {
+			$z=array();
+		}
+		array_push($z, $val);
+	}
+
 }
