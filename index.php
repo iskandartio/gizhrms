@@ -11,7 +11,7 @@ if ($name=='') {
 		$roles=['outpatient','eyeglasses','pregnancy','medical_checkup','medical_summary','employee','employee_detail','recruitment','recruitment_report','change_password'];
 		
 	} else if ($_SESSION['role_name']=='admin') {
-		$roles=['project','email_setting','region','others','location','vacancy_progress','settings','statistics','employee','salary'
+		$roles=['change_project_data','terminate_immediately','project','email_setting','region','others','location','vacancy_progress','settings','statistics','employee','employee_detail', 'salary'
 			,'contract_expiring','former_employee','outpatient','eyeglasses','pregnancy','medical_checkup','pay_medical','medical_summary'
 			, 'vacancy','question','filter','call_interview','accept_employee','summary','change_password'];			
 	} else if ($_SESSION['role_name']=='applicant') {
@@ -94,7 +94,7 @@ header('Content-Type: text/html; charset=utf-8');
 	<script type="text/javascript" charset="utf-8">
 		$(document).ready(function (){
 			$(document).idleTimeout({
-				idleTimeLimit: 20,       // 'No activity' time limit in seconds. 1200 = 20 Minutes
+				idleTimeLimit: 1200,       // 'No activity' time limit in seconds. 1200 = 20 Minutes
 				redirectUrl: '<?php _p($home_dir)?>',    // redirect to this url on timeout logout. Set to "redirectUrl: false" to disable redirect
 				customCallback: false,     // set to false for no customCallback
 				activityEvents: 'click keypress scroll wheel mousewheel mousemove', // separate each event with a space

@@ -1,7 +1,8 @@
-alter table employee_outpatient add paid_status int, remarks varchar(200);
-alter table employee_pregnancy add paid_status int, remarks varchar(200);
-alter table employee_eyeglasses add paid_status int, remarks varchar(200);
-alter table employee_medical_checkup add paid_status int, remarks varchar(200);
+use hrms;
+alter table employee_outpatient add paid_status int, add remarks varchar(200);
+alter table employee_pregnancy add paid_status int, add remarks varchar(200);
+alter table employee_eyeglasses add paid_status int, add remarks varchar(200);
+alter table employee_medical_checkup add paid_status int,add remarks varchar(200);
 create table signature(signature_id int auto_increment primary key, signature varchar(1000));
 insert into signature(signature) values('test');
 insert into email_setup(email_type, email_type_name) values('contract_reminder_employee','Contract Reminder Employee');
