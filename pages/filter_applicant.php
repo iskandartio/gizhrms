@@ -217,14 +217,14 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 	function Accept() {
 		var par=$(this).closest("tr");
 		var p=getChildObj(par, 'job', field_closing);
-		if (!validate_empty_col(p,['job_title','position','project_name','project_number','project_location','responsible_superior'])) return;
+		if (!validate_empty_col(p,['job_title','job_position','project_name','project_number','project_location','responsible_superior'])) return;
 		p=getChildObj(par, 'contract_duration', field_closing);
 		if (!validate_empty_col(p,['contract1_start_date','contract1_end_date','salary','salary_band'])) return;
 		var data={};
 		data['type']="accept";
 		
 		data = prepareDataMultiInput(data
-		, ['job_title','position','team_leader','principal_advisor','financial_controller','office_manager','project_location'
+		, ['job_title','job_position','team_leader','principal_advisor','financial_controller','office_manager','project_location'
 		,'responsible_superior','SAP_No','project_name','project_number']
 		, getChildObj(par, 'job', field_closing));
 		

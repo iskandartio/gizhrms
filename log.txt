@@ -1,7 +1,17 @@
-<select  id='title' class='title' title='title'><option value=''>-Title-</option><option value='Mr'>Mr</option><option value='Mrs'>Mrs</option><option value='Ms'>Ms</option><option value='Mr.'>Mr.</option></select>
-<select  id='title' class='title' title='title'><option value=''>-Title-</option><option value='Mr'>Mr</option><option value='Mrs'>Mrs</option><option value='Ms'>Ms</option><option value='Mr.'>Mr.</option></select>
-<select  id='title' class='title' title='title'><option value=''>-Title-</option><option value='Mr'>Mr</option><option value='Mrs'>Mrs</option><option value='Ms'>Ms</option><option value='Mr.'>Mr.</option></select>
-<select  id='title' class='title' title='title'><option value=''>-Title-</option><option value='Mr'>Mr</option><option value='Mrs'>Mrs</option><option value='Ms'>Ms</option><option value='Mr.'>Mr.</option></select>
-<select  id='title' class='title' title='title'><option value=''>-Title-</option><option value='Mr'>Mr</option><option value='Mrs'>Mrs</option><option value='Ms'>Ms</option><option value='Mr.'>Mr.</option></select>
-<select  id='title' class='title' title='title'><option value=''>-Title-</option><option value='Mr'>Mr</option><option value='Mrs'>Mrs</option><option value='Ms'>Ms</option><option value='Mr.'>Mr.</option></select>
-<select  id='title' class='title' title='title'><option value=''>-Title-</option><option value='Mr'>Mr</option><option value='Mrs'>Mrs</option><option value='Ms'>Ms</option><option value='Mr.'>Mr.</option></select>
+0 login
+0 send_email_ajax
+1 index_ajax
+1 filter_applicant
+0 login
+0 send_email_ajax
+1 index_ajax
+1 recruitment
+1 recruitment_ajax
+1 employee
+1 employee_ajax
+1 outpatient
+1 medical_ajax
+1 outpatient
+1 outpatient
+0 login
+0 send_email_ajax

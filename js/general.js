@@ -91,7 +91,7 @@ function ajax(url, data, Func, type) {
 function send_email() {
 	$.ajax({
 		type : "post",
-		url : "send_email"						
+		url : "send_email_ajax"						
 	});
 }
 function getChildObj(par, name, f) {

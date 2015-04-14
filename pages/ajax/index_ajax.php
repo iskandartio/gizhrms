@@ -25,7 +25,7 @@
 		$_SESSION['user_id']=$res['user_id'];
 		$_SESSION['email']=$_POST['email'];
 		$_SESSION['pwd']=$_POST['password'];
-		$_SESSION['contract_history_fields']="user_id, start_date, end_date, job_title, position
+		$_SESSION['contract_history_fields']="user_id, start_date, end_date, job_title, job_position
 			, project_name, principal_advisor, financial_controller
 			,project_number, team_leader, responsible_superior
 			,project_location, SAP_No, salary,salary_band, reason,working_time, vacancy_type, allowance";
@@ -36,7 +36,7 @@
 		if ($_SESSION['role_name']=='applicant') {
 			$data['url']= "position_applied";
 		} else if ($_SESSION['role_name']=='admin') {
-			$data['url']=  "filter";
+			$data['url']=  "filter_applicant";
 		} else if ($_SESSION['role_name']=='employee') {
 			$data['url']=  "recruitment";
 		}

@@ -40,7 +40,7 @@ Class Medical {
 		$result.="<button class='button_link' id='btn_add'>Add Claim</button>";
 		$result.="<button class='button_link' id='print_medical_data'>Print Medical Data</button>";
 		$result.="<table class='tbl' id='tbl_claim'><thead><tr><th></th><th>Invoice Date</th><th>Invoice<br>(Rp)</th><th>Remarks</th><th>Total<br>(Rp)</th><th>Paid 90%<br>(Rp)</th><th>Remainder</th><th></th></thead><tbody>";
-		$result.="<tr><td colspan='7' align='right'>".formatNumber($remainder)."</td><td></td></tr>";
+		$result.="<tr><td></td><td colspan='6' align='right'>".formatNumber($remainder)."</td><td></td></tr>";
 		$last_input_date='';
 		$bgcolor='aliceblue';
 		foreach ($res as $key=>$rs) {

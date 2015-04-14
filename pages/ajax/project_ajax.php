@@ -88,57 +88,6 @@
 	}
 	
 	
-	if ($type=='load_job_title') {
-		$res=db::select("job_title","*","","job_title");
-		$result="<button class='button_link btn_add'>Add</button>";
-		$result.="<table class='tbl' id='tbl_job_title'>";
-		$result.="<thead><tr><th></th><th>Job Title</th><th>&nbsp;</th></tr></thead><tbody>";
-		foreach ($res as $rs) {
-			$result.="<tr><td>".$rs['job_title_id']."</td><td>".$rs['job_title']."</td>
-			<td>".getImageTags(['edit','delete'])."</td></tr>";
-		}
-		$result.="</tbody></table>";
-		$data['result']=$result;
-		die(json_encode($data));
-	}
-	if ($type=='delete_job_title') {
-		db::delete('job_title','job_title_id=?', array($job_title_id));
-		die;
-	}
-	if ($type=='save_job_title') {
-		if ($job_title_id=='') {
-			$job_title_id=db::insertEasy('job_title',$_POST);
-		} else {
-			db::updateEasy('job_title',$_POST);
-		}
-		die($job_title_id);
-	}
-	
-	if ($type=='load_position') {
-		$res=db::select("job_position","*","","position");
-		$result="<button class='button_link btn_add'>Add</button>";
-		$result.="<table class='tbl' id='tbl_position'>";
-		$result.="<thead><tr><th></th><th>Position</th><th>&nbsp;</th></tr></thead><tbody>";
-		foreach ($res as $rs) {
-			$result.="<tr><td>".$rs['position_id']."</td><td>".$rs['position']."</td>
-			<td>".getImageTags(['edit','delete'])."</td></tr>";
-		}
-		$result.="</tbody></table>";
-		$data['result']=$result;
-		die(json_encode($data));
-	}
-	if ($type=='delete_position') {
-		db::delete('job_position','position_id=?', array($position_id));
-		die;
-	}
-	if ($type=='save_position') {
-		if ($position_id=='') {
-			$position_id=db::insertEasy('job_position',$_POST);
-		} else {
-			db::updateEasy('job_position',$_POST);
-		}
-		die($position_id);
-	}
 	
 	if ($type=='getProjectNameChoice') {
 		$res=db::select("project_name","*","","project_name");

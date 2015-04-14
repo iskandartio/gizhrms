@@ -74,7 +74,7 @@ function project_history(div) {
 	}
 	
 	self.Print=function() {		
-		window.open("print_recruitment_summary?contract_history_id="+$(this).closest("tr").children("td:eq(0)").html(),"_blank");
+		window.open("print_recruitment_summary_ajax?contract_history_id="+$(this).closest("tr").children("td:eq(0)").html(),"_blank");
 	}
 	this.start();
 }
@@ -84,7 +84,7 @@ function Back() {
 	location.href="employee";
 }
 function uploadDone(){
-	$('#photo').attr('src','show_picture');
+	$('#photo').attr('src','show_picture_ajax');
 }
 function uploadOthersDone(){
 	if ($('.div_pic_collection').html()=='') {
@@ -109,7 +109,7 @@ function uploadOthersDone(){
 		<li><a href="#div_pictures">Pictures</a></li>
 		<li><a href="#div_historical_contract">Historical Contract</a></li>
 	</ul>
-<div class='row'><div class='float100'><a href='show_picture' target='_blank'><img id='photo' src="show_picture" width="75px" height="100px"/></a></div>
+<div class='row'><div class='float100'><a href='show_picture_ajax' target='_blank'><img id='photo' src="show_picture_ajax" width="75px" height="100px"/></a></div>
 <div style='font-weight:bold;line-height:100px'><?php _p($applicant['first_name']." ".$applicant['last_name'])?></div></div>
 <div id="div_personal_data"></div>
 <div id="div_employee_project"></div>

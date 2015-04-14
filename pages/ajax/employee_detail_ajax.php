@@ -3,7 +3,6 @@ if ($type=='load_personal_data')  {
 	$applicant=Employee::get_active_employee_simple_one("a.user_id=?", array($_SESSION['user_id']));
 	$combo_gender=shared::select_combo_complete(db::select('gender','*'),'gender','-Gender-','gender',$applicant['gender']);
 	$combo_title=shared::select_combo_complete(db::select('title','*'),'title','-Title-','title',$applicant['title']);
-	db::Log($combo_title);
 	$combo_marital_status=shared::select_combo_complete(db::select('marital_status','*'),'marital_status','-Status-','marital_status',$applicant['marital_status']);
 	$res_nationality=db::select('nationality','*','','nationality_val');
 	array_push($res_nationality, array("nationality_id"=>"-1", "nationality_val"=>"Others"));
@@ -313,7 +312,7 @@ if ($type=='load_pictures') {
 	$result.="<div class='div_pic_collection'>";
 	foreach (glob("$file_pattern*.*") as $filename) {
 		$short=str_replace($file_pattern,'',$filename);
-		$link="show_picture?a=".$short;
+		$link="show_picture_ajax?a=".$short;
 		$result.="<span><a href='$link' target='_blank'><img align='top' style='margin:5px;padding:5px;width:200px;border:1px solid black' src='$link'/></a>
 		<img style='margin-left:-12px;height:30px;white-space:nowrap' src='images/delete.png' class='btn_delete'><span class='key hidden'>$short</span></span>";	
 	}

@@ -1,9 +1,17 @@
 <script src='js/others.js'></script>
 
 <script>
-	var tabs=['gender','relation','title'];
-	
+	var tabs=['gender','relation','title','job_title','job_position'];
 	$(function() {
+		var a="<ul>";
+		for (i in tabs) {
+			a+="<li><a href='#div_"+tabs[i]+"'>"+toggleCase(tabs[i])+"</a></li>";
+		}
+		a+="</ul>";
+		for (i in tabs) {
+			a+="<div id='div_"+tabs[i]+"'></div>";
+		}
+		$('#tabs').html(a);
 		prepareTabs('others');
 	});
 	function load(active) {
@@ -17,20 +25,13 @@
 			$(div).html(d['result']);
 			var a=new others($('#div_'+tabs[active]), tabs[active]);
 			a.adder=d['adder'];
+			
 		}
 		ajax("others_ajax", data, success);
 	}
 
 
 </script>
-<div id="tabs">
-	<ul>
-		<li><a href="#div_gender">Gender</a></li>
-		<li><a href="#div_relation">Relation</a></li>
-		<li><a href="#div_title">Title</a></li>
-	</ul>
-	<div id="div_gender"></div>
-	<div id="div_relation"></div>
-	<div id="div_title"></div>
-</div>
 
+<div id='tabs'>
+</div>

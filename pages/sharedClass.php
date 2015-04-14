@@ -70,7 +70,7 @@ where a.employee_id=?", array($user_id, $uid));
 		return "";
 	}
 	static function get_captcha_string()  {
-		return "<img src='captcha'/><br><span class='span_link' id='change_captcha_text'>Change Captcha Text</span><p>Input the word above:</br><input type='text' id='captcha_text'/>";
+		return "<img src='captcha_ajax'/><br><span class='span_link' id='change_captcha_text'>Change Captcha Text</span><p>Input the word above:</br><input type='text' id='captcha_text'/>";
 	}
 	static function select_combo($res, $id, $val='', $selected='') {
 -		$result='';

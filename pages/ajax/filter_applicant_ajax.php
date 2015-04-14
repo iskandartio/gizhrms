@@ -253,7 +253,7 @@ where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_s
 			$sql="select a.job_applied_id, a.user_id, concat(b.first_name,' ', b.last_name) name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist
 				, b.contract1_start_date, b.contract1_end_date
 				, b.salary, b.salary_band, b.working_time
-				, b.job_title, b.position
+				, b.job_title, b.job_position
 				, b.project_name, b.principal_advisor, b.financial_controller
 				, b.project_number, b.team_leader
 				, b.project_location, b.office_manager
@@ -632,7 +632,7 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 			$data['start_date']=$rs['contract1_start_date'];
 			$data['end_date']=$rs['contract1_end_date'];
 			$data['user_id']=$user_id;
-			$data=shared::copyToData($rs, $data, ['job_title', 'position', 'project_name', 'principal_advisor', 'financial_controller'
+			$data=shared::copyToData($rs, $data, ['job_title', 'job_position', 'project_name', 'principal_advisor', 'financial_controller'
 			, 'project_number', 'team_leader', 'project_location', 'office_manager', 'responsible_superior', 'SAP_No', 'salary', 'salary_band', 'working_time'
 			, 'vacancy_type', 'allowance']);
 			$data['reason']='Initial Salary';

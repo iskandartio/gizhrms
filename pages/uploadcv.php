@@ -104,7 +104,7 @@ if (move_uploaded_file($_FILES["uploadFileLetter"]["tmp_name"], $target_dir)) {
 					alert('Please upload your CV');
 					return;
 				}
-				location.href="uploadajax?type=cv";
+				location.href="upload_ajax?type=cv";
 			}
 			ajax("upload_ajax", data, success);
 			
@@ -117,7 +117,7 @@ if (move_uploaded_file($_FILES["uploadFileLetter"]["tmp_name"], $target_dir)) {
 					alert('Please upload your covering letter');
 					return;
 				}
-				location.href="uploadajax?type=letter";
+				location.href="upload_ajax?type=letter";
 			}
 			ajax("upload_ajax", data, success);
 		});

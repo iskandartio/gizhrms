@@ -158,9 +158,9 @@ function projectView(div, beforeSave, afterSave) {
 		var p=div;
 		var data={};
 		data['type']=self.type;
-		if (!validate_empty_col(p,['job_title','position','project_name_id','project_number_id','project_location','responsible_superior','salary','salary_band'])) return false;
+		if (!validate_empty_col(p,['job_title','job_position','project_name_id','project_number_id','project_location','responsible_superior','salary','salary_band'])) return false;
 		data = prepareDataMultiInput(data
-		, ['job_title','position','project_name','project_number','team_leader','principal_advisor','financial_controller','project_location','office_manager'
+		, ['job_title','job_position','project_name','project_number','team_leader','principal_advisor','financial_controller','project_location','office_manager'
 		,'responsible_superior','SAP_No','salary','salary_band','working_time','reason','start_date','end_date']
 		, p);
 		data['salary_sharing_project_name']=new Array();

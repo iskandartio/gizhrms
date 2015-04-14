@@ -131,7 +131,7 @@ order by a.first_name, a.last_name";
 		$con=db::beginTrans();
 		$sql="create temporary table a
 		select b.user_id, ? start_date, coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date) end_date
-, b.job_title, b.position, b.project_name, b.principal_advisor, b.financial_controller
+, b.job_title, b.job_position, b.project_name, b.principal_advisor, b.financial_controller
 , b.project_number, b.team_leader, b.project_location, b.responsible_superior, b.SAP_No
 , a.adj_salary, a.adj_salary_band, a.adj_reason from employee a
 left join contract_history b on b.user_id=a.user_id ".shared::joinContractHistory("b","a")."
@@ -145,7 +145,7 @@ where a.adj_salary is not null";
 		db::ExecMe($sql, array($end_date),$con);
 		
 		$sql="insert into contract_history(user_id, start_date, end_date
-		, job_title, position, project_name, principal_advisor, financial_controller
+		, job_title, job_position, project_name, principal_advisor, financial_controller
 		, project_number, team_leader, project_location, responsible_superior, SAP_No
 		, salary, salary_band, reason)
 		select * from a";
@@ -237,7 +237,7 @@ inner join contract_history b on a.user_id=b.user_id"
 			</td>
 			<td width='200px'>
 			<table class='top'>
-			<tr><td><b>Position</b>:<br>$position</td></tr>
+			<tr><td><b>Position</b>:<br>$job_position</td></tr>
 			<tr><td><b>Job Title</b>:<br>$job_title</td></tr>
 			</table>
 			</td>
@@ -397,7 +397,7 @@ inner join contract_history b on a.user_id=b.user_id"
 				<tr><td>Responsible Superior</td><td>:</td><td>"._lbl('responsible_superior', $applicant)."</td></tr>
 				<tr><td>SAP No</td><td>:</td><td>"._lbl("SAP_No", $applicant)."</td></tr>
 				<tr><td>Job Title</td><td>:</td><td>"._lbl('job_title', $applicant)."</td></tr>
-				<tr><td>Position</td><td>:</td><td>"._lbl('position', $applicant)."</td></tr>
+				<tr><td>Position</td><td>:</td><td>"._lbl('job_position', $applicant)."</td></tr>
 				<tr><td>Salary</td><td>:</td><td>".formatNumber(_lbl("salary", $applicant))."</td></tr>
 				<tr><td>Salary Band</td><td>:</td><td>"._lbl('salary_band',$applicant)."</td></tr>
 				<tr><td>Reason</td><td>:</td><td>"._lbl("reason", $applicant)."</td></tr>
@@ -421,8 +421,8 @@ inner join contract_history b on a.user_id=b.user_id"
 		$combo_project_number=shared::select_combo_complete(Project::getProjectNumberByProjectName($applicant['project_name']), 'project_number', '-Project Number-', 'project_number', $applicant['project_number']);
 		$combo_project_location=shared::select_combo_complete(db::select('project_location','*'), 'project_location','-Project Location-','project_location', $applicant['project_location']);
 		
-		$combo_job_title=shared::select_combo_complete(db::select('job_title','*'), 'job_title','-Job Title-','job_title', $applicant['job_title']);
-		$combo_position=shared::select_combo_complete(db::select('job_position','*'), 'position','-Position-','position', $applicant['position']);
+		$combo_job_title=shared::select_combo_complete(db::select('job_title','*','','sort_id'), 'job_title','-Job Title-','job_title', $applicant['job_title']);
+		$combo_position=shared::select_combo_complete(db::select('job_position','*','','sort_id'), 'job_position','-Position-','job_position', $applicant['job_position']);
 		
 		$combo_responsible_superior= Employee::getResponsibleSuperiorCombo($applicant);
 		

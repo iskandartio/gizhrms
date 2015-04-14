@@ -1,45 +1,118 @@
 <?php
+$home_dir="/gizhrms/";
+$page_name=str_replace($home_dir, "", $_SERVER['REQUEST_URI']);
+if (strpos($page_name,'?')>0) {
+	$page_name=substr($page_name,0,strpos($page_name, "?"));	
+}
 require "pages/startup.php";
-require_once('libs/URLParse.php'); 
+$flag=0;
 
-$home_dir="/gizhrms";
-$name = URLParse::ProcessURL();
-if ($name=='') {
+if ($page_name=='') {	
 	$_SESSION['home']=$_SERVER['REQUEST_SCHEME']."://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+	$page_name="login";
 } else {
-	if ($_SESSION['role_name']=='employee') {
-		$roles=['outpatient','eyeglasses','pregnancy','medical_checkup','medical_summary','employee','employee_detail','recruitment','recruitment_report','change_password'];
-		
-	} else if ($_SESSION['role_name']=='admin') {
-		$roles=['change_project_data','terminate_immediately','project','email_setting','region','others','location','vacancy_progress','settings','statistics','employee','employee_detail', 'salary'
-			,'contract_expiring','former_employee','outpatient','eyeglasses','pregnancy','medical_checkup','pay_medical','medical_summary'
-			, 'vacancy','question','filter','call_interview','accept_employee','summary','change_password'];			
-	} else if ($_SESSION['role_name']=='applicant') {
-		$roles=['applicant','education','working','language','references','uploadcv','position_applied','change_password'];
+	$secArr=array();
+	$secArr['admin']=['accept_employee','call_interview','change_project_data','contract_expiring','email_setting','employee','employee_detail','eyeglasses'
+						, 'filter_applicant','former_employee','location','medical','medical_checkup','medical_summary','others','outpatient','pregnancy'
+						, 'project','question','recruitment_summary','salary','settings','statistics','vacancy','vacancy_progress'
+						,'region','province','city','countries','nationality'
+						,'show_picture','upload','pay_medical'];
+	$secArr['employee']=['employee','employee_detail','recruitment','recruitment_report'];
+	$secArr['office_manager']=['eyeglasses','medical','medical_checkup','medical_summary','outpatient','pregnancy','show_picture','upload'];
+	$secArr['applicant']=['applicant','education','language','position_applied','references','uploadcv','working'];
+	$secArr['general']=['activate','change_password','login','captcha','index','login','send_email'];
+	$serArr['finance']=['pay_medical'];
+	
+	$p=str_replace("_ajax","",$page_name);
+	if (in_array($p, $secArr['general'])) $flag=1;
+	if ($flag==0) {
+		if (isset($_SESSION['role_name'])) {
+			$role_name=$_SESSION['role_name'];
+			if ($flag==0) if (in_array($p, $secArr[$role_name])) $flag=1;
+			if ($flag==0) {
+				if (Employee::isOfficeManager()==1) {
+					if (in_array($p, $secArr['office_manager'])) $flag=1;
+				}
+			}
+		}
 	}
-	if (!in_array($name, $roles)) {
-		$name="";
-	}
+	if ($flag==0) $page_name='login';
 }
 
+$title="";
+$titleArr["vacancy_progress"]="Recruitment Process";
+$maxWidthArr['project']="800";
+$maxWidth=0;
+if (isset($titleArr[$page_name])) {
+	$title=$titleArr[$page_name];
+} else {
+	$title=proper($page_name);
+}
+if (isset($maxWidthArr[$page_name])) {
+	$maxWidth=$maxWidthArr[$page_name];
+} else {
+	
+}
+
+//require_once('libs/URLParse.php'); 
+
+if (endsWith($page_name,'_ajax')) {
+	header('Content-Type: text/html; charset=utf-8');
+	
+	if ($_SESSION['page_name']=='outpatient') $medical_type='employee_outpatient';
+	if ($_SESSION['page_name']=='pregnancy') $medical_type='employee_pregnancy';
+
+	foreach ($_POST as $key=>$value) {
+		if (startsWith($key,'date')||endsWith($key,'date')) {
+			if (!is_array($value)) {
+				$$key=dbDate($value);	
+				$_POST[$key]=$$key;
+			} else {
+				foreach ($value as $key2=>$val) {
+					$_POST[$key][$key2]=dbDate($val);
+				}
+				$$key=$_POST[$key];
+			}
+		} else {
+			$$key=$value;
+		}					
+	}
+		
+	if (isset($captcha_text)) {
+		if ($_SESSION['captcha_text']!=$captcha_text) {
+			$data['err']='Wrong captcha text';
+			$data['captcha_tag']=shared::get_captcha_text(true);
+			$data['focus']='#captcha_text';
+			die(json_encode($data));
+		}
+	}
+	include("pages/ajax/$page_name.php");
+	
+	die;
+}
+
+//$name = URLParse::ProcessURL();
+
 $_SESSION['random_key']=base64_encode(hash('ripemd128', shared::random(6) , true));
+
+
 $activation_email= (isset($_SESSION['activation_email'])? $_SESSION['activation_email'] : '');
 $_SESSION['activation_email']="";
 
 
-$_SESSION['page_name']=$name;
+$_SESSION['page_name']=$page_name;
 
-if ($name=='activate'){
-	URLParse::IncludePageContents();
+if ($page_name=='activate'){
+	include("pages/$page_name.php");	
 	die;
 }
-if ($name=='uploadajax'||$name=='show_picture'||$name=='test') {
-	URLParse::IncludePageContents();
+if ($page_name=='upload_ajax'||$page_name=='show_picture_ajax') {
+	include("pages/$page_name.php");	
 	die;
 }
 	
 
-if ($name==''||$name=='activate') {
+if ($page_name=='login'||$page_name=='activate') {
 
 	unset($_SESSION['uid']);
 	unset($_SESSION['role_name']);
@@ -62,33 +135,21 @@ function set_session_menu($menu) {
 		
 	}
 }
-			
-header('Content-Type: text/html; charset=utf-8');
 
+header('Content-Type: text/html; charset=utf-8');
 ?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
-    <title><?php 
-                $title = URLParse::getPageTitle($name);
-                echo "GIZ HRMS";
-    ?></title>
+    <title><?php _p("GIZ HRMS");?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 
-    <meta name="description" content="<?php 
-                $metd = URLParse::getPageMetaDescription($name);
-                echo htmlspecialchars($metd, ENT_QUOTES);
-    ?>" />
-    <meta name="keywords" content="<?php 
-                $metk = URLParse::getPageMetaKeywords($name);
-                echo htmlspecialchars($metk, ENT_QUOTES);
-    ?>" />
-	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css"/>
+    <link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css"/>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/general.js"></script>
 	<script src="js/numeric.js"></script>
 
 	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
-	<?php if ($name!="") {?>
+<?php if ($page_name!="login") {?>
 	<script src="js/store.min.js" type="text/javascript"></script>
 	<script src="js/jquery-idleTimeout.min.js"></script>
 	<script type="text/javascript" charset="utf-8">
@@ -99,7 +160,7 @@ header('Content-Type: text/html; charset=utf-8');
 				customCallback: false,     // set to false for no customCallback
 				activityEvents: 'click keypress scroll wheel mousewheel mousemove', // separate each event with a space
 				enableDialog: true,        // set to false for logout without warning dialog
-				dialogDisplayLimit: 20,   // time to display the warning dialog before logout (and optional callback) in seconds. 180 = 3 Minutes
+				dialogDisplayLimit: 30,   // time to display the warning dialog before logout (and optional callback) in seconds. 180 = 3 Minutes
 				dialogTitle: 'Session Expiration Warning',
 				dialogText: 'Because you have been inactive, your session is about to expire.',
 				sessionKeepAliveTimer: 600 // Ping the server at this interval in seconds. 600 = 10 Minutes
@@ -107,190 +168,19 @@ header('Content-Type: text/html; charset=utf-8');
 			$('#freeze').hide();
 		});
 	</script>
-	<?php } else {?>
-		<script>
-			$(function() {
-				$('#freeze').hide();
-			});
-		</script>
-	<?php }?>
-	<link rel="stylesheet" href="css/default.css"/>
-<?php if ($name==''||$name=='activate') {
-	?>
-	<script src="js/sha512.js"></script>
-	
+<?php } else {?>
 	<script>
 		$(function() {
-			bind('#btn_login','click',Login);
-			send_email();
+			$('#freeze').hide();
 		});
-		function ChangeCaptchaText() {
-			$('#captcha img').attr('src','captcha');
-			$('#captcha_text').focus();
-		}
-		function new_registrant() {
-			$('#div_confirm_password').show();
-			$('#div_new_applicant').hide();
-			$('#div_already_registered').show();
-			$('#div_forgot_password').show();
-			$('#div_password').show();
-			
-			tag="<?php _p(shared::get_captcha_string())?>";
-			$('#captcha').html(tag);
-			
-			$('#btn_login').html("Register");
-			bind('#change_captcha_text','click',ChangeCaptchaText);
-			
-		}
-		function forgot_password() {
-			$('#div_confirm_password').hide();
-			$('#div_new_applicant').show();
-			$('#div_already_registered').show();
-			$('#div_forgot_password').hide();
-			$('#div_password').hide();
-			
-			tag="<?php _p(shared::get_captcha_string())?>";
-			$('#captcha').html(tag);
-			bind('#change_captcha_text','click',ChangeCaptchaText);
-			$('#btn_login').html("Forgot Password");
-			
-			
-			
-		}
-		function already_registered() {
-			$('#div_confirm_password').hide();
-			$('#div_new_applicant').show();
-			$('#div_already_registered').hide();
-			$('#div_forgot_password').show();
-			$('#div_password').show();
-			
-			$('#btn_login').html("Login");
-			var data={}
-			data['type']="get_captcha_text";
-			var success=function(msg) {
-				$('#captcha').html(msg);
-				bind('#change_captcha_text','click',ChangeCaptchaText);
-			}
-			ajax('index_ajax', data, success);
-			
-		}
-		function Login() {
-			var type=$('#btn_login').html();
-			if (type=='Login') {
-				loginAjax(this);
-				return;
-			}
-			if (type=='Register') {
-				registerAjax(this);
-				return;
-			}
-			if (type=='Forgot Password') {
-				forgotPasswordAjax(this);
-				return;
-			}
-		}
-
-		function loginAjax(o) {
-			if (!validate_empty(['email','password','captcha_text'])) return;
-			$('#freeze').show();
-			var data={};
-			data['type']='login';
-			var hash = CryptoJS.SHA512($('#password').val());
-			data['password']=hash.toString();
-			data['random_key']="<?php _p($_SESSION['random_key'])?>";
-			data=prepareDataText(data,['email','captcha_text']);
-			
-			var success=function(msg) {
-				
-				obj = jQuery.parseJSON(msg);
-				$('#freeze').hide();
-				if (obj['err']!='')  {
-					alert(obj['err']);
-					
-					$('#captcha').html(obj['captcha_tag']);
-					bind('#change_captcha_text','click',ChangeCaptchaText);
-					return;
-				}
-				location.href=obj['url'];
-			}		
-			ajax("index_ajax", data, success);
-			
-		}
-		function registerAjax(o) {
-			if (!validate_empty(['email','password','confirm_password','captcha_text'])) return;
-			$('#freeze').show();
-			var data={};
-			data['type']='register';
-			data=prepareDataText(data,['email','password','confirm_password','captcha_text']);
-			var success=function(msg) {	
-				obj = jQuery.parseJSON(msg);
-				
-				if (obj['err']!='')  {
-					alert(obj['err']);
-					$('#captcha').html(obj['captcha_tag']);
-					bind('#change_captcha_text','click',ChangeCaptchaText);
-					$(obj['focus']).focus();
-		
-					return;
-				}
-				already_registered();
-				send_email();
-				alert('Thank you for the registration. The activation link has been sent to your email.  You could login after you click confirmation link from your email to activate the account');
-			}		
-			ajax("index_ajax", data, success);
-			
-		}
-		
-		function forgotPasswordAjax(o) {
-			if (!validate_empty(['email','captcha_text'])) return;
-			$('#freeze').show();
-			var data={};
-			data['type']='forgotPassword';
-			data=prepareDataText(data,['email','captcha_text']);
-			var success= function(msg) {
-				obj = jQuery.parseJSON(msg);
-				$('#freeze').hide();
-				if (obj['err']!='')  {
-					alert(obj['err']);
-					$('#captcha').html(obj['captcha_tag']);
-					bind('#change_captcha_text','click',ChangeCaptchaText);
-					$(obj['focus']).focus();
-					return;
-				}
-				already_registered();
-				send_email();
-
-			}
-			ajax("index_ajax", data, success);
-		}
-		function validateEmail(email) { 
-			var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-			return re.test(email);
-		} 
-
-		function validatePassword(fld) {
-			var error = "";
-			
-			if (fld.val() == "") {
-				fld.css('background','Yellow');
-				error = "You didn't enter a password.\n";
-			} else if ((fld.val().length < 7) || (fld.val().length > 15)) {
-				error = "The password is the wrong length. \n";
-				fld.css('background','Yellow');
-			} else if (!(/[0-9]+/.test(fld.val()) && /[a-z]+/.test(fld.val()) && /[A-Z]+/.test(fld.val()))) {
-				error = "The password must contain at least one upper case, one lower case and one number .\n";
-				fld.css('background','Yellow');
-			} else {
-				fld.css('background','White');
-			}
-		   return error;
-		} 
 	</script>
-<?php } else {?>
+<?php }?>
+	<link rel="stylesheet" href="css/default.css"/>
+<?php if ($page_name!=''&&$page_name!='activate') {?>
 	<script>
 		var alwaysHide=false;
 		$(function() {
-			var maxWidth="<?php _p(URLParse::getMaxWidth($name));?>";
+			var maxWidth="<?php _p($maxWidth)?>";
 			if ($(window).width()<maxWidth) {
 				AlwaysHideMenu();
 				alwaysHide=true;
@@ -360,50 +250,30 @@ header('Content-Type: text/html; charset=utf-8');
 
 </head>
 <body>
+
 	<div align="center">
 	<img class="logoimg" src="images/logo.png" alt="PAKLIM">
     <img class="logoimg" src="images/logo_web.jpg" alt="">
 	</div>
 	<div id="freeze" style="position: fixed; top: 0px; left: 0px; z-index: 1000; opacity: 0.6; width: 100%; height: 100%; color: white; background-color: black;"></div>
-<?php if ($name==''||$name=='activate') {?>
-	<div class='middle_div'>
-	
-		<div id='div_new_applicant'>New Applicant click <span class='span_link' onclick='new_registrant()'>here</span></div>
-		<div id='div_forgot_password'>Forgot Password click <span class='span_link' onclick='forgot_password()'>here</span></div>
-		<div id='div_already_registered' style="display:none">Already registered click <span class='span_link' onclick='already_registered()'>here</span></div>
-		<div class='label'>Email</div><div class='textbox'><?php _t("email", $activation_email) ?></div>
-		<div id='div_password'><div class='label'>Password</div><div class='textbox'><?php _t("password","","","password") ?></div></div>
-		<div style="display:none" id='div_confirm_password'><div class='label'>Confirm Password</div><div class='textbox'><?php _t("confirm_password","","","password") ?></div></div>
-		<div><div id='captcha'>
-				<?php _p($captcha_tag)?>
-				
-			</div>
-			<button class='button_link' id='btn_login'>Login</button>
-		</div>		
-	</div>	
+<?php if ($page_name=='login') {		
+		include("pages/login.php");
 		
-	
-<?php
-		die;
-	}?>
-
-	
-
-<?php if ($_SESSION['role_name']=='applicant') {?>
+	} else if ($_SESSION['role_name']=='applicant') {?>
 	<div id="menu" class='menu'>
 		<?php _p(getImageTags(array('hide')))?>
 		<span>Application Data</span>
 		<div style="margin:5px">
 		<ul>
-			<li><a href="<?php _p($home_dir)?>/applicant">Personal Details</a></li>
-			<li><a href="<?php _p($home_dir)?>/education">Education</a></li>
-			<li><a href="<?php _p($home_dir)?>/working">Working Experience</a></li>
-			<li><a href="<?php _p($home_dir)?>/language">Language</a></li>
-			<li><a href="<?php _p($home_dir)?>/references">References</a></li>
-			<li><a href="<?php _p($home_dir)?>/uploadcv">Upload CV + Cover Letter</a></li>
-			<li><a href="<?php _p($home_dir)?>/position_applied">Position Applied</a></li>
+			<li><a href="<?php _p($home_dir)?>applicant">Personal Details</a></li>
+			<li><a href="<?php _p($home_dir)?>education">Education</a></li>
+			<li><a href="<?php _p($home_dir)?>working">Working Experience</a></li>
+			<li><a href="<?php _p($home_dir)?>language">Language</a></li>
+			<li><a href="<?php _p($home_dir)?>references">References</a></li>
+			<li><a href="<?php _p($home_dir)?>uploadcv">Upload CV + Cover Letter</a></li>
+			<li><a href="<?php _p($home_dir)?>position_applied">Position Applied</a></li>
 
-			<li><a href="<?php _p($home_dir)?>/change_password">Change Password</a></li>
+			<li><a href="<?php _p($home_dir)?>change_password">Change Password</a></li>
 			<li><a href="<?php _p($home_dir)?>">Logout</a></li>
 		</ul>
 		
@@ -417,45 +287,45 @@ header('Content-Type: text/html; charset=utf-8');
 		<?php _p(getImageTags(array('hide')))?>
 		<span id='menu_master'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Master Data</span>
 		<ul>
-		<li><a href="<?php _p($home_dir)?>/project">Project</a></li>
-		<li><a href="<?php _p($home_dir)?>/email_setting">Email Setting</a></li>
-		<li><a href="<?php _p($home_dir)?>/region">Region</a></li>
-		<li><a href="<?php _p($home_dir)?>/others">Others</a></li>
-		<li><a href="<?php _p($home_dir)?>/location">Interview Location</a></li>
-		<li><a href="<?php _p($home_dir)?>/vacancy_progress">Recruitment Process</a></li>
-		<li><a href="<?php _p($home_dir)?>/settings">Settings</a></li>
+		<li><a href="<?php _p($home_dir)?>project">Project</a></li>
+		<li><a href="<?php _p($home_dir)?>email_setting">Email Setting</a></li>
+		<li><a href="<?php _p($home_dir)?>region">Region</a></li>
+		<li><a href="<?php _p($home_dir)?>others">Others</a></li>
+		<li><a href="<?php _p($home_dir)?>location">Interview Location</a></li>
+		<li><a href="<?php _p($home_dir)?>vacancy_progress">Recruitment Process</a></li>
+		<li><a href="<?php _p($home_dir)?>settings">Settings</a></li>
 		</ul>
 		
 		<span id='menu_report'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Report</span>
 		<ul>
-		<li><a href="<?php _p($home_dir)?>/statistics">Statistics</a></li>
+		<li><a href="<?php _p($home_dir)?>statistics">Statistics</a></li>
 		</ul>
 		<span id='menu_administration'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Administration</span>
 		<ul>
-		<li><a href="<?php _p($home_dir)?>/employee">Employee</a></li>
-		<li><a href="<?php _p($home_dir)?>/salary">Salary Adjustment</a></li>
-		<li><a href="<?php _p($home_dir)?>/contract_expiring">Contract Expiring</a></li>
-		<li><a href="<?php _p($home_dir)?>/former_employee">Former Employee</a></li>
+		<li><a href="<?php _p($home_dir)?>employee">Employee</a></li>
+		<li><a href="<?php _p($home_dir)?>salary">Salary Adjustment</a></li>
+		<li><a href="<?php _p($home_dir)?>contract_expiring">Contract Expiring</a></li>
+		<li><a href="<?php _p($home_dir)?>former_employee">Former Employee</a></li>
 		</ul>
 		
 		<span id='menu_medical'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Medical</span>
 		<ul>
-		<li><a href="<?php _p($home_dir)?>/outpatient">Outpatient</a></li>
-		<li><a href="<?php _p($home_dir)?>/eyeglasses">Eyeglasses</a></li>
-		<li><a href="<?php _p($home_dir)?>/pregnancy">Pregnancy</a></li>
-		<li><a href="<?php _p($home_dir)?>/medical_checkup">Medical Checkup</a></li>
-		<li><a href="<?php _p($home_dir)?>/pay_medical">Pay Medical</a></li>
-		<li><a href="<?php _p($home_dir)?>/medical_summary">Summary</a></li>
+		<li><a href="<?php _p($home_dir)?>outpatient">Outpatient</a></li>
+		<li><a href="<?php _p($home_dir)?>eyeglasses">Eyeglasses</a></li>
+		<li><a href="<?php _p($home_dir)?>pregnancy">Pregnancy</a></li>
+		<li><a href="<?php _p($home_dir)?>medical_checkup">Medical Checkup</a></li>
+		<li><a href="<?php _p($home_dir)?>pay_medical">Pay Medical</a></li>
+		<li><a href="<?php _p($home_dir)?>medical_summary">Summary</a></li>
 		</ul>
 		<span id='menu_recruitment'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Recruitment</span>
 		<ul>
-		<li><a href="<?php _p($home_dir)?>/vacancy">Vacancy</a></li>
-		<li><a href="<?php _p($home_dir)?>/question">Question</a></li>
-		<li><a href="<?php _p($home_dir)?>/filter">Filter Applicants</a></li>
-		<li><a href="<?php _p($home_dir)?>/call_interview">Call for Interview</a></li>
-		<li><a href="<?php _p($home_dir)?>/accept_employee">Accept as Employee</a></li>
-		<li><a href="<?php _p($home_dir)?>/summary">Recruitment Summary</a></li>
-		<li><a href="<?php _p($home_dir)?>/change_password">Change Password</a></li>
+		<li><a href="<?php _p($home_dir)?>vacancy">Vacancy</a></li>
+		<li><a href="<?php _p($home_dir)?>question">Question</a></li>
+		<li><a href="<?php _p($home_dir)?>filter">Filter Applicants</a></li>
+		<li><a href="<?php _p($home_dir)?>call_interview">Call for Interview</a></li>
+		<li><a href="<?php _p($home_dir)?>accept_employee">Accept as Employee</a></li>
+		<li><a href="<?php _p($home_dir)?>recruitment_summary">Recruitment Summary</a></li>
+		<li><a href="<?php _p($home_dir)?>change_password">Change Password</a></li>
 		<li><a href="<?php _p($home_dir)?>">Logout</a></li>
 		</ul>
 		
@@ -466,28 +336,29 @@ header('Content-Type: text/html; charset=utf-8');
 			$_SESSION['role_name2']='office_manager';?>
 			<span id='menu_medical'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Medical</span>
 			<ul>
-			<li><a href="<?php _p($home_dir)?>/outpatient">Outpatient</a></li>
-			<li><a href="<?php _p($home_dir)?>/eyeglasses">Eyeglasses</a></li>
-			<li><a href="<?php _p($home_dir)?>/pregnancy">Pregnancy</a></li>
-			<li><a href="<?php _p($home_dir)?>/medical_checkup">Medical Checkup</a></li>
-			<li><a href="<?php _p($home_dir)?>/medical_summary">Summary</a></li>
+			<li><a href="<?php _p($home_dir)?>outpatient">Outpatient</a></li>
+			<li><a href="<?php _p($home_dir)?>eyeglasses">Eyeglasses</a></li>
+			<li><a href="<?php _p($home_dir)?>pregnancy">Pregnancy</a></li>
+			<li><a href="<?php _p($home_dir)?>medical_checkup">Medical Checkup</a></li>
+			<li><a href="<?php _p($home_dir)?>medical_summary">Summary</a></li>
 			</ul>
 		<?php }?>
 		
 		<span id='menu_administration'><img src="images/collapse_alt.png" class='btn_collapse' title='Collapse'/>Administration</span>
 		<ul>
-		<li><a href="<?php _p($home_dir)?>/employee">Employee</a></li>
-		<li><a href="<?php _p($home_dir)?>/recruitment">Recruitment</a></li>
-		<li><a href="<?php _p($home_dir)?>/recruitment_report">Recruitment Report</a></li>
-		<li><a href="<?php _p($home_dir)?>/change_password">Change Password</a></li>
+		<li><a href="<?php _p($home_dir)?>employee">Employee</a></li>
+		<li><a href="<?php _p($home_dir)?>recruitment">Recruitment</a></li>
+		<li><a href="<?php _p($home_dir)?>recruitment_report">Recruitment Report</a></li>
+		<li><a href="<?php _p($home_dir)?>change_password">Change Password</a></li>
 		<li><a href="<?php _p($home_dir)?>">Logout</a></li>
 		</ul>
 		
 		
 	</div>
 <?php }?>
+<?php if ($page_name!="login") {?>
 	<?php _p(getImageTags(array('menu')))?>
-	
+
     
 	<div id="pagecontent" class='pagecontent'>
 		
@@ -495,10 +366,12 @@ header('Content-Type: text/html; charset=utf-8');
 	
 		<div style="margin:5px">
         <?php
-            URLParse::IncludePageContents();
+			include("pages/$page_name.php");
+            //URLParse::IncludePageContents();
         ?>
 		</div>
     </div>
+<?php }?>
 
 </body>
 </html>

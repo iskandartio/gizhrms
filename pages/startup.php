@@ -2,7 +2,7 @@
 	require_once("autoload.php");
 	session_start();
 	date_default_timezone_set('Asia/Jakarta');
-	$_SESSION['db']=array('mysql:host=localhost:3306;dbname=hrms;charset=utf8','root','p4kl1m');
+	$_SESSION['db']=array('mysql:host=localhost:3306;dbname=hrms;charset=utf8','root','123456');
 	//$_SESSION['db']=array('mysql:host=mysql.idhostinger.com;dbname=u169820922_prop','u169820922_admin','host123456a!');
 
 	$timezone = "Asia/Bangkok";
@@ -135,9 +135,7 @@
 		return str_replace("'","''",$s);
 	}
 	function proper($string) {
-		$string = strtolower($string);
-		$string = substr_replace($string, strtoupper(substr($string, 0, 1)), 0, 1);
-		return $string;
+		return ucwords(str_replace("_"," ",$string));
 	}
 	function _get($s) {
 		return isset($_GET[$s]) ? $_GET[$s] : "";

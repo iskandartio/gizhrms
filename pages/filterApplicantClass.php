@@ -26,7 +26,7 @@ static function get_call_interview_table($res, $vacancy_progress_val, $resReject
 				$$key=$val;
 			}
 			$result.="<tr><td>$new_key</td><td valign='top'>".$rs['name']."</td><td><u><b>Job Title</b></u><br>$job_title<br>
-			<u><b>Position</b></u><br>$position
+			<u><b>Position</b></u><br>$job_position
 			</td>";
 			$result.="<td>
 			<u><b>Project Name</b></u><br>$project_name
@@ -109,10 +109,10 @@ static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id=''
 		$sql="select salary_band from salary_band order by salary_band";
 		$res=db::DoQuery($sql, array(), $con);
 		$salary_band_option_def=shared::select_combo_complete($res, 'salary_band','-');
-		$job_title_def=shared::select_combo_complete(db::select('job_title','*'), 'job_title','-Job Title-','job_title');
-		$position_def=shared::select_combo_complete(db::select('job_position','*'), 'position','-Position-','position');
+		$job_title_def=shared::select_combo_complete(db::select('job_title','*','','sort_id'), 'job_title','-Job Title-','job_title');
+		$position_def=shared::select_combo_complete(db::select('job_position','*','','sort_id'), 'job_position','-Position-','job_position');
 		$sql="select a.user_id, b.first_name, b.last_name, a.vacancy_id, a.vacancy_progress_id, a.vacancy_shortlist
-		, b.contract1_start_date, b.contract1_end_date, b.job_title, b.position
+		, b.contract1_start_date, b.contract1_end_date, b.job_title, b.job_position
 		, b.salary_band, b.salary
 		, b.project_name, b.principal_advisor, b.financial_controller
 		, b.project_number, b.team_leader
@@ -129,7 +129,7 @@ static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id=''
 		foreach ($res as $row) {
 			$responsible_superior_option=Employee::getResponsibleSuperiorCombo($row);
 			$job_title_option=shared::set_selected($row['job_title'], $job_title_def);
-			$position_option=shared::set_selected($row['position'], $position_def);
+			$position_option=shared::set_selected($row['job_position'], $position_def);
 			$row['salary']=shared::decrypt($row['salary']);
 			$res_salary_sharing=db::select('applicants_salary_sharing','*','user_id=?','',array($row['user_id']));
 			$btn=array();

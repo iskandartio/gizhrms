@@ -49,12 +49,6 @@ function working(div, afterSave) {
 
 	}
 	
-	self.CancelWorking=function() {
-		var par=$(this).closest("tr");
-		textToDefaultLabel(par,['relation','name','dob'], f);
-		btnChange(par, ['edit','delete'], f);
-		self.bindWorking();
-	}
 	self.DeleteWorking=function() {
 		if (!confirm("Are you sure to delete?")) return;
 		

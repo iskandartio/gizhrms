@@ -64,7 +64,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing'");
 	});
 	 
 	function Print() {		
-		window.open("print_recruitment_summary?contract_history_id="+$(this).closest("tr").children("td:eq(0)").html(),"_blank");
+		window.open("print_recruitment_summary_ajax?contract_history_id="+$(this).closest("tr").children("td:eq(0)").html(),"_blank");
 	}
 	function Export() {
 		

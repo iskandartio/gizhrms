@@ -8,6 +8,10 @@
 	});
 	function bindAll() {
 		bind('.btn_paid','click', Paid);
+		hideColumns('tbl_result');
+		hideColumns('tbl_eyeglasses');
+		hideColumns('tbl_medical_checkup');
+		
 	}
 	function loadData() {
 		var data={}

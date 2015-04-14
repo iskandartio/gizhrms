@@ -1,5 +1,4 @@
 <?php
-
 	if ($type=='search') {
 		$_SESSION['filter_first_name']=$first_name;
 		$_SESSION['filter_last_name']=$last_name;
@@ -223,7 +222,7 @@ where b.user_id=?", array($user_id), $con);
 	if ($type=='save_dependent') {
 		$user_id=$_SESSION['user_id'];
 		$_POST['user_id']=$user_id;
-		
+		db::Log("masuk sini");
 		$dob=dbDate($dob);
 		if ($employee_dependent_id=='') {
 			$employee_dependent_id=db::insert('employee_dependent','user_id, relation, name, date_of_birth, entitled', array($user_id,$relation,$name,$dob, $entitled));

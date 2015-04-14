@@ -42,6 +42,10 @@ staff berdasarkan gender, umur, pendidikan, admin & technical, salary band
 salary adjustment input start date
 report data karyawan yang akan berakhir pada periode tertentu bagaimana ya? ada pilihan search berdasarkan akhir periode kontrak
 
+statistics recruitment
+email_setting kaspersky error
+position dan job_title pindah aja ke others
+tanggal submit, dan vacancy_progress
 autologout after 5 mins idle
 https
 nggak bisa save
@@ -53,6 +57,8 @@ financial_controller+principle_advisor+team_leader+admin+employee masing2 bisa l
 record update change
 check combo while save
 superadmin for creating admin
+skill language combobox
+sendemail simplify libs
 
 algoritma:
 interview:
@@ -63,3 +69,5 @@ save:
 3. job_applied set next_vacancy_progree_id
 4. if not Shortlist, insert to vacancy_interview
 
+563420727
+3745

@@ -21,7 +21,7 @@
 		
 		bind('.btn_cancel','click',Cancel);
 		bind('#print_medical_data','click',Print);
-		
+		hideColumns('tbl_claim');
 		
 	}
 	function Add() {

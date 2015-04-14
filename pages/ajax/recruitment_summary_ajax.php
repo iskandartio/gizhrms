@@ -53,7 +53,7 @@
 					<td>$job_title</td>
 					<td>$responsible_superior</td>
 					<td>$address</td>
-					<td>$position</td>
+					<td>$job_position</td>
 					<td>$start_date</td>
 					<td>$end_date</td>
 					<td>$salary</td>
