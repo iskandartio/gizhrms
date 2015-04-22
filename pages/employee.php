@@ -4,6 +4,8 @@
 ?>
 <script>
 	var fields=generate_assoc(['user_id','first_name','last_name','project_name','project_location']);
+	var ajaxPage="<?php _p((isset($om) ? 'employee_om_ajax' : 'employee_ajax'))?>";
+	var employee_detail_table="<?php _p((isset($om) ? 'employee_detail_om' : 'employee_detail'))?>";
 	$(function() {
 		bindAll();
 		Search();
@@ -31,7 +33,7 @@
 		var success=function(msg) {
 			location.href="employee_detail";
 		}
-		ajax("employee_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function ChangeProjectData() {
 		var par=$(this).closest("tr");
@@ -41,7 +43,7 @@
 		var success=function(msg) {
 			location.href="change_project_data";
 		}
-		ajax("employee_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function Edit() {
 		var par=$(this).closest("tr");
@@ -52,10 +54,10 @@
 			if (msg=='Failed') {
 				location="failed";
 			} else {
-				location.href="employee_detail";
+				location.href=employee_detail_table;
 			}
 		}
-		ajax("employee_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function Search() {
 		var data={}
@@ -65,7 +67,7 @@
 			$('#div_result').html(msg);
 			bindAll();
 		}
-		ajax('employee_ajax', data, success);
+		ajax(ajaxPage, data, success);
 		
 	}
 	function Terminate() {
@@ -78,7 +80,7 @@
 			$('#div_terminate').dialog("open");
 			bindTerminate();
 		}
-		ajax('employee_ajax',data, success);
+		ajax(ajaxPage,data, success);
 		
 	}
 	
@@ -96,7 +98,7 @@ function jsCalculateSeverance() {
 		bindSeveranceData();
 	}
 	
-	ajax("employee_ajax",data, success);
+	ajax(ajaxPage,data, success);
 }
 function bindSeveranceData() {
 	$('#change_severance',div).bind('click', jsChangeSeverance);
@@ -126,7 +128,7 @@ function jsTerminate() {
 		$(div).dialog("close");
 		Search();
 	}
-	ajax('contract_expiring_ajax',data,success);
+	ajax(ajaxPage,data,success);
 }
 function jsCancelChange() {
 	$('#new_severance',div).val('');

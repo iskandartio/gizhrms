@@ -312,13 +312,13 @@ where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_s
 				where a.vacancy_shortlist=1 and a.vacancy_id=? and a.next_vacancy_progress_id=?", array($vacancy_id, $next_vacancy_progress_id));
 			foreach ($res as $row) {
 				if ($row['interview_place']==null || $row['interview_place']=='') {
-					$err.="Interview location for ".$row['first_name']." ".$row['last_name']." not set\n";
+					$err.="Interview location for ".$row['first_name']." ".$row['last_name']." is not set yet\n";
 				}
 				if ($row['interview_date']==null || $row['interview_date']=='') {
-					$err.="Interview date for ".$row['first_name']." ".$row['last_name']." not set\n";
+					$err.="Interview date for ".$row['first_name']." ".$row['last_name']." is not set yet\n";
 				}
 				if ($row['interview_time']==null || $row['interview_time']=='') {
-					$err.="Interview time for ".$row['first_name']." ".$row['last_name']." not set\n";
+					$err.="Interview time for ".$row['first_name']." ".$row['last_name']." is not set yet\n";
 				}
 				
 			}
@@ -411,14 +411,14 @@ where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_s
 		left join m_user b on a.user_id=b.user_id
 		left join vacancy c on c.vacancy_id=a.vacancy_id
 		left join applicants d on d.user_id=a.user_id
-		","b.user_name, c.vacancy_name, c.vacancy_code, c.vacancy_code2, d.first_name, d.last_name, a.vacancy_progress_id", "a.vacancy_shortlist=-1 and a.vacancy_id=?", ""
+		","d.title, d.gender, b.user_name, c.vacancy_name, c.vacancy_code, c.vacancy_code2, d.first_name, d.last_name, a.vacancy_progress_id", "a.vacancy_shortlist=-1 and a.vacancy_id=?", ""
 		, array($vacancy_id), $con);
 		db::update('job_applied', 'vacancy_shortlist', 'vacancy_shortlist=-1 and vacancy_id=?', array(-2, $vacancy_id), $con);
 		foreach ($res as $row) {
 			$param=array();
 			$param['applicant_email']=$row['user_name'];
 			$param['vacancy_name']=$row['vacancy_name']." (".$row['vacancy_code']."-".$row['vacancy_code2'].")";
-			$param['applicant_name']=$row['first_name']." ".$row['last_name'];
+			$param['applicant_name']=$row['title']." ".$row['first_name']." ".$row['last_name'];
 			$params['signature']=db::select_single("signature", 'signature v');
 			shared::email("rejection_".$row['vacancy_progress_id'], $param, $con);
 		}
@@ -427,7 +427,7 @@ where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_s
 			left join applicants_reference b on a.user_id=b.user_id 
 			left join vacancy c on c.vacancy_id=a.vacancy_id
 			left join applicants e on e.user_id=a.user_id
-			', 'b.title, b.reference_name, b.email, e.first_name, e.last_name, c.vacancy_criteria'
+			', 'e.gender, b.title, b.reference_name, b.email, e.first_name, e.last_name, c.vacancy_criteria'
 			, 'a.vacancy_id=? and a.vacancy_progress_id=? and a.vacancy_shortlist=0','', array($vacancy_id, $next_vacancy_progress_id), $con);
 			foreach ($res as $row) {
 				$param=array();
@@ -437,10 +437,17 @@ where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_s
 				$param['applicant_name']=$row['first_name']." ".$row['last_name'];
 				$param['vacancy_criteria']=$row['vacancy_criteria'];
 				$params['signature']=db::select_single("signature", 'signature v');
+				$params['@he']='he';
+				$params['@his']='his';
+				$params['@him']='him';
+				if ($row['gender']=='Female') {
+					$params['@he']='she';
+					$params['@his']='her';
+					$params['@him']='her';
+				}
 				shared::email("reference_".$next_vacancy_progress_id, $param, $con);
 			}
 		}
-		
 		db::commitTrans($con);
 		
 		die;
@@ -533,7 +540,7 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 		$result.="<td>".shared::get_table_data('education', $row['education_id'])."</td>";
 		$result.="<td>".$row['place']."</td>";
 		$result.="<td>".$row['major']."</td>";
-		$result.="<td>".$row['country']."</td></tr>";
+		$result.="<td>".$row['countries_id']."</td></tr>";
 	}
 	$result.="</table>";
 	
@@ -666,8 +673,13 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 		db::delete('vacancy_timeline','vacancy_id=? and vacancy_progress_id=?',array($vacancy_id, $next_vacancy_progress_id), $con);
 		db::insert('vacancy_timeline','vacancy_id, vacancy_progress_id',array($vacancy_id, $next_vacancy_progress_id), $con);
 		db::commitTrans($con);
-		die;
-		
+		die;		
 	}
+	
+	//project_ajax link
+	if ($type=='getProjectClass'||$type=='getProjectLocationClass') {
+		require("pages/ajax/project_ajax.php");
+	}
+
 }
 ?>

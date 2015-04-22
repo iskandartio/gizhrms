@@ -87,7 +87,7 @@
 		a+='<tr><td></td>';
 		a+="<td><?php _t("vacancy_progress_val")?></td>";
 		a+="<td><?php _t("process_name")?></td><td>0</td>";
-		a+="<td><input type='checkbox' checked id='active'/> <label for='active'>Active</label>";
+		a+="<td><?php _p(shared::check_checkbox('active','Active'))?>";
 		a+="<td>"+getImageTags(['save','delete'])+"</td>";
 		a+="</tr>";
 		

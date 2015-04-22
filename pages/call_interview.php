@@ -114,7 +114,8 @@
 </div>
 <div id='button'>
 	<div id='div_ask_reference'>
-	<input type='checkbox' id='ask_reference'/><label for='ask_reference'>Ask for Reference</label>
+	<?php _p(shared::create_checkbox('ask_reference','Ask for Reference')) ?>
+	
 	</div>
 	<button class='button_link btn_interview'>Call for Interview</button>
 </div>

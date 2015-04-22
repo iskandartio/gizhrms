@@ -3,8 +3,7 @@
 	$res=db::select('email_setup','*','general=1','email_type');
 	
 ?>
-<script src='js/aes.js'></script>
-<script src='js/gibberish-aes.js'></script>
+<script src='js/gibberish-aes.min.js'></script>
 <script>
 	var fields=generate_assoc(['email_type','email_type_name','email_content']);
 	$(function() {

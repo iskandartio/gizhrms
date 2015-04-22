@@ -83,7 +83,7 @@
 			var d=jQuery.parseJSON(msg);
 			$('#recontract_detail').html(d['result']);
 			$('#recontract_detail').dialog("open");
-			var a=new projectView("#recontract_detail", beforeSave, afterSave);
+			var a=new projectView("#recontract_detail", beforeSave, afterSave,"contract_expiring_ajax");
 			a.project_name_choice=d['project_name_choice'];
 			a.type='save_recontract';
 			

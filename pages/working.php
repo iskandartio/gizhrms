@@ -2,6 +2,7 @@
 ?>
 <script src='js/working.js'></script>
 <script>
+	var ajaxPage="working_ajax";
 	$(function() {
 		loadWorking();
 	});
@@ -15,10 +16,10 @@
 		var success=function(msg) {
 			var d=jQuery.parseJSON(msg);
 			$('#div_working').html(d['result']);
-			var a=new working($("#div_working"), afterSave);
+			var a=new working($("#div_working"), ajaxPage,afterSave);
 			a.tbl='applicants';
 		}
-		ajax("working_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 
 </script>

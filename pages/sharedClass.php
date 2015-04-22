@@ -184,6 +184,11 @@ where a.employee_id=?", array($user_id, $uid));
 		*/
 	}
 	static function get_table_data($tbl, $id) {
+		if (is_array($id)) {
+			$id=_lbl($tbl, $id);
+			$tbl=str_replace("_id","",$tbl);
+		}
+		
 		if (!isset($_SESSION["tbl_$tbl"])) {
 			
 			$res=db::select($tbl,"$tbl"."_id, $tbl"."_val");
@@ -207,9 +212,11 @@ where a.employee_id=?", array($user_id, $uid));
 		return $_SESSION["tbl_$tbl"][$id];
 	}
 	
-	static function create_checkbox($id, $label, $selected) {
+	static function create_checkbox($id, $label, $selected="", $value="", $class="") {
 		$selected= $selected==0 ? '' : 'checked';
-		return "<input type='checkbox' id='$id' $selected/><label for='$id'>$label</label>";
+		if ($class=='') $class=$id;
+		if ($value=='') $value=$id;
+		return "<label><input type='checkbox' class='$class' id='$id' value='$value' $selected/>$label</label>";
 	}
 	static function send_all_email() {
 		$res=db::select('email','*','sent=0');
@@ -638,5 +645,39 @@ tinymce.init({
 		}
 		array_push($z, $val);
 	}
-
+	static function create_menu($res) {
+		$menu=array();
+		foreach ($res as $rs) {
+			shared::setArr($menu[$rs['category_name']], $rs);
+		}
+		$result="";
+		foreach ($menu as $key =>$val) {
+			if (!isset($_SESSION['menu']['menu_'.$key]) || $_SESSION['menu']['menu_'.$key]=="true") {
+				$result.="<span id='menu_".$key."'><img src='images/collapse_alt.png' class='btn_collapse' title='Collapse'/>$key</span><ul>";
+			} else {
+				$result.="<span id='menu_".$key."'><img src='images/expand_alt.png' class='btn_collapse' title='Expand'/>$key</span><ul style='display:none'>";
+			}
+			foreach ($val as $rs) {
+				if ($rs['sub_module']==1) continue;
+				$result.="<li><a href='".$_SESSION['home_dir'].$rs['module_name']."'>".$rs['module_description']."</a></li>";
+			}
+			$result.="</ul>";
+		}
+		$result.="<a style='margin-left:20px' class='button_link' href='".$_SESSION['home_dir']."'>Logout</a>";
+		
+		return $result;
+	}
+	static function prepOM($om) {
+		if ($om==1) {
+			$res=db::select('project_location','*', 'office_manager=?','', array($_SESSION['uid']));
+			$_SESSION['project_location']=array();
+			foreach ($res as $rs) {
+				array_push($_SESSION['project_location'], $rs['project_location']);
+			}
+			$_SESSION['in_project_location']= substr(str_repeat(",?", count($res)),1);
+		} else {
+			unset($_SESSION['project_location']);
+			unset($_SESSION['in_project_location']);
+		}
+	}
 }

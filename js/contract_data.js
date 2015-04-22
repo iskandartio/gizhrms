@@ -1,4 +1,4 @@
-function contract_data(div) {
+function contract_data(div, ajaxPage) {
 	var self=this;
 	self.start=function() {
 		bindDiv('#contract1_end_date',div,'change', self.ValidateFirstEndDate);
@@ -40,7 +40,7 @@ function contract_data(div) {
 			$('#contract_graph>tbody>tr>td:eq(1)',div).html(d['second']);
 			self.start();
 		}
-		ajax("employee_detail_ajax",data,success);
+		ajax(ajaxPage,data,success);
 	}
 	self.validateContractLength=function(d1, d2, y) {
 		if ($('#'+d2,div).length==0) return true;

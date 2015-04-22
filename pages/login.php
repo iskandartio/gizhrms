@@ -3,7 +3,7 @@
 <script>
 	$(function() {
 		bind('#btn_login','click',Login);
-		send_email();
+		
 	});
 	function ChangeCaptchaText() {
 		$('#captcha img').attr('src','captcha_ajax');

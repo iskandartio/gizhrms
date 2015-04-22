@@ -24,7 +24,7 @@
 			$negotiable=$res[0]['negotiable'];
 		}
 		$r.="Salary Expectation (Gross) : "._t2("salary_expectation", $salary_expectation, "12");
-		$r.=" <input type='checkbox' id='negotiable' ".($negotiable ? "checked" : "")."/><label for='negotiable'>Negotiable</label>";
+		$r.=shared::create_checkbox('negotiable', 'Negotiable');
 		$res= db::DoQuery('select a.question_id, b.question_val, d.choice_id from vacancy_question a left join question b on a.question_id=b.question_id
 		left join job_applied c on c.vacancy_id=a.vacancy_id and c.user_id=?
 		left join applicants_answer d on d.job_applied_id=c.job_applied_id and d.question_id=a.question_id

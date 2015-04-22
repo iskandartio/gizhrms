@@ -1,4 +1,4 @@
-function dependents(div) {
+function dependents(div, ajaxPage) {
 	var self=this;
 	var f=generate_assoc(['employee_dependent_id','relation','name','dob','entitled','btn']);
 	self.start=function() {
@@ -18,7 +18,7 @@ function dependents(div) {
 			relation_choice=msg;
 			fixSelect();
 		}
-		ajax('employee_detail_ajax',data, success);
+		ajax(ajaxPage,data, success);
 	
 	}
 	
@@ -26,7 +26,7 @@ function dependents(div) {
 		s="<tr><td></td><td>"+relation_choice+"</td>";
 		s+="<td><input type='text' class='name' id='name' placeholder='name'/></td>";
 		s+="<td><input type='text' class='dob' id='dob' placeholder='dob'/></td>";
-		s+="<td><input type='checkbox' checked class='entitled' id='entitled0'/><label for='entitled0'>Entitled</label></td>"
+		s+="<td><label><input type='checkbox' checked class='entitled'/>Entitled</label></td>"
 		s+="<td>"+getImageTags(['save','delete'], f)+"</tr>";
 		$('#tbl_dependent').prepend(s);
 		self.start();
@@ -37,7 +37,7 @@ function dependents(div) {
 		labelToSelect(getChildObj(par, ['relation'],  f), relation_choice);
 		var td_entitled=getChildObj(par, ['entitled'], f);
 		var employee_dependent_id=getChildHtml(par, ['employee_dependent_id'], f);
-		td_entitled.html("<input type='checkbox' "+(td_entitled.html()=='Yes' ? "checked" : "")+" class='entitled' id='entitled"+employee_dependent_id+"'/><label for='entitled"+employee_dependent_id+"'>Entitled</label>");
+		td_entitled.html("<label><input type='checkbox' "+(td_entitled.html()=='Yes' ? "checked" : "")+" class='entitled'/>Entitled</label>");
 		btnChange(par, ['save','cancel'],f);
 		self.start();
 		
@@ -62,7 +62,7 @@ function dependents(div) {
 			$('#freeze').hide();
 			par.remove();
 		}
-		ajax("employee_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.Save=function()  {
 		var par=$(this).closest("tr");
@@ -83,7 +83,7 @@ function dependents(div) {
 			btnChange(par, ['edit','delete'], f);
 			self.start();
 		}
-		ajax('employee_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.SaveSpouse=function() {
 		var data={};
@@ -92,7 +92,7 @@ function dependents(div) {
 		data=prepareDataCheckBox(data, ['spouse_entitled']);
 		var success=function(msg) {
 		}
-		ajax('employee_ajax',data, success);
+		ajax(ajaxPage,data, success);
 	}
 	this.start();
 }

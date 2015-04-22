@@ -12,7 +12,7 @@
 			}
 		});
 		$( "#tabs" ).tabs( "option", "active", getCookie('medical_summary_tabs'));
-		var a=new projectView(document);
+
 	});
 	function bindAll() {
 		bind('.year','change',ChangeYear);

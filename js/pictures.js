@@ -1,4 +1,4 @@
-function pictures(div) {
+function pictures(div, ajaxPage) {
 	var self=this;
 	self.start=function() {
 		bindDiv('.btn_delete', div, 'click', self.Delete);
@@ -13,7 +13,7 @@ function pictures(div) {
 		var success=function() {
 			$(obj).remove();
 		}
-		ajax('employee_detail_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.Upload=function() {
 		$('.div_pic_collection').html('');

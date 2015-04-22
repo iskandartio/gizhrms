@@ -1,5 +1,5 @@
 <?php
-require_once('libs/mail/class.phpmailer.php');
+require_once('pages/class.phpmailer.php');
 require_once('pages/startup.php');
 //include("class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
 

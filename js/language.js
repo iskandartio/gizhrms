@@ -1,4 +1,4 @@
-function language(div) {
+function language(div, ajaxPage) {
 	var self=this;
 	var f=generate_assoc(['employee_language_id','language_id','language_skill_id','btn']);
 	self.AddLanguage=function() {
@@ -10,7 +10,7 @@ function language(div) {
 			self.bindLanguage();
 			
 		}
-		ajax('employee_ajax',data, success);
+		ajax(ajaxPage,data, success);
 	}
 	self.bindLanguage=function() {
 		bindDiv('.language_id',div,'change', self.LanguageChange);
@@ -51,7 +51,7 @@ function language(div) {
 			btnChange(par, ['edit','delete'], f);
 			self.bindLanguage();
 		}
-		ajax("employee_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.DeleteLanguage=function() {
 		var par=$(this).closest("tr");
@@ -61,7 +61,7 @@ function language(div) {
 		var success=function(msg) {
 			par.remove();
 		}
-		ajax("employee_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.EditLanguage=function() {
 		var par=$(this).closest("tr");

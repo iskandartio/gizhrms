@@ -1,4 +1,5 @@
 <?php
+	shared::prepOM(isset($om) ? 1 : 0);
 	if ($type=='search') {
 		$_SESSION['filter_first_name']=$first_name;
 		$_SESSION['filter_last_name']=$last_name;
@@ -14,16 +15,16 @@
 		}
 		if ($filter!='') $filter=substr($filter,5);
 		$res=Employee::get_active_employee($filter, $arr);
-
+		shared::setId('employee_user_id', 'user_id', $res);
 		$result="<table id='tbl_employee' class='tbl'>
 		<thead><tr><th>User ID</th><th>First Name</th><th>Last Name</th><th>Project Name</th><th>Project Location</th><th></th></tr></thead><tbody>";
 		foreach ($res as $row) {
 			foreach ($row as $key=>$val) {
 				$$key=$val;
 			}
-			$result.="<tr><td>$user_id</td><td>$first_name</td><td>$last_name</td><td>$project_name</td><td>$project_location</td>
+			$result.="<tr><td>$id</td><td>$first_name</td><td>$last_name</td><td>$project_name</td><td>$project_location</td>
 			<td><button class='btn_edit_project'>Edit Data</button>";
-			if ($_SESSION['role_name']=='admin') {
+			if (!isset($om)) {
 				$result.="<button class='btn_update'>Change Project Data</button> 
 				<button class='btn_terminate'>Terminate Immediately</button> ";
 			}
@@ -34,178 +35,11 @@
 		die($result);
 	}
 	if ($type=='set_user_id') {
-		if (!Employee::validateEmployee($user_id)) die("Failed");
+		$user_id=shared::getId('employee_user_id', $user_id);
 		$_SESSION['user_id']=$user_id;
-		
-		die($_SESSION['user_id']);
-		
+		die($_SESSION['user_id']);	
 	}
 	
-
-	if ($type=='save_current_contract') {
-		
-		$user_id = $_SESSION['user_id'];
-		$_POST['contract_history_id'] = $_SESSION['contract_history_id'];
-		$contract_history_id=$_POST['contract_history_id'];
-		$con=db::beginTrans();
-		if (!isset($start_date)) {
-			unset($_POST['start_date']);
-			unset($_POST['end_date']);
-		}
-		
-		$flag_salary_sharing=0;
-		if (isset($_POST['salary_sharing_project_name'])) $flag_salary_sharing=1;
-		if ($flag_salary_sharing==1) {
-			$salary_sharing_project_name=$_POST['salary_sharing_project_name'];
-			$salary_sharing_project_number=$_POST['salary_sharing_project_number'];
-			$salary_sharing_percentage=$_POST['salary_sharing_percentage'];
-			unset($_POST['salary_sharing_project_name']);
-			unset($_POST['salary_sharing_project_number']);
-			unset($_POST['salary_sharing_percentage']);
-		}
-		if ($_POST['reason']=='') $_POST['reason']="Initial Salary";
-		db::updateEasy('contract_history',$_POST, $con);
-		if (isset($start_date)) {
-			db::update('employee','contract1_start_date, contract1_end_date','user_id=? and contract1_start_date is null', array($start_date, $end_date, $user_id), $con);
-		}
-		if ($flag_salary_sharing==1){
-			db::delete('salary_sharing','contract_history_id=?', array($contract_history_id), $con);
-			foreach ($salary_sharing_project_name as $key=>$val) {
-				db::insert('salary_sharing','contract_history_id, project_name, project_number, percentage'
-				, array($contract_history_id, $val, $salary_sharing_project_number[$key], $salary_sharing_percentage[$key]),$con);
-			}
-		}
-		
-		shared::genEncSalaryByContractHistoryId($contract_history_id, $con);
-		
-		db::commitTrans($con);
-		die;
-	}
-	if ($type=='save_change_project') {
-		$_POST['user_id']=$_SESSION['user_id'];
-		$contract_history_id=$_SESSION['contract_history_id'];
-		$user_id=$_POST['user_id'];
-		$end_date=db::select_single('employee', 'coalesce(am2_end_date, contract2_end_date, am1_end_date, contract1_end_date) v','user_id=?','',array($user_id));
-		$_POST['end_date']=$end_date;
-		if (strcmp($start_date, $end_date)>=0) die("End Date must be bigger then Start Date");
-		$flag_salary_sharing=0;
-		if (isset($_POST['salary_sharing_project_name'])) $flag_salary_sharing=1;
-		if ($flag_salary_sharing==1) {
-			$salary_sharing_project_name=$_POST['salary_sharing_project_name'];
-			$salary_sharing_project_number=$_POST['salary_sharing_project_number'];
-			$salary_sharing_percentage=$_POST['salary_sharing_percentage'];
-			unset($_POST['salary_sharing_project_name']);
-			unset($_POST['salary_sharing_project_number']);
-			unset($_POST['salary_sharing_percentage']);
-		}
-		$con=db::beginTrans();
-		db::delete('contract_history','start_date>=? and user_id=?', array($start_date, $user_id), $con);
-		$contract_history_id=db::select_single('contract_history','contract_history_id v','? between start_date and end_date and user_id=?','', array($start_date, $user_id), $con);
-		db::update('contract_history','end_date','contract_history_id=?', array(shared::addDate($start_date,-1), $contract_history_id), $con);
-		$contract_history_id=db::insertEasy('contract_history', $_POST, $con);
-		if ($flag_salary_sharing==1){
-			db::delete('salary_sharing','contract_history_id=?', array($contract_history_id), $con);
-			foreach ($salary_sharing_project_name as $key=>$val) {
-				db::insert('salary_sharing','contract_history_id, project_name, project_number, percentage'
-				, array($contract_history_id, $val, $salary_sharing_project_number[$key], $salary_sharing_percentage[$key]),$con);
-			}
-		}
-		
-		if ($contract_history_id<=0) {
-			db::rollbackTrans($con);
-			die("Failed");
-		}
-		shared::genEncSalaryByContractHistoryId($contract_history_id, $con);
-		db::commitTrans($con);
-		die("Success");
-	}
-
-
-	if ($type=='add_language') {
-		$combo_language_def=shared::select_combo_complete(language::getAll(), 'language_id','-Language-','language_val');
-		$combo_language_def=str_replace("</select>","<option value='-1'>Others</option></select>", $combo_language_def);
-		$combo_language_skill=shared::select_combo_complete(language_skill::getAll(), 'language_skill_id', "- Skill Level -",'language_skill_val');
-		$str="<tr><td></td><td>".$combo_language_def." "._t2('language_val')."</td><td>".$combo_language_skill."</td><td>".getImageTags(array('save','cancel'))."</td></tr>";
-		die($str);
-	}
-	if ($type=='save_language') {
-		$_POST['user_id']=$_SESSION['user_id'];
-		if ($employee_language_id=='') {
-			$employee_language_id=db::insertEasy('employee_language',$_POST);
-		} else {
-			db::updateEasy('employee_language',$_POST);
-		}
-		die($employee_language_id);
-	}
-	if ($type=='delete_language') {
-		$i=db::delete('employee_language','employee_language_id=?', array($employee_language_id));
-		die($i);
-	}
-	if ($type=='save_recontract') {
-		$user_id=$_SESSION['user_id'];
-		$res=db::select('contract_history','*','end_date>? and user_id=?','', array($start_date, $user_id));
-		if (count($res)>0) die("Start Contract is not valid");
-		$flag_salary_sharing=0;
-		
-		$_POST['user_id']=$user_id;
-		if (isset($_POST['salary_sharing_project_name'])) $flag_salary_sharing=1;
-		if ($flag_salary_sharing==1) {
-			$salary_sharing_project_name=$_POST['salary_sharing_project_name'];
-			$salary_sharing_project_number=$_POST['salary_sharing_project_number'];
-			$salary_sharing_percentage=$_POST['salary_sharing_percentage'];
-			unset($_POST['salary_sharing_project_name']);
-			unset($_POST['salary_sharing_project_number']);
-			unset($_POST['salary_sharing_percentage']);			
-		}
-		if ($_POST['reason']=='') $_POST['reason']="Initial Salary";
-		$con=db::beginTrans();
-		$applicant=Employee::get_active_employee_one("a.user_id=?", array($user_id));
-		
-		foreach ($applicant as $key=>$val) {
-			$$key=$val;
-		}
-		
-		$severanceData=shared::calculateSeverance($salary,  $contract1_start_date, $contract1_end_date
-	, $am1_start_date, $am1_end_date
-	, $contract2_start_date, $contract2_end_date
-	, $am2_start_date, $am2_end_date);
-		$severance=$severanceData['severance'];
-		$service=$severanceData['service'];
-		$housing=$severanceData['housing'];
-		
-		$sql="insert into employee_history(user_id, contract1_start_date, contract1_end_date, am1_start_date, am1_end_date
-		, contract2_start_date, contract2_end_date, am2_start_date, am2_end_date, severance, service, housing)
-		select user_id, contract1_start_date, contract1_end_date, am1_start_date, am1_end_date
-		, contract2_start_date, contract2_end_date, am2_start_date, am2_end_date, ?,?,? from employee where user_id=?";
-		db::ExecMe($sql, array($severance, $service, $housing, $user_id), $con);
-		
-		db::ExecMe('update employee set contract1_start_date=?, contract1_end_date=?
-		, am1_start_date=null, am1_end_date=null
-		, contract2_start_date=null, contract2_end_date=null
-		, am2_start_date=null, am2_end_date=null
-		where user_id=?',array($_POST['start_date'], $_POST['end_date'], $user_id), $con);
-		
-		db::ExecMe('insert into contract_history2 select * from contract_history where user_id=?', array($user_id), $con);
-		db::ExecMe("insert into salary_sharing2(user_id, end_date, project_name, percentage, project_number)
-select b.user_id, b.end_date, a.project_name, a.percentage, a.project_number from salary_sharing a
-left join contract_history b on a.contract_history_id=b.contract_history_id 
-where b.user_id=?", array($user_id), $con);
-		
-
-		db::ExecMe('delete a from salary_sharing a left join contract_history b on a.contract_history_id=b.contract_history_id where b.user_id=?', array($user_id), $con);
-		db::ExecMe('delete from contract_history where user_id=?', array($user_id), $con);
-		$_POST['salary']=shared::encrypt($_POST['salary']);
-		$contract_history_id=db::insertEasy('contract_history',$_POST, $con);
-		
-		if ($flag_salary_sharing==1){
-			foreach ($salary_sharing_project_name as $key=>$val) {
-				db::insert('salary_sharing','contract_history_id, project_name, project_number, percentage'
-				, array($contract_history_id, $val, $salary_sharing_project_number[$key], $salary_sharing_percentage[$key]),$con);
-			}
-		}
-		db::commitTrans($con);
-		die;
-	}
 
 	if ($type=='show_terminate_immediately') {
 		$_SESSION['user_id']=$user_id;
@@ -219,29 +53,11 @@ where b.user_id=?", array($user_id), $con);
 	}
 
 
-	if ($type=='save_dependent') {
-		$user_id=$_SESSION['user_id'];
-		$_POST['user_id']=$user_id;
-		db::Log("masuk sini");
-		$dob=dbDate($dob);
-		if ($employee_dependent_id=='') {
-			$employee_dependent_id=db::insert('employee_dependent','user_id, relation, name, date_of_birth, entitled', array($user_id,$relation,$name,$dob, $entitled));
-		} else {
-			db::update('employee_dependent', 'relation, name, date_of_birth, entitled', 'employee_dependent_id=?', array($relation, $name, $dob, $entitled,$employee_dependent_id));
-		}
-		die ($employee_dependent_id);
-	}
-	if ($type=='delete_dependent') {
-		db::delete('employee_dependent','employee_dependent_id=?',array($employee_dependent_id));
-		die;
-	}
-	if ($type=='save_spouse') {
-		db::update('employee','spouse_name, marry_date, spouse_entitled','user_id=?', array($spouse_name, $marry_date, $spouse_entitled, $_SESSION['user_id']));
-	}
 
-	if ($type=='delete_dependent') {
-		db::delete('employee_dependent','employee_dependent_id=?',array($employee_dependent_id));
-		die;
-	}
 	
+	if ($type=='terminate') {
+		if (!isset($terminate_date)) $terminate_date=null;
+		Employee::terminate($severance, $service, $housing, $new_severance, $reason, $terminate_date);
+		die;
+	}	
 ?>

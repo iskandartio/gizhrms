@@ -1,7 +1,5 @@
 ﻿<?php
-	
 	$applicant=Employee::get_active_employee_simple_one("a.user_id=?", array($_SESSION['user_id']));
-
 ?>
 <script src='js/personal_data.js'></script>
 <script src='js/employee_project.js'></script>
@@ -16,6 +14,8 @@
 var tabs=['personal_data','employee_project','project_history','contract_data','dependents','language','working','education','pictures','historical_contract'];
 var jsTabs=[personal_data, employee_project, project_history, contract_data, dependents, language, working, education, pictures, historical_contract];
 var isNew=<?php _p(count($applicant)==0 ? "true" : "false")?>;
+var ajaxPage="<?php _p(isset($om) ? "employee_detail_om_ajax" : "employee_detail_ajax")?>";
+var employee_table="<?php _p(isset($om) ? "employee_om" : "employee")?>";
 $(function() {
 	if (isNew) {
 		$('#photo').closest(".row").hide();
@@ -23,11 +23,11 @@ $(function() {
 		$('#photo').closest(".row").show();
 	}
 	bind('#btn_back','click',Back);
-	<?php if ($_SESSION['role_name']!='admin') {
-		echo "$('[href=\"#div_contract_data\"]').closest('li').hide();";
-		echo "$('[href=\"#div_project_history\"]').closest('li').hide();";
-		echo "$('[href=\"#div_historical_contract\"]').closest('li').hide();";
-	}?>
+	if (ajaxPage=='employee_detail_om_ajax') {
+		$('[href=\"#div_contract_data\"]').closest('li').hide();
+		$('[href=\"#div_project_history\"]').closest('li').hide();
+		$('[href=\"#div_historical_contract\"]').closest('li').hide();
+	}
 	
 	prepareTabs('employee_detail');
 	
@@ -40,7 +40,7 @@ function load(active) {
 		var d=jQuery.parseJSON(msg);
 		var div='#div_'+tabs[active];
 		$(div).html(d['result']);
-		var a=new jsTabs[active]($('#div_'+tabs[active]));
+		var a=new jsTabs[active]($('#div_'+tabs[active]), ajaxPage);
 		if (tabs[active]=='personal_data') {
 			if (isNew) {
 				$('#btn_upload',div).hide();
@@ -62,7 +62,7 @@ function load(active) {
 			a.adder=d['adder'];
 		}
 	}
-	ajax("employee_detail_ajax", data, success);
+	ajax(ajaxPage, data, success);
 }
 
 
@@ -74,14 +74,20 @@ function project_history(div) {
 	}
 	
 	self.Print=function() {		
-		window.open("print_recruitment_summary_ajax?contract_history_id="+$(this).closest("tr").children("td:eq(0)").html(),"_blank");
+		var data={}
+		data['type']="set_contract_history_id";
+		data['id']=$(this).closest("tr").children("td:eq(0)").html();
+		var success=function(msg) {
+			window.open("print_hrsr_ajax","_blank");
+		}
+		ajax(ajaxPage, data, success);
 	}
 	this.start();
 }
 function historical_contract() {
 }
 function Back() {
-	location.href="employee";
+	location.href= employee_table;
 }
 function uploadDone(){
 	$('#photo').attr('src','show_picture_ajax');

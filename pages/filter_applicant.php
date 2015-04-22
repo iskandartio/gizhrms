@@ -42,6 +42,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 	var status_choice_sorted=<?php _p(json_encode($status_choice_sorted))?>;
 	var vacancy_progress=<?php _p(json_encode($vacancy_progress));?>;
 	var employee_choice=<?php _p(Employee::getComboEmployee())?>;
+	var ajaxPage="filter_applicant_ajax";
 	$(function() {
 		bind('#vacancy_id','change',ChangeVacancyId);
 		bind('#vacancy_progress_id','change',ChangeVacancyProgressId);
@@ -78,7 +79,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			$('#show_detail').dialog("open");
 			
 		};
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	
 	function ToggleFilterQuestion(){
@@ -118,7 +119,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			bind('.btn_accept',"click",Accept);
 			
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function Restart() {
 		var par=$(this).parent().parent();
@@ -148,7 +149,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			bind('.btn_reject',"click",Reject);
 			bind('.btn_accept',"click",Accept);
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 
 	}
 	
@@ -163,7 +164,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			
 			Search();
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function Search() {
 		if (!validate_empty(['vacancy_id','next_vacancy_progress_id'])) return;
@@ -207,11 +208,11 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 				numeric($(this));
 			});
 			if ($('#next_vacancy_progress_id  option:selected').html()=='Closing') {
-				var a=new filter_applicant_closing($('#tbl_result'));
+				var a=new filter_applicant_closing($('#tbl_result'), ajaxPage);
 			}
 			fixSelect();
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	
 	function Accept() {
@@ -254,7 +255,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		
 			//Search();
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function Interview() {
 		var par=$(this).closest("tr");
@@ -276,7 +277,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			bind('.btn_save',"click", Save);
 			bind('.btn_delete',"click", Delete);
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function Reject() {
 		var par=$(this).parent().parent();
@@ -294,7 +295,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			
 			bind('.btn_restart',"click", Delete);
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function ChangeVacancyId() {
 		var progress=vacancy_progress[$('#vacancy_id').val()]['vacancy_progress_id'];
@@ -313,7 +314,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			ChangeVacancyProgressId();
 			fixSelect();
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function ChangeVacancyProgressId() {
 		var progress=$('#vacancy_progress_id').val();
@@ -352,7 +353,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			$('#tbl_result tbody').empty();
 			fixSelect();
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 		
 		
 		
@@ -383,7 +384,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			$(v).data("originalValue", $(v).val());
 			
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 		
 	}
 		
@@ -445,7 +446,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			setHtmlText(par, 'btn', "<img src='images/delete.png' class='btn_delete_user'/>", field_user);
 			bind('.btn_delete_user',"click", DeleteUser);
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 		
 	}
 	function DeleteUser() {
@@ -456,7 +457,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var success=function(msg) {
 			par.remove();		
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 		
 	}
 
@@ -498,7 +499,8 @@ if ($_SESSION['role_name']=='admin') {
 		<tr><td>Age</td><td>:</td><td><?php _t("age_start","","2")?> &nbsp;to <?php _t("age_end","","2")?></td></tr>
 	</table>
 </div>
-<input type="checkbox" id="filter_rejected"/><label for="filter_rejected">Filter Rejected</label>
+<?php _p(shared::create_checkbox('filter_rejected','Filter Rejected'))?>
+
 <?php _t("filter_name") ?> 
 <?php _t("filter_city") ?> 
 <?php _p($combo_business) ?> 

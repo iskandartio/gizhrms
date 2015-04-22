@@ -1,4 +1,4 @@
-function education(div) {
+function education(div, ajaxPage) {
 	var self=this;
 	var f=generate_assoc(['employee_education_id','education_id','major','place','year_from','year_to','countries_id','btn']);
 	self.start=function() {
@@ -26,7 +26,7 @@ function education(div) {
 			btnChange(par, ['edit','delete'], f);
 			self.start();
 		}
-		ajax('employee_detail_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.Edit=function() {
 		var par=$(this).closest("tr");
@@ -52,7 +52,7 @@ function education(div) {
 		var success=function(msg) {
 			par.remove();
 		}
-		ajax('employee_detail_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.start();
 }

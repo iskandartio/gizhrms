@@ -33,22 +33,33 @@ former employee ok
 bisa cancel saat accept employee atau call for interview ok
 contract reminder ok
 medical edit ok
+show detail error on filter ok
+employee_working, language, education belum pindah ok
+position dan job_title pindah aja ke others ok
 
-show detail error on filter
-employee_working, language, education belum pindah
+he/she (applicant), his/her, him/her in email.
+no working experience option
+language wajib isi full
+reference wajib isi minimal 1 (sebelum apply)
+otomatis next_recruitment_process
 
+tampilan education untuk layar sempit
 statistic employee:
 staff berdasarkan gender, umur, pendidikan, admin & technical, salary band
+email cc and vacancy description attachment 
+call_interview @signature
 salary adjustment input start date
 report data karyawan yang akan berakhir pada periode tertentu bagaimana ya? ada pilihan search berdasarkan akhir periode kontrak
+photo hanya di personal data
+email pribadi di personal data
+langsung change password untuk user baru
 
+project tambahin allowance dan vacancy_type
 statistics recruitment
 email_setting kaspersky error
-position dan job_title pindah aja ke others
 tanggal submit, dan vacancy_progress
 autologout after 5 mins idle
 https
-nggak bisa save
 encrypt di js before post
 export  to excel filter applicants
 periksa aes decrypt
@@ -59,7 +70,8 @@ check combo while save
 superadmin for creating admin
 skill language combobox
 sendemail simplify libs
-
+check vacancy_progress checkbox
+dependents for checbox
 algoritma:
 interview:
 1. update job_applied set vacancy_shortlist
@@ -71,3 +83,5 @@ save:
 
 563420727
 3745
+
+uploadajax

@@ -1,4 +1,5 @@
 <?php
+shared::prepOM(isset($om) ? 1 : 0);
 if ($type=='load_personal_data')  {
 	$applicant=Employee::get_active_employee_simple_one("a.user_id=?", array($_SESSION['user_id']));
 	$combo_gender=shared::select_combo_complete(db::select('gender','*'),'gender','-Gender-','gender',$applicant['gender']);
@@ -130,9 +131,9 @@ if ($type=='load_employee_project') {
 	die(json_encode($data));
 }
 if ($type=='load_project_history') {
-	if ($_SESSION['role_name']!='admin') die;
 	$applicant=Employee::get_active_employee_one("a.user_id=?", array($_SESSION['user_id']));
 	$salary_history=Employee::get_salary_history_res($applicant['contract_history_id']);
+	shared::setId('employee_detail_contract_history_id', 'contract_history_id', $salary_history);
 	$result="";
 	$result.="<h1>Salary History</h1>
 <table id='tbl_salary_history' class='tbl'>
@@ -144,7 +145,6 @@ if ($type=='load_project_history') {
 }
 
 if ($type=='load_contract_data') {
-	if ($_SESSION['role_name']!='admin') die;
 	$applicant=Employee::get_active_employee_one("a.user_id=?", array($_SESSION['user_id']));
 	foreach ($applicant as $key=>$val) {
 		$$key=$val;
@@ -160,7 +160,6 @@ if ($type=='load_contract_data') {
 }
 
 if ($type=='save_contract_detail') {
-	if ($_SESSION['role_name']!='admin') die("Failed");
 	
 	if ($am1_start_date!="") {
 		if ($am1_start_date<=$contract1_end_date) die("First Amendment not Valid");
@@ -221,6 +220,26 @@ if ($type=='getRelationChoice') {
 	$choice=shared::select_combo_complete($res, 'relation','-Relation-');
 	die($choice);
 }
+if ($type=='save_spouse') {
+	db::update('employee','spouse_name, marry_date, spouse_entitled','user_id=?', array($spouse_name, $marry_date, $spouse_entitled, $_SESSION['user_id']));
+}
+if ($type=='save_dependent') {
+	$user_id=$_SESSION['user_id'];
+	$_POST['user_id']=$user_id;
+
+	$dob=dbDate($dob);
+	if ($employee_dependent_id=='') {
+		$employee_dependent_id=db::insert('employee_dependent','user_id, relation, name, date_of_birth, entitled', array($user_id,$relation,$name,$dob, $entitled));
+	} else {
+		db::update('employee_dependent', 'relation, name, date_of_birth, entitled', 'employee_dependent_id=?', array($relation, $name, $dob, $entitled,$employee_dependent_id));
+	}
+	die ($employee_dependent_id);
+}
+if ($type=='delete_dependent') {
+	db::delete('employee_dependent','employee_dependent_id=?',array($employee_dependent_id));
+	die;
+}
+
 if ($type=='load_language') {
 	$user_id=$_SESSION['user_id'];
 	$language_choice=language::getChoice();
@@ -268,12 +287,12 @@ if ($type=='load_education') {
 	$result="";
 	$result.="<button class='button_link btn_add'>Add New</button>";
 	$result.="<table class='tbl' id='tbl_education'>
-	<thead><tr><th>ID<th>Education Level *</th><th>Major</th><th>Name of Education Institution *</th><th>From Year *</th><th>To Year *</th><th>Country *</th><th></th></tr></thead><tbody>";
+	<thead><tr><th>ID</th><th>Education Level *</th><th>Major</th><th>Name of Education Institution *</th><th>From Year *</th><th>To Year *</th><th>Country *</th><th></th></tr></thead><tbody>";
 	foreach ($res as $rs) {
 		$result.="<tr><td>".$rs['employee_education_id']."</td>
 			<td><span class='hidden'>".$rs['education_id']."</span>".shared::get_table_data('education', $rs['education_id'])."</td><td>".$rs['major']."</td><td>".$rs['place']."</td>
 			<td>".$rs['year_from']."</td><td>".$rs['year_to']."</td>
-			<td><span class='hidden'>".$rs['countries_id']."</span>".shared::get_table_data('countries', $rs['countries_id'])."</td><td>".getImageTags(['edit','delete'])."</tr>";
+			<td><span class='hidden'>".$rs['countries_id']."</span>".shared::get_table_data('countries', $rs['countries_id'])."</td><td>".getImageTags(['edit','delete'])."</td></tr>";
 	}
 	$result.="</tbody></table>";
 	$adder="<tr><td></td><td>$combo_education_def</td><td>"._t2('major')."</td><td>"._t2('place')."</td>
@@ -352,6 +371,79 @@ if ($type=='load_historical_contract') {
 	$result.="</tbody></table>";
 	$data['result']=$result;
 	die(json_encode($data));
+}
+if ($type=='save_current_contract') {
+	$user_id = $_SESSION['user_id'];
+	$_POST['contract_history_id'] = $_SESSION['contract_history_id'];
+	$contract_history_id=$_POST['contract_history_id'];
+	$con=db::beginTrans();
+	if (!isset($start_date)) {
+		unset($_POST['start_date']);
+		unset($_POST['end_date']);
+	}
+	
+	$flag_salary_sharing=0;
+	if (isset($_POST['salary_sharing_project_name'])) $flag_salary_sharing=1;
+	if ($flag_salary_sharing==1) {
+		$salary_sharing_project_name=$_POST['salary_sharing_project_name'];
+		$salary_sharing_project_number=$_POST['salary_sharing_project_number'];
+		$salary_sharing_percentage=$_POST['salary_sharing_percentage'];
+		unset($_POST['salary_sharing_project_name']);
+		unset($_POST['salary_sharing_project_number']);
+		unset($_POST['salary_sharing_percentage']);
+	}
+	if ($_POST['reason']=='') $_POST['reason']="Initial Salary";
+	$_POST['salary']=shared::encrypt($_POST['salary']);
+	db::updateEasy('contract_history',$_POST, $con);
+	if (isset($start_date)) {
+		db::update('employee','contract1_start_date, contract1_end_date','user_id=? and contract1_start_date is null', array($start_date, $end_date, $user_id), $con);
+	}
+	if ($flag_salary_sharing==1){
+		db::delete('salary_sharing','contract_history_id=?', array($contract_history_id), $con);
+		foreach ($salary_sharing_project_name as $key=>$val) {
+			db::insert('salary_sharing','contract_history_id, project_name, project_number, percentage'
+			, array($contract_history_id, $val, $salary_sharing_project_number[$key], $salary_sharing_percentage[$key]),$con);
+		}
+	}
+	db::commitTrans($con);
+	die;
+}
+//Language
+if ($type=='add_language') {
+	$combo_language_def=shared::select_combo_complete(language::getAll(), 'language_id','-Language-','language_val');
+	$combo_language_def=str_replace("</select>","<option value='-1'>Others</option></select>", $combo_language_def);
+	$combo_language_skill=shared::select_combo_complete(language_skill::getAll(), 'language_skill_id', "- Skill Level -",'language_skill_val');
+	$str="<tr><td></td><td>".$combo_language_def." "._t2('language_val')."</td><td>".$combo_language_skill."</td><td>".getImageTags(array('save','cancel'))."</td></tr>";
+	die($str);
+}
+if ($type=='save_language') {
+	$_POST['user_id']=$_SESSION['user_id'];
+	if ($employee_language_id=='') {
+		$employee_language_id=db::insertEasy('employee_language',$_POST);
+	} else {
+		db::updateEasy('employee_language',$_POST);
+	}
+	die($employee_language_id);
+}
+if ($type=='delete_language') {
+	$i=db::delete('employee_language','employee_language_id=?', array($employee_language_id));
+	die($i);
+}
+
+if ($type=='set_contract_history_id') {
+	$id=shared::getId('employee_detail_contract_history_id', $id);
+	$_SESSION['contract_history_id']=$id;
+	die;
+}
+
+//working_ajax_link
+if ($type=='delete_working'||$type=='save_working') {
+	require("pages/ajax/working_ajax.php");
+}
+
+//project_ajax link
+if ($type=='getProjectClass'||$type=='getProjectLocationClass') {
+	require("pages/ajax/project_ajax.php");
 }
 
 ?>

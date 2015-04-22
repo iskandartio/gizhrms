@@ -1,4 +1,4 @@
-function personal_data(div, saveFunc) {	
+function personal_data(div, ajaxPage) {	
 	var self=this;
 	
 	self.start= function() {
@@ -68,10 +68,8 @@ function personal_data(div, saveFunc) {
 			$('#employee_id',div).val(d['id']);
 			$('#btn_upload').trigger('click');
 			
-			if (saveFunc) saveFunc(msg);
-			
 		}
-		ajax("employee_detail_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	
 	self.start();

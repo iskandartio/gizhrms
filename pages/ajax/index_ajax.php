@@ -1,9 +1,9 @@
 <?php
-	if ($_POST['type']=='get_captcha_text') {
-		
+	if ($_POST['type']=='get_captcha_text') {		
 		die (shared::get_captcha_text());
 	}
 	if ($type=='login') {
+		
 		$data['err']='';
 		if ($_SESSION['random_key']!=$random_key) {
 			$data['err']='Please relogin by refreshing your browser';			
@@ -20,6 +20,8 @@
 			$data['captcha_tag']=shared::get_captcha_text();
 			die (json_encode($data));
 		}
+
+		
 		$_SESSION['check_abused']=0;
 		$_SESSION['uid']=$res['user_id'];
 		$_SESSION['user_id']=$res['user_id'];
@@ -32,16 +34,36 @@
 		$res=db::DoQuery('select b.role_name from m_user_role a
 		left join m_role b on a.role_id=b.role_id
 		where a.user_id=?',array($_SESSION['uid']));
-		$_SESSION['role_name']=$res[0]['role_name'];
-		if ($_SESSION['role_name']=='applicant') {
-			$data['url']= "position_applied";
-		} else if ($_SESSION['role_name']=='admin') {
-			$data['url']=  "filter_applicant";
-		} else if ($_SESSION['role_name']=='employee') {
-			$data['url']=  "recruitment";
+		$_SESSION['role_name']=$res;
+		$res=db::DoQuery('select distinct c.module_name, c.module_description, c.sub_module, d.category_name from m_user_role a 
+			inner join m_role_module b on a.role_id=b.role_id
+			inner join m_module c on c.module_id=b.module_id
+			inner join m_category d on d.category_id=c.category_id
+			where a.user_id=? order by d.sort_id, c.sort_id, c.module_description', array($_SESSION['uid']));	
+		$_SESSION['create_menu']=shared::create_menu($res);
+		$allowed=array();
+		foreach ($res as $rs) {
+			$allowed[$rs['module_name']]=$rs['module_description'];
 		}
-		Employee::init_static_var();
+		$_SESSION['allowed_module']=$allowed;
 		
+		$url="";
+		$flag=1;
+		if (isset($_COOKIE['url'])) {
+			$url=$_COOKIE['url'];
+			$p=str_replace("_ajax","",$url);
+			if (!isset($_SESSION['allowed_module'][$p])) {				
+				$flag=0;
+			}
+		}
+		if (count($_SESSION['allowed_module'])>0) {
+			reset($_SESSION['allowed_module']);
+			$url=key($_SESSION['allowed_module']);
+		}
+		
+		
+		$data['url']=$url;
+		Employee::init_static_var();
 		die (json_encode($data));
 	} 
 	if ($type=='register') {
@@ -94,8 +116,7 @@
 		
 	}
 	if ($type=='set_session') {
-		$_SESSION[$session_key]=$session_value;
-		
+		$_SESSION['menu'][$session_key]=$session_value;
 		die;
 	}
 ?>

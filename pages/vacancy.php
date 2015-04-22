@@ -82,12 +82,10 @@
 		data=prepareDataDecimal(data,['allowance']);
 		data=prepareDataHtml(data,['vacancy_description']);
 		var question_id= new Array();
-		$("input[id^='question_id_']").each(function(idx) {
+		$("input[class='question_id']").each(function(idx) {
 			if ($(this).prop('checked')) {
-				question_id.push($(this).attr('id').replace("question_id_",""));	
-				
+				question_id.push($(this).attr('value'));	
 			}
-			
 		});
 		data['question_id']=question_id;
 		
@@ -151,7 +149,7 @@
 <tr><td>Questions</td><td>:</td><td>
 <?php 
 	foreach ($res_question as $row) {
-		_p("<input type='checkbox' id='question_id_".$row['question_id']."' value='".$row['question_id']."'/> <label for='question_id_".$row['question_id']."'>".$row['question_val']."</label>");
+		_p(shared::create_checkbox('question_id', $row['question_val'], 0, $row['question_id']));
 	}
 ?>
 </td></tr>

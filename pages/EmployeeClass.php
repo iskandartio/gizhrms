@@ -211,7 +211,7 @@ inner join contract_history b on a.user_id=b.user_id"
 				$$key=$val;
 			}		
 			$result.="<tr>
-			<td>$contract_history_id</td>
+			<td>$id</td>
 			<td style='min-width:80px'>
 			<div class='row'><b>Start Date</b></div>
 			<div class='row'>".formatDate($start_date)."</div>
@@ -286,7 +286,7 @@ inner join contract_history b on a.user_id=b.user_id"
 		$result.="<div class='row'>
 			<div class='label'>Spouse Name</div><div class='textbox'>"._t2("spouse_name", $spouse)."</div>
 			<div class='label'>Date of Marriage</div><div class='label'>"._t2("marry_date", $marry_date)."</div> 
-			<div class='label'><input type='checkbox' ".($spouse_entitled==1 ? "checked" : "")." class='spouse_entitled' id='spouse_entitled'/><label for='spouse_entitled'>Entitled</label></div>
+			<div class='label'>".shared::create_checkbox('spouse_entitled', 'Entitled', $spouse_entitled)."</div>
 			"._t2("save_spouse","Save","","button","button_link")."</div><p>";
 		$result.="<button class='button_link' id='btn_add_dependent'>Add Dependent</button>";
 		$result.="<table class='tbl' id='tbl_dependent'>";
@@ -321,7 +321,7 @@ inner join contract_history b on a.user_id=b.user_id"
 		
 		$result="";
 		$result.="<table class='tbl' id='tbl_working'>
-		<thead><tr><th>ID<th colspan='2'>From</th><th colspan='2'>To</th><th>Employer</th><th>Country</th><th>Job Title</th><th>Nature of Business</th><th>Contact</th><th>Leave Reason</th><th></th></tr></thead>
+		<thead><tr><th>ID</th><th colspan='2'>From</th><th colspan='2'>To</th><th>Employer</th><th>Country</th><th>Job Title</th><th>Nature of Business</th><th>Contact</th><th>Leave Reason</th><th></th></tr></thead>
 		<tbody>";
 		
 		foreach($res as $row) {
@@ -363,7 +363,7 @@ inner join contract_history b on a.user_id=b.user_id"
 		".$combo_business."</select></td></tr>";
 		
 		$result.="
-		<tr><td>May Contact</td><td>:</td><td><input type='checkbox' id='may_contact' checked><label for='may_contact'>May we contact your employer?</label>
+		<tr><td>May Contact</td><td>:</td><td>".shared::create_checkbox('may_contact', 'May we contact your employer?', 1)."
 		<span id='reference_contact'>"._t2("email")." "._t2("phone")."</span></td></tr>
 		<tr><td>Leave Reason</td><td>:</td><td><textarea id='leave_reason' class='leave_reason' cols='50'></textarea></td></tr>
 		</table>
@@ -373,8 +373,7 @@ inner join contract_history b on a.user_id=b.user_id"
 	}
 
 	static function getProjectView($applicant, $combo_project_name_def='', $type='') {
-		
-		if ($_SESSION['role_name']!='admin') {
+		if (isset($_SESSION['project_location'])) {
 			$result="<h1>Project</h1><div><table class='row'>
 				<tr><td>Start Date</td><td>:</td><td>".formatDate(_lbl("start_date", $applicant))."</td></tr>
 				<tr><td>End Date</td><td>:</td><td>".formatDate(_lbl("end_date", $applicant))."</td></tr>";
@@ -469,7 +468,7 @@ inner join contract_history b on a.user_id=b.user_id"
 		return $result;
 	}
 	static function getSalarySharingView($row, $combo_project_name_def='') {
-		if ($_SESSION['role_name']!='admin') {
+		if (isset($_SESSION['project_location'])) {
 			$result="<h2>Salary Sharing</h2>";
 			$result.="<table class='tbl'><tr><th>Project Name</th><th>Project Number</th><th>Percentage</th></tr>";
 			$res_salary_sharing=db::select('salary_sharing','*','contract_history_id=?','',array($row['contract_history_id']));
@@ -627,9 +626,10 @@ inner join contract_history b on a.user_id=b.user_id"
 		}
 		db::commitTrans($con);
 	}
-	static function getComboEmployee($d=null) {
+	static function getComboEmployee($d=null, $filter="") {
 		if ($d==null) $d=date('Y-m-d');
-		$res=Employee::get_active_employee_simple("contract1_start_date<=?", array($d));
+		if ($filter!='') $filter=" and ".$filter;
+		$res=Employee::get_active_employee_simple("contract1_start_date<=?".$filter, array($d));
 		
 		$combo_user="";
 		$arr=array();

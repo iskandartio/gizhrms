@@ -1,4 +1,4 @@
-function projectView(div, beforeSave, afterSave) {
+function projectView(div, beforeSave, afterSave, ajaxPage) {
 	var self=this;
 	self.project_class={}
 	self.project_location_class={};
@@ -9,14 +9,14 @@ function projectView(div, beforeSave, afterSave) {
 			self.project_class=jQuery.parseJSON(msg);
 			self.bindProjectView();
 		}
-		ajax('project_ajax', data, success);
+		ajax(ajaxPage, data, success);
 		
 		data['type']="getProjectLocationClass";
 		var success=function(msg) {
 			self.project_location_class=jQuery.parseJSON(msg);
 			self.bindProjectView();
 		}
-		ajax('project_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.find_p=function(o) {
 		var p=$(o).closest(".div_project");
@@ -161,7 +161,7 @@ function projectView(div, beforeSave, afterSave) {
 		if (!validate_empty_col(p,['job_title','job_position','project_name_id','project_number_id','project_location','responsible_superior','salary','salary_band'])) return false;
 		data = prepareDataMultiInput(data
 		, ['job_title','job_position','project_name','project_number','team_leader','principal_advisor','financial_controller','project_location','office_manager'
-		,'responsible_superior','SAP_No','salary','salary_band','working_time','reason','start_date','end_date']
+		,'responsible_superior','SAP_No','salary','salary_band','working_time','reason','start_date','end_date','allowance','vacancy_type']
 		, p);
 		data['salary_sharing_project_name']=new Array();
 		data['salary_sharing_project_number']=new Array();
@@ -182,7 +182,7 @@ function projectView(div, beforeSave, afterSave) {
 		var success=function(msg) {
 			if (afterSave) afterSave(msg);
 		}
-		ajax('employee_ajax',data, success);
+		ajax(ajaxPage,data, success);
 	}
 	self.start();
 }

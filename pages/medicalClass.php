@@ -314,5 +314,57 @@ Class Medical {
 		$result.="</tbody></table>";
 		return $result;
 	}
+	static  function selfDataMedical($employee_id, $medical_type, $res_dependents, $res_employee, $year) {
+		if ($year=='this_year') {
+			$y=date('Y');
+		} else {
+			$y=date('Y')-1;
+		}
+		$data=Medical::getLimit($year, $employee_id, $medical_type, $res_dependents, $res_employee);
+		$limit=$data['limit'];
+		$dependent=$data['dependent'];
+		$res=db::select($medical_type,'*','user_id=? and year(invoice_date)=?','input_date',array($employee_id, $y));
+		$remainder=$limit+$dependent;
+		$result="";
+		$result.="<div class='row'><div class='float200'>Entitlement:";
+		$result.="<table>
+	<tr><td>Join Date</td><td>:</td><td>".formatDate(_lbl('contract1_start_date', $res_employee))."</td></tr>
+	<tr><td>Employee</td><td>:</td><td align='right'>".formatNumber($limit)."</td></tr>
+	<tr><td>Dependents</td><td>:</td><td align='right'>".formatNumber($dependent)."</td></tr>
+	<tr><td>Total</td><td>:</td><td align='right'> <b><u>".formatNumber($remainder)."</u></b></td></tr>
+	</table></div><div class='float300'>
+		<div class='row'>Spouse : ".$res_employee['spouse_name']."</div>
+		<div class='row'>Date of Marriage : ".formatDate($res_employee['marry_date'])."</div>
+		<div class='row'><b>".($res_employee['spouse_entitled']==1 ? "" : "* spouse not entitled")."</b></div>
+		<table class='tbl' id='tbl_dependents'>
+		<tr><th>Relation</th><th>Name</th><th>DOB</th></tr>";
+		foreach ($res_dependents as $rs) {
+			$result.="<tr><td>".$rs['relation']."</td><td>".$rs['name']."</td><td>".formatDate($rs['date_of_birth'])."</td></tr>";
+		}
+		$result.="</table>
+		</div></div>";
+		
+		
+		$result.="<table class='tbl' id='tbl_claim'><thead><tr><th>Invoice Date</th><th>Invoice<br>(Rp)</th><th>Remarks</th><th>Total<br>(Rp)</th><th>Paid 90%<br>(Rp)</th><th>Remainder</th></thead><tbody>";
+		$result.="<tr><td colspan='6' align='right'>".formatNumber($remainder)."</td></tr>";
+		$last_input_date='';
+		$bgcolor='aliceblue';
+		foreach ($res as $key=>$rs) {
+			if ($last_input_date!=$rs['input_date']) {
+				if ($bgcolor=='aliceblue') $bgcolor='ghostwhite'; else $bgcolor='aliceblue';
+				$last_input_date=$rs['input_date'];
+			} 
+			$remainder-=$rs['paid'];
+			$result.="<tr style='background-color:".$bgcolor."'><td>".formatDate($rs['invoice_date']);
+			$result.="<td align='right'>".formatNumber($rs['invoice_val'])."</td>";
+			$result.="<td>".$rs['remarks']."</td>";
+			$result.="<td align='right'>".formatNumber($rs['claim'])."</td><td align='right'>".formatNumber($rs['paid'])."</td>
+			<td align='right'>".formatNumber($remainder)."</td>";
+			$result.="</tr>";
+		}
+		
+		$result.="</tbody></table>";
+		return $result;
+	}
 }
 ?>

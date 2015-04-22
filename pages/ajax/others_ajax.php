@@ -6,8 +6,9 @@
 				<table id='tbl_$tbl' class='tbl'>
 				<thead><tr><th></th><th>".proper($tbl)."</th><th></th></tr><tbody>";
 		foreach ($res as $row) {
+			$val= (isset($row[$tbl]) ? $row[$tbl] : $row[$tbl."_val"]);
 			$result.="<tr><td>".$row[$tbl.'_id']."</td>
-				<td>"._t2($tbl, $row[$tbl])."</td>
+				<td>"._t2($tbl, $val)."</td>
 				<td>".getImageTags(array('save', 'delete', 'up','down'))."</td>
 				</tr>";
 		}
@@ -22,14 +23,19 @@
 		die;
 	}	
 
-	if ($type=='save') {		
-		if ($id=='') {
-			$sort_id=db::select_single($tbl, "ifnull(max(sort_id),0)+1 v");
-			$id=db::insert($tbl, $tbl."_id, ".$tbl.", sort_id", array($id, $val,  $sort_id));
-			
+	if ($type=='save') {
+		$rs=db::select_one($tbl, "*");
+		if (isset($rs[$tbl])) {
+			$field_val=$tbl;
 		} else {
-			db::update($tbl, $tbl, $tbl.'_id=?', array($val, $id));
+			$field_val=$tbl."_val";
+		}
+		$sort_id=db::select_single($tbl, "ifnull(max(sort_id),0)+1 v");
+		if ($id=='') {
 			
+			$id=db::insert($tbl, $tbl."_id, ".$field_val.", sort_id", array($id, $val,  $sort_id));
+		} else {
+			db::update($tbl, $field_val, $tbl.'_id=?', array($val, $id));
 		}
 		die ($id);
 	}

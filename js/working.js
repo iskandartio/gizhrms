@@ -1,4 +1,4 @@
-function working(div, afterSave) {
+function working(div, ajaxPage, afterSave) {
 	var self=this;
 	var f=generate_assoc(['_working_id','month_from','year_from', 'month_to', 'year_to', 'employer', 'countries_id', 'job_title', 'business_id', 'may_contact', 'leave_reason', 'btn']);
 	
@@ -60,7 +60,7 @@ function working(div, afterSave) {
 		var success=function(msg) {
 			par.remove();
 		}
-		ajax("working_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.SaveWorking=function()  {
 		if (!validate_empty_col(div, ['month_from','year_from','month_to','year_to','employer','job_title','business_id'])) return;
@@ -78,7 +78,7 @@ function working(div, afterSave) {
 				load($('#tabs').tabs("option","active"));
 			}
 		}
-		ajax('working_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.bindWorking();
 }

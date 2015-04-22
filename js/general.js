@@ -84,6 +84,12 @@ function ajax(url, data, Func, type) {
 		data:$.param(data),
 		success: function(msg) {
 			$('#freeze').hide();
+			if (!jQuery.isArray(msg)) {
+				if (msg.startsWith("Error : ")) {
+					alert(msg);
+					return;
+				}
+			}
 			if (Func) Func(msg);
 		}
 	});
@@ -317,7 +323,7 @@ function checkboxToDefaultLabel(par, name, trueLabel, falseLabel, f) {
 function checkboxToLabel(par, name, trueLabel, falseLabel, f) {
 	if (!f) f=fields;
 	var td=par.children("td:eq("+f[name]+")");
-	var val= td.children("#"+name).prop("checked") ? "1" : "0";
+	var val= td.find('input').prop("checked") ? "1" : "0";
 	checkboxToLabelSub(par, name, trueLabel, falseLabel, f, val);
 	
 	
@@ -347,9 +353,9 @@ function labelToCheckbox(par, nameArr, f) {
 		for (var key in nameArr) {
 			var a='';
 			var name=key;
-			var def=getChildHtml(par, key, f);
-			var selected= (def==0 ? '' : ' checked ');
-			a+="<input type='checkbox'"+selected+" id='"+name+"'/><label for='"+name+"'>"+nameArr[key]+"</label>";
+			var def=getChildSelect(par, key, f);
+			var selected= (def==1 ? ' checked' : '');
+			a+="<label><input type='checkbox'"+selected+" id='"+name+"'/>"+nameArr[key]+"</label>";
 			
 			var td=par.children('td:eq('+f[name]+')');
 			td.html(a);	
@@ -653,7 +659,7 @@ function prepareDataCheckBox(data, arr, par, f) {
 		}
 	} else {
 		for (var i=0;i<arr.length;i++) {
-			data[arr[i]]=getChildObj(par, arr[i], f).children().prop('checked') ? 1 : 0;
+			data[arr[i]]=getChildObj(par, arr[i], f).find('input').prop('checked') ? 1 : 0;
 		}
 	}
 	return data;
@@ -721,12 +727,13 @@ function getCookie(cname) {
     }
     return "";
 }
-function autoCompleteEmployee(obj, func) {
+function autoCompleteEmployee(obj, func, choices) {
+	if (!choices) choices=employee_choice;
 	
 	$(obj).autocomplete({
 		matchContains: true,
 		minLength: 0,
-		source : employee_choice,
+		source : choices,
 		focus: function( event, ui ) {
 			$(this).val(ui.item.label);
 			

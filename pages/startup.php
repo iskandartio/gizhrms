@@ -267,4 +267,16 @@
 		}	
 
 	}
+	function set_session_menu($menu) {
+		if (isset($_SESSION[$menu])) {		
+			if ($_SESSION[$menu]=="true") {
+				_p("$('#$menu img').attr('src', 'images/collapse_alt.png');");
+				_p("$('#$menu').next().show();");
+			} else {
+				_p("$('#$menu img').attr('src', 'images/expand_alt.png');");
+				_p("$('#$menu').next().hide();");
+			}
+			
+		}
+	}
 ?>

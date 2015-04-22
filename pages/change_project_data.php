@@ -8,7 +8,7 @@
 <script>
 	var combo_project_name="<?php _p($combo_project_name_def) ?>";
 	$(function() {
-		var a=new projectView("#div_current_contract", beforeSave, afterSave);
+		var a=new projectView("#div_current_contract", beforeSave, afterSave, "change_project_data_ajax");
 		a.project_name_choice=combo_project_name;
 		a.type='save_change_project';
 		bindAll();

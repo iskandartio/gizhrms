@@ -1,7 +1,6 @@
 <script src='js/others.js'></script>
-
 <script>
-	var tabs=['gender','relation','title','job_title','job_position'];
+	var tabs=['gender','relation','title','job_title','job_position','language_skill'];
 	$(function() {
 		var a="<ul>";
 		for (i in tabs) {
@@ -29,8 +28,6 @@
 		}
 		ajax("others_ajax", data, success);
 	}
-
-
 </script>
 
 <div id='tabs'>
