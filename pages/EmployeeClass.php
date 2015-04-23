@@ -401,6 +401,8 @@ inner join contract_history b on a.user_id=b.user_id"
 				<tr><td>Salary Band</td><td>:</td><td>"._lbl('salary_band',$applicant)."</td></tr>
 				<tr><td>Reason</td><td>:</td><td>"._lbl("reason", $applicant)."</td></tr>
 				<tr><td>Working Time</td><td>:</td><td>"._lbl("working_time", $applicant)." %</td></tr>
+				<tr><td>Allowance</td><td>:</td><td>"._lbl("allowance", $applicant)."</td></tr>
+				<tr><td>Employment Type</td><td>:</td><td>"._lbl("vacancy_type", $applicant)."</td></tr>
 				</table></div>";
 			$result.=Employee::getSalarySharingView($applicant, $combo_project_name_def);
 			
@@ -410,7 +412,7 @@ inner join contract_history b on a.user_id=b.user_id"
 		$sql="select salary_band from salary_band order by salary_band";
 		$res=db::DoQuery($sql);
 		$salary_band_option=shared::select_combo_complete($res, 'salary_band', '-Choose One-', '', $applicant['salary_band']);
-		
+		$vacancy_type_choice=shared::select_combo_complete(db::select('vacancy_type','*','','sort_id'), 'vacancy_type','-Type-','vacancy_type', $applicant['vacancy_type']);
 		if ($combo_project_name_def=='') {
 			$project_name=Project::getProjectName();
 			$combo_project_name_def=shared::select_combo_complete($project_name, 'project_name', '-Project Name-');
@@ -461,6 +463,8 @@ inner join contract_history b on a.user_id=b.user_id"
 			<tr><td>Salary Band</td><td>:</td><td>".$salary_band_option."</td></tr>
 			<tr><td>Reason</td><td>:</td><td>"._t2("reason", $applicant)."</td></tr>
 			<tr><td>Working Time</td><td>:</td><td>"._t2("working_time", $applicant,"1")." %</td></tr>
+			<tr><td>Allowance</td><td>:</td><td>"._t2("allowance", $applicant)."</td></tr>
+			<tr><td>Employment Type</td><td>:</td><td>".$vacancy_type_choice."</td></tr>
 			</table></div>";
 		$result.=Employee::getSalarySharingView($applicant, $combo_project_name_def);
 		$result.="<button class='button_link' id='btn_save_project'>Save</button>";

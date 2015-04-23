@@ -10,3 +10,5 @@ create table m_module(module_id int auto_increment primary key, module_name varc
 alter table m_role add status_id int;
 create table m_category(category_id int auto_increment primary key, category_name varchar(50));
 create table m_category(category_id int auto_increment primary key, category_name varchar(50), sort_id int);
+alter table vacancy_type add vacancy_type_id int auto_increment primary key, add sort_id int;
+update vacancy_type set sort_id=vacancy_type_id;

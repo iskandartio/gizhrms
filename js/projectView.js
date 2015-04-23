@@ -37,6 +37,7 @@ function projectView(div, beforeSave, afterSave, ajaxPage) {
 		bind('.btn_deleteSalarySharing','click', self.DeleteSalarySharing);
 		bind("#btn_save_project", "click", self.SaveProject);
 		numeric($('.salary'));
+		numeric($('.allowance'));
 		$('input').blur();
 		setDatePicker();
 		fixSelect();

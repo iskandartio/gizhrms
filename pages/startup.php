@@ -182,7 +182,7 @@
 	}
 	function formatDateName($d) {
 		if (strlen($d)<8) return "";
-		return substr($d,8,2)." ".get_month_name(substr($d,5,2))." ".substr($d,0,4);
+		return substr($d,8,2)."-".get_month_name(substr($d,5,2))."-".substr($d,0,4);
 	}
 	function dbDate($d) {
 		if ($d=='') return null;
