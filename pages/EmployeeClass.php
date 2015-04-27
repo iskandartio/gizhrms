@@ -533,7 +533,6 @@ inner join contract_history b on a.user_id=b.user_id"
 	static function getShowTerminate($terminate_date, $applicant=null,  $type='') {
 		$result="<h1>Severance Data</h1>";
 		if ($applicant==null) $applicant=Employee::get_active_employee_one(" a.user_id=?", array($_SESSION['user_id']));
-		
 		foreach ($applicant as $key=>$val) {
 			$$key=$val;
 		}

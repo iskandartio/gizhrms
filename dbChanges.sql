@@ -2,7 +2,7 @@ alter table job_position change column position_id job_position_id int auto_incr
 alter table job_position change column position job_position varchar(50);
 alter table job_position  add  sort_id int;
 alter table job_title add  sort_id int;
-alter table applicants  change column position job_position varchar(50);
+alter table applicants  change column position job_position varchar(50), add no_working_exp int;
 alter table contract_history change column position job_position varchar(50);
 alter table employee_dependent change column  name dependent_name varchar(50);
 create table m_role_module(role_id int, module_id int, primary key(role_id, module_id));
@@ -12,3 +12,7 @@ create table m_category(category_id int auto_increment primary key, category_nam
 create table m_category(category_id int auto_increment primary key, category_name varchar(50), sort_id int);
 alter table vacancy_type add vacancy_type_id int auto_increment primary key, add sort_id int;
 update vacancy_type set sort_id=vacancy_type_id;
+insert into settings(setting_name, setting_val) values('Admin Email','iskandar.tio@gmail.com');
+alter table email add attachment varchar(50);
+alter table email_setup add attachment varchar(50);
+alter table employee add email varchar(50);

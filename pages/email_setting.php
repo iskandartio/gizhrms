@@ -58,7 +58,7 @@
 	function SaveEmail() {
 		var data={}
 		data['type']='save_email';
-		data=prepareDataText(data, ['email_type','email_to','email_subject','params']);
+		data=prepareDataText(data, ['email_type','email_to','email_cc','email_subject','params']);
 		data=prepareDataHtml(data,['email_content']);
 		var success=function(msg) {
 			$('#show_detail').dialog("close");

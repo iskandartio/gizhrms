@@ -7,7 +7,7 @@
 	
 ?>
 <script>
-		
+	var ajaxPage='accept_employee_ajax';
 	$(function() {
 		
 		bindAll();
@@ -37,7 +37,7 @@
 			}
 			par.remove();
 		}
-		ajax('filter_applicant_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function VacancyChange() {
 		loadData();
@@ -51,7 +51,7 @@
 			$('#search_result').html(msg);
 			bindAll();
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function Accept() {
 		var data={};
@@ -67,7 +67,7 @@
 				
 			}
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 
 </script>

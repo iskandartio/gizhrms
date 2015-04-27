@@ -1,10 +1,25 @@
 <script src="js/sha512.js"></script>
 
 <script>
+	var ajaxPage='login_ajax';
 	$(function() {
 		bind('#btn_login','click',Login);
+		bind('#password','keydown',PasswordEnter);
 		
 	});
+	function PasswordEnter(e) {
+		var code = e.keyCode || e.which;
+		if(code == 13) { 
+			Login();
+		}
+	}
+	
+	function EmailEnter(e) {
+		var code = e.keyCode || e.which;
+		if(code == 13) { 
+			$(this).next().focus();
+		}
+	}
 	function ChangeCaptchaText() {
 		$('#captcha img').attr('src','captcha_ajax');
 		$('#captcha_text').focus();
@@ -52,7 +67,7 @@
 			$('#captcha').html(msg);
 			bind('#change_captcha_text','click',ChangeCaptchaText);
 		}
-		ajax('index_ajax', data, success);
+		ajax(ajaxPage, data, success);
 		
 	}
 	function Login() {
@@ -82,19 +97,21 @@
 		data=prepareDataText(data,['email','captcha_text']);
 		
 		var success=function(msg) {
-			
 			obj = jQuery.parseJSON(msg);
+			
 			$('#freeze').hide();
+			
 			if (obj['err']!='')  {
-				alert(obj['err']);
+				
 				
 				$('#captcha').html(obj['captcha_tag']);
 				bind('#change_captcha_text','click',ChangeCaptchaText);
 				return;
 			}
+			
 			location.href=obj['url'];
 		}		
-		ajax("index_ajax", data, success);
+		ajax(ajaxPage, data, success);
 		
 	}
 	function registerAjax(o) {
@@ -107,7 +124,7 @@
 			obj = jQuery.parseJSON(msg);
 			
 			if (obj['err']!='')  {
-				alert(obj['err']);
+				
 				$('#captcha').html(obj['captcha_tag']);
 				bind('#change_captcha_text','click',ChangeCaptchaText);
 				$(obj['focus']).focus();
@@ -118,7 +135,7 @@
 			send_email();
 			alert('Thank you for the registration. The activation link has been sent to your email.  You could login after you click confirmation link from your email to activate the account');
 		}		
-		ajax("index_ajax", data, success);
+		ajax(ajaxPage, data, success);
 		
 	}
 	
@@ -132,7 +149,7 @@
 			obj = jQuery.parseJSON(msg);
 			$('#freeze').hide();
 			if (obj['err']!='')  {
-				alert(obj['err']);
+				
 				$('#captcha').html(obj['captcha_tag']);
 				bind('#change_captcha_text','click',ChangeCaptchaText);
 				$(obj['focus']).focus();
@@ -140,9 +157,9 @@
 			}
 			already_registered();
 			send_email();
-
+			alert('Your resetted password will be sent to your email');
 		}
-		ajax("index_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function validateEmail(email) { 
 		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

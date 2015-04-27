@@ -46,8 +46,9 @@
 	function SaveEmail() {
 		var data={}
 		data['type']='save_email';
-		data=prepareDataText(data, ['email_type','email_to','email_subject','params']);
+		data=prepareDataText(data, ['email_type','email_to','email_cc','email_subject','params']);
 		data=prepareDataHtml(data,['email_content']);
+		data['attachment']= ($('.attachment').prop('checked') ? 1 : 0);
 		var success=function(msg) {
 			$('#show_detail').dialog("close");
 			
@@ -87,7 +88,7 @@
 		a+='<tr><td></td>';
 		a+="<td><?php _t("vacancy_progress_val")?></td>";
 		a+="<td><?php _t("process_name")?></td><td>0</td>";
-		a+="<td><?php _p(shared::check_checkbox('active','Active'))?>";
+		a+="<td><?php _p(shared::create_checkbox('active','Active'))?>";
 		a+="<td>"+getImageTags(['save','delete'])+"</td>";
 		a+="</tr>";
 		

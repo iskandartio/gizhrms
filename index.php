@@ -1,12 +1,15 @@
 <?php 
 require "pages/startup.php";
 
-if (isset($_SESSION['home_dir'])) $home_dir=$_SESSION['home_dir'];
-$page_name=str_replace($home_dir, "", $_SERVER['REQUEST_URI']);
-if (strpos($page_name,'?')>0) {
-	$page_name=substr($page_name,0,strpos($page_name, "?"));	
+if (isset($_SESSION['home_dir'])) {
+	$home_dir=$_SESSION['home_dir'];
+	$page_name=str_replace($home_dir, "", $_SERVER['REQUEST_URI']);
+	if (strpos($page_name,'?')>0) {
+		$page_name=substr($page_name,0,strpos($page_name, "?"));	
+	}
+} else {
+	$page_name="";
 }
-
 $flag=0;
 $title='';
 
@@ -16,19 +19,21 @@ if ($page_name=='') {
 	$page_name="login";
 	
 } else {
-	$general_menu=['activate','index','login','show_picture'];
+	$general_menu=['activate','index','login','show_picture','captcha','send_email'];
 	
 	$p=str_replace("_ajax","",$page_name);
 	
 	if (!in_array($p, $general_menu)) {
 		if (isset($_SESSION['allowed_module']) && count($_SESSION['allowed_module'])>0) {
 			if (isset($_SESSION['allowed_module'][$p])) {				
-				$title=$_SESSION['allowed_module'][$p];
+				$title=key($_SESSION['allowed_module'][$p]);
 			} else {
 				header("Location: ".$_SESSION['home']);
 				die;
 			}
-			setcookie('url', $p, time() + 3600*48); 
+			if ($_SESSION['allowed_module'][$p][$title]==0) {
+				setcookie('url', $p, time() + 3600*48); 
+			}
 		} else {
 			header("Location: ".$_SESSION['home']);
 			die;
@@ -131,6 +136,7 @@ header('Content-Type: text/html; charset=utf-8');
 	<script>
 		$(function() {
 			$('#freeze').hide();
+			send_email();
 		});
 	</script>
 <?php if ($page_name!="login") {?>

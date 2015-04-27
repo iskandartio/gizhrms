@@ -14,7 +14,9 @@
 	}
 	if ($type=='show_next') {
 		$r="<p>";
-		$res=db::DoQuery("select salary_expectation, negotiable from job_applied where  user_id=? and vacancy_id=?", array($_SESSION['uid'], $vacancy_id));
+		$res=db::DoQuery("select a.salary_expectation, a.negotiable, b.process_name from job_applied a 
+			left join vacancy_progress b on a.vacancy_progress_id=b.vacancy_progress_id
+			where  a.user_id=? and a.vacancy_id=?", array($_SESSION['uid'], $vacancy_id));
 		
 		if (count($res)==0) {
 			$salary_expectation="";
@@ -22,9 +24,10 @@
 		} else {
 			$salary_expectation=formatNumber($res[0]['salary_expectation']);
 			$negotiable=$res[0]['negotiable'];
+			$r.="<h2>Your application progress : ".$res[0]['process_name']."</h2>";
 		}
 		$r.="Salary Expectation (Gross) : "._t2("salary_expectation", $salary_expectation, "12");
-		$r.=shared::create_checkbox('negotiable', 'Negotiable');
+		$r.=" ".shared::create_checkbox('negotiable', 'Negotiable');
 		$res= db::DoQuery('select a.question_id, b.question_val, d.choice_id from vacancy_question a left join question b on a.question_id=b.question_id
 		left join job_applied c on c.vacancy_id=a.vacancy_id and c.user_id=?
 		left join applicants_answer d on d.job_applied_id=c.job_applied_id and d.question_id=a.question_id
@@ -83,7 +86,7 @@
 	}
 	function get_choice($question_id, $choice_id) {
 		$res=db::select('choice','choice_id, choice_val', 'question_id=?', 'sort_id', array($question_id));
-		$r="<select id='choice".$question_id."' class='cls_choice' title='Choose Your Answer'><option value=0> - Choose Your Answer  - </option>";
+		$r="<select id='choice".$question_id."' class='cls_choice' title='Choose Your Answer'><option value=''> - Choose Your Answer  - </option>";
 		foreach ($res as $row) {
 			$r.="<option value=".$row['choice_id']." ".($choice_id==$row['choice_id'] ? 'selected' : '').">".$row['choice_val']."</option>";
 		}

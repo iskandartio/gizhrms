@@ -243,7 +243,7 @@
 		
 		die($result);
 	}
-	if ($type=='up') {
+	if ($type=='up'||$type=='down') {
 		$con=db::beginTrans();
 		$table="m_".$tbl;
 		
@@ -254,16 +254,5 @@
 		db::commitTrans($con);
 		die;
 	}
-	if ($type=='down') {
-		$con=db::beginTrans();
-		$table="m_".$tbl;
-		$sort_id=db::select_single($table, 'sort_id v', $tbl.'_id=?','', array($id), $con);
-		$row=db::select_one($table,$tbl.'_id, sort_id', 'sort_id>?','sort_id desc', array($sort_id), $con);
-		if ($row) {
-			db::update($table,'sort_id',$tbl.'_id=?', array($sort_id, $row[$tbl.'_id']), $con);
-			db::update($table,'sort_id',$tbl.'_id=?', array($row['sort_id'], $id), $con);
-		}
-		db::commitTrans($con);
-		die;
-	}
+
 ?>

@@ -47,7 +47,8 @@
 		$result.="<table>
 		<tr><td>Params</td><td>:</td><td>"._t2("params", $row['params'], "80")."</td></tr>
 		<tr><td>Email To</td><td>:</td><td>"._t2("email_to", $row['email_to'])."</td></tr>
-		<tr><td>Email Subject</td><td>:</td><td>"._t2("email_subject", $row['email_subject'])."</td></tr>
+		<tr><td>Email CC</td><td>:</td><td>"._t2("email_cc", $row['email_cc'])."</td></tr>
+		<tr><td>Email Subject</td><td>:</td><td>"._t2("email_subject", $row['email_subject'])." ".shared::create_checkbox('attachment','Attach Vacancy Description', $row['attachment'])."</td></tr>
 		<tr><td>Email Content</td><td>:</td><td><div id='email_content' style='border-style:dotted'>".$row['email_content']."</div></td></tr>
 		</table>";
 		$result.="<button class='btn_save_email'>Save Email Setting</button>";

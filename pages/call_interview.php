@@ -19,10 +19,12 @@
 	
 ?>
 <script>
+	var ajaxPage='call_interview_ajax';
 	var js_vacancy_progress=<?php _p($js_vacancy_progress)?>;
 		
 	$(function() {
-		
+		send_email();
+				
 		bindAll();
 		
 	});
@@ -69,7 +71,7 @@
 			}
 			bindAll();
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function Interview() {
 		var data={};
@@ -80,12 +82,11 @@
 			if (msg!='') {
 				alert(msg);
 			} else {
-				alert('Success');
-				send_email();
 				location.reload();
+				
 			}
 		}
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function Cancel() {
 		var par=$(this).closest("tr");
@@ -104,7 +105,7 @@
 			par.remove();
 			
 		}
-		ajax('filter_applicant_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 
 </script>

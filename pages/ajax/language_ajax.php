@@ -32,10 +32,17 @@ if ($type=='load') {
 
 }
 if ($type=='save') {
+	$language_skill_id=db::select_single('applicants_language','language_skill_id v','language_skill_id=?','', array($language_skill_id));
 	if ($applicants_language_id=='') {
-		$applicants_language_id=db::insert('applicants_language','user_id, language_id, language_skill_id', array($_SESSION['uid'], $language_id, $language_skill_id));
+		if ($language_skill_id!=null) {
+			$applicants_language_id=db::insert('applicants_language','user_id, language_id, language_skill_id', array($_SESSION['uid'], $language_id, $language_skill_id));
+		}
 	} else {
-		db::update('applicants_language','language_id, language_skill_id', 'applicants_language_id=?', array($language_id, $language_skill_id, $applicants_language_id));
+		if ($language_skill_id==null) {
+			db::delete('applicants_language','applicants_language_id=?', array($applicants_language_id));
+		} else {
+			db::update('applicants_language','language_id, language_skill_id', 'applicants_language_id=?', array($language_id, $language_skill_id, $applicants_language_id));
+		}
 	}
 	die($applicants_language_id);
 }

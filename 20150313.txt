@@ -37,20 +37,20 @@ show detail error on filter ok
 employee_working, language, education belum pindah ok
 position dan job_title pindah aja ke others ok
 
-he/she (applicant), his/her, him/her in email.
-no working experience option
-language wajib isi full
-reference wajib isi minimal 1 (sebelum apply)
-otomatis next_recruitment_process
+he/she (applicant), his/her, him/her in email. ok
+no working experience option ok
+language wajib isi full ok
+reference wajib isi minimal 1 (sebelum apply) ok
+otomatis next_recruitment_process ok
 
-tampilan education untuk layar sempit
+tampilan education untuk layar sempit ok
+call_interview @signature ok
+email cc and vacancy description attachment ok
+
 statistic employee:
 staff berdasarkan gender, umur, pendidikan, admin & technical, salary band
-email cc and vacancy description attachment 
-call_interview @signature
 salary adjustment input start date
 report data karyawan yang akan berakhir pada periode tertentu bagaimana ya? ada pilihan search berdasarkan akhir periode kontrak
-photo hanya di personal data
 email pribadi di personal data
 langsung change password untuk user baru
 

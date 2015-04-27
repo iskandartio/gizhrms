@@ -87,6 +87,7 @@
 		
 		$('#tbl_other_reference tbody').append(a);
 		bindAll(other_table);
+		fixSelect();
 	}
 
 	function Edit() {

@@ -1,8 +1,8 @@
 function superadmin(div, tbl) {
 	var self=this;
 	var f;
+	var ajaxPage='superadmin_ajax';
 	self.start=function() {
-		
 		if (tbl=='user') {
 			f=generate_assoc(['user_id','user_name','status_id']);
 			bindDiv('.status_id',div,'click', self.ChangeStatus);
@@ -35,7 +35,7 @@ function superadmin(div, tbl) {
 			$(div).find('#div_role_user').html(msg);
 			self.bindAll();
 		}
-		ajax('superadmin_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.ModuleRoleChange=function() {
 		var data={}
@@ -45,7 +45,7 @@ function superadmin(div, tbl) {
 			$(div).find('#div_module_role').html(msg);
 			bindDiv('#btn_save', $('#div_module_role',div), 'click', self.SaveModuleRole);
 		}
-		ajax('superadmin_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.RoleModuleChange=function() {
 		var data={}
@@ -55,7 +55,7 @@ function superadmin(div, tbl) {
 			$(div).find('#div_role_module').html(msg);
 			bindDiv('#btn_save', $('#div_role_module',div), 'click', self.SaveRoleModule);
 		}
-		ajax('superadmin_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.EmployeeChange=function() {
 		var data={}
@@ -65,7 +65,7 @@ function superadmin(div, tbl) {
 			$(div).find('#div_user_role').html(msg);
 			bindDiv('#btn_save', div, 'click', self.SaveUserRole);
 		}
-		ajax('superadmin_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.bindAll=function() {
 		bindDiv('#btn_add',div,'click', self.Add);
@@ -89,10 +89,11 @@ function superadmin(div, tbl) {
 		data['tbl']=tbl;
 		data['id']=getChildHtml(par, tbl+'_id', f);
 		data['id2']=getChildHtml(par2, tbl+'_id', f);
-		ajax('superadmin_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.Down=function() {
 		var par=$(this).closest("tr");
+		var par2=$(par).next();
 		$(par).next().after($(par));
 			var success=function(msg) {
 		}
@@ -100,7 +101,8 @@ function superadmin(div, tbl) {
 		data['type']="down";
 		data['tbl']=tbl;
 		data['id']=getChildHtml(par, tbl+'_id', f);
-		ajax('superadmin_ajax', data, success);
+		data['id2']=getChildHtml(par2, tbl+'_id', f);
+		ajax(ajaxPage, data, success);
 	}
 	self.ChangeStatus=function() {
 		var data={}
@@ -114,7 +116,7 @@ function superadmin(div, tbl) {
 		var success=function(msg) {
 			
 		}
-		ajax('superadmin_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	self.Edit=function() {
 		var par=$(this).closest("tr");
@@ -167,7 +169,7 @@ function superadmin(div, tbl) {
 		var success=function(msg) {
 			par.remove();
 		}
-		ajax('superadmin_ajax',data, success);
+		ajax(ajaxPage,data, success);
 	}
 	self.Save=function() {
 		var data={}
@@ -216,7 +218,7 @@ function superadmin(div, tbl) {
 				self.bindAll();
 			}
 		}
-		ajax('superadmin_ajax',data, success);
+		ajax(ajaxPage,data, success);
 	}
 	self.Add=function() {
 		$('#tbl_result tbody', div).prepend(self.adder);
@@ -241,7 +243,7 @@ function superadmin(div, tbl) {
 		var success=function(msg) {
 			
 		}
-		ajax('superadmin_ajax',data, success);
+		ajax(ajaxPage,data, success);
 	}
 	self.SaveModuleRole=function(){
 		var data={}
@@ -257,7 +259,7 @@ function superadmin(div, tbl) {
 		var success=function(msg) {
 			
 		}
-		ajax('superadmin_ajax',data, success);
+		ajax(ajaxPage,data, success);
 	}
 	self.SaveRoleModule=function(){
 		var data={}
@@ -273,7 +275,7 @@ function superadmin(div, tbl) {
 		var success=function(msg) {
 			
 		}
-		ajax('superadmin_ajax',data, success);
+		ajax(ajaxPage,data, success);
 	}
 	self.start();
 }

@@ -50,7 +50,8 @@ if ($type=='load_personal_data')  {
 	<tr><td>Post Code *</td><td>:</td><td>"._t2("post_code", $applicant)."</td></tr>
 	<tr><td>Phone1 *</td><td>:</td><td>"._t2("phone1", $applicant)."</td></tr>
 	<tr><td>Phone2</td><td>:</td><td>"._t2("phone2", $applicant)."</td></tr>
-	<tr><td>Email *</td><td>:</td><td>"._t2("user_name",$applicant,"","text","","Email")."</td></tr>
+	<tr><td>Email</td><td>:</td><td>"._t2("user_name",$applicant,"","text","","Email")."</td></tr>
+	<tr><td>Private Email</td><td>:</td><td>"._t2("email",$applicant,"","text","","Email")."</td></tr>
 	<tr><td>Computer Skills</td><td>:</td><td><textarea class='computer_skills' cols='30' rows='3'>".$applicant['computer_skills']."</textarea></td></tr>
 	<tr><td>Professionals Skills</td><td>:</td><td><textarea class='professional_skills' cols='30' rows='3'>".$applicant['professional_skills']."</textarea></td></tr>
 	<tr><td>Account Bank</td><td>:</td><td>"._t2("account_bank", $applicant)."</td></tr>
@@ -92,16 +93,16 @@ if ($type=='save_personal_data') {
 		$rs=db::select_one('m_user', 'user_name','user_id=?','', array($user_id), $con);
 		if ($rs['user_name']!=$user_name) {
 			$password=shared::random(10);
+			$password_hash=hash('sha512', $password);
 			$activation_code=shared::random(30);
-			db::ExecMe('update m_user set user_name=?, pwd=sha2(?,512), activation_code=?, status_id=null 
-				where user_id=?', array($user_name, $password, $activation_code, $user_id), $con);
+			db::ExecMe('update m_user set user_name=?, pwd=?, activation_code=?, status_id=null 
+				where user_id=?', array($user_name, $password_hash, $activation_code, $user_id), $con);
 		}
 		$i=db::updateEasy('employee', $_POST,$con);
-		
-		
 	}
 	if ($activation_code!="") {
 		$role_id=db::select_single('m_role','role_id v','role_name=?','',array('employee'), $con);
+		db::delete('m_user_role','user_id=?', array($user_id), $con);
 		db::insert('m_user_role','user_id, role_id', array($user_id, $role_id), $con);
 		$param=array();
 		$param['email']=$user_name;

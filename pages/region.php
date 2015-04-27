@@ -1,112 +1,37 @@
-
+<script src='js/region.js'></script>
 <script>
-$(function() {
-	var saveRegionFunc=function(msg) {
-		$('#div_province').html('');
-	}
-	var saveProvinceFunc=function(msg) {
-		$('#div_city').html('');
-	}
-	var tabs=generate_assoc(['region','province','city','nationality','countries']);
-	$('#tabs').tabs({
-		create: function( event, ui ) {
-			$( "#tabs" ).tabs( "option", "active", getCookie('region_tabs'));
-			if (tabs['region']==$('#tabs').tabs("option","active")) {
-				loadRegion();
-			}
-			
-		},
-		activate:function(event, ui) {
-			setCookie("region_tabs", $( "#tabs" ).tabs( "option", "active" ), 1);
-			if (tabs['region']==$('#tabs').tabs("option","active")) {
-				loadRegion();
-			} else if (tabs['province']==$('#tabs').tabs("option","active")) {
-				loadProvince();
-			} else if (tabs['city']==$('#tabs').tabs("option","active")) {
-				loadCity();
-			} else if (tabs['nationality']==$('#tabs').tabs("option","active")) {
-				loadNationality();
-			} else if (tabs['countries']==$('#tabs').tabs("option","active")) {
-				loadCountries();
-			}
+	var tabs=['region','province','city','nationality','countries'];
+	var ajaxPage='region_ajax';
+	$(function() {
+		var a="<ul>";
+		for (i in tabs) {
+			a+="<li><a href='#div_"+tabs[i]+"'>"+toggleCase(tabs[i])+"</a></li>";
 		}
+		a+="</ul>";
+		for (i in tabs) {
+			a+="<div id='div_"+tabs[i]+"'></div>";
+		}
+		$('#tabs').html(a);
+		prepareTabs('region');
 	});
-	function loadRegion() {
-		if ($('#div_region').html()!='') return;
+	function load(active) {
+		if ($('#div_'+tabs[active]).html()!='') return;
 		var data={}
+		var tbl=tabs[active];
 		data['type']='load';
-		var success=function(msg) {
-			$('#div_region').html(msg);
-			var a=new region("#div_region",saveRegionFunc);
-			
-		}
-		ajax("region_ajax", data, success);
-	}
-	function loadProvince() {
-		if ($('#div_province').html()!='') return;
-		var data={}
-		data['type']='load';
+		data['tbl']=tbl;
 		var success=function(msg) {
 			var d=jQuery.parseJSON(msg);
-			
-			$('#div_province').html(d['result']);
-			var a=new province("#div_province", saveProvinceFunc);
-			a.region_choice=d['combo_region_def'];
+			var div='#div_'+tabs[active];
+			$(div).html(d['result']);
+			var a=new region($('#div_'+tbl), tbl);
+			a.adder=d['adder'];
+			if (tbl=='province') a.region_choice=d['region_choice'];
+			if (tbl=='city') a.province_choice=d['province_choice'];
 		}
-		ajax("province_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
-	function loadCity() {
-		if ($('#div_city').html()!='') return;
-		var data={}
-		data['type']='load';
-		var success=function(msg) {
-			var d=jQuery.parseJSON(msg);
-			$('#div_city').html(d['result']);
-			var a=new city("#div_city");
-			a.province_choice=d['combo_province_def'];
-			
-		}
-		ajax("city_ajax", data, success);
-	}
-	function loadNationality() {
-		if ($('#div_nationality').html()!='') return;
-		var data={}
-		data['type']='load';
-		var success=function(msg) {
-			$('#div_nationality').html(msg);
-			var a=new nationality("#div_nationality");
-			
-		}
-		ajax("nationality_ajax", data, success);
-	}
-	function loadCountries() {
-		if ($('#div_countries').html()!='') return;
-		var data={}
-		data['type']='load';
-		var success=function(msg) {
-			$('#div_countries').html(msg);
-			var a=new countries("#div_countries");
-			
-		}
-		ajax("countries_ajax", data, success);
-	}
-
-	
-});
-
 </script>
 
 <div id='tabs'>
-	<ul>
-		<li><a href="#div_region">Region</a></li>
-		<li><a href="#div_province">Province</a></li>
-		<li><a href="#div_city">City</a></li>
-		<li><a href="#div_nationality">Nationality</a></li>
-		<li><a href="#div_countries">Countries</a></li>
-	</ul>
-	<div id='div_region'></div>
-	<div id='div_province'></div>
-	<div id='div_city'></div>
-	<div id='div_nationality'></div>
-	<div id='div_countries'></div>
 </div>

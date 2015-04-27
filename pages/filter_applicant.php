@@ -298,6 +298,13 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		ajax(ajaxPage, data, success);
 	}
 	function ChangeVacancyId() {
+		if ($(this).val()=="") {
+			$('#vacancy_progress_id').val('');
+			$('#next_vacancy_progress_id').empty();
+			$('#next_vacancy_progress_id').append("<option selected value='' disabled>Next Vacancy Progress</option>");
+			fixSelect();
+			return;
+		}
 		var progress=vacancy_progress[$('#vacancy_id').val()]['vacancy_progress_id'];
 		if (progress=='') {
 			progress=0;

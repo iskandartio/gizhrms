@@ -19,7 +19,7 @@ if (move_uploaded_file($_FILES["uploadFileLetter"]["tmp_name"], $target_dir)) {
 ?>
 <script>
 	var validFileSize = 1 * 1024 * 1024;
-
+	var ajaxPage='uploadcv_ajax';
     function CheckFileSize(file) {
         /*global document: false */
         var fileSize = file.files[0].size;
@@ -82,7 +82,7 @@ if (move_uploaded_file($_FILES["uploadFileLetter"]["tmp_name"], $target_dir)) {
 			var formData = new FormData($(this)[0]);
 			
 			$.ajax({
-				url: "upload_ajax",
+				url: ajaxPage,
 				type: 'POST',
 				data: formData,
 				async: false,
@@ -104,9 +104,9 @@ if (move_uploaded_file($_FILES["uploadFileLetter"]["tmp_name"], $target_dir)) {
 					alert('Please upload your CV');
 					return;
 				}
-				location.href="upload_ajax?type=cv";
+				location.href="downloadcv?type=cv";
 			}
-			ajax("upload_ajax", data, success);
+			ajax(ajaxPage, data, success);
 			
 		});
 		$('#btnDownloadLetter').click(function() {
@@ -117,9 +117,9 @@ if (move_uploaded_file($_FILES["uploadFileLetter"]["tmp_name"], $target_dir)) {
 					alert('Please upload your covering letter');
 					return;
 				}
-				location.href="upload_ajax?type=letter";
+				location.href="downloadcv?type=letter";
 			}
-			ajax("upload_ajax", data, success);
+			ajax(ajaxPage, data, success);
 		});
 	});
 </script>

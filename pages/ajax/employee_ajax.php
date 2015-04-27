@@ -42,6 +42,7 @@
 	
 
 	if ($type=='show_terminate_immediately') {
+		$user_id=shared::getId('employee_user_id', $user_id);
 		$_SESSION['user_id']=$user_id;
 		$result=Employee::getShowTerminateImmediately();
 		$result.="<script src='js/terminate_immediately.js'></script>";

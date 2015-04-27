@@ -132,7 +132,7 @@
 	
 	function Save() {
 		
-		if (!validate_empty(['first_name','last_name', 'place_of_birth','date_of_birth','nationality_id','address','country_id','post_code','phone1'])) return;
+		if (!validate_empty(['first_name','last_name', 'place_of_birth','date_of_birth','gender','nationality_id','address','country_id','post_code','phone1'])) return;
 		if ($('#country_id').val()==-1) {
 			if (!validate_empty(['country_name'])) return;
 		} else {
@@ -159,7 +159,7 @@
 	<tr><td>Last Name *</td><td>:</td><td><?php _t("last_name", $applicant)?></td></tr>
 	<tr><td>Place of Birth *</td><td>:</td><td><?php _t("place_of_birth", $applicant)?></td></tr>
 	<tr><td>Date of Birth *</td><td>:</td><td><?php _t("date_of_birth", $applicant)?></td></tr>
-	<tr><td>Gender</td><td>:</td><td><select id='gender'><option value='' selected>-Gender-</option><?php _p(combo_gender($applicant['gender']))?></select></td></tr>
+	<tr><td>Gender *</td><td>:</td><td><select id='gender'><option value='' selected>-Gender-</option><?php _p(combo_gender($applicant['gender']))?></select></td></tr>
 	<tr><td>Marital Status</td><td>:</td><td><select id='marital_status'><option value='' selected>-Marital Status-</option><?php _p(combo_marital_status($applicant['marital_status']))?></select></td></tr>
 	<tr><td>Nationality *</td><td>:</td><td><select id='nationality_id'><option value='' selected disabled>-Nationality-</option><?php _p(combo_nationality($applicant['nationality_id']))?></select> <?php _t("nationality_val", $applicant)?></td></tr>
 	<tr><td valign='top'>Address *</td><td>:</td><td><textarea id='address' cols='30' rows='3'><?php _p($applicant['address'])?></textarea><br/>

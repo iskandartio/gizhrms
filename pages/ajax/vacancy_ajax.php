@@ -36,8 +36,15 @@
 			die;
 		}
 		if ($type=='save') {
-		
-			$res=db::select_one('vacancy','vacancy_id','vacancy_id=?','', array($vacancy_id));
+			$res=db::select_one('vacancy','vacancy_id, vacancy_description','vacancy_id=?','', array($vacancy_id));
+			if (count($res)==0 || $res['vacancy_description']!=$vacancy_description) {
+				include("pages/MPDF/mpdf.php");
+				$mpdf=new mPDF('c'); 
+				$mpdf->SetDisplayMode('fullpage');
+				$mpdf->WriteHTML($vacancy_description);
+				mkdir('pages/vacancy', 0755, true);
+				$mpdf->Output("pages/vacancy/".$vacancy_code."_".$vacancy_id.".pdf");
+			}
 			$con=db::beginTrans();
 			if (count($res)==0) {
 				$vacancy_id=db::insertEasy('vacancy', $_POST, $con);

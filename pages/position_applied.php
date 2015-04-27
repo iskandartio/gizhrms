@@ -3,7 +3,7 @@
 	function combo_vacancy($selected='') {
 		$res=db::DoQuery("select a.vacancy_id, concat(a.vacancy_name,'(',a.vacancy_code,'-',a.vacancy_code2,')') vacancy from vacancy a
 left join vacancy_progress b on a.vacancy_progress_id=b.vacancy_progress_id 
-where curdate() between a.vacancy_startdate and a.vacancy_enddate and ifnull(b.vacancy_progress_val,'')!='Closing'
+where curdate() between a.vacancy_startdate and a.vacancy_enddate 
 order by vacancy_code");		
 		$combo_vacancy=shared::select_combo($res,'vacancy_id','vacancy');
 		return $combo_vacancy;
@@ -11,12 +11,11 @@ order by vacancy_code");
 	$pos=db::DoQuery("select a.job_applied_id, a.vacancy_id, b.vacancy_name from job_applied a
 left join vacancy b on a.vacancy_id=b.vacancy_id
 left join vacancy_progress c on c.vacancy_progress_id=b.vacancy_progress_id 
-where ifnull(c.vacancy_progress_val,'')!='Closing' and curdate() between b.vacancy_startdate and b.vacancy_enddate and a.user_id=?",array($_SESSION['uid']));
+where curdate() between b.vacancy_startdate and b.vacancy_enddate and a.user_id=?",array($_SESSION['uid']));
 	
 	$required=Applicant::validateApply();
 	$err='';
-	if (count($required)>0) {
-		
+	if (count($required)>0) {		
 		foreach($required as $r) {
 		$err.="<li>".shared::toggleCase($r)."</li>";
 	}
@@ -24,9 +23,19 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and curdate() between b.vacan
 	if (db::select_with_count('applicants_education','user_id=?', array($_SESSION['uid']))==0) {
 		$err.="<li>Education</li>";
 	}
-	if (db::select_with_count('applicants_working','user_id=?', array($_SESSION['uid']))==0) {
-		$err.="<li>Working Experience</li>";
+	if (db::select_single('applicants','no_working_exp v','user_id=?','', array($_SESSION['uid']))==1) {
+	} else {
+		if (db::select_with_count('applicants_working','user_id=?', array($_SESSION['uid']))==0) {
+			$err.="<li>Working Experience</li>";
+		}
 	}
+	if (db::select_with_count('applicants_language','user_id=? and language_skill_id>0', array($_SESSION['uid']))<3) {
+		$err.="<li>Language (You must fill 3 language)</li>";
+	}
+	if (db::select_with_count('applicants_reference','user_id=?', array($_SESSION['uid']))<1) {
+		$err.="<li>Reference</li>";
+	}
+	
 	if ($err!=''){
 		$err="You must complete the required data:<br/>".$err;
 	}
@@ -51,7 +60,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and curdate() between b.vacan
 		data['vacancy_id']=$('#vacancy_id').val();
 		var success=function(msg) {
 			$('#vacancy_description').html(msg);
-			$('#tbl_question').hide();
+			$('#questions').hide();
 			$('#btn_apply').hide();
 			if (msg!='') {
 				$('#btn_apply').html('Next');
@@ -113,12 +122,13 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and curdate() between b.vacan
 				alert(d['err']);
 				return;
 			}
-			alert('Success');
+			
 			
 			$('#tbl_job_applied').append(d['data']);
 			
 			bindAll();
 			$('#tbl_job_applied').show();
+			
 		}
 		ajax("applicant_ajax", data, success);
 		
@@ -140,10 +150,11 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and curdate() between b.vacan
 		data['vacancy_id']=val;
 		var success=function(msg) {
 			$('#questions').html(msg);
+			$('#questions').show();
 			hideColumns('tbl_question');
 			After();
-			fixSelect();
 			numeric($('#salary_expectation'));
+			fixSelect();
 			
 			
 		}
@@ -189,6 +200,7 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and curdate() between b.vacan
 	
 </script>
 <font color='red'><?php _p($err)?></font>
+<?php if ($err=='') {?>
 <table class='tbl' id='tbl_job_applied'>
 	<thead>
 	<tr><th></th><th>Position Applied</th><th></th></tr>
@@ -207,3 +219,4 @@ where ifnull(c.vacancy_progress_val,'')!='Closing' and curdate() between b.vacan
 <span id="vacancy_description"></span>
 <span id='questions'></span><br/>
 <button class='button_link' id='btn_apply'>Apply</button>
+<?php }?>

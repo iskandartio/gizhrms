@@ -62,6 +62,7 @@ static function get_call_interview_table($res, $vacancy_progress_val, $resReject
 	} else {
 		$result.="<h1>Interview</h1>";
 		$result.="<table class='tbl' id='tbl_call_interview'><thead><tr><th></th><th>First Name</th><th>Last Name</th><th>Interview Place</th><th>Interview Date</th><th></th></tr></thead>";
+		
 		foreach ($res as $job_applied_id=>$rs) {
 			foreach ($rs as $key=>$val) {
 				$$key=$val;
@@ -71,14 +72,18 @@ static function get_call_interview_table($res, $vacancy_progress_val, $resReject
 			$result.="<tr><td>$new_key</td><td>".$rs['first_name']."</td><td>".$rs['last_name']."</td>
 				<td>$interview_place</td><td>".formatDate($interview_date)." / "."$interview_time</td><td>".getImageTags(['cancel'])."</td>
 			</tr>";
-			$result.="<tr><td></td><td colspan='5'>
-				<table class='tbl'>
-					<thead><tr><th>User</th><th>Ranking</th><th>Comment</th></tr></thead>";
-			foreach ($ranking as $rs2) {
-				$result.="<td>".$rs2['first_name']." ".$rs2['last_name']."</td><td>".$rs2['ranking_val']."</td><td>".$rs2['user_comment']."</td></tr>";
+			
+			if (isset($ranking)) {
+				$result.="<tr><td></td><td colspan='5'>
+					<table class='tbl'>
+						<thead><tr><th>User</th><th>Ranking</th><th>Comment</th></tr></thead>";
+				
+				foreach ($ranking as $rs2) {
+					$result.="<td>".$rs2['first_name']." ".$rs2['last_name']."</td><td>".$rs2['ranking_val']."</td><td>".$rs2['user_comment']."</td></tr>";
+				}
+				$result.="</table>";
+				$result.="</td></tr>";
 			}
-			$result.="</table>";
-			$result.="</td></tr>";
 		}
 		$result.="</tbody></table>";	
 	}

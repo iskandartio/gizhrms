@@ -1,8 +1,14 @@
 <?php
 if ($type=='load_working') {
 	$user_id=$_SESSION['user_id'];	
+	$no_working_exp=db::select_single('applicants','no_working_exp v','user_id=?','', array($_SESSION['uid']));
+	if ($no_working_exp==1) {
+		$result="You have no working experience, please add if you have one";
+	} else {
+		$result="<button class='button_link no_working_exp'>No Working Experience</button>";
+	}
 	$res=Employee::get_working_res($user_id, 'applicants');
-	$result=Employee::get_working_table($res, 'applicants');
+	$result.=Employee::get_working_table($res, 'applicants');
 	$data['result']=$result;
 	die(json_encode($data));
 
@@ -35,5 +41,11 @@ if ($type=='save_working') {
 	}
 	die($_working_id);
 }
-
+if ($type=='no_working_exp') {
+	$con=db::beginTrans();
+	db::update('applicants','no_working_exp','user_id=?', array(1, $_SESSION['uid']), $con);
+	db::delete('applicants_working','user_id=?', array($_SESSION['uid']), $con);
+	db::commitTrans($con);
+	die;
+}
 ?>

@@ -14,6 +14,7 @@ function project_name(div) {
 		autoCompleteEmployee('.principal_advisor');
 		autoCompleteEmployee('.financial_controller');
 		hideColumns('tbl_project_name');
+		
 	}
 	self.Add=function() {
 		var adder="<tr><td></td><td><input type='text' class='project_name'/></td>";

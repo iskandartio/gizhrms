@@ -4,7 +4,7 @@ require_once('pages/startup.php');
 //include("class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
 
 Class SendEmail {
-	static function send_email($send_to, $subject, $body) {
+	static function send_email($send_to, $cc_to, $subject, $body, $attachment=null) {
 		$rs=db::select_one("email_from","*");
 		$mail             = new PHPMailer();
 
@@ -35,10 +35,15 @@ Class SendEmail {
 
 		$address = explode(";",$send_to);
 		foreach ($address as $addr) {
-			$mail->AddAddress($addr, "");
+			$mail->AddAddress($addr);
 		}
-		
-
+		$address = explode(";",$cc_to);
+		foreach ($address as $addr) {
+			$mail->AddCC($addr);
+		}
+		if ($attachment!=null && $attachment!='') {
+			$mail->AddAttachment($attachment,'Vacancy Description.pdf');
+		}
 		if(!$mail->Send()) {
 		  //return "Mailer Error: " . $mail->ErrorInfo;
 		  return false;

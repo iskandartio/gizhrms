@@ -36,6 +36,11 @@ where a.employee_id=?", array($user_id, $uid));
 	static function email($email_type, $params, $con=null) {
 		$e=db::select_one("email_setup","*","email_type='$email_type'","",array(), $con);
 		if ($e==null) return;
+		$signature=db::select_single("signature", 'signature v');
+		$admin_email=db::select_single("settings", 'setting_val v',"setting_name='Admin Email'");
+
+		$params['admin_email']=$admin_email;
+		$params['signature']=$signature;
 		foreach ($params as $key=>$val) {
 			
 			$e['email_to']=str_replace("@$key", $val, $e['email_to']);
@@ -44,10 +49,12 @@ where a.employee_id=?", array($user_id, $uid));
 			$e['email_subject']=str_replace("@$key", $val, $e['email_subject']);
 			$e['email_content']=str_replace("@$key", $val, $e['email_content']);
 		}
+		$attachment='';
+		if ($e['attachment']==1) $attachment=$params['attachment'];
 		
 		if ($e['email_content']!="") {
-			db::insert("email", "email_from, email_to, email_cc, email_bcc, email_subject, email_content"
-				, array($e['email_from'], $e['email_to'], $e['email_cc'], $e['email_bcc'], $e['email_subject'], $e['email_content']), $con);
+			db::insert("email", "email_from, email_to, email_cc, email_bcc, email_subject, email_content, attachment"
+				, array($e['email_from'], $e['email_to'], $e['email_cc'], $e['email_bcc'], $e['email_subject'], $e['email_content'], $attachment), $con);
 		}
 	}
 	static function random($characters=6,$letters = '2345678bcdfhjkmnprstvwxyz'){
@@ -221,7 +228,7 @@ where a.employee_id=?", array($user_id, $uid));
 	static function send_all_email() {
 		$res=db::select('email','*','sent=0');
 		foreach ($res as $row) {
-			if (SendEmail::send_email($row['email_to'], $row['email_subject'], $row['email_content'])) {
+			if (SendEmail::send_email($row['email_to'], $row['email_cc'], $row['email_subject'], $row['email_content'], $row['attachment'])) {
 				db::ExecMe("update email set sent=now() where email_id=?", array($row['email_id']));
 			}
 		}
@@ -575,7 +582,6 @@ tinymce.init({
 	}
 	static function getId($type, $id) {
 		$old_id=$_SESSION[$type][$id];
-		unset($_SESSION[$type][$id]);
 		return $old_id;
 	}
 	static function setId($session_name, $id_real, &$res) {

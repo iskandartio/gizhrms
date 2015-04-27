@@ -304,7 +304,7 @@ function selectedToDefaultLabel(par, nameArr, f) {
 		var name=nameArr[key];
 		var td=par.children("td:eq("+f[name]+")");
 		var originalValue=td.children("#"+name).data("originalValue");
-		if (originalValue=="") {
+		if (originalValue==""||originalValue==0) {
 			td.html("<span style='display:none'>"+originalValue+"</span> ");
 		} else {
 			td.children("select").val(originalValue);
@@ -467,7 +467,7 @@ function setHtmlAllOther(tbl, f1 , arr) {
 	setHtmlText($('#'+tbl+' tbody tr:eq('+(currentRow)+')'), f1, v);
 }
 function clear_checkbox(id) {
-	$("input[id^='"+id+"_']").each(function(idx) {
+	$(id).each(function(idx) {
 		$(this).prop('checked',false);
 	});
 }
@@ -829,4 +829,13 @@ function encryptData(text){
                 padding: CryptoJS.pad.ZeroPadding 
             });
     return CryptoJS.enc.Utf8.stringify(dec);
+}
+function bindEnter() {
+	$("input,select").bind("keydown", function (e) {
+		var keyCode = e.keyCode || e.which;
+		if(e.keyCode === 13) {
+			e.preventDefault();
+			$('input,select,textarea')[$('input,select,textarea').index(this)+1].focus();
+		}
+	});
 }

@@ -31,8 +31,9 @@
 		currentRow=-1;
 		clearText(['vacancy_id','vacancy_code','vacancy_code2','vacancy_name','vacancy_startdate','vacancy_enddate','vacancy_type','allowance','vacancy_criteria']);
 		clearDiv(['vacancy_description']);
-		clear_checkbox('question_id');
+		clear_checkbox('.question_id');
 		$('#btn_save').html('Save');
+		fixSelect();
 	}
 	function Edit() {
 		currentRow=$(this).closest("tr").index();
@@ -49,10 +50,11 @@
 		data['type']='get_questions';
 		data['vacancy_id']=$('#vacancy_id').val();
 		var success=function(msg) {
-			clear_checkbox('question_id');
+			clear_checkbox('.question_id');
 			var question_id = jQuery.parseJSON(msg);
 			$(question_id).each(function(idx, val) {
-				$('#question_id_'+val).prop('checked',true);
+				$('.question_id[value="'+val+'"]').prop('checked', true);
+				
 			});
 			fixSelect();
 		}
@@ -65,7 +67,7 @@
 		data['type']='delete';
 		data['vacancy_id']=getChild(par, 'vacancy_id', fields);
 		var success=function(msg) {
-			alert("Success");
+			
 			par.remove();
 			Add();
 		}
@@ -82,7 +84,7 @@
 		data=prepareDataDecimal(data,['allowance']);
 		data=prepareDataHtml(data,['vacancy_description']);
 		var question_id= new Array();
-		$("input[class='question_id']").each(function(idx) {
+		$('.question_id').each(function(idx) {
 			if ($(this).prop('checked')) {
 				question_id.push($(this).attr('value'));	
 			}
@@ -91,7 +93,7 @@
 		
 		var success=function(msg) {
 			$('#freeze').hide();
-			alert('Success');
+			
 			tbl='tbl_vacancy';
 			if (currentRow>=0) {
 				
