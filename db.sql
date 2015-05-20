@@ -11,7 +11,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- Dumping structure for table hrms.applicants
-DROP TABLE IF EXISTS `applicants`;
 CREATE TABLE IF NOT EXISTS `applicants` (
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
@@ -54,18 +53,18 @@ CREATE TABLE IF NOT EXISTS `applicants` (
   `title` varchar(30) DEFAULT NULL,
   `no_working_exp` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicants_id`),
   UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants: ~1 rows (approximately)
+-- Dumping data for table hrms.applicants: ~7 rows (approximately)
 /*!40000 ALTER TABLE `applicants` DISABLE KEYS */;
 INSERT INTO `applicants` (`first_name`, `last_name`, `place_of_birth`, `date_of_birth`, `gender`, `marital_status`, `nationality_id`, `nationality_val`, `address`, `country_id`, `country_name`, `province_id`, `city_id`, `post_code`, `phone1`, `phone2`, `computer_skills`, `professional_skills`, `applicants_id`, `user_id`, `cv`, `letter`, `contract1_start_date`, `contract1_end_date`, `job_title`, `job_position`, `project_name`, `principal_advisor`, `financial_controller`, `project_number`, `team_leader`, `project_location`, `office_manager`, `responsible_superior`, `SAP_No`, `working_time`, `salary`, `salary_band`, `title`, `no_working_exp`, `updated_by`, `created_at`, `updated_at`) VALUES
 	('Susan', 'Aulia', 'Jakarta', '1985-12-19 00:00:00', 'Female', 'Single', 1, NULL, 'Jln. Padang', 1, NULL, 13, 72, '12345', '987651', '784561', 'Ms Word, Ms Excel', 'Research Skill', 1, 113, '.pdf', '.docx', '2015-05-01 00:00:00', '2015-07-31 00:00:00', 'Senior Manager', 'Head of Accounting', 'PAKLIM', 68, 69, '001-PAK', 69, 'Jakarta GIZ', 103, 69, 'SAP No', 100, 'fu2BMYe3RmyC27SAQ8kMv9pUNmy3dNNvySVFDH8euY+vtoE3c6oy7Q==', '2T', 'Ms.', NULL, 97, '2015-05-04 13:31:24', '2015-05-04 21:31:05'),
 	('Bella', 'Nurul', 'Jakarta', '1986-04-15 00:00:00', 'Female', 'Single', 1, NULL, 'jakarta', 1, NULL, 31, 156, '11250', '12345', NULL, NULL, NULL, 2, 115, '.pdf', '.docx', '2015-05-05 00:00:00', '2015-06-30 00:00:00', 'Senior Advisor', 'Head of Accounting', 'PAKLIM', 125, 125, '001-PAK', 125, 'Jakarta GIZ', 125, 125, 'SAPhj', 100, 'ROZZu2jHSkmc++lPYfps3KckeSEajCpf4cLeRxXeWL7L+WGTJdi2nw==', '2T', 'Ms.', NULL, 97, '2015-05-04 16:24:29', '2015-05-05 09:01:16'),
-	('Angga', 'Aditya', 'Semarang', '1989-01-01 00:00:00', 'Male', 'Married', 1, NULL, 'Salatiga', 1, NULL, 33, 209, '12345', '1578952132', NULL, NULL, NULL, 3, 116, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Mr.', NULL, 116, '2015-05-04 22:48:27', '2015-05-04 22:48:27'),
+	('Angga', 'Aditya', 'Semarang', '1989-01-01 00:00:00', 'Male', 'Married', 1, NULL, 'Salatiga', 1, NULL, 33, 209, '12345', '1578952132', NULL, NULL, NULL, 3, 116, NULL, NULL, '2015-05-01 00:00:00', '2015-07-31 00:00:00', 'Senior Manager', 'Head of Accounting', 'Nama-Sutri', 134, 125, '001', 125, 'Jakarta Nama-Sutri', 134, 134, 'abcde', 100, 'mEBLDxwzT+cFXfT2AiNttVU1oTq9Oq3Zl7bbCFFDlgU0wx9soGq8M/pplg==', '2T', 'Mr.', NULL, 97, '2015-05-04 22:48:27', '2015-05-09 15:26:58'),
 	('Kevin', 'Arief', 'Jakarta', '1990-05-05 00:00:00', 'Male', 'Single', 5, NULL, 'jakarta', 1, NULL, 31, 155, '11236', '123456', NULL, NULL, NULL, 4, 114, '.docx', '.pdf', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Mr.', NULL, 114, '2015-05-05 09:43:54', '2015-05-05 09:45:14'),
 	('Kevin', 'Halim', 'Jakarta', '1991-05-05 00:00:00', 'Male', 'Married', 1, NULL, 'indonesia', 1, NULL, 31, 153, '12345', '6394332', NULL, NULL, NULL, 5, 135, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Mr.', NULL, 135, '2015-05-05 10:59:33', '2015-05-05 10:59:33'),
 	('Fitri', 'f', 'Jakarta', '1980-05-05 00:00:00', 'Female', 'Married', 1, NULL, 'jakarta', 1, NULL, 31, 155, '12345', '1235', 's', 'a', NULL, 6, 136, '.docx', '.pdf', '2015-05-06 00:00:00', '2015-07-31 00:00:00', 'Senior Manager', 'Head of Accounting', 'PAKLIM', 125, 125, '001-PAK', 125, 'Jakarta GIZ', 125, 134, NULL, 100, 'MMK7haJwwxgYQDJXyLmZ/9xQzjPB2qyOlCoPe1Zn/N/FyjRKRHLT', '3T', 'Ms.', NULL, 97, '2015-05-05 13:25:39', '2015-05-05 13:42:02');
@@ -73,19 +72,18 @@ INSERT INTO `applicants` (`first_name`, `last_name`, `place_of_birth`, `date_of_
 
 
 -- Dumping structure for table hrms.applicants_answer
-DROP TABLE IF EXISTS `applicants_answer`;
 CREATE TABLE IF NOT EXISTS `applicants_answer` (
   `applicant_answer_id` int(11) NOT NULL AUTO_INCREMENT,
   `job_applied_id` int(11) DEFAULT NULL,
   `question_id` int(11) DEFAULT NULL,
   `choice_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicant_answer_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants_answer: ~2 rows (approximately)
+-- Dumping data for table hrms.applicants_answer: ~11 rows (approximately)
 /*!40000 ALTER TABLE `applicants_answer` DISABLE KEYS */;
 INSERT INTO `applicants_answer` (`applicant_answer_id`, `job_applied_id`, `question_id`, `choice_id`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 4, 5, 172, 113, '2015-05-04 15:12:11', '2015-05-04 15:12:11'),
@@ -103,7 +101,6 @@ INSERT INTO `applicants_answer` (`applicant_answer_id`, `job_applied_id`, `quest
 
 
 -- Dumping structure for table hrms.applicants_education
-DROP TABLE IF EXISTS `applicants_education`;
 CREATE TABLE IF NOT EXISTS `applicants_education` (
   `applicants_education_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -114,12 +111,12 @@ CREATE TABLE IF NOT EXISTS `applicants_education` (
   `year_to` int(11) DEFAULT NULL,
   `countries_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicants_education_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants_education: ~2 rows (approximately)
+-- Dumping data for table hrms.applicants_education: ~7 rows (approximately)
 /*!40000 ALTER TABLE `applicants_education` DISABLE KEYS */;
 INSERT INTO `applicants_education` (`applicants_education_id`, `user_id`, `education_id`, `major`, `place`, `year_from`, `year_to`, `countries_id`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 113, 1, 'IPA', 'Ricci', 1996, 1999, 101, 113, '2015-05-04 13:53:52', '2015-05-04 13:54:37'),
@@ -133,7 +130,6 @@ INSERT INTO `applicants_education` (`applicants_education_id`, `user_id`, `educa
 
 
 -- Dumping structure for table hrms.applicants_language
-DROP TABLE IF EXISTS `applicants_language`;
 CREATE TABLE IF NOT EXISTS `applicants_language` (
   `applicants_language_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -141,12 +137,12 @@ CREATE TABLE IF NOT EXISTS `applicants_language` (
   `language_skill_id` int(50) DEFAULT NULL,
   `language_val` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicants_language_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants_language: ~3 rows (approximately)
+-- Dumping data for table hrms.applicants_language: ~18 rows (approximately)
 /*!40000 ALTER TABLE `applicants_language` DISABLE KEYS */;
 INSERT INTO `applicants_language` (`applicants_language_id`, `user_id`, `language_id`, `language_skill_id`, `language_val`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 113, 1, 1, NULL, 113, '2015-05-04 13:57:24', '2015-05-04 13:57:24'),
@@ -171,19 +167,18 @@ INSERT INTO `applicants_language` (`applicants_language_id`, `user_id`, `languag
 
 
 -- Dumping structure for table hrms.applicants_other_language
-DROP TABLE IF EXISTS `applicants_other_language`;
 CREATE TABLE IF NOT EXISTS `applicants_other_language` (
   `applicants_other_language_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `language_skill_id` int(50) DEFAULT NULL,
   `language_val` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicants_other_language_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants_other_language: ~2 rows (approximately)
+-- Dumping data for table hrms.applicants_other_language: ~1 rows (approximately)
 /*!40000 ALTER TABLE `applicants_other_language` DISABLE KEYS */;
 INSERT INTO `applicants_other_language` (`applicants_other_language_id`, `user_id`, `language_skill_id`, `language_val`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(3, 113, 4, 'Japanese', 113, '2015-05-04 13:58:28', '2015-05-04 13:58:28');
@@ -191,7 +186,6 @@ INSERT INTO `applicants_other_language` (`applicants_other_language_id`, `user_i
 
 
 -- Dumping structure for table hrms.applicants_other_reference
-DROP TABLE IF EXISTS `applicants_other_reference`;
 CREATE TABLE IF NOT EXISTS `applicants_other_reference` (
   `applicants_other_reference_id` int(11) NOT NULL AUTO_INCREMENT,
   `job_title` varchar(50) DEFAULT NULL,
@@ -203,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `applicants_other_reference` (
   `company_name` varchar(100) DEFAULT NULL,
   `title` varchar(30) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicants_other_reference_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -216,7 +210,6 @@ INSERT INTO `applicants_other_reference` (`applicants_other_reference_id`, `job_
 
 
 -- Dumping structure for table hrms.applicants_reference
-DROP TABLE IF EXISTS `applicants_reference`;
 CREATE TABLE IF NOT EXISTS `applicants_reference` (
   `applicants_reference_id` int(11) NOT NULL AUTO_INCREMENT,
   `job_title` varchar(50) DEFAULT NULL,
@@ -228,12 +221,12 @@ CREATE TABLE IF NOT EXISTS `applicants_reference` (
   `description` varchar(500) DEFAULT NULL,
   `title` varchar(30) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicants_reference_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants_reference: ~1 rows (approximately)
+-- Dumping data for table hrms.applicants_reference: ~6 rows (approximately)
 /*!40000 ALTER TABLE `applicants_reference` DISABLE KEYS */;
 INSERT INTO `applicants_reference` (`applicants_reference_id`, `job_title`, `reference_name`, `email`, `phone`, `user_id`, `company_name`, `description`, `title`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 'Manager', 'Johnson', 'johnson.johnson', '123456', 113, 'PT Angin Ribut', 'my boss boss', 'Mr.', 113, '2015-05-04 14:01:53', '2015-05-04 14:02:16'),
@@ -246,7 +239,6 @@ INSERT INTO `applicants_reference` (`applicants_reference_id`, `job_title`, `ref
 
 
 -- Dumping structure for table hrms.applicants_salary_sharing
-DROP TABLE IF EXISTS `applicants_salary_sharing`;
 CREATE TABLE IF NOT EXISTS `applicants_salary_sharing` (
   `applicants_salary_sharing_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -254,22 +246,22 @@ CREATE TABLE IF NOT EXISTS `applicants_salary_sharing` (
   `percentage` int(11) DEFAULT NULL,
   `project_number` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicants_salary_sharing_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants_salary_sharing: ~0 rows (approximately)
+-- Dumping data for table hrms.applicants_salary_sharing: ~4 rows (approximately)
 /*!40000 ALTER TABLE `applicants_salary_sharing` DISABLE KEYS */;
 INSERT INTO `applicants_salary_sharing` (`applicants_salary_sharing_id`, `user_id`, `project_name`, `percentage`, `project_number`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(11, 113, 'PAKLIM', 100, '001-PAK', 97, '2015-05-04 21:31:05', '2015-05-04 21:31:05'),
 	(12, 115, 'PAKLIM', 70, '001-PAK', 97, '2015-05-05 09:01:16', '2015-05-05 09:01:16'),
-	(13, 115, 'Nama-Sutri', 30, '001', 97, '2015-05-05 09:01:16', '2015-05-05 09:01:16');
+	(13, 115, 'Nama-Sutri', 30, '001', 97, '2015-05-05 09:01:16', '2015-05-05 09:01:16'),
+	(14, 116, 'PAKLIM', 100, '001-PAK', 97, '2015-05-09 15:26:58', '2015-05-09 15:26:58');
 /*!40000 ALTER TABLE `applicants_salary_sharing` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.applicants_working
-DROP TABLE IF EXISTS `applicants_working`;
 CREATE TABLE IF NOT EXISTS `applicants_working` (
   `applicants_working_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -286,12 +278,12 @@ CREATE TABLE IF NOT EXISTS `applicants_working` (
   `phone` varchar(50) DEFAULT NULL,
   `countries_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicants_working_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.applicants_working: ~2 rows (approximately)
+-- Dumping data for table hrms.applicants_working: ~7 rows (approximately)
 /*!40000 ALTER TABLE `applicants_working` DISABLE KEYS */;
 INSERT INTO `applicants_working` (`applicants_working_id`, `user_id`, `month_from`, `year_from`, `month_to`, `year_to`, `employer`, `job_title`, `business_id`, `may_contact`, `leave_reason`, `email`, `phone`, `countries_id`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(2, 113, 5, 2004, 1, 2007, 'IT Solusindo', 'Staff', 2, 1, NULL, 'james.watt', NULL, 101, 113, '2015-05-04 14:16:52', '2015-05-04 14:16:52'),
@@ -305,13 +297,12 @@ INSERT INTO `applicants_working` (`applicants_working_id`, `user_id`, `month_fro
 
 
 -- Dumping structure for table hrms.business
-DROP TABLE IF EXISTS `business`;
 CREATE TABLE IF NOT EXISTS `business` (
   `business_id` int(11) NOT NULL AUTO_INCREMENT,
   `business_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`business_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
@@ -330,18 +321,17 @@ INSERT INTO `business` (`business_id`, `business_val`, `sort_id`, `updated_by`, 
 
 
 -- Dumping structure for table hrms.change_log
-DROP TABLE IF EXISTS `change_log`;
 CREATE TABLE IF NOT EXISTS `change_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `updated_by` int(11) DEFAULT NULL,
   `tbl` varchar(50) DEFAULT NULL,
   `changes` varchar(10000) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `trans_id` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=700 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=710 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.change_log: ~87 rows (approximately)
+-- Dumping data for table hrms.change_log: ~704 rows (approximately)
 /*!40000 ALTER TABLE `change_log` DISABLE KEYS */;
 INSERT INTO `change_log` (`id`, `updated_by`, `tbl`, `changes`, `created_at`, `trans_id`) VALUES
 	(148, 97, 'employee', '{"emergency_phone":"null->f","emergency_email":"null->g"}', '2015-05-02 19:51:01', 'hrmnck4b2m4ymc77cxkfcx8v7xp8hwx2'),
@@ -847,19 +837,28 @@ INSERT INTO `change_log` (`id`, `updated_by`, `tbl`, `changes`, `created_at`, `t
 	(696, 97, 'employee_eyeglasses', '{"claim_type":"Frame","user_id":"97","invoice_date":"2015-05-05","invoice_val":"800000","remarks":"","claim":"800000","paid":750000}', '2015-05-05 14:06:04', 'pfmwkjkz5bw7f5snbjzrhfxnmc5rz2xr'),
 	(697, 125, 'employee_eyeglasses', '{"paid_status":"null->1","updated_by":"97->125"}', '2015-05-05 14:06:17', 'jnr6zk8f452mpwz5yzry5ks38cn7ypt5'),
 	(698, 97, 'settings', '{"setting_val":"300->30","updated_by":"null->97"}', '2015-05-05 18:40:27', 'vcjv44mbdfnf2pddcd7vxj4w6vys4kk2'),
-	(699, 97, 'employee_dependent', '{"relation":"Spouse->Son","updated_by":"null->97"}', '2015-05-07 14:10:28', 'pkdkpfv3whdndyp7bbs4rk3j8nz56cv7');
+	(699, 97, 'employee_dependent', '{"relation":"Spouse->Son","updated_by":"null->97"}', '2015-05-07 14:10:28', 'pkdkpfv3whdndyp7bbs4rk3j8nz56cv7'),
+	(700, 97, 'applicants', '{"contract1_start_date":"null->2015-05-01 00:00:00","contract1_end_date":"null->2015-07-31 00:00:00","job_title":"null->Senior Manager","job_position":"null->Head of Accounting","project_name":"null->Nama-Sutri","principal_advisor":"null->134","financial_controller":"null->125","project_number":"null->001","team_leader":"null->125","project_location":"null->Jakarta Nama-Sutri","office_manager":"null->134","responsible_superior":"null->134","SAP_No":"null->abcde","working_time":"null->100","salary":"null->mEBLDxwzT+cFXfT2AiNttVU1oTq9Oq3Zl7bbCFFDlgU0wx9soGq8M\\/pplg==","salary_band":"null->2T","updated_by":"116->97"}', '2015-05-09 15:26:58', 'yxwdxzrbntv58hc3c2c78mnwj4w8c4wt'),
+	(701, 97, 'job_applied', '{"vacancy_shortlist":"0->1","next_vacancy_progress_id":"null->6"}', '2015-05-09 15:26:58', 'yxwdxzrbntv58hc3c2c78mnwj4w8c4wt'),
+	(702, 97, 'applicants_salary_sharing', '{"user_id":"116","project_name":"PAKLIM","project_number":"001-PAK","percentage":"100"}', '2015-05-09 15:26:58', 'yxwdxzrbntv58hc3c2c78mnwj4w8c4wt'),
+	(703, 97, 'user_ranking', '{"vacancy_employee_id":"5","user_id":"114","ranking_id":"1","user_comment":"good"}', '2015-05-09 15:27:27', 'vpws75mc6wcrjmkyhn88xkvsz3phjvjz'),
+	(704, 97, 'job_applied', '{"next_vacancy_progress_id":"null->4"}', '2015-05-09 15:27:27', 'vpws75mc6wcrjmkyhn88xkvsz3phjvjz'),
+	(705, 97, 'vacancy_interview', '{"vacancy_id":"3","user_id":"114","vacancy_progress_id":"4","interview_place":"Wisma Bakrie2","interview_date":"2015-05-09","interview_time":"12.15"}', '2015-05-09 15:27:27', 'vpws75mc6wcrjmkyhn88xkvsz3phjvjz'),
+	(706, 97, 'employee', '{"emergency_email":"q->qwe"}', '2015-05-13 13:00:22', 'j3fzyfxm4kdc3xsfw5f4z677knfjb8tj'),
+	(707, 97, 'employee_outpatient', '{"user_id":"97","invoice_date":"2015-05-13","invoice_val":"75000","remarks":"","claim":"75000","paid":67500,"input_date":"2015-05-13"}', '2015-05-13 13:12:32', '6x8hw7p65pm2x8cbhk3m73dypjzm8836'),
+	(708, 97, 'employee_outpatient', '{"user_id":"97","invoice_date":"2015-05-13","invoice_val":"5000000","remarks":"","claim":2619444.4444444,"paid":2357500,"input_date":"2015-05-13"}', '2015-05-13 13:14:37', '7bjhdbfbfkt7pjjx7brx8dxn3kpw4tyc'),
+	(709, 97, 'employee_outpatient', 'del employee_outpatient_id=\'49\'', '2015-05-13 13:14:40', 'j8k4ydf2f76vkvv57yr338fwv83xy43p');
 /*!40000 ALTER TABLE `change_log` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.choice
-DROP TABLE IF EXISTS `choice`;
 CREATE TABLE IF NOT EXISTS `choice` (
   `choice_id` int(11) NOT NULL AUTO_INCREMENT,
   `question_id` int(11) DEFAULT NULL,
   `choice_val` varchar(1000) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`choice_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=181 DEFAULT CHARSET=latin1;
@@ -887,18 +886,17 @@ INSERT INTO `choice` (`choice_id`, `question_id`, `choice_val`, `sort_id`, `upda
 
 
 -- Dumping structure for table hrms.city
-DROP TABLE IF EXISTS `city`;
 CREATE TABLE IF NOT EXISTS `city` (
   `city_id` int(11) NOT NULL AUTO_INCREMENT,
   `province_id` int(11) DEFAULT NULL,
   `city_val` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`city_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=475 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.city: ~329 rows (approximately)
+-- Dumping data for table hrms.city: ~683 rows (approximately)
 /*!40000 ALTER TABLE `city` DISABLE KEYS */;
 INSERT INTO `city` (`city_id`, `province_id`, `city_val`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 11, 'Simeulue', NULL, '2015-05-02 16:07:42', '2015-05-02 16:07:42'),
@@ -1378,7 +1376,6 @@ INSERT INTO `city` (`city_id`, `province_id`, `city_val`, `updated_by`, `created
 
 
 -- Dumping structure for table hrms.contract_history
-DROP TABLE IF EXISTS `contract_history`;
 CREATE TABLE IF NOT EXISTS `contract_history` (
   `contract_history_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -1400,12 +1397,12 @@ CREATE TABLE IF NOT EXISTS `contract_history` (
   `vacancy_type` varchar(50) DEFAULT NULL,
   `allowance` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`contract_history_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.contract_history: ~31 rows (approximately)
+-- Dumping data for table hrms.contract_history: ~33 rows (approximately)
 /*!40000 ALTER TABLE `contract_history` DISABLE KEYS */;
 INSERT INTO `contract_history` (`contract_history_id`, `user_id`, `start_date`, `end_date`, `job_title`, `contract_status`, `salary_band`, `project_name`, `project_number`, `project_location`, `responsible_superior`, `SAP_No`, `job_position`, `reason`, `contract_reminder_email`, `working_time`, `salary`, `vacancy_type`, `allowance`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 56, '2015-02-01 00:00:00', '2015-02-15 00:00:00', 'fjdsio jfioed', 0, 'Level 2', 'name', 'blabla', 'location', -1, '3423 fkdsop', 'Project', 'Initial Salary', 1, NULL, '3vFzwD9igVbyyA8u2GmzWz4z3z/QOrEIqJJ+KfP2jsu04BGoVemG', NULL, NULL, NULL, '2015-05-02 16:07:42', '2015-05-02 16:07:42'),
@@ -1445,7 +1442,6 @@ INSERT INTO `contract_history` (`contract_history_id`, `user_id`, `start_date`, 
 
 
 -- Dumping structure for table hrms.contract_history2
-DROP TABLE IF EXISTS `contract_history2`;
 CREATE TABLE IF NOT EXISTS `contract_history2` (
   `contract_history_id` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) DEFAULT NULL,
@@ -1467,7 +1463,7 @@ CREATE TABLE IF NOT EXISTS `contract_history2` (
   `vacancy_type` varchar(50) DEFAULT NULL,
   `allowance` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1492,14 +1488,13 @@ INSERT INTO `contract_history2` (`contract_history_id`, `user_id`, `start_date`,
 
 
 -- Dumping structure for table hrms.countries
-DROP TABLE IF EXISTS `countries`;
 CREATE TABLE IF NOT EXISTS `countries` (
   `code` char(2) CHARACTER SET latin1 NOT NULL,
   `countries_val` varchar(50) DEFAULT NULL,
   `name_fr` tinytext CHARACTER SET latin1,
   `countries_id` int(11) NOT NULL AUTO_INCREMENT,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`countries_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=utf8;
@@ -1759,12 +1754,11 @@ INSERT INTO `countries` (`code`, `countries_val`, `name_fr`, `countries_id`, `up
 
 
 -- Dumping structure for table hrms.country
-DROP TABLE IF EXISTS `country`;
 CREATE TABLE IF NOT EXISTS `country` (
   `country_id` int(11) NOT NULL AUTO_INCREMENT,
   `country_val` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`country_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -1777,13 +1771,12 @@ INSERT INTO `country` (`country_id`, `country_val`, `updated_by`, `created_at`, 
 
 
 -- Dumping structure for table hrms.education
-DROP TABLE IF EXISTS `education`;
 CREATE TABLE IF NOT EXISTS `education` (
   `education_id` int(11) NOT NULL AUTO_INCREMENT,
   `education_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`education_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
@@ -1800,7 +1793,6 @@ INSERT INTO `education` (`education_id`, `education_val`, `sort_id`, `updated_by
 
 
 -- Dumping structure for table hrms.email
-DROP TABLE IF EXISTS `email`;
 CREATE TABLE IF NOT EXISTS `email` (
   `email_from` varchar(50) DEFAULT NULL,
   `email_to` varchar(50) DEFAULT NULL,
@@ -1813,12 +1805,12 @@ CREATE TABLE IF NOT EXISTS `email` (
   `sent` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `attachment` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`email_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.email: ~1 rows (approximately)
+-- Dumping data for table hrms.email: ~46 rows (approximately)
 /*!40000 ALTER TABLE `email` DISABLE KEYS */;
 INSERT INTO `email` (`email_from`, `email_to`, `email_cc`, `email_bcc`, `email_subject`, `email_content`, `updatetime`, `email_id`, `sent`, `attachment`, `updated_by`, `created_at`, `updated_at`) VALUES
 	('iskandar.tio@gmail.com', 'susan.aulia', 'iskandar.tio@gmail.com', '', 'Account Activation', 'Your password is: a Please activate by clicking this link: <br><a href="https://192.168.8.104/gizhrms/activate?link=fbxm3drzwjmn6w874yfrt8cp68p2h3" data-mce-href="https://192.168.8.104/gizhrms/activate?link=fbxm3drzwjmn6w874yfrt8cp68p2h3">https://192.168.8.104/gizhrms/activate?link=fbxm3drzwjmn6w874yfrt8cp68p2h3</a>', '2015-05-04 13:22:24', 30, '2015-05-04 13:22:24', '', NULL, '2015-05-04 13:20:58', '2015-05-04 13:22:24'),
@@ -1872,7 +1864,6 @@ INSERT INTO `email` (`email_from`, `email_to`, `email_cc`, `email_bcc`, `email_s
 
 
 -- Dumping structure for table hrms.email_from
-DROP TABLE IF EXISTS `email_from`;
 CREATE TABLE IF NOT EXISTS `email_from` (
   `host` varchar(50) NOT NULL,
   `port` int(11) DEFAULT NULL,
@@ -1881,7 +1872,7 @@ CREATE TABLE IF NOT EXISTS `email_from` (
   `security_type` varchar(50) DEFAULT NULL,
   `sender_name` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`host`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1894,7 +1885,6 @@ INSERT INTO `email_from` (`host`, `port`, `user_name`, `pwd`, `security_type`, `
 
 
 -- Dumping structure for table hrms.email_setup
-DROP TABLE IF EXISTS `email_setup`;
 CREATE TABLE IF NOT EXISTS `email_setup` (
   `email_type` varchar(50) NOT NULL,
   `email_from` varchar(50) DEFAULT NULL,
@@ -1910,12 +1900,12 @@ CREATE TABLE IF NOT EXISTS `email_setup` (
   `email_type_name` varchar(50) DEFAULT NULL,
   `attachment` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`email_setup_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.email_setup: ~17 rows (approximately)
+-- Dumping data for table hrms.email_setup: ~13 rows (approximately)
 /*!40000 ALTER TABLE `email_setup` DISABLE KEYS */;
 INSERT INTO `email_setup` (`email_type`, `email_from`, `email_to`, `email_cc`, `email_bcc`, `email_subject`, `email_content`, `updatetime`, `email_setup_id`, `params`, `general`, `email_type_name`, `attachment`, `updated_by`, `created_at`, `updated_at`) VALUES
 	('forgot_password', NULL, '@email', 'iskandar.tio@gmail.com', NULL, '[GIZ e-recruitment] Forgot Password', 'Your password has been&nbsp;reset to @password. You can login using your new password<br>Regards,<br>Iskandar Tio', NULL, 1, '@email,  @password', 1, 'Forgot Password', NULL, 97, '2015-05-02 16:07:42', '2015-05-04 12:56:52'),
@@ -1943,7 +1933,6 @@ INSERT INTO `email_setup` (`email_type`, `email_from`, `email_to`, `email_cc`, `
 
 
 -- Dumping structure for table hrms.employee
-DROP TABLE IF EXISTS `employee`;
 CREATE TABLE IF NOT EXISTS `employee` (
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
@@ -1989,16 +1978,16 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `title` varchar(30) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`employee_id`),
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.employee: ~1 rows (approximately)
+-- Dumping data for table hrms.employee: ~4 rows (approximately)
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
 INSERT INTO `employee` (`first_name`, `last_name`, `place_of_birth`, `gender`, `nationality_id`, `address`, `country_id`, `province_id`, `city_id`, `post_code`, `phone1`, `phone2`, `giz_staff`, `computer_skills`, `professional_skills`, `employee_id`, `user_id`, `date_of_birth`, `country_name`, `applicant_status`, `nationality_val`, `contract1_start_date`, `contract1_end_date`, `am1_start_date`, `am1_end_date`, `contract2_start_date`, `contract2_end_date`, `am2_start_date`, `am2_end_date`, `adj_salary`, `adj_salary_band`, `adj_reason`, `contract_state`, `spouse_name`, `marry_date`, `account_bank`, `account_number`, `marital_status`, `spouse_entitled`, `emergency_phone`, `emergency_email`, `title`, `email`, `updated_by`, `created_at`, `updated_at`) VALUES
-	('Amir', 'Budianto', 'jiofsd', 'Male', -1, 'fdsfds', 1, 17, 120, '123', '123', '123', NULL, 'PHP, MySQL, Java', 'Project Manager, IT Team Leader', 22, 97, '2015-03-19 00:00:00', 'test', NULL, 'Jawa', '2015-03-01 00:00:00', '2015-06-30 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Budi', '2015-04-07 00:00:00', 'BCAf', '483290482', 'Single', 1, 'csfds', 'dsfdsfds', 'Mr.', 'my.email@gmail.com', 97, '2015-05-02 16:07:42', '2015-05-02 17:47:25'),
+	('Amir', 'Budianto', 'jiofsd', 'Male', -1, 'fdsfds', 1, 17, 120, '123', '123', '123', NULL, 'PHP, MySQL, Java', 'Project Manager, IT Team Leader', 22, 97, '2015-03-19 00:00:00', 'test', NULL, 'Jawa', '2015-03-01 00:00:00', '2015-06-30 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Budi', '2015-04-07 00:00:00', 'BCAf', '483290482', 'Single', 1, 'csfds', 'qwe', 'Mr.', 'my.email@gmail.com', 97, '2015-05-02 16:07:42', '2015-05-13 13:00:22'),
 	('Susan', 'Aulia', 'Jakarta', 'Female', 1, 'Jln. Padang', 1, 13, 72, '12345', '987651', '784561', NULL, 'Ms Word, Ms Excel', 'Research Skill', 35, 125, '1985-12-19 00:00:00', NULL, NULL, NULL, '2015-05-01 00:00:00', '2015-07-31 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Single', NULL, NULL, NULL, 'Ms.', 'susan.aulia', 97, '2015-05-04 21:35:17', '2015-05-04 21:35:17'),
 	('Bella', 'Nurul', 'Jakarta', 'Female', 1, 'jakarta', 1, 31, 156, '11250', '12345', NULL, NULL, NULL, NULL, 44, 134, '1986-04-15 00:00:00', NULL, NULL, NULL, '2015-05-05 00:00:00', '2015-06-30 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Single', NULL, NULL, NULL, 'Ms.', 'bella.nurul', 97, '2015-05-05 09:21:58', '2015-05-05 09:21:58'),
 	('Fitri', 'f', 'Jakarta', 'Female', 1, 'jakarta', 1, 31, 155, '12345', '1235', 's', NULL, 'a', NULL, 45, 137, '1980-05-05 00:00:00', NULL, NULL, NULL, '2015-05-06 00:00:00', '2015-07-31 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Married', NULL, NULL, NULL, 'Ms.', 'fitri', 97, '2015-05-05 13:42:21', '2015-05-05 13:42:21');
@@ -2006,7 +1995,6 @@ INSERT INTO `employee` (`first_name`, `last_name`, `place_of_birth`, `gender`, `
 
 
 -- Dumping structure for table hrms.employee_dependent
-DROP TABLE IF EXISTS `employee_dependent`;
 CREATE TABLE IF NOT EXISTS `employee_dependent` (
   `employee_dependent_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -2015,10 +2003,10 @@ CREATE TABLE IF NOT EXISTS `employee_dependent` (
   `date_of_birth` datetime DEFAULT NULL,
   `entitled` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`employee_dependent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.employee_dependent: ~1 rows (approximately)
 /*!40000 ALTER TABLE `employee_dependent` DISABLE KEYS */;
@@ -2028,7 +2016,6 @@ INSERT INTO `employee_dependent` (`employee_dependent_id`, `user_id`, `relation`
 
 
 -- Dumping structure for table hrms.employee_education
-DROP TABLE IF EXISTS `employee_education`;
 CREATE TABLE IF NOT EXISTS `employee_education` (
   `employee_education_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -2039,12 +2026,12 @@ CREATE TABLE IF NOT EXISTS `employee_education` (
   `year_to` int(11) DEFAULT NULL,
   `countries_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`employee_education_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.employee_education: ~1 rows (approximately)
+-- Dumping data for table hrms.employee_education: ~5 rows (approximately)
 /*!40000 ALTER TABLE `employee_education` DISABLE KEYS */;
 INSERT INTO `employee_education` (`employee_education_id`, `user_id`, `education_id`, `major`, `place`, `year_from`, `year_to`, `countries_id`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(13, 97, 2, 'dfgfd', 'gfdgf', 2000, 2003, 101, NULL, '2015-05-02 16:07:42', '2015-05-02 16:07:42'),
@@ -2056,7 +2043,6 @@ INSERT INTO `employee_education` (`employee_education_id`, `user_id`, `education
 
 
 -- Dumping structure for table hrms.employee_eyeglasses
-DROP TABLE IF EXISTS `employee_eyeglasses`;
 CREATE TABLE IF NOT EXISTS `employee_eyeglasses` (
   `employee_eyeglasses_id` int(11) NOT NULL AUTO_INCREMENT,
   `claim_type` varchar(50) NOT NULL,
@@ -2068,7 +2054,7 @@ CREATE TABLE IF NOT EXISTS `employee_eyeglasses` (
   `paid_status` int(11) DEFAULT NULL,
   `remarks` varchar(200) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`employee_eyeglasses_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
@@ -2081,7 +2067,6 @@ INSERT INTO `employee_eyeglasses` (`employee_eyeglasses_id`, `claim_type`, `user
 
 
 -- Dumping structure for table hrms.employee_history
-DROP TABLE IF EXISTS `employee_history`;
 CREATE TABLE IF NOT EXISTS `employee_history` (
   `applicants_history_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -2100,10 +2085,10 @@ CREATE TABLE IF NOT EXISTS `employee_history` (
   `terminate_date` datetime DEFAULT NULL,
   `housing` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`applicants_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.employee_history: ~0 rows (approximately)
 /*!40000 ALTER TABLE `employee_history` DISABLE KEYS */;
@@ -2111,7 +2096,6 @@ CREATE TABLE IF NOT EXISTS `employee_history` (
 
 
 -- Dumping structure for table hrms.employee_language
-DROP TABLE IF EXISTS `employee_language`;
 CREATE TABLE IF NOT EXISTS `employee_language` (
   `employee_language_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -2119,13 +2103,13 @@ CREATE TABLE IF NOT EXISTS `employee_language` (
   `language_skill_id` int(50) DEFAULT NULL,
   `language_val` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`employee_language_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.employee_language: ~2 rows (approximately)
+-- Dumping data for table hrms.employee_language: ~11 rows (approximately)
 /*!40000 ALTER TABLE `employee_language` DISABLE KEYS */;
 INSERT INTO `employee_language` (`employee_language_id`, `user_id`, `language_id`, `language_skill_id`, `language_val`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(3, 97, -1, 4, ' Holland', NULL, '2015-05-02 16:07:43', '2015-05-02 16:07:43'),
@@ -2143,7 +2127,6 @@ INSERT INTO `employee_language` (`employee_language_id`, `user_id`, `language_id
 
 
 -- Dumping structure for table hrms.employee_medical_checkup
-DROP TABLE IF EXISTS `employee_medical_checkup`;
 CREATE TABLE IF NOT EXISTS `employee_medical_checkup` (
   `employee_medical_checkup_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -2154,10 +2137,10 @@ CREATE TABLE IF NOT EXISTS `employee_medical_checkup` (
   `paid_status` int(11) DEFAULT NULL,
   `remarks` varchar(200) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`employee_medical_checkup_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table hrms.employee_medical_checkup: ~0 rows (approximately)
 /*!40000 ALTER TABLE `employee_medical_checkup` DISABLE KEYS */;
@@ -2165,7 +2148,6 @@ CREATE TABLE IF NOT EXISTS `employee_medical_checkup` (
 
 
 -- Dumping structure for table hrms.employee_outpatient
-DROP TABLE IF EXISTS `employee_outpatient`;
 CREATE TABLE IF NOT EXISTS `employee_outpatient` (
   `employee_outpatient_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -2177,24 +2159,24 @@ CREATE TABLE IF NOT EXISTS `employee_outpatient` (
   `paid_status` int(11) DEFAULT NULL,
   `remarks` varchar(200) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`employee_outpatient_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.employee_outpatient: ~3 rows (approximately)
+-- Dumping data for table hrms.employee_outpatient: ~6 rows (approximately)
 /*!40000 ALTER TABLE `employee_outpatient` DISABLE KEYS */;
 INSERT INTO `employee_outpatient` (`employee_outpatient_id`, `user_id`, `invoice_date`, `invoice_val`, `claim`, `paid`, `input_date`, `paid_status`, `remarks`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(42, 97, '2015-04-28 00:00:00', 200000, 200000, 180000, '2015-04-28 00:00:00', 1, 'gfdgfd', NULL, '2015-05-02 16:07:43', '2015-05-02 16:07:43'),
 	(43, 97, '2015-04-29 00:00:00', 350000, 350000, 315000, '2015-04-28 00:00:00', 1, 'ifhdsui hfudsi', 97, '2015-05-02 16:07:43', '2015-05-05 01:28:36'),
 	(44, 97, '2015-04-28 00:00:00', -60000, -60000, -54000, '2015-05-05 00:00:00', 1, 'salah bayar', 125, '2015-05-02 16:07:43', '2015-05-05 13:54:30'),
 	(46, 97, '2015-05-05 00:00:00', 210000, 210000, 189000, '2015-05-05 00:00:00', 1, 'obat', 125, '2015-05-05 01:25:38', '2015-05-05 13:54:31'),
-	(47, 97, '2015-05-05 00:00:00', 50000, 50000, 45000, '2015-05-05 00:00:00', 1, '', 125, '2015-05-05 13:53:42', '2015-05-05 13:54:32');
+	(47, 97, '2015-05-05 00:00:00', 50000, 50000, 45000, '2015-05-05 00:00:00', 1, '', 125, '2015-05-05 13:53:42', '2015-05-05 13:54:32'),
+	(48, 97, '2015-05-13 00:00:00', 75000, 75000, 67500, '2015-05-13 00:00:00', NULL, '', 97, '2015-05-13 13:12:32', '2015-05-13 13:12:32');
 /*!40000 ALTER TABLE `employee_outpatient` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.employee_pregnancy
-DROP TABLE IF EXISTS `employee_pregnancy`;
 CREATE TABLE IF NOT EXISTS `employee_pregnancy` (
   `employee_pregnancy_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -2206,12 +2188,12 @@ CREATE TABLE IF NOT EXISTS `employee_pregnancy` (
   `paid_status` int(11) DEFAULT NULL,
   `remarks` varchar(200) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`employee_pregnancy_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.employee_pregnancy: ~0 rows (approximately)
+-- Dumping data for table hrms.employee_pregnancy: ~2 rows (approximately)
 /*!40000 ALTER TABLE `employee_pregnancy` DISABLE KEYS */;
 INSERT INTO `employee_pregnancy` (`employee_pregnancy_id`, `user_id`, `invoice_date`, `invoice_val`, `claim`, `paid`, `input_date`, `paid_status`, `remarks`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(24, 97, '2015-05-05 00:00:00', 750000, 750000, 675000, '2015-05-05 00:00:00', NULL, 'rs ', 97, '2015-05-05 01:36:09', '2015-05-05 01:36:09'),
@@ -2220,7 +2202,6 @@ INSERT INTO `employee_pregnancy` (`employee_pregnancy_id`, `user_id`, `invoice_d
 
 
 -- Dumping structure for table hrms.employee_working
-DROP TABLE IF EXISTS `employee_working`;
 CREATE TABLE IF NOT EXISTS `employee_working` (
   `employee_working_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -2237,12 +2218,12 @@ CREATE TABLE IF NOT EXISTS `employee_working` (
   `phone` varchar(50) DEFAULT NULL,
   `countries_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`employee_working_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.employee_working: ~0 rows (approximately)
+-- Dumping data for table hrms.employee_working: ~4 rows (approximately)
 /*!40000 ALTER TABLE `employee_working` DISABLE KEYS */;
 INSERT INTO `employee_working` (`employee_working_id`, `user_id`, `month_from`, `year_from`, `month_to`, `year_to`, `employer`, `job_title`, `business_id`, `may_contact`, `leave_reason`, `email`, `phone`, `countries_id`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(26, 125, 5, 2004, 1, 2007, 'IT Solusindo', 'Staff', 2, 1, NULL, 'james.watt', NULL, 101, 97, '2015-05-04 21:35:17', '2015-05-04 21:35:17'),
@@ -2253,13 +2234,12 @@ INSERT INTO `employee_working` (`employee_working_id`, `user_id`, `month_from`, 
 
 
 -- Dumping structure for table hrms.filter_choice
-DROP TABLE IF EXISTS `filter_choice`;
 CREATE TABLE IF NOT EXISTS `filter_choice` (
   `filter_choice_id` int(11) NOT NULL AUTO_INCREMENT,
   `filter_choice_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`filter_choice_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
@@ -2281,13 +2261,12 @@ INSERT INTO `filter_choice` (`filter_choice_id`, `filter_choice_val`, `sort_id`,
 
 
 -- Dumping structure for table hrms.gender
-DROP TABLE IF EXISTS `gender`;
 CREATE TABLE IF NOT EXISTS `gender` (
   `gender_id` int(11) NOT NULL AUTO_INCREMENT,
   `gender` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`gender_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -2301,7 +2280,6 @@ INSERT INTO `gender` (`gender_id`, `gender`, `sort_id`, `updated_by`, `created_a
 
 
 -- Dumping structure for table hrms.job_applied
-DROP TABLE IF EXISTS `job_applied`;
 CREATE TABLE IF NOT EXISTS `job_applied` (
   `job_applied_id` int(11) NOT NULL AUTO_INCREMENT,
   `vacancy_id` int(11) DEFAULT NULL,
@@ -2314,30 +2292,29 @@ CREATE TABLE IF NOT EXISTS `job_applied` (
   `salary_expectation` int(11) DEFAULT NULL,
   `negotiable` tinyint(1) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`job_applied_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.job_applied: ~1 rows (approximately)
+-- Dumping data for table hrms.job_applied: ~5 rows (approximately)
 /*!40000 ALTER TABLE `job_applied` DISABLE KEYS */;
 INSERT INTO `job_applied` (`job_applied_id`, `vacancy_id`, `user_id`, `date_applied`, `description`, `vacancy_progress_id`, `vacancy_shortlist`, `next_vacancy_progress_id`, `salary_expectation`, `negotiable`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(4, 3, 113, '2015-05-04 15:12:11', NULL, 6, 0, -1, 5500000, 1, 97, '2015-05-04 15:12:11', '2015-05-05 09:13:09'),
 	(5, 3, 115, '2015-05-04 22:47:20', NULL, 6, 0, 1000, 7000000, 1, 97, '2015-05-04 22:47:20', '2015-05-05 09:21:58'),
-	(6, 3, 116, '2015-05-04 22:50:55', NULL, 3, 0, NULL, 5000000, 0, 97, '2015-05-04 22:50:55', '2015-05-05 00:51:26'),
-	(7, 3, 114, '2015-05-05 09:46:12', NULL, 3, 0, NULL, 5000000, 1, 97, '2015-05-05 09:46:12', '2015-05-05 10:55:27'),
+	(6, 3, 116, '2015-05-04 22:50:55', NULL, 3, 1, 6, 5000000, 0, 97, '2015-05-04 22:50:55', '2015-05-09 15:26:58'),
+	(7, 3, 114, '2015-05-05 09:46:12', NULL, 3, 1, 4, 5000000, 1, 97, '2015-05-05 09:46:12', '2015-05-09 15:27:27'),
 	(8, 1, 136, '2015-05-05 13:33:41', NULL, 6, 0, 1000, 2000000, 1, 97, '2015-05-05 13:33:41', '2015-05-05 13:42:21');
 /*!40000 ALTER TABLE `job_applied` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.job_position
-DROP TABLE IF EXISTS `job_position`;
 CREATE TABLE IF NOT EXISTS `job_position` (
   `job_position_id` int(11) NOT NULL AUTO_INCREMENT,
   `job_position` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`job_position_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -2351,13 +2328,12 @@ INSERT INTO `job_position` (`job_position_id`, `job_position`, `sort_id`, `updat
 
 
 -- Dumping structure for table hrms.job_title
-DROP TABLE IF EXISTS `job_title`;
 CREATE TABLE IF NOT EXISTS `job_title` (
   `job_title_id` int(11) NOT NULL AUTO_INCREMENT,
   `job_title` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`job_title_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -2372,13 +2348,12 @@ INSERT INTO `job_title` (`job_title_id`, `job_title`, `sort_id`, `updated_by`, `
 
 
 -- Dumping structure for table hrms.language
-DROP TABLE IF EXISTS `language`;
 CREATE TABLE IF NOT EXISTS `language` (
   `language_id` int(11) NOT NULL AUTO_INCREMENT,
   `language_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`language_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -2393,13 +2368,12 @@ INSERT INTO `language` (`language_id`, `language_val`, `sort_id`, `updated_by`, 
 
 
 -- Dumping structure for table hrms.language_skill
-DROP TABLE IF EXISTS `language_skill`;
 CREATE TABLE IF NOT EXISTS `language_skill` (
   `language_skill_id` int(11) NOT NULL AUTO_INCREMENT,
   `language_skill_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`language_skill_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
@@ -2416,13 +2390,12 @@ INSERT INTO `language_skill` (`language_skill_id`, `language_skill_val`, `sort_i
 
 
 -- Dumping structure for table hrms.location
-DROP TABLE IF EXISTS `location`;
 CREATE TABLE IF NOT EXISTS `location` (
   `location_id` int(11) NOT NULL AUTO_INCREMENT,
   `location_code` varchar(50) DEFAULT NULL,
   `location_val` varchar(1000) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`location_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -2436,12 +2409,11 @@ INSERT INTO `location` (`location_id`, `location_code`, `location_val`, `updated
 
 
 -- Dumping structure for table hrms.marital_status
-DROP TABLE IF EXISTS `marital_status`;
 CREATE TABLE IF NOT EXISTS `marital_status` (
   `marital_status_id` int(11) NOT NULL AUTO_INCREMENT,
   `marital_status` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`marital_status_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -2455,12 +2427,11 @@ INSERT INTO `marital_status` (`marital_status_id`, `marital_status`, `updated_by
 
 
 -- Dumping structure for table hrms.migrations
-DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2473,13 +2444,12 @@ INSERT INTO `migrations` (`migration`, `batch`, `updated_by`, `created_at`, `upd
 
 
 -- Dumping structure for table hrms.month_options
-DROP TABLE IF EXISTS `month_options`;
 CREATE TABLE IF NOT EXISTS `month_options` (
   `month_options_id` int(11) NOT NULL AUTO_INCREMENT,
   `month_id` int(11) DEFAULT NULL,
   `month_name` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`month_options_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -2490,13 +2460,12 @@ CREATE TABLE IF NOT EXISTS `month_options` (
 
 
 -- Dumping structure for table hrms.m_category
-DROP TABLE IF EXISTS `m_category`;
 CREATE TABLE IF NOT EXISTS `m_category` (
   `category_id` int(11) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
@@ -2516,7 +2485,6 @@ INSERT INTO `m_category` (`category_id`, `category_name`, `sort_id`, `updated_by
 
 
 -- Dumping structure for table hrms.m_module
-DROP TABLE IF EXISTS `m_module`;
 CREATE TABLE IF NOT EXISTS `m_module` (
   `module_id` int(11) NOT NULL AUTO_INCREMENT,
   `module_name` varchar(50) DEFAULT NULL,
@@ -2526,7 +2494,7 @@ CREATE TABLE IF NOT EXISTS `m_module` (
   `sort_id` int(11) DEFAULT NULL,
   `sub_module` varchar(2000) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`module_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
@@ -2588,14 +2556,13 @@ INSERT INTO `m_module` (`module_id`, `module_name`, `module_description`, `statu
 
 
 -- Dumping structure for table hrms.m_role
-DROP TABLE IF EXISTS `m_role`;
 CREATE TABLE IF NOT EXISTS `m_role` (
   `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(50) DEFAULT NULL,
   `role_description` varchar(100) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
@@ -2614,12 +2581,11 @@ INSERT INTO `m_role` (`role_id`, `role_name`, `role_description`, `status_id`, `
 
 
 -- Dumping structure for table hrms.m_role_module
-DROP TABLE IF EXISTS `m_role_module`;
 CREATE TABLE IF NOT EXISTS `m_role_module` (
   `role_id` int(11) NOT NULL DEFAULT '0',
   `module_id` int(11) NOT NULL DEFAULT '0',
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`role_id`,`module_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -2698,7 +2664,6 @@ INSERT INTO `m_role_module` (`role_id`, `module_id`, `updated_by`, `created_at`,
 
 
 -- Dumping structure for table hrms.m_user
-DROP TABLE IF EXISTS `m_user`;
 CREATE TABLE IF NOT EXISTS `m_user` (
   `pwd` varchar(1000) DEFAULT NULL,
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -2706,12 +2671,12 @@ CREATE TABLE IF NOT EXISTS `m_user` (
   `activation_code` varchar(50) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
 
--- Dumping data for table hrms.m_user: ~2 rows (approximately)
+-- Dumping data for table hrms.m_user: ~10 rows (approximately)
 /*!40000 ALTER TABLE `m_user` DISABLE KEYS */;
 INSERT INTO `m_user` (`pwd`, `user_id`, `user_name`, `activation_code`, `status_id`, `updated_by`, `created_at`, `updated_at`) VALUES
 	('1f40fc92da241694750979ee6cf582f2d5d7d28e18335de05abc54d0560e0f5302860c652bf08d560252aa5e74210546f369fbbbce8c12cfc7957b2652fe9a75', 97, 'amir', 'zs5tc7jvmtdrvch8r7s3hzvw4vnxr2', 1, NULL, '2015-05-02 16:07:44', '2015-05-02 16:07:44'),
@@ -2728,17 +2693,16 @@ INSERT INTO `m_user` (`pwd`, `user_id`, `user_name`, `activation_code`, `status_
 
 
 -- Dumping structure for table hrms.m_user_role
-DROP TABLE IF EXISTS `m_user_role`;
 CREATE TABLE IF NOT EXISTS `m_user_role` (
   `role_id` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`role_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.m_user_role: ~12 rows (approximately)
+-- Dumping data for table hrms.m_user_role: ~21 rows (approximately)
 /*!40000 ALTER TABLE `m_user_role` DISABLE KEYS */;
 INSERT INTO `m_user_role` (`role_id`, `user_id`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 103, NULL, '2015-05-02 16:07:44', '2015-05-02 16:07:44'),
@@ -2766,13 +2730,12 @@ INSERT INTO `m_user_role` (`role_id`, `user_id`, `updated_by`, `created_at`, `up
 
 
 -- Dumping structure for table hrms.nationality
-DROP TABLE IF EXISTS `nationality`;
 CREATE TABLE IF NOT EXISTS `nationality` (
   `nationality_id` int(11) NOT NULL AUTO_INCREMENT,
   `nationality_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`nationality_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
@@ -2795,7 +2758,6 @@ INSERT INTO `nationality` (`nationality_id`, `nationality_val`, `sort_id`, `upda
 
 
 -- Dumping structure for table hrms.project_location
-DROP TABLE IF EXISTS `project_location`;
 CREATE TABLE IF NOT EXISTS `project_location` (
   `project_location_id` int(11) NOT NULL AUTO_INCREMENT,
   `project_location` varchar(50) DEFAULT NULL,
@@ -2804,12 +2766,12 @@ CREATE TABLE IF NOT EXISTS `project_location` (
   `start_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`project_location_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.project_location: ~4 rows (approximately)
+-- Dumping data for table hrms.project_location: ~3 rows (approximately)
 /*!40000 ALTER TABLE `project_location` DISABLE KEYS */;
 INSERT INTO `project_location` (`project_location_id`, `project_location`, `office_manager`, `project_name`, `start_date`, `end_date`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 'Jakarta GIZ', 125, 'PAKLIM', '2015-02-01 00:00:00', '2015-02-10 00:00:00', 97, '2015-05-02 16:07:44', '2015-05-04 21:59:26'),
@@ -2819,7 +2781,6 @@ INSERT INTO `project_location` (`project_location_id`, `project_location`, `offi
 
 
 -- Dumping structure for table hrms.project_name
-DROP TABLE IF EXISTS `project_name`;
 CREATE TABLE IF NOT EXISTS `project_name` (
   `project_name_id` int(11) NOT NULL AUTO_INCREMENT,
   `project_name` varchar(50) DEFAULT NULL,
@@ -2828,12 +2789,12 @@ CREATE TABLE IF NOT EXISTS `project_name` (
   `start_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`project_name_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.project_name: ~4 rows (approximately)
+-- Dumping data for table hrms.project_name: ~3 rows (approximately)
 /*!40000 ALTER TABLE `project_name` DISABLE KEYS */;
 INSERT INTO `project_name` (`project_name_id`, `project_name`, `principal_advisor`, `financial_controller`, `start_date`, `end_date`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(3, 'PAKLIM', 125, 125, '2015-01-01 00:00:00', '2015-02-05 00:00:00', 97, '2015-05-02 16:07:44', '2015-05-04 21:58:19'),
@@ -2843,7 +2804,6 @@ INSERT INTO `project_name` (`project_name_id`, `project_name`, `principal_adviso
 
 
 -- Dumping structure for table hrms.project_number
-DROP TABLE IF EXISTS `project_number`;
 CREATE TABLE IF NOT EXISTS `project_number` (
   `project_number_id` int(11) NOT NULL AUTO_INCREMENT,
   `project_number` varchar(50) DEFAULT NULL,
@@ -2852,12 +2812,12 @@ CREATE TABLE IF NOT EXISTS `project_number` (
   `start_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`project_number_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.project_number: ~4 rows (approximately)
+-- Dumping data for table hrms.project_number: ~2 rows (approximately)
 /*!40000 ALTER TABLE `project_number` DISABLE KEYS */;
 INSERT INTO `project_number` (`project_number_id`, `project_number`, `project_name`, `team_leader`, `start_date`, `end_date`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(2, '001', 'Nama-Sutri', 125, NULL, NULL, 97, '2015-05-02 16:07:44', '2015-05-04 21:58:48'),
@@ -2866,14 +2826,13 @@ INSERT INTO `project_number` (`project_number_id`, `project_number`, `project_na
 
 
 -- Dumping structure for table hrms.province
-DROP TABLE IF EXISTS `province`;
 CREATE TABLE IF NOT EXISTS `province` (
   `province_id` int(11) NOT NULL AUTO_INCREMENT,
   `province_val` varchar(50) DEFAULT NULL,
   `region_id` int(11) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`province_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=latin1;
@@ -2919,12 +2878,11 @@ INSERT INTO `province` (`province_id`, `province_val`, `region_id`, `sort_id`, `
 
 
 -- Dumping structure for table hrms.question
-DROP TABLE IF EXISTS `question`;
 CREATE TABLE IF NOT EXISTS `question` (
   `question_id` int(11) NOT NULL AUTO_INCREMENT,
   `question_val` varchar(1000) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`question_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
@@ -2942,12 +2900,11 @@ INSERT INTO `question` (`question_id`, `question_val`, `updated_by`, `created_at
 
 
 -- Dumping structure for table hrms.ranking
-DROP TABLE IF EXISTS `ranking`;
 CREATE TABLE IF NOT EXISTS `ranking` (
   `ranking_id` int(11) NOT NULL AUTO_INCREMENT,
   `ranking_val` varchar(40) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`ranking_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -2962,13 +2919,12 @@ INSERT INTO `ranking` (`ranking_id`, `ranking_val`, `updated_by`, `created_at`, 
 
 
 -- Dumping structure for table hrms.region
-DROP TABLE IF EXISTS `region`;
 CREATE TABLE IF NOT EXISTS `region` (
   `region_id` int(11) NOT NULL AUTO_INCREMENT,
   `region_val` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`region_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
@@ -2986,13 +2942,12 @@ INSERT INTO `region` (`region_id`, `region_val`, `sort_id`, `updated_by`, `creat
 
 
 -- Dumping structure for table hrms.relation
-DROP TABLE IF EXISTS `relation`;
 CREATE TABLE IF NOT EXISTS `relation` (
   `relation_id` int(11) NOT NULL AUTO_INCREMENT,
   `relation` varchar(50) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`relation_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
@@ -3007,11 +2962,10 @@ INSERT INTO `relation` (`relation_id`, `relation`, `sort_id`, `updated_by`, `cre
 
 
 -- Dumping structure for table hrms.salary_band
-DROP TABLE IF EXISTS `salary_band`;
 CREATE TABLE IF NOT EXISTS `salary_band` (
   `salary_band` varchar(50) NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`salary_band`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -3034,13 +2988,12 @@ INSERT INTO `salary_band` (`salary_band`, `updated_by`, `created_at`, `updated_a
 
 
 -- Dumping structure for table hrms.salary_enc
-DROP TABLE IF EXISTS `salary_enc`;
 CREATE TABLE IF NOT EXISTS `salary_enc` (
   `contract_history_id` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `salary_enc` varchar(256) CHARACTER SET utf8 DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`contract_history_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -3060,13 +3013,12 @@ INSERT INTO `salary_enc` (`contract_history_id`, `user_id`, `salary_enc`, `updat
 
 
 -- Dumping structure for table hrms.salary_enc2
-DROP TABLE IF EXISTS `salary_enc2`;
 CREATE TABLE IF NOT EXISTS `salary_enc2` (
   `contract_history_id` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `salary_enc` varchar(256) CHARACTER SET utf8 DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -3082,13 +3034,12 @@ INSERT INTO `salary_enc2` (`contract_history_id`, `user_id`, `salary_enc`, `upda
 
 
 -- Dumping structure for table hrms.salary_enc_history
-DROP TABLE IF EXISTS `salary_enc_history`;
 CREATE TABLE IF NOT EXISTS `salary_enc_history` (
   `contract_history_id` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `salary_enc` varchar(256) CHARACTER SET utf8 DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -3098,7 +3049,6 @@ CREATE TABLE IF NOT EXISTS `salary_enc_history` (
 
 
 -- Dumping structure for table hrms.salary_sharing
-DROP TABLE IF EXISTS `salary_sharing`;
 CREATE TABLE IF NOT EXISTS `salary_sharing` (
   `salary_sharing_id` int(11) NOT NULL AUTO_INCREMENT,
   `contract_history_id` int(11) DEFAULT NULL,
@@ -3106,12 +3056,12 @@ CREATE TABLE IF NOT EXISTS `salary_sharing` (
   `percentage` int(11) DEFAULT NULL,
   `project_number` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`salary_sharing_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.salary_sharing: ~0 rows (approximately)
+-- Dumping data for table hrms.salary_sharing: ~3 rows (approximately)
 /*!40000 ALTER TABLE `salary_sharing` DISABLE KEYS */;
 INSERT INTO `salary_sharing` (`salary_sharing_id`, `contract_history_id`, `project_name`, `percentage`, `project_number`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(8, 133, 'PAKLIM', 100, '001-PAK', 97, '2015-05-04 22:29:04', '2015-05-04 22:29:04'),
@@ -3121,7 +3071,6 @@ INSERT INTO `salary_sharing` (`salary_sharing_id`, `contract_history_id`, `proje
 
 
 -- Dumping structure for table hrms.salary_sharing2
-DROP TABLE IF EXISTS `salary_sharing2`;
 CREATE TABLE IF NOT EXISTS `salary_sharing2` (
   `user_id` int(11) DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
@@ -3129,7 +3078,7 @@ CREATE TABLE IF NOT EXISTS `salary_sharing2` (
   `percentage` varchar(50) DEFAULT NULL,
   `project_number` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -3159,12 +3108,11 @@ INSERT INTO `salary_sharing2` (`user_id`, `end_date`, `project_name`, `percentag
 
 
 -- Dumping structure for table hrms.settings
-DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
   `setting_name` varchar(50) NOT NULL,
   `setting_val` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `settings_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`settings_id`)
@@ -3184,12 +3132,11 @@ INSERT INTO `settings` (`setting_name`, `setting_val`, `updated_by`, `created_at
 
 
 -- Dumping structure for table hrms.signature
-DROP TABLE IF EXISTS `signature`;
 CREATE TABLE IF NOT EXISTS `signature` (
   `signature_id` int(11) NOT NULL AUTO_INCREMENT,
   `signature` varchar(1000) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`signature_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -3202,13 +3149,12 @@ INSERT INTO `signature` (`signature_id`, `signature`, `updated_by`, `created_at`
 
 
 -- Dumping structure for table hrms.title
-DROP TABLE IF EXISTS `title`;
 CREATE TABLE IF NOT EXISTS `title` (
   `title_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(30) DEFAULT NULL,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`title_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
@@ -3223,12 +3169,11 @@ INSERT INTO `title` (`title_id`, `title`, `sort_id`, `updated_by`, `created_at`,
 
 
 -- Dumping structure for table hrms.training
-DROP TABLE IF EXISTS `training`;
 CREATE TABLE IF NOT EXISTS `training` (
   `training_id` int(11) NOT NULL AUTO_INCREMENT,
   `training_name` varchar(50) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`training_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -3239,7 +3184,6 @@ CREATE TABLE IF NOT EXISTS `training` (
 
 
 -- Dumping structure for table hrms.user_ranking
-DROP TABLE IF EXISTS `user_ranking`;
 CREATE TABLE IF NOT EXISTS `user_ranking` (
   `user_ranking_id` int(11) NOT NULL AUTO_INCREMENT,
   `vacancy_employee_id` int(11) DEFAULT NULL,
@@ -3247,12 +3191,12 @@ CREATE TABLE IF NOT EXISTS `user_ranking` (
   `user_comment` varchar(500) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_ranking_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.user_ranking: ~0 rows (approximately)
+-- Dumping data for table hrms.user_ranking: ~15 rows (approximately)
 /*!40000 ALTER TABLE `user_ranking` DISABLE KEYS */;
 INSERT INTO `user_ranking` (`user_ranking_id`, `vacancy_employee_id`, `ranking_id`, `user_comment`, `user_id`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 2, 1, 'ok', 115, 97, '2015-05-04 23:23:11', '2015-05-04 23:23:11'),
@@ -3268,12 +3212,12 @@ INSERT INTO `user_ranking` (`user_ranking_id`, `vacancy_employee_id`, `ranking_i
 	(11, 3, 1, 'a', 114, 97, '2015-05-05 10:54:01', '2015-05-05 10:54:01'),
 	(12, 4, 2, 'ok', 114, 125, '2015-05-05 10:54:36', '2015-05-05 10:54:36'),
 	(13, 8, 1, 'good', 136, 97, '2015-05-05 13:37:04', '2015-05-05 13:37:04'),
-	(14, 7, 1, 'ok', 136, 134, '2015-05-05 13:38:17', '2015-05-05 13:38:17');
+	(14, 7, 1, 'ok', 136, 134, '2015-05-05 13:38:17', '2015-05-05 13:38:17'),
+	(15, 5, 1, 'good', 114, 97, '2015-05-09 15:27:27', '2015-05-09 15:27:27');
 /*!40000 ALTER TABLE `user_ranking` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.vacancy
-DROP TABLE IF EXISTS `vacancy`;
 CREATE TABLE IF NOT EXISTS `vacancy` (
   `vacancy_id` int(11) NOT NULL AUTO_INCREMENT,
   `vacancy_code` varchar(50) DEFAULT NULL,
@@ -3289,7 +3233,7 @@ CREATE TABLE IF NOT EXISTS `vacancy` (
   `vacancy_criteria` varchar(1000) DEFAULT NULL,
   `next_vacancy_progress_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`vacancy_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -3298,24 +3242,23 @@ CREATE TABLE IF NOT EXISTS `vacancy` (
 /*!40000 ALTER TABLE `vacancy` DISABLE KEYS */;
 INSERT INTO `vacancy` (`vacancy_id`, `vacancy_code`, `vacancy_name`, `vacancy_startdate`, `vacancy_enddate`, `vacancy_description`, `vacancy_closedate`, `vacancy_progress_id`, `vacancy_code2`, `vacancy_type`, `allowance`, `vacancy_criteria`, `next_vacancy_progress_id`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 'IT', 'IT Developer', '2015-04-01 00:00:00', '2015-05-31 00:00:00', _binary 0x495420446576656C6F706572206E6565646564, NULL, 6, 'IT', 'Intern', 300000, 'skills', 6, 97, '2015-05-02 16:07:45', '2015-05-05 13:42:21'),
-	(3, 'Acc', 'Accounting', '2015-04-27 00:00:00', '2015-05-31 00:00:00', _binary 0x4E6577204163636F756E74696E67205374616666206E6565646564, NULL, 3, 'Acc', 'Intern', 2000000, 'jfojfds fsd', 3, 97, '2015-05-02 16:07:45', '2015-05-05 12:58:21');
+	(3, 'Acc', 'Accounting', '2015-04-27 00:00:00', '2015-05-31 00:00:00', _binary 0x4E6577204163636F756E74696E67205374616666206E6565646564, NULL, 3, 'Acc', 'Intern', 2000000, 'jfojfds fsd', 4, 97, '2015-05-02 16:07:45', '2015-05-09 15:27:27');
 /*!40000 ALTER TABLE `vacancy` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.vacancy_employee
-DROP TABLE IF EXISTS `vacancy_employee`;
 CREATE TABLE IF NOT EXISTS `vacancy_employee` (
   `vacancy_employee_id` int(11) NOT NULL AUTO_INCREMENT,
   `vacancy_id` varchar(50) DEFAULT NULL,
   `employee_id` varchar(50) DEFAULT NULL,
   `vacancy_progress_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`vacancy_employee_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.vacancy_employee: ~0 rows (approximately)
+-- Dumping data for table hrms.vacancy_employee: ~8 rows (approximately)
 /*!40000 ALTER TABLE `vacancy_employee` DISABLE KEYS */;
 INSERT INTO `vacancy_employee` (`vacancy_employee_id`, `vacancy_id`, `employee_id`, `vacancy_progress_id`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, '3', '125', 9, 97, '2015-05-04 23:22:53', '2015-05-04 23:22:53'),
@@ -3330,7 +3273,6 @@ INSERT INTO `vacancy_employee` (`vacancy_employee_id`, `vacancy_id`, `employee_i
 
 
 -- Dumping structure for table hrms.vacancy_interview
-DROP TABLE IF EXISTS `vacancy_interview`;
 CREATE TABLE IF NOT EXISTS `vacancy_interview` (
   `vacancy_interview_id` int(11) NOT NULL AUTO_INCREMENT,
   `interview_date` datetime DEFAULT NULL,
@@ -3340,12 +3282,12 @@ CREATE TABLE IF NOT EXISTS `vacancy_interview` (
   `vacancy_progress_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`vacancy_interview_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.vacancy_interview: ~0 rows (approximately)
+-- Dumping data for table hrms.vacancy_interview: ~8 rows (approximately)
 /*!40000 ALTER TABLE `vacancy_interview` DISABLE KEYS */;
 INSERT INTO `vacancy_interview` (`vacancy_interview_id`, `interview_date`, `interview_time`, `interview_place`, `vacancy_id`, `vacancy_progress_id`, `user_id`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, '2015-05-04 00:00:00', '12.30', 'Wisma Bakrie2', 3, 9, 115, 97, '2015-05-04 23:23:11', '2015-05-04 23:24:19'),
@@ -3354,12 +3296,12 @@ INSERT INTO `vacancy_interview` (`vacancy_interview_id`, `interview_date`, `inte
 	(4, '2015-05-05 00:00:00', '11.30', 'KLH', 3, 3, 116, 97, '2015-05-05 00:50:19', '2015-05-05 00:50:19'),
 	(5, '2015-05-05 00:00:00', '17.30', 'Wisma Bakrie2', 3, 4, 115, 97, '2015-05-05 01:57:39', '2015-05-05 01:57:39'),
 	(6, '2015-05-05 00:00:00', '17.00', 'Wisma Bakrie2', 3, 3, 114, 97, '2015-05-05 10:54:01', '2015-05-05 10:54:01'),
-	(7, '2015-05-05 00:00:00', '11.00', 'Wisma Bakrie2', 1, 3, 136, 97, '2015-05-05 13:37:04', '2015-05-05 13:38:55');
+	(7, '2015-05-05 00:00:00', '11.00', 'Wisma Bakrie2', 1, 3, 136, 97, '2015-05-05 13:37:04', '2015-05-05 13:38:55'),
+	(8, '2015-05-09 00:00:00', '12.15', 'Wisma Bakrie2', 3, 4, 114, 97, '2015-05-09 15:27:27', '2015-05-09 15:27:27');
 /*!40000 ALTER TABLE `vacancy_interview` ENABLE KEYS */;
 
 
 -- Dumping structure for table hrms.vacancy_progress
-DROP TABLE IF EXISTS `vacancy_progress`;
 CREATE TABLE IF NOT EXISTS `vacancy_progress` (
   `vacancy_progress_id` int(11) NOT NULL AUTO_INCREMENT,
   `vacancy_progress_val` varchar(50) DEFAULT NULL,
@@ -3368,7 +3310,7 @@ CREATE TABLE IF NOT EXISTS `vacancy_progress` (
   `required` int(11) DEFAULT NULL,
   `active` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`vacancy_progress_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
@@ -3386,18 +3328,17 @@ INSERT INTO `vacancy_progress` (`vacancy_progress_id`, `vacancy_progress_val`, `
 
 
 -- Dumping structure for table hrms.vacancy_question
-DROP TABLE IF EXISTS `vacancy_question`;
 CREATE TABLE IF NOT EXISTS `vacancy_question` (
   `vacancy_question_id` int(11) NOT NULL AUTO_INCREMENT,
   `question_id` int(11) DEFAULT NULL,
   `vacancy_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`vacancy_question_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.vacancy_question: ~2 rows (approximately)
+-- Dumping data for table hrms.vacancy_question: ~5 rows (approximately)
 /*!40000 ALTER TABLE `vacancy_question` DISABLE KEYS */;
 INSERT INTO `vacancy_question` (`vacancy_question_id`, `question_id`, `vacancy_id`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 5, 3, 97, '2015-05-04 15:11:29', '2015-05-04 15:11:29'),
@@ -3409,19 +3350,18 @@ INSERT INTO `vacancy_question` (`vacancy_question_id`, `question_id`, `vacancy_i
 
 
 -- Dumping structure for table hrms.vacancy_timeline
-DROP TABLE IF EXISTS `vacancy_timeline`;
 CREATE TABLE IF NOT EXISTS `vacancy_timeline` (
   `vacancy_timeline_id` int(11) NOT NULL AUTO_INCREMENT,
   `vacancy_id` int(11) DEFAULT NULL,
   `vacancy_progress_id` int(11) DEFAULT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`vacancy_timeline_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Dumping data for table hrms.vacancy_timeline: ~0 rows (approximately)
+-- Dumping data for table hrms.vacancy_timeline: ~8 rows (approximately)
 /*!40000 ALTER TABLE `vacancy_timeline` DISABLE KEYS */;
 INSERT INTO `vacancy_timeline` (`vacancy_timeline_id`, `vacancy_id`, `vacancy_progress_id`, `update_time`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(5, 3, 9, '2015-05-04 23:52:57', 97, '2015-05-04 23:52:57', '2015-05-04 23:52:57'),
@@ -3436,13 +3376,12 @@ INSERT INTO `vacancy_timeline` (`vacancy_timeline_id`, `vacancy_id`, `vacancy_pr
 
 
 -- Dumping structure for table hrms.vacancy_type
-DROP TABLE IF EXISTS `vacancy_type`;
 CREATE TABLE IF NOT EXISTS `vacancy_type` (
   `vacancy_type` varchar(50) DEFAULT NULL,
   `vacancy_type_id` int(11) NOT NULL AUTO_INCREMENT,
   `sort_id` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`vacancy_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
