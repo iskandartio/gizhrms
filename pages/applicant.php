@@ -132,7 +132,7 @@
 	
 	function Save() {
 		
-		if (!validate_empty(['first_name','last_name', 'place_of_birth','date_of_birth','gender','nationality_id','address','country_id','post_code','phone1'])) return;
+		if (!validate_empty(['title','first_name','last_name', 'place_of_birth','date_of_birth','gender','nationality_id','address','country_id','post_code','phone1'])) return;
 		if ($('#country_id').val()==-1) {
 			if (!validate_empty(['country_name'])) return;
 		} else {
@@ -154,7 +154,7 @@
 
 <table>
 	<tr style='display:none'><td>Applicants ID</td><td>:</td><td><?php _t("applicants_id",$applicant)?></td></tr>
-	<tr><td>Title</td><td>:</td><td><select id='title'><option value='' selected>-Title-</option><?php _p(combo_title($applicant['title']))?></select></td></tr>
+	<tr><td>Title *</td><td>:</td><td><select id='title'><option value='' selected>-Title-</option><?php _p(combo_title($applicant['title']))?></select></td></tr>
 	<tr><td>First Name *</td><td>:</td><td><?php _t("first_name",$applicant)?></td></tr>
 	<tr><td>Last Name *</td><td>:</td><td><?php _t("last_name", $applicant)?></td></tr>
 	<tr><td>Place of Birth *</td><td>:</td><td><?php _t("place_of_birth", $applicant)?></td></tr>

@@ -29,7 +29,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		$vacancy_progress[$row['vacancy_id']]['vacancy_progress_id']=$row['vacancy_progress_id'];
 		$vacancy_progress[$row['vacancy_id']]['next_vacancy_progress_id']=$row['next_vacancy_progress_id'];
 	}
-	
+	$filter_choice=shared::select_combo_complete(db::select('filter_choice','*','','sort_id'), 'filter_choice_val','-Filter-');
 ?>
 <script src='js/projectView.js'></script>
 <script src='js/filter_applicant_closing.js'></script>
@@ -171,7 +171,8 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var data={};
 		data['type']='search';
 		data=prepareDataText(data,['vacancy_id','vacancy_progress_id','next_vacancy_progress_id', 'filter_name'
-		,'filter_city','filter_business','filter_computer_skill','filter_professional_skill','age_start','age_end']);
+		,'filter_city','filter_business','filter_computer_skill','filter_professional_skill','age_start','age_end'
+		, 'filter_choice_val','filter_choice_value']);
 		data=prepareDataDecimal(data,['salary_expectation_start','salary_expectation_end']);
 		data['filter_rejected']=$('#filter_rejected').prop('checked');
 		var filter_array=new Array();
@@ -182,6 +183,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			filter_array.push(filter_answer);
 		});
 		data['filter_answer']=filter_array;
+		
 		var success=function(msg) {
 			$('#search_result').html(msg);
 			if ($('#next_vacancy_progress_id  option:selected').html()=='Shortlist') {
@@ -252,7 +254,9 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		}
 
 		var success=function(msg) {
-		
+			btnChange(par, ['accept','delete'], field_closing);
+			bind('.btn_accept',"click", Accept);
+			bind('.btn_delete',"click", Delete);
 			//Search();
 		}
 		ajax(ajaxPage, data, success);
@@ -413,12 +417,12 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 		var par=$(obj).closest("tr");
 		var f=true;
 		current_idx=par.index();	
-		current_val=getChildSelect(par, 'employee_id', field_user);
+		current_val=getChildAutoComplete(par, 'employee_id', field_user);
 		par=$('#tbl_user tbody tr');
 		$.each(par, function(idx) {
 			
 			if (idx!=current_idx) {
-				var v=getChildSelect($(this), 'employee_id', field_user);
+				var v=getChildAutoComplete($(this), 'employee_id', field_user);
 				if (v==current_val) {
 					alert('User already exists!');
 					f=false;
@@ -436,7 +440,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			return;
 		}
 		par=$(this).closest("tr");
-		if (getChildHtml(par,'employee_id', field_user)=='') {
+		if (getChildAutoComplete(par,'employee_id', field_user)=='') {
 			par.remove();
 			return;
 		}
@@ -484,15 +488,9 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 	<div class='float150'><select id="next_vacancy_progress_id" title='Next Recruitment Process'><option selected value=''>Next Vacancy Progress</option></select></div>
 	</div>	
 </div>
-<?php if ($_SESSION['role_name']=='admin') {?>
 <button class="button_link" id="btn_add_user">Add User</button> 
-<?php }?>
 <table id="tbl_user" class="tbl">
-	<thead><tr><th>Vacancy User Id<th>User</th>
-<?php 
-if ($_SESSION['role_name']=='admin') {
-	_p("<th></th>");
-}?>
+	<thead><tr><th>Vacancy User Id<th>User</th><th></th>
 	</tr></thead>
 	<tbody></tbody>
 </table>
@@ -504,6 +502,7 @@ if ($_SESSION['role_name']=='admin') {
 	<table>
 		<tr><td>Salary Expectation</td><td>:</td><td><?php _t("salary_expectation_start")?> &nbsp;to <?php _t("salary_expectation_end")?></td></tr>
 		<tr><td>Age</td><td>:</td><td><?php _t("age_start","","2")?> &nbsp;to <?php _t("age_end","","2")?></td></tr>
+		<tr><td><?php _p($filter_choice)?></td><td>:</td><td><?php _t("filter_choice_value")?></td></tr>
 	</table>
 </div>
 <?php _p(shared::create_checkbox('filter_rejected','Filter Rejected'))?>

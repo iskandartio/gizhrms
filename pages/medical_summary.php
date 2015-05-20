@@ -1,8 +1,10 @@
 <?php $project_name_choice=shared::select_combo_complete(db::select('project_name','*','','project_name'), 'project_name','-Project Name-');
+//project_ajax link
 
 ?>
 <script src='js/projectView.js'></script>
 <script>
+	var ajaxPage='medical_summary_ajax';
 	$(function() {
 		bindAll();
 		loadData();
@@ -12,6 +14,7 @@
 			}
 		});
 		$( "#tabs" ).tabs( "option", "active", getCookie('medical_summary_tabs'));
+		fixSelect();
 
 	});
 	function bindAll() {
@@ -30,12 +33,13 @@
 		data['project_location']=$('.project_location').val();
 		var success=function(msg) {
 			var d=jQuery.parseJSON(msg);
+			var a=projectView('.div_project',null, null, ajaxPage);
 			$('#div_outpatient').html(d['outpatient']);
 			$('#div_pregnancy').html(d['pregnancy']);
 			$('#div_eyeglasses').html(d['eyeglasses']);
 			$('#div_medical_checkup').html(d['medical_checkup']);
 		}
-		ajax('medical_summary_ajax',data, success);
+		ajax(ajaxPage,data, success);
 	}
 </script>
 <div class='row'><input type='radio' name='year' class='year' checked="checked" value='this_year'/>This Year<input type='radio' name='year' class='year' value='last_year'/>Last Year</div>

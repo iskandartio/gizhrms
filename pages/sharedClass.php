@@ -23,9 +23,9 @@ group by user_id) b on a.user_id=b.user_id set a.contract_reminder_email=1");
 		if (!isset($_SESSION[$data])) return $def;
 		return $_SESSION[$data];
 	}
-	static function validate_download($user_id, $uid, $role_name) {
-
-		if ($user_id==$uid || $role_name=='admin') return $user_id;
+	static function validate_download($user_id, $uid) {
+		if (isset($_SESSION['allowed_module']['filter_applicant'])) return $user_id;
+		if ($user_id==$uid) return $user_id;
 		$res=db::DoQuery("select a.employee_id from vacancy_employee a
 inner join vacancy b on a.vacancy_id=b.vacancy_id and a.vacancy_progress_id>b.vacancy_progress_id
 inner join job_applied c on c.vacancy_id=a.vacancy_id and c.user_id=?
@@ -68,10 +68,8 @@ where a.employee_id=?", array($user_id, $uid));
 		return str_replace("value='".$val."'", "value='".$val."' selected", $str);
 	}
 	static function get_captcha_text($forced=false) {
-		
 		$_SESSION['captcha_text']="";
 		if ($_SESSION['check_abused']>10 || $forced) {
-		
 			return shared::get_captcha_string();
 		}
 		return "";
@@ -197,26 +195,37 @@ where a.employee_id=?", array($user_id, $uid));
 		}
 		
 		if (!isset($_SESSION["tbl_$tbl"])) {
-			
 			$res=db::select($tbl,"$tbl"."_id, $tbl"."_val");
 			$result=array();
 			foreach($res as $row) {
 				$result[$row["$tbl"."_id"]]=$row["$tbl"."_val"];
 			}
 			$_SESSION["tbl_$tbl"]=$result;
+			$_SESSION["tbl_$tbl"]['read_time']=date('Y-m-d H:i:s');
 			if (isset($_SESSION["tbl_$tbl"][$id])) {
 				return $_SESSION["tbl_$tbl"][$id];
 			} else {
 				return null;
 			}
 		}
-		if (!isset($_SESSION["tbl_$tbl"][$id])) {
+		
+		if (!isset($_SESSION["tbl_$tbl"]['read_time'])) {
 			unset($_SESSION["tbl_$tbl"]);
-			self::get_table_data($tbl, $id);
-			return;
+			return self::get_table_data($tbl, $id);
+		} else {
+			$updated_at= db::select_single($tbl, 'max(updated_at) v');
+			
+			if ($updated_at>$_SESSION["tbl_$tbl"]['read_time']) {
+				unset($_SESSION["tbl_$tbl"]);
+				return self::get_table_data($tbl, $id);
+			}
 		}
 		
-		return $_SESSION["tbl_$tbl"][$id];
+		if (isset($_SESSION["tbl_$tbl"][$id])) {
+			return $_SESSION["tbl_$tbl"][$id];
+		} else {
+			return null;
+		}
 	}
 	
 	static function create_checkbox($id, $label, $selected="", $value="", $class="") {
@@ -241,7 +250,7 @@ where a.employee_id=?", array($user_id, $uid));
 <script type="text/javascript">
 tinymce.remove();
 tinymce.init({
-    selector: "div'.$obj.'",
+    selector: "'.$obj.'",
 	inline:true,
 	fontsize_formats: "8pt 9pt 10pt 11pt 12pt 26pt 36pt",
     theme: "modern",
@@ -581,6 +590,7 @@ tinymce.init({
 		return $data;
 	}
 	static function getId($type, $id) {
+		if (!isset($_SESSION[$type][$id])) return "";
 		$old_id=$_SESSION[$type][$id];
 		return $old_id;
 	}
@@ -654,6 +664,7 @@ tinymce.init({
 	static function create_menu($res) {
 		$menu=array();
 		foreach ($res as $rs) {
+			if ($rs['sub_module']==1) continue;
 			shared::setArr($menu[$rs['category_name']], $rs);
 		}
 		$result="";
@@ -665,9 +676,10 @@ tinymce.init({
 			}
 			foreach ($val as $rs) {
 				if ($rs['sub_module']==1) continue;
-				$result.="<li><a href='".$_SESSION['home_dir'].$rs['module_name']."'>".$rs['module_description']."</a></li>";
+				$result.="<li class='".$rs['module_name']."'><a href='".$_SESSION['home_dir'].$rs['module_name']."'>".$rs['module_description']."</a></li>";
 			}
 			$result.="</ul>";
+			
 		}
 		$result.="<a style='margin-left:20px' class='button_link' href='".$_SESSION['home_dir']."'>Logout</a>";
 		
@@ -685,5 +697,55 @@ tinymce.init({
 			unset($_SESSION['project_location']);
 			unset($_SESSION['in_project_location']);
 		}
+	}
+	static function prepPA($pa) {
+		if ($pa==1) {
+			$res=db::select('project_name','*', 'principal_advisor=?','', array($_SESSION['uid']));
+			$_SESSION['project_name']=array();
+			foreach ($res as $rs) {
+				array_push($_SESSION['project_name'], $rs['project_name']);
+			}
+			$_SESSION['in_project_name']= substr(str_repeat(",?", count($res)),1);
+		} else {
+			unset($_SESSION['project_name']);
+			unset($_SESSION['in_project_name']);
+		}
+	}
+	static function getKeyFromValue($data, $value) {
+		foreach ($data as $key=>$val) {
+			if ($val==$value)  {
+				return $key;
+			}
+		}
+		return $value;
+	}
+	static function setDataTable($res, $fields=array()) {
+		if (count($res)==0) return "No Data";
+		if (count($fields)==0) {
+			foreach ($res[0] as $key=>$val) {
+				array_push($fields, $key);
+			}
+		}
+		$result="<table id='data_table' class='hidden'>";
+		$result.="<tr>";
+		foreach ($fields as $f) {
+			$result.="<th>".proper($f)."</th>";
+		}
+		$result.="</tr>";
+		foreach ($res as $row) {
+			$result.="<tr>";
+			foreach ($fields as $f) {
+				if (strpos($f,'date') !== false) {
+					$result.="<td>".substr($row[$f],0,10)."</td>";
+				} else {
+					$result.="<td>".$row[$f]."</td>";
+				}
+			}
+			$result.="</tr>";
+		}
+		
+		$result.="</table>";
+		
+		return $result;
 	}
 }

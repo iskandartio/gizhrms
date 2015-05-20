@@ -42,7 +42,7 @@
 				$mpdf=new mPDF('c'); 
 				$mpdf->SetDisplayMode('fullpage');
 				$mpdf->WriteHTML($vacancy_description);
-				mkdir('pages/vacancy', 0755, true);
+				//mkdir('pages/vacancy', 0755, true);
 				$mpdf->Output("pages/vacancy/".$vacancy_code."_".$vacancy_id.".pdf");
 			}
 			$con=db::beginTrans();

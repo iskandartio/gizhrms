@@ -1,5 +1,7 @@
 <?php
 Class Medical {
+
+
 	static function get_add_claim($limit, $remainder, $year) {
 		$result='';
 		$result.="<input type='hidden' class='year' value='".$year."'/>";

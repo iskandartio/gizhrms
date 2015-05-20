@@ -76,7 +76,7 @@ if ($type=='interviewall') {
 		$param['applicant_name']=$row['title']." ".$row['first_name']." ".$row['last_name'];
 		$param['interview_date']=date('l, F d, Y', strtotime($row['interview_date']));
 		$param['interview_time']=date('h:i a', strtotime($row['interview_time']));
-		$param['interview_location']=$row['interview_place'];
+		$param['interview_location']=db::select_single('location', 'location_val v', 'location_code=?','', array($row['interview_place']), $con);
 		$interviewer_list=db::select("vacancy_employee a
 		left join employee b on a.employee_id=b.user_id
 		left join contract_history c on c.user_id=b.user_id and c.end_date=b.contract1_end_date
@@ -95,7 +95,7 @@ if ($type=='interviewall') {
 		}
 		
 		
-		$list.="<tr><td>".$param['applicant_name']."</td><td>".$param['interview_location']."</td>
+		$list.="<tr><td>".$param['applicant_name']."</td><td>".$row['interview_place']."</td>
 				<td>".$param['interview_date']."</td><td>".$param['interview_time']."</td></tr>";
 		$param['interviewer']=$interviewers;
 		$param['attachment']=$attachment;
@@ -117,7 +117,7 @@ if ($type=='interviewall') {
 	left join applicants d on d.user_id=a.user_id
 	","d.title, d.gender, b.user_name, c.vacancy_name, c.vacancy_code, c.vacancy_code2, d.first_name, d.last_name, a.vacancy_progress_id", "a.vacancy_shortlist=-1 and a.vacancy_id=?", ""
 	, array($vacancy_id), $con);
-	db::update('job_applied', 'vacancy_shortlist', 'vacancy_shortlist=-1 and vacancy_id=?', array(-2, $vacancy_id), $con);
+	db::update('job_applied', 'vacancy_shortlist', 'vacancy_shortlist=? and vacancy_id=?', array(-2, -1, $vacancy_id), $con);
 	foreach ($res as $row) {
 		$param=array();
 		$param['applicant_email']=$row['user_name'];

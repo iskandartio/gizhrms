@@ -4,25 +4,30 @@
 	
 ?>
 <script src='js/gibberish-aes.min.js'></script>
+<script src="js/tinymce/tinymce.min.js"></script>
+<script src="js/tinymce/jquery.tinymce.min.js"></script>
 <script>
 	var fields=generate_assoc(['email_type','email_type_name','email_content']);
+
 	$(function() {
+
 		$.widget("ui.dialog", $.ui.dialog, {
 			_allowInteraction: function(event) {
-			return !!$(event.target).closest(".mce-container").length || this._super( event );
+				return !!$(event.target).closest(".mce-container").length || this._super( event );
 			}
 		});
-		bindAll();
-	
-	
-	});
-	function bindAll() {
 		$('#show_detail').dialog({
 			autoOpen:false,
 			height:500,
 			width:750,
 			modal:true
 		});
+		bindAll();
+	
+	
+	});
+	function bindAll() {
+
 		bind('#btn_save', 'click',Save);
 		bind('.btn_email_content', "click", EmailContent);
 		bind('.btn_save_email',"click", SaveEmail);
@@ -48,8 +53,10 @@
 		data['type']='show_email';
 		data['email_type']=getChild(par, 'email_type', fields);
 		var success=function(msg) {
+			
 			$('#show_detail').html(msg);
 			$('#show_detail').dialog("open");
+			tiny_setup("#email_content");
 			bindAll();
 		}
 		

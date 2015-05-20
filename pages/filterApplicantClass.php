@@ -1,6 +1,7 @@
 <?php
 Class FilterApplicant {
 
+
 static function get_call_interview_table($res, $vacancy_progress_val, $resRejected,  $resUnknown) {
 	$result="";
 	if ($vacancy_progress_val=='Shortlist') {
@@ -107,7 +108,7 @@ static function get_call_interview_table($res, $vacancy_progress_val, $resReject
 }
 static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id='') {
 	$vacancy_progress_val=shared::get_table_data('vacancy_progress', $next_vacancy_progress_id);
-	
+
 	if ($vacancy_progress_val=='Closing') {
 		$combo_project_name_def=shared::select_combo_complete(Project::getProjectName(), 'project_name', '-Project Name-', 'project_name');
 		
@@ -183,7 +184,7 @@ static function get_table_string($con, $tbl, $type, $next_vacancy_progress_id=''
 				<div class='row'><div class='label120'>Team Leader</div><div class='label120'><span class='team_leader_name'>"._name($team_leader)."</span></div></div>
 				<div class='row'><div class='label120'>Project Location</div><div class='float200'>".$project_location_option."<span class='office_manager hidden'>".$office_manager."</span></div></div>
 				<div class='row'><div class='label120'>Office Manager</div><div class='label120'><span class='office_manager_name'>"._name($office_manager)."</span></div></div>
-				<div class='row'><div class='label120'>Responsible Superior</div><div class='float200'>".$responsible_superior_option."</div><div>
+				<div class='row'><div class='label120'>Responsible Superior</div><div class='float200'>".$responsible_superior_option."</div></div>
 				<div class='row'><div class='label120'>SAP No</div><div class='float200'>"._t2("SAP_No", $row['SAP_No'],'20')."</div></div>
 				</div>
 			</td>";

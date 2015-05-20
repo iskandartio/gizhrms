@@ -8,16 +8,16 @@ class db {
 		$con=new PDO($db_driver, $db_uid, $db_pwd);
 		$con->setAttribute(PDO::ATTR_ERRMODE,true); 
 		$con->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-		return $con;
+		$conn[0]=$con;
+		$conn[1]=shared::random(32);
+		return $conn;
 	}
-	
-	
 	
 	static function DoQuery($query, $params=array(), $con=null) {
 		
 		if (!isset($con)) $con= db::Connect();
 		
-		$res=$con->prepare($query);
+		$res=$con[0]->prepare($query);
 		$res->execute($params);
 		$result= $res->fetchAll(PDO::FETCH_ASSOC);
 		foreach ($result as $k=>$row) {
@@ -72,10 +72,10 @@ class db {
 	}
 	static function ExecMe($query, $params=array(), $con=null) {
 		if (!isset($con)) $con= db::Connect();
-		$res=$con->prepare($query);
+		$res=$con[0]->prepare($query);
 		$res->execute($params);
 		if (substr($query,0,6)=='insert') {
-			return $con->lastInsertId();
+			return $con[0]->lastInsertId();
 		}
 		return $res->rowCount();
 	}
@@ -109,8 +109,30 @@ class db {
 	}
 	
 	static function insert($tbl, $fields, $params=array(), $con=null) {
-		$s="insert into $tbl($fields) values(".substr(str_repeat(',?', count($params)),1).")";
-		return db::ExecMe($s, $params, $con);
+		array_push($params, _lbl('uid', $_SESSION));
+		$flag=0;
+		if ($tbl!='change_log' && $con==null) {
+			$con=db::beginTrans();
+			$flag=1;
+		}
+		$s="insert into $tbl($fields, updated_by) values(".substr(str_repeat(',?', count($params)),1).")";
+		$retValue= db::ExecMe($s, $params, $con);
+		if ($tbl!='change_log') {
+			$changes=array();
+			$f=explode(",",$fields);
+			$i=0;
+			foreach ($f as $val) {
+				$changes[trim($val)]=$params[$i];
+				$i++;
+			}
+			if (count($changes)>0) {
+				db::insert('change_log','trans_id, tbl, changes', array($con[1], $tbl, json_encode($changes)), $con);
+			}
+		}
+		if ($tbl!='change_log' && $flag==1) {
+			db::commitTrans($con);
+		}
+		return $retValue;
 	}
 	static function insertEasy($tbl, $post, $con=null) {
 		
@@ -132,17 +154,15 @@ class db {
 			if ($value=='') {
 				array_push($params, null);
 			} else {
-			array_push($params, $value);
+				array_push($params, $value);
 			}
 		}
 		$fields=substr($fields,1);
-		$s="insert into $tbl($fields) values(".substr(str_repeat(',?', $count),1).")";
 		
-		return db::ExecMe($s, $params, $con);
+		return db::insert($tbl, $fields, $params, $con);
 	}
 	
 	static function updateEasy($tbl, $post, $con=null) {
-		
 		$fields="";
 		$count=0;
 		$params=array();
@@ -162,21 +182,61 @@ class db {
 			if ($value=='') {
 				array_push($params, null);
 			} else {
-			array_push($params, $value);
+				array_push($params, $value);
 			}
 		}
 		$fields=substr($fields,1);
-		$s="update $tbl set ".str_replace(',','=?,', $fields)."=? where $where";
-		return db::ExecMe($s, $params, $con);
+		return db::update($tbl, $fields, $where, $params, $con);
 	}
 	
 	static function update($tbl, $fields, $where, $params=array(), $con=null) {
-		$s="update $tbl set ".str_replace(',','=?,', $fields)."=?";
+		$flag=0;
+		if ($con==null) {
+			$con=db::beginTrans();
+			$flag=1;
+		}
+		$where_count=substr_count($where,"?");
+		$params_changes=array_slice($params, count($params)-$where_count);
+		$id=str_replace("m_","",$tbl."_id");
+		$before=db::select($tbl,'*', $where, $id, $params_changes, $con);
+		$keys="";
+		foreach ($before as $val) {
+			$keys.=",".$val[$id];
+		}
+		if ($keys!="") $keys="(".substr($keys,1).")";
+		array_unshift($params, _lbl('uid', $_SESSION));
+		$s="update $tbl set updated_by=?, ".str_replace(',','=?,', $fields)."=?";
 		if ($where!='') $s.=" where $where";
-		return db::ExecMe($s, $params, $con);
+		$i=db::ExecMe($s, $params, $con);
+		
+		$after=db::select($tbl,'*', $id." in ".$keys, $id, array(), $con);
+		
+		if (count($after)>0) {
+			$changes=array();
+			foreach ($before as $i=>$res) {
+				foreach ($res as $key=>$val) {
+					
+					if ($key!='updated_at') {
+						if ($val!=$after[$i][$key]) {
+							if ($val==null) $val='null';
+							$val2=$after[$i][$key];
+							if ($val2==null) $val2='null';
+							$changes[$key]= $val."->".$val2;
+						}
+					}
+				}
+			}
+			db::Log($changes);
+			if (count($changes)>0) {
+				db::insert('change_log','trans_id, tbl, changes', array($con[1],$tbl, json_encode($changes)), $con);
+			}
+		}
+		if ($flag==1) db::commitTrans($con);
+		return $i;
 	}
 
 	static function updateShort($tbl, $where, $post, $con=null) {
+		
 		$fields='';
 		$params=array();
 		foreach ($post as $key=>$val) {
@@ -185,31 +245,54 @@ class db {
 			if ($key==$where) continue;
 			if ($fields!='') $fields.=",";
 			$fields.=$key;
-			array_push($params, $val);
+			if ($val=='') {
+				array_push($params, null);
+			} else {
+				array_push($params, $val);
+			}
 		}
-		array_push($params, $post[$where]);
-		$s="update $tbl set ".str_replace(',','=?,', $fields)."=? where $where=?";
 		
-		return db::ExecMe($s, $params, $con);
+		array_push($params, $post[$where]);
+		$where=str_replace(',','=?,', $where)."=?";
+		
+		return db::update($tbl, $fields, $where, $params, $con);
 	}
 	
 	static function delete($tbl, $where, $params=array(), $con=null) {
+		$flag=0;
+		if ($con==null) {
+			$con=db::beginTrans();
+			
+			$flag=1;
+		}
 		$s="delete from $tbl where $where";
-		return db::ExecMe($s, $params, $con);
+		$retValue=db::ExecMe($s, $params, $con);
+		if ($retValue>0) {
+			$del = vsprintf(str_replace("?","%s",$where), $params);
+			
+			db::insert('change_log', 'trans_id, tbl, changes', array($con[1], $tbl, "del where $del"), $con);
+		}
+		if ($flag==1) {
+		
+			db::commitTrans($con);
+		}
+		return $retValue;
 		
 	}
 	static function beginTrans($db_str='db') {
 		$con=db::Connect($db_str);
-		$con->beginTransaction();
+		$con[0]->beginTransaction();
 		return $con;
 	}
 	static function commitTrans($con) {
-		$con->commit();
-		$con=null;
+		$conn=$con[0];
+		$conn->commit();
+		$conn=null;
 	}
 	static function rollbackTrans($con) {
-		$con->rollBack();
-		$con=null;
+		$conn=$con[0];
+		$conn->rollBack();
+		$conn=null;
 	}
 	static function select_required($tbl, $fields=array(), $params=array()) {
 		$result=array();

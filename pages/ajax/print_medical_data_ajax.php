@@ -1,5 +1,6 @@
 <?php
 	$user_id=$_GET['user_id'];
+	$user_id=shared::getId('employee_choice',$user_id);
 	$year=$_GET['year'];
 	if ($year=='this_year') $y=date('Y'); else $y=date('Y')-1;
 	$data=Medical::getLimit($year, $user_id, $medical_type);
@@ -11,8 +12,9 @@
 	
 	$res_dependents=db::select('employee_dependent','*','user_id=?','', array($user_id));
 	$res_salary_sharing=db::select('salary_sharing','*','contract_history_id=?','',array($app['contract_history_id']));
+	$input_date=db::select_single($medical_type, 'max(input_date) v', 'user_id=?', '', array($user_id));
 	
-	$res=db::select($medical_type,'*','user_id=?','invoice_date',array($user_id));
+	$res=db::select($medical_type,'*','user_id=?','input_date, invoice_date',array($user_id));
 	$result="";
 	$result.="<style>
 		.float50 {
@@ -125,10 +127,18 @@
 	$result.="<table class='tbl' id='tbl_claim'><thead><tr><th width='100px'>Invoice Date</th><th width='80px'>Invoice<br>(Rp)</th>
 	<th width='80px'>Total<br>(Rp)</th><th width='80px'>Paid 90%<br>(Rp)</th><th width='80px'>Remainder</th></thead><tbody>";
 	$result.="<tr><td colspan='5' align='right'>".formatNumber($remainder)."</td></tr>";
-	
+	$bgcolor='white';
+	$total=0;
 	foreach ($res as $key=>$rs) {
+		
+		if ($input_date==$rs['input_date']) {
+			$total+=$rs['paid'];
+			$bgcolor='yellow';
+		} else {
+			$bgcolor='white';
+		}
 		$remainder-=$rs['paid'];
-		$result.="<tr>";
+		$result.="<tr style='background-color:$bgcolor'>";
 		$result.="<td>".formatDate($rs['invoice_date'])."</td>";
 		$result.="<td align='right'>".formatNumber($rs['invoice_val'])."</td>";
 		$result.="<td align='right'>".formatNumber($rs['claim'])."</td>";
@@ -138,6 +148,7 @@
 	}
 	
 	$result.="</tbody></table>";
+	$result.="Total Paid = Rp".formatNumber($total);
 	$result.="</div>";
 	if (count($res_dependents)>0||($app['spouse_name']!=''&&$app['spouse_name']!=null)) {
 		$result.="<div><u>Dependents:</u><br>";

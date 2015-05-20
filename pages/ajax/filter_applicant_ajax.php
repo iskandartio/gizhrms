@@ -5,8 +5,7 @@ function cmp($a, $b) {
 while (true) { 
 	if ($type=='search') {
 		
-		$res_ranking=db::select('ranking','ranking_id, ranking_val','','ranking_id');
-		
+		$res_ranking=db::select('ranking','ranking_id, ranking_val','','ranking_id');		
 		$con=db::beginTrans();
 		$arr_filter=array();
 		$filter='';
@@ -25,13 +24,6 @@ while (true) {
 			left join job_applied b on a.user_id=b.user_id and b.vacancy_id=? and b.vacancy_shortlist>=0
 			where b.job_applied_id is null and a.vacancy_shortlist<0".$filter;
 			db::ExecMe($sql, array_merge(array($vacancy_id, $next_vacancy_progress_id,$vacancy_id), $arr_filter), $con);
-		} else if ($_SESSION['role_name']=='employee') {
-			$sql="create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
-			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
-			left join vacancy_employee  b on a.vacancy_id=b.vacancy_id and b.vacancy_progress_id=?
-			where ifnull(a.vacancy_progress_id,'')=? and a.vacancy_id=? and b.employee_id=? and a.vacancy_shortlist>=0".$filter;
-			
-			db::ExecMe($sql, array_merge(array($next_vacancy_progress_id, $next_vacancy_progress_id, $next_vacancy_progress_id, $vacancy_progress_id, $vacancy_id, $_SESSION['uid']), $arr_filter), $con);
 		} else {
 			$sql="create temporary table filter select a.user_id, a.vacancy_id, ? vacancy_progress_id
 			, case when a.next_vacancy_progress_id=? then a.vacancy_shortlist else 0 end vacancy_shortlist from job_applied a
@@ -43,8 +35,7 @@ while (true) {
 		$params=array();
 		$filter='';
 		if ($filter_name!='') {
-			$filter.=" and (b.first_name like ? or b.last_name like ?)";
-			array_push($params, "%$filter_name%");
+			$filter.=" and concat(b.first_name,' ',b.last_name) like ?";
 			array_push($params, "%$filter_name%");
 		}
 		if ($filter_city!='') {
@@ -67,19 +58,63 @@ while (true) {
 			$filter.=" and date_add(date_of_birth, interval ? year)>curdate()";
 			array_push($params, $age_end);
 		}
+		if ($filter_choice_val=='Name' && $filter_name=='') {
+			$filter.=" and concat(b.first_name,' ',b.last_name) like ?";
+			array_push($params, "%$filter_choice_value%");
+		}
+		if ($filter_choice_val=='Place of Birth') {
+			$filter.=" and b.place_of_birth like ?";
+			array_push($params, "%$filter_choice_value%");
+		}
+		if ($filter_choice_val=='Gender') {
+			$filter.=" and b.gender like ?";
+			array_push($params, "%$filter_choice_value%");
+		}
+		if ($filter_choice_val=='Marital Status') {
+			$filter.=" and b.marital_status like ?";
+			array_push($params, "%$filter_choice_value%");
+		}
+		if ($filter_choice_val=='Nationality') {
+			$filter.=" and ifnull(d.nationality_val,b.nationality_val) like ?";
+			array_push($params, "%$filter_choice_value%");
+		}
+		if ($filter_choice_val=='Address') {
+			$filter.=" and b.address like ?";
+			array_push($params, "%$filter_choice_value%");
+		}
+		if ($filter_choice_val=='Country') {
+			$filter.=" and ifnull(e.country_val, b.country_name) like ?";
+			array_push($params, "%$filter_choice_value%");
+		}
+		if ($filter_choice_val=='Province') {
+			$filter.=" and f.province_val like ?";
+			array_push($params, "%$filter_choice_value%");
+		}
+		if ($filter_choice_val=='City' && $filter_city=='') {
+			$filter.=" and c.city_val like ?";
+			array_push($params, "%$filter_choice_value%");
+		}
+		if ($filter_choice_val=='Post Code') {
+			$filter.=" and b.post_code like ?";
+			array_push($params, "%$filter_choice_value%");
+		}
 		$tbl='filter';
 		$tbl2='filter2';
+		
 		if ($filter!='') {
+			
 			db::ExecMe("drop table if exists $tbl2",array(),  $con);
 			$sql="create temporary table $tbl2 select a.user_id, a.vacancy_id, a.vacancy_progress_id, vacancy_shortlist from $tbl a
 			inner join applicants b on a.user_id=b.user_id
 			left join city c on b.city_id=c.city_id
+			left join nationality d on d.nationality_id=b.nationality_id
+			left join country e on e.country_id=b.country_id
+			left join province f on f.province_id=b.province_id
 			where 1=1".$filter;
 			$temp=$tbl;
 			$tbl=$tbl2;
 			$tbl2=$temp;
 			db::ExecMe($sql, $params, $con);
-			unset($params);
 			$params=array();
 		}
 		if ($filter_business!='') {
@@ -120,9 +155,27 @@ while (true) {
 		
 		db::ExecMe("drop table if exists $tbl2", array(), $con);
 		$sql="";
+		$res=db::select('applicants a 
+			inner  join job_applied b on a.user_id=b.user_id
+			inner join '.$tbl.' c on c.user_id=b.user_id and c.vacancy_id=b.vacancy_id
+			left join nationality d on d.nationality_id=a.nationality_id
+			left join country e on e.country_id=a.country_id
+			left join province f on f.province_id=a.province_id
+			left join city g on g.city_id=a.city_id
+			', 'a.*, ifnull(d.nationality_val, a.nationality_val) nationality
+			, ifnull(e.country_val, a.country_name) country
+			, f.province_val province
+			, g.city_val city','','',array(), $con);
+		$result="";
+		$result.="<script src='js/excellentexport.js'></script>";
+		$dataTable=shared::setDataTable($res, ['first_name','last_name','place_of_birth','date_of_birth','gender','marital_status'
+		, 'nationality','address', 'country', 'province', 'city', 'post_code','phone1','phone2','computer_skills','professional_skills']);
+		$result.=$dataTable;
+		if ($dataTable!='No Data') {
+			$result.=" <a download='applicants_raw_data.csv' id='btn_export_data' class='button_link' onclick=\"return ExcellentExport.csv(this, 'data_table');\">Export to Excel</a>";		
+		}
 		
-		$result=FilterApplicant::get_table_string($con, $tbl, $type, $next_vacancy_progress_id);
-		
+		$result.=FilterApplicant::get_table_string($con, $tbl, $type, $next_vacancy_progress_id);
 		db::commitTrans($con);
 		die($result);
 		
@@ -184,10 +237,14 @@ where a.vacancy_id=?", array($vacancy_id));
 		die;
 	}
 	if ($type=='add_user') {
+		$employee_id=shared::getId('employee_choice', $employee_id);
 		$vacancy_employee_id=db::insert('vacancy_employee', 'vacancy_id, employee_id, vacancy_progress_id', array($vacancy_id, $employee_id, $vacancy_progress_id));
-		die($vacancy_employee_id);
+		$key=shared::random(12);
+		$_SESSION['vacancy_employee_id'][$key]=$vacancy_employee_id;
+		die($key);
 	}
 	if ($type=='delete_user') {
+		$vacancy_employee_id=shared::getId('vacancy_employee_id', $vacancy_employee_id);
 		db::delete('vacancy_employee', 'vacancy_employee_id=?', array($vacancy_employee_id));
 		die;
 	}
@@ -210,12 +267,12 @@ where a.vacancy_id=?", array($vacancy_id));
 left join employee b on a.employee_id=b.user_id
 where a.vacancy_id=? and a.vacancy_progress_id=?";
 		$res=db::DoQuery($sql, array($vacancy_id, $next_vacancy_progress_id));
+		shared::setId('vacancy_employee_id', 'vacancy_employee_id', $res);
 		$result="";
 		foreach ($res as $row) {
-			$result.="<tr><td>".$row['vacancy_employee_id']."</td><td><span style='display:none'>".$row['employee_id']."</span>".$row['name']."</td>";
-			if ($_SESSION['role_name']=='admin') {
-				$result.="<td><img src='images/delete.png' class='btn_delete_user'></td></tr>";
-			}
+			
+			$result.="<tr><td>".$row['id']."</td><td><span style='display:none'>".shared::getKeyFromValue($_SESSION['employee_choice'], $row['employee_id'])."</span>".$row['name']."</td>";
+			$result.="<td><img src='images/delete.png' class='btn_delete_user'></td></tr>";
 		}
 		die ($result);
 	}
@@ -230,15 +287,16 @@ where a.vacancy_id=? and a.vacancy_progress_id=?";
 	}
 	if ($type=='shortlist') {
 		$con=db::beginTrans();
+		
 		if (!isset($vacancy_progress_val)) {
 			$vacancy_progress_val=db::select_single('vacancy_progress','vacancy_progress_val v','vacancy_progress_id=?','',array($next_vacancy_progress_id), $con);
 		} else {
 			$next_vacancy_progress_id=db::select_single('vacancy_progress','vacancy_progress_id v',"ifnull(vacancy_progress_val,'')='Closing'",'',array(), $con);
 		}
+		
 		$sql="create temporary table filter select a.job_applied_id, a.user_id, a.vacancy_id, a.next_vacancy_progress_id vacancy_progress_id, a.vacancy_shortlist from job_applied a
 where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_shortlist=1";
 		db::ExecMe($sql, array($vacancy_id, $next_vacancy_progress_id), $con);
-		
 		if ($vacancy_progress_val=='Shortlist') {
 			$sql="select b.job_applied_id, a.user_id, a.first_name, a.last_name from applicants a inner join filter b on a.user_id=b.user_id";
 			$rsApplicants=db::DoQuery($sql, array(), $con);
@@ -271,6 +329,7 @@ where a.vacancy_id=? and ifnull(a.next_vacancy_progress_id,'')=? and a.vacancy_s
 		}  else {
 			$sql="select b.job_applied_id, a.user_id, a.first_name, a.last_name, c.interview_date, c.interview_time, c.interview_place from applicants a inner join filter b on a.user_id=b.user_id
 			inner join vacancy_interview c on b.vacancy_id=c.vacancy_id and b.vacancy_progress_id=c.vacancy_progress_id and b.user_id=c.user_id";
+			
 			$rsApplicants=db::DoQuery($sql, array(), $con);
 			$res=array();
 			foreach ($rsApplicants as  $rs) {
@@ -328,10 +387,10 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 		}
 		
 		if ($letter!=null) {
-			$result.="<a class='button_link' href='uploadajax?type=letter&user_id=$user_id'>Download Letter</a> ";
+			$result.="<a class='button_link' href='downloadcv?type=letter&user_id=$user_id'>Download Letter</a> ";
 		}
 		if ($cv!=null) {
-			$result.="<a class='button_link' href='uploadajax?type=cv&user_id=$user_id'>Download CV</a> ";
+			$result.="<a class='button_link' href='downloadcv?type=cv&user_id=$user_id'>Download CV</a> ";
 		}
 		
 		$nationality=shared::get_table_data('nationality', $nationality_id);
@@ -451,14 +510,13 @@ where b.vacancy_id=? and b.user_id=?", array($vacancy_id, $user_id));
 		
 		db::delete('applicants_salary_sharing','user_id=?', array($user_id), $con);
 
-		
-		db::ExecMe('update job_applied set vacancy_shortlist=1, next_vacancy_progress_id=? where vacancy_id=? and user_id=?', array($next_vacancy_progress_id, $vacancy_id, $user_id), $con);		
+		db::update('job_applied', 'vacancy_shortlist, next_vacancy_progress_id', 'vacancy_id=? and user_id=?', array(1, $next_vacancy_progress_id, $vacancy_id, $user_id), $con);
 		if (isset($salary_sharing_project_name)) {
 			foreach ($salary_sharing_project_name as $key=>$val) {
 				db::insert('applicants_salary_sharing','user_id, project_name, project_number, percentage', array($user_id, $val, $salary_sharing_project_number[$key], $salary_sharing_percentage[$key]), $con);
 			}
 		}
-
+		db::ExecMe('update vacancy set next_vacancy_progress_id=? where vacancy_id=?', array($next_vacancy_progress_id, $vacancy_id));
 		db::commitTrans($con);
 		die;
 		

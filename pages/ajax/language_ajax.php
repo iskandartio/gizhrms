@@ -32,7 +32,7 @@ if ($type=='load') {
 
 }
 if ($type=='save') {
-	$language_skill_id=db::select_single('applicants_language','language_skill_id v','language_skill_id=?','', array($language_skill_id));
+	$language_skill_id=db::select_single('language_skill','language_skill_id v','language_skill_id=?','', array($language_skill_id));
 	if ($applicants_language_id=='') {
 		if ($language_skill_id!=null) {
 			$applicants_language_id=db::insert('applicants_language','user_id, language_id, language_skill_id', array($_SESSION['uid'], $language_id, $language_skill_id));

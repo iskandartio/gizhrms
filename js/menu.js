@@ -1,14 +1,16 @@
-function menu(home_dir, maxWidth) {
+function menu(home_dir, maxWidth, pageName) {
 	var self=this;
 	var alwaysHide=false;
 	self.start=function() {
+		var obj=$('#menu ul li.'+pageName+' a');
+		obj.html("<b><font color='red'>"+obj.html()+"<font></b>")
 		$(document).idleTimeout({
-			idleTimeLimit: 6000,       // 'No activity' time limit in seconds. 1200 = 20 Minutes
+			idleTimeLimit: 2000,       // 'No activity' time limit in seconds. 1200 = 20 Minutes
 			redirectUrl: home_dir,    // redirect to this url on timeout logout. Set to "redirectUrl: false" to disable redirect
 			customCallback: false,     // set to false for no customCallback
 			activityEvents: 'click keypress scroll wheel mousewheel mousemove', // separate each event with a space
 			enableDialog: true,        // set to false for logout without warning dialog
-			dialogDisplayLimit: 30,   // time to display the warning dialog before logout (and optional callback) in seconds. 180 = 3 Minutes
+			dialogDisplayLimit: 20,   // time to display the warning dialog before logout (and optional callback) in seconds. 180 = 3 Minutes
 			dialogTitle: 'Session Expiration Warning',
 			dialogText: 'Because you have been inactive, your session is about to expire.',
 			sessionKeepAliveTimer: 600 // Ping the server at this interval in seconds. 600 = 10 Minutes

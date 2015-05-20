@@ -142,15 +142,20 @@ function superadmin(div, tbl) {
 		if (tbl=='role') {
 			textToDefaultLabel(par, [tbl+'_name', tbl+'_description'], f);
 			checkboxToDefaultLabel(par, 'status_id', 'Active', 'Not Active', f);
+			btnChange(par, ['edit','delete'], f);
 		} else if (tbl=='module') {
 			textToDefaultLabel(par, [tbl+'_name', tbl+'_description','sub_module'], f);
 			checkboxToDefaultLabel(par, 'status_id', 'Active', 'Not Active', f);
+			selectedToDefaultLabel(par, ['category_id'], f);
+			btnChange(par, ['edit','delete','up','down'], f);
 		} else if (tbl=='user_role') {
 			autoCompleteToDefaultLabel(par, ['employee'], f);
+			btnChange(par, ['edit','delete'], f);
 		} else if (tbl=='category') {
 			textToDefaultLabel(par, ['category_name'], f);
+			btnChange(par, ['edit','delete','up','down'], f);
 		}
-		btnChange(par, ['edit','delete'], f);
+		
 		self.bindAll();
 	
 	}
@@ -204,6 +209,7 @@ function superadmin(div, tbl) {
 			data=prepareDataAutoComplete(data, ['employee'], par,f);
 			data['role_id']=$('.role_id', div).val();
 			var success=function(msg) {
+				setHtmlText(par, 'user_id', msg, f);
 				autoCompleteToLabel(par, ['employee'], f);
 				btnChange(par, ['edit','delete'], f);
 				self.bindAll();

@@ -159,19 +159,19 @@ body {
 }
 
 .tbl {
-	border:1px;
+	border:1px outset grey;
 	border-spacing:0px;
-	border-style:outset;
+	
+	
 }
 table.tbl>tbody>tr>td {
-	border:1px;
+	border:1px outset #EEEEEE;
 	padding:5px;
-	border-style:outset;
 	vertical-align:middle;
 }
 
 table.tbl tr th {
-	border:1px;
+	border:1px outset #EEEEEE;
 	padding:5px;
 	border-style:outset;
 	background-color:#447CB5;
@@ -266,6 +266,7 @@ input[type=text], input[type=password], textarea, select {
 	font-size:12px;
 	height:18px;
 	max-width:100%;
+	font-family:Arial, Helvetica, sans-serif;
 }
 select {
 	height:26px!important;
@@ -375,7 +376,7 @@ color: #fff !important;
 background-color: #447CB5;
 line-height: 28px;
 text-align: left;
-font-size: 12px;
+font-size: 11px;
 font-weight: bold;
 text-transform: uppercase;
 text-align: left;
@@ -388,6 +389,10 @@ border-bottom: none;
 }
 .menu li {
 	list-style-type: circle;
+}
+.menu li a {
+	color:blue;
+	text-decoration:none;
 }
 #freeze {
 	

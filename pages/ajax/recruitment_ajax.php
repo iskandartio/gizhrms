@@ -19,4 +19,7 @@
 		}
 		die;
 	}
+	if ($type=='show_detail') {
+		require_once("pages/ajax/filter_applicant_ajax.php");
+	}
 ?>

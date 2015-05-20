@@ -89,6 +89,7 @@
 		} else if ($tbl=='category') {
 			db::delete('m_category','category_id=?', array($category_id));
 		} else if ($tbl=='user_role') {
+			$user_id=shared::getId('load_role_user',$user_id);
 			db::delete('m_user_role', 'user_id=? and role_id=?', array($user_id, $role_id));
 		} else if ($tbl=='role_module') {
 			db::delete('m_role_module', 'module_id=? and role_id=?', array($module_id, $role_id));
@@ -124,17 +125,22 @@
 			}
 			die($category_id);
 		} else if ($tbl=='user_role') {
+			$user_id=shared::getId('load_role_user', $user_id);
+			$employee=shared::getId('employee_choice', $employee);
 			$res=db::select('m_user_role', '*','role_id=? and user_id=? and user_id!=?','', array($role_id, $employee, $user_id));
 			if (count($res)>0) die ("Error : User Already Exists");
 			if ($user_id=="") {
-				$user_id=db::insert('m_user_role','user_id, role_id', array($employee, $role_id));
+				db::insert('m_user_role','user_id, role_id', array($employee, $role_id));
 			} else {
-				db::update('m_user_role','role_id', 'user_id=?', array($role_id, $user_id));
+				db::update('m_user_role','user_id', 'user_id=? and role_id=?', array($employee, $user_id, $role_id));
 			}
-			die($user_id);
+			$key=shared::random(12);
+			$_SESSION['load_role_user'][$key]=$employee;
+			die($key);
 		}
 	}
 	if ($type=='load_user_role'){
+		$user_id=shared::getId('employee_choice', $user_id);
 		$sql="select a.*, b.user_id from m_role a left join m_user_role b on a.role_id=b.role_id and b.user_id=? order by b.user_id desc, a.role_name";
 		$res=db::DoQuery($sql, array($user_id));
 		$result="";
@@ -154,24 +160,40 @@
 		$res=db::DoQuery($sql, array($role_id));
 		$result="";
 		$last=-1;
+		$field_count=0;
 		if (count($res)>0) {
-			$result.="<p><table class='tbl'><tr>";
+			
 			$temp="";
 			$th="";
 			foreach ($res as $rs) {
 				if ($last!=$rs['category_id']) {
+					if ($field_count==4) {
+						if ($temp!="") {
+							$temp=substr($temp, 5)."</td>";
+							$th=substr($th, 5)."</th></tr><tr>";
+						}
+						
+						$result.=$th.$temp."</tr></table>";
+						$temp="";
+						$th="";
+						$field_count=0;
+					}
+					$result.="<p><table class='tbl'><tr>";
 					$temp.="</td><td style='vertical-align:top!important'>";
 					$th.="</th><th>".$rs['category_name'];
 					$last=$rs['category_id'];
+					$field_count++;
 				}
 				
 				$temp.=shared::create_checkbox('module_id', $rs['module_description'], ($rs['role_id']==null ? 0 : 1), $rs['module_id'])."<br>";
+				
 			}
 			if ($temp!="") {
 				$temp=substr($temp, 5)."</td>";
-				$th=substr($th, 5)."</td></tr><tr>";
+				$th=substr($th, 5)."</th></tr><tr>";
 			}
 			$result.=$th.$temp."</tr></table>";
+			
 		}
 		$result.="<button class='button_link' id='btn_save'>Save</button></p>";
 		
@@ -192,6 +214,7 @@
 	}
 	if ($type=='save_user_role') {
 		$con=db::beginTrans();
+		$user_id=shared::getId('employee_choice', $user_id);
 		db::delete('m_user_role','user_id=?', array($user_id), $con);
 		if (isset($role_id)) {
 			foreach ($role_id as $val) {
@@ -231,15 +254,17 @@
 		$sql="select a.*, b.first_name, b.last_name from m_user_role a left join employee b on a.user_id=b.user_id
 			where role_id=? order by b.first_name, b.last_name";
 		$res=db::DoQuery($sql, array($role_id));
+		shared::setId('load_role_user', 'user_id', $res);
+
 		$result="";
 		$result.="<button class='button_link' id='btn_add'>Add</button>";
 		$result.="<table class='tbl' id='tbl_result'><thead><tr><th></th><th>User Name</th><th></th></tr></thead><tbody>";
+		
 		foreach ($res as $rs) {
-			$result.="<tr><td>".$rs['user_id']."</td><td><span class='employee hidden'>".$rs['user_id']."</span>
+			$result.="<tr><td>".$rs['id']."</td><td><span class='employee hidden'>".shared::getKeyFromValue($_SESSION['employee_choice'], $rs['user_id'])."</span>
 				<span class='employee_name'>".$rs['first_name']." ".$rs['last_name']."</span></td><td>".getImageTags(['edit','delete'])."</td></tr>";
 		}
 		$result.="</tbody></table>";
-		$result.="<button class='button_link' id='btn_save'>Save</button>";
 		
 		die($result);
 	}

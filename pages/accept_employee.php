@@ -63,9 +63,8 @@
 			} else {
 				alert('Success');
 				$('#tbl_call_interview').empty();
-				send_email();
-				
 			}
+			send_email();
 		}
 		ajax(ajaxPage, data, success);
 	}

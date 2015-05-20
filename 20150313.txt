@@ -46,15 +46,48 @@ otomatis next_recruitment_process ok
 tampilan education untuk layar sempit ok
 call_interview @signature ok
 email cc and vacancy description attachment ok
+Warning position applied (languages) ok
+email pribadi di personal data ok
+Title dan Gender wajib ok
+Active menu di bold ok
+Employee List add project_name combobox ok
+medical di index betulin ok
+project_name, project_number, project_location ok
+first_name, last_name, gender, job_title, phone1, phone2, email kantor, current contract start-end ok
+, salary_band (untuk principal advisor  dan financial controller) ok
+save_signature ok
+print medical data ok
+medical_summary ok
+Employee Contract: ok
+1. Contract Expiring ok
+2. Update Contract Data (Change Project Data) ok
+3. Resign/Terminate ok
+Recruitment Progress Email: Shortlist, Closing email setting gak usah ada ok
+
+self_data tab project
 
 statistic employee:
 staff berdasarkan gender, umur, pendidikan, admin & technical, salary band
 salary adjustment input start date
 report data karyawan yang akan berakhir pada periode tertentu bagaimana ya? ada pilihan search berdasarkan akhir periode kontrak
-email pribadi di personal data
-langsung change password untuk user baru
 
-project tambahin allowance dan vacancy_type
+
+
+
+
+database schema
+dataflow: Recruitment, Medical, Employee
+export to excel applicants
+log data
+hilangin principal advisor, office manager, financial contoller, team_leader dari contract_history
+
+
+RECRUITMENT PROGRESS= SETUP RECRUITMENT EMAIL 
+Project HIstory sebelah salary HRSR
+Recruitment Summary:
+Print HRSR=>Hired
+Current Vacancy Process=>Current Vacancy Progress
+
 statistics recruitment
 email_setting kaspersky error
 tanggal submit, dan vacancy_progress
@@ -84,4 +117,3 @@ save:
 563420727
 3745
 
-uploadajax

@@ -39,7 +39,7 @@ where ifnull(b.vacancy_progress_val,'')!='Closing' order by a.vacancy_code, a.va
 			var returnDataList= jQuery.parseJSON(msg);
 			var i=0;
 			$('#tbl_result tr').remove();
-			var a='<tr><td><button class="btn_export">Export PDF</button></td></tr>';
+			var a='';
 			$('#tbl_result').append(a);
 			for (var key in returnDataList) {
 				i++;

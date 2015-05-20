@@ -24,4 +24,8 @@
 		$data['medical_checkup']=MedicalCheckup::get_summary_table($y, $res);
 		die(json_encode($data));
 	}
+	if ($type=='getProjectClass'||$type=='getProjectLocationClass') {
+		require("pages/ajax/project_ajax.php");
+	}
+
 ?>

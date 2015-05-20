@@ -2,11 +2,11 @@
 	
 	if ($type=='get_datatable') {
 		$res=db::select('employee','*');
-		$result="<table id='datatable'>";
+		$result="<table id='datatable' class='hidden'>";
 		if (count($res)>0) {
 			$result.="<tr>";
 			foreach ($res[0] as $key=>$val) {
-				$result.="<th>".$key."</th>";
+				$result.="<th>".proper($key)."</th>";
 			}
 			$result.="</tr>";
 			foreach ($res as $row) {

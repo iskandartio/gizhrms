@@ -9,12 +9,12 @@
 	}
 	
 	$combo_user=json_encode($arr);
-	
+	$combo_employee=Employee::getComboEmployee();
 ?>
 <script>
-	
+	var employee_choice=<?php _p($combo_employee)?>;
 	$(function() {
-		autoCompleteEmployee();
+		autoCompleteEmployee('.employee_id', EmployeeChange);
 	});
 	function bindAll() {
 		bind('#btn_save','click',SaveMedicalCheckup);
@@ -52,26 +52,7 @@
 		}
 		ajax("medical_checkup_ajax",data, success);
 	}
-	function autoCompleteEmployee() {
-		$('.employee_id').autocomplete({
-			matchContains: true,
-			minLength: 0,
-			source : <?php _p($combo_user)?>,
-			focus: function( event, ui ) {
-				$(this).val(ui.item.label);
-				
-				return false;
-			},
-			select: function( event, ui ) {
-				$(this).data("id", ui.item.value);
-				EmployeeChange();
-				return false;
-			}
-		}).focus(function() {
-			$(this).autocomplete('search', $(this).val())
-		});
-		
-	}
+
 </script>
 Employee Name : <?php _t("employee_id")?><p>
 

@@ -23,8 +23,6 @@
 	var js_vacancy_progress=<?php _p($js_vacancy_progress)?>;
 		
 	$(function() {
-		send_email();
-				
 		bindAll();
 		
 	});
@@ -82,6 +80,7 @@
 			if (msg!='') {
 				alert(msg);
 			} else {
+				send_email();
 				location.reload();
 				
 			}

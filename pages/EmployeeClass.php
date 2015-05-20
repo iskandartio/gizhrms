@@ -54,6 +54,10 @@ where a.job_title='Senior Advisor' and a.project_name=?";
 			$sql.=" inner join contract_history c on c.project_location in (".$_SESSION['in_project_location'].") 
 				and coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date)=c.end_date and c.user_id=a.user_id";
 			$params=array_merge($_SESSION['project_location'], $params );
+		} else if (isset($_SESSION['project_name'])) {
+			$sql.=" inner join contract_history c on c.project_name in (".$_SESSION['in_project_name'].") 
+				and coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date)=c.end_date and c.user_id=a.user_id";
+			$params=array_merge($_SESSION['project_name'], $params );
 		}
 		$sql.=" where ifnull(contract_state,'')!='Terminate'".$filter."
 			order by a.first_name, a.last_name";
@@ -64,17 +68,24 @@ where a.job_title='Senior Advisor' and a.project_name=?";
 
 	static function get_active_employee($filter="", $params=array()) {
 		if ($filter!='') $filter=" and $filter";
-		$sql="select a.*, c.*, b.user_name
+		$sql="select a.*, c.*, b.user_name, coalesce(a.am2_start_date, a.contract2_start_date, a.am1_start_date, a.contract1_start_date) current_start_date
+, coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date) current_end_date
+, d.principal_advisor, d.financial_controller, e.team_leader, f.office_manager
 from employee a
 left join m_user b on b.user_id=a.user_id
 inner join contract_history c on c.user_id=a.user_id ".shared::joinContractHistory("c","a");
 		if (isset($_SESSION['project_location'])) {
 			$sql.=" and c.project_location in (".$_SESSION['in_project_location'].")";
 			$params=array_merge($_SESSION['project_location'], $params);
+		} else if (isset($_SESSION['project_name'])) {
+			$sql.=" and c.project_name in (".$_SESSION['in_project_name'].")";
+			$params=array_merge($_SESSION['project_name'], $params);
 		}
+		$sql.="left join project_name d on d.project_name=c.project_name
+			left join project_number e on e.project_number=c.project_number
+			left join project_location f on f.project_location=c.project_location";
 		$sql.=" where ifnull(a.contract_state,'')!='Terminate'".$filter;
 		$sql.=" order by a.first_name, a.last_name";
-		
 		$res=db::DoQuery($sql, $params);
 		$res=shared::fixSalary($res);
 		$res=shared::fixSalary($res,'adj_salary');
@@ -198,8 +209,11 @@ where a.adj_salary is not null";
 	}
 	static function get_salary_history_res($contract_history_id) {
 		$salary_history=db::select("contract_history a
-inner join contract_history b on a.user_id=b.user_id"
-,'b.*','a.contract_history_id=?', 'end_date  desc, start_date desc',array($contract_history_id));
+inner join contract_history b on a.user_id=b.user_id
+left join project_name c on c.project_name=b.project_name
+left join project_number d on d.project_number=b.project_number
+left join project_location e on e.project_location=b.project_location"
+,'b.*, c.principal_advisor, c.financial_controller, d.team_leader, e.office_manager','a.contract_history_id=?', 'end_date  desc, start_date desc',array($contract_history_id));
 		return shared::fixSalary($salary_history);
 	}
 	static function get_salary_history_tbl($salary_history) {
@@ -315,7 +329,7 @@ inner join contract_history b on a.user_id=b.user_id"
 		$combo_countries_def=shared::select_combo_complete(db::select('countries','*','','countries_val'), 'countries_id','-Country-','countries_val','','150px');
 		$month_options=month_options();
 		$business_id=db::select('business','business_id, business_val','','sort_id');
-		$combo_business=shared::select_combo($business_id,'business_id', 'business_val');
+		$combo_business=shared::select_combo_complete($business_id, 'business_id', '-Nature of Business-','business_val');
 		
 		$combo_countries_def=$combo_countries_def;
 		
@@ -359,8 +373,7 @@ inner join contract_history b on a.user_id=b.user_id"
 		<tr><td>Job Title *</td><td>:</td><td>"._t2("job_title","",50)."</td></tr>";
 
 		$result.="
-		<tr><td>Nature of Business *</td><td>:</td><td><select id='business_id' class='business_id' title='Nature of Business'><option value='' selected disabled>-Nature of Business-</option>
-		".$combo_business."</select></td></tr>";
+		<tr><td>Nature of Business *</td><td>:</td><td>".$combo_business."</td></tr>";
 		
 		$result.="
 		<tr><td>May Contact</td><td>:</td><td>".shared::create_checkbox('may_contact', 'May we contact your employer?', 1)."
@@ -373,7 +386,7 @@ inner join contract_history b on a.user_id=b.user_id"
 	}
 
 	static function getProjectView($applicant, $combo_project_name_def='', $type='') {
-		if (isset($_SESSION['project_location'])) {
+		if ($type=='readonly') {
 			$result="<h1>Project</h1><div><table class='row'>
 				<tr><td>Start Date</td><td>:</td><td>".formatDate(_lbl("start_date", $applicant))."</td></tr>
 				<tr><td>End Date</td><td>:</td><td>".formatDate(_lbl("end_date", $applicant))."</td></tr>";
@@ -404,7 +417,7 @@ inner join contract_history b on a.user_id=b.user_id"
 				<tr><td>Allowance</td><td>:</td><td>"._lbl("allowance", $applicant)."</td></tr>
 				<tr><td>Employment Type</td><td>:</td><td>"._lbl("vacancy_type", $applicant)."</td></tr>
 				</table></div>";
-			$result.=Employee::getSalarySharingView($applicant, $combo_project_name_def);
+			$result.=Employee::getSalarySharingView($applicant, $combo_project_name_def, $type);
 			
 			return $result;
 		}
@@ -433,7 +446,7 @@ inner join contract_history b on a.user_id=b.user_id"
 			$result.="<tr><td>Start Date</td><td>:</td><td>"._t2("start_date")."</td></tr>
 					<tr><td>End Date</td><td>:</td><td>"._t2("end_date")."</td></tr>";
 		}
-		if ($type=='change_project_data') {
+		if ($type=='update_contract_data') {
 			$end_date=db::select_single('employee', 'coalesce(am2_end_date, contract2_end_date, am1_end_date, contract1_end_date) v','user_id=?','',array($applicant['user_id']));
 			$result.="<tr><td>Start Date</td><td>:</td><td>"._t2("start_date")."</td></tr>
 					<tr><td>End Date</td><td>:</td><td>".formatDate($end_date)."</td></tr>";
@@ -466,16 +479,20 @@ inner join contract_history b on a.user_id=b.user_id"
 			<tr><td>Allowance</td><td>:</td><td>"._t2("allowance", $applicant)."</td></tr>
 			<tr><td>Employment Type</td><td>:</td><td>".$vacancy_type_choice."</td></tr>
 			</table></div>";
-		$result.=Employee::getSalarySharingView($applicant, $combo_project_name_def);
+		$result.=Employee::getSalarySharingView($applicant, $combo_project_name_def, $type);
 		$result.="<button class='button_link' id='btn_save_project'>Save</button>";
 		
 		return $result;
 	}
-	static function getSalarySharingView($row, $combo_project_name_def='') {
-		if (isset($_SESSION['project_location'])) {
+	static function getSalarySharingView($row, $combo_project_name_def='', $type) {
+		if ($type=='readonly') {
+			$res_salary_sharing=db::select('salary_sharing','*','contract_history_id=?','',array($row['contract_history_id']));
+			if (count($res_salary_sharing)==0) {
+				return "<b>No Salary Sharing</b>";
+			}
 			$result="<h2>Salary Sharing</h2>";
 			$result.="<table class='tbl'><tr><th>Project Name</th><th>Project Number</th><th>Percentage</th></tr>";
-			$res_salary_sharing=db::select('salary_sharing','*','contract_history_id=?','',array($row['contract_history_id']));
+			
 
 			foreach ($res_salary_sharing as $rs)  {
 				$result.="<tr><td>"._lbl('project_name',$rs)."</td>
@@ -500,9 +517,9 @@ inner join contract_history b on a.user_id=b.user_id"
 			
 			$project_name_option=shared::set_selected($rs['project_name'], $combo_project_name_def);
 			$project_number_option=shared::select_combo_complete(Project::getProjectNumberByProjectName($rs['project_name']), 'project_number', '-Project Number-', 'project_number', $rs['project_number']);
-			$result.="<div class='row'><div class='float100-no-padding'>".$project_name_option."</div>
-				<div class='float100-no-padding'>".$project_number_option."</div>
-				<div class='float100-no-padding'>"._t2("percentage", $rs,"1")." % ".getImageTags(['delete'],'SalarySharing')."</div></div>";
+			$result.="<div class='row'><div class='label width120'>".$project_name_option."</div> 
+				<div class='label width120'>".$project_number_option."</div> 
+				<div class='label width80'>"._t2("percentage", $rs,"1")." % ".getImageTags(['delete'],'SalarySharing')."</div></div>";
 		}
 		$result.="</div>";
 		
@@ -599,7 +616,7 @@ inner join contract_history b on a.user_id=b.user_id"
 		return $result;
 	}
 	static function getShowTerminateImmediately() {
-		$result="<h1>Terminate Immediately</h1>";
+		$result="";
 		$result.=_t2("terminate_date", date('Y-m-d'));
 		$result.=" <button class='button_link btn_calculate'>Calculate Severance</button>";
 		$result.="<div id='div_severance_data'></div>";
@@ -632,14 +649,19 @@ inner join contract_history b on a.user_id=b.user_id"
 	static function getComboEmployee($d=null, $filter="") {
 		if ($d==null) $d=date('Y-m-d');
 		if ($filter!='') $filter=" and ".$filter;
-		$res=Employee::get_active_employee_simple("contract1_start_date<=?".$filter, array($d));
+		if (in_array('office manager', $_SESSION['role_name'])) {
+			shared::prepOM(1);
+			shared::prepPA(0);
+		}
 		
+		$res=Employee::get_active_employee_simple("contract1_start_date<=?".$filter, array($d));
+		shared::setId('employee_choice', 'user_id', $res);
 		$combo_user="";
 		$arr=array();
 		foreach ($res as $row) {
 			if ($combo_user!="") $combo_user.=",";
 			$combo_user.="'".$row['first_name']." ".$row['last_name']."'";
-			array_push($arr,array('label'=>$row['first_name']." ".$row['last_name'], 'value'=>$row['user_id']));
+			array_push($arr,array('label'=>$row['first_name']." ".$row['last_name'], 'value'=>$row['id']));
 		}
 		
 		$combo_user=json_encode($arr);
@@ -694,8 +716,10 @@ inner join contract_history b on a.user_id=b.user_id"
 	}
 	
 	static function validateEmployee($id, $d=null) {
+		/*
 		if ($_SESSION['role_name']=='admin') return 1;
 		if ($d==null) $d=date('Y-m-d');
+		
 		if (isset($_SESSION['project_location'])) {
 			$project_location=$_SESSION['project_location'];
 		}
@@ -703,6 +727,7 @@ inner join contract_history b on a.user_id=b.user_id"
 		$rs=Employee::get_active_employee_simple_one('a.user_id=?', array($id));
 		if ($rs==null)  return 0;
 		if ($rs['start_date']>$d) return 0;
+		*/
 		return 1;
 	}
 	static function isOfficeManager() {

@@ -1,11 +1,22 @@
 <?php
-//project_ajax link
+if ($type=='getData') {
+	$user_id=shared::getId('employee_choice', $user_id);
+	$applicant=Employee::get_active_employee_one('a.user_id=?',array($user_id));
+	$project_name_choice=shared::select_combo_complete(Project::getProjectName(), 'project_name', '-Project Name-');
+	$result="";
+	$result.="<h1>".$applicant['first_name']." ".$applicant['last_name']." <br>Last Project Date:".formatDate($applicant['start_date']).' to '.formatDate($applicant['end_date'])."</h1>";
+	$result.=Employee::getProjectView($applicant, $project_name_choice,'update_contract_data');
+	
+	$data['result']=$result;
+	$data['project_name_choice']=$project_name_choice;
+	
+	die(json_encode($data));
+}
 if ($type=='getProjectClass'||$type=='getProjectLocationClass') {
 	require("pages/ajax/project_ajax.php");
 	die;
 }
-
-if ($type=='save_change_project') {
+if ($type=='save') {
 	$_POST['user_id']=$_SESSION['user_id'];
 	$contract_history_id=$_SESSION['contract_history_id'];
 	$user_id=$_POST['user_id'];

@@ -36,8 +36,8 @@ function projectView(div, beforeSave, afterSave, ajaxPage) {
 		bind(".btn_add", "click", self.AddSalarySharing);
 		bind('.btn_deleteSalarySharing','click', self.DeleteSalarySharing);
 		bind("#btn_save_project", "click", self.SaveProject);
-		numeric($('.salary'));
-		numeric($('.allowance'));
+		numeric($('.salary', div));
+		numeric($('.allowance', div));
 		$('input').blur();
 		setDatePicker();
 		fixSelect();
@@ -161,7 +161,7 @@ function projectView(div, beforeSave, afterSave, ajaxPage) {
 		data['type']=self.type;
 		if (!validate_empty_col(p,['job_title','job_position','project_name_id','project_number_id','project_location','responsible_superior','salary','salary_band'])) return false;
 		data = prepareDataMultiInput(data
-		, ['job_title','job_position','project_name','project_number','team_leader','principal_advisor','financial_controller','project_location','office_manager'
+		, ['job_title','job_position','project_name','project_number','project_location'
 		,'responsible_superior','SAP_No','salary','salary_band','working_time','reason','start_date','end_date','allowance','vacancy_type']
 		, p);
 		data['salary_sharing_project_name']=new Array();

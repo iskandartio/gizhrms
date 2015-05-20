@@ -5,6 +5,7 @@
 	var f=generate_assoc(['id','invoice_date','invoice_val','remarks','claim','paid','remainder', 'btn']);
 	var employee_choice=<?php _p(Employee::getComboEmployee())?>;
 	var adder;
+	var ajaxPage="<?php _p($ajaxPage)?>";
 	$(function() {
 		autoCompleteEmployee('#employee_id', EmployeeChange);
 		bind('.year','change',ChangeYear);
@@ -33,7 +34,7 @@
 		var data={}
 		data['type']='save';
 		data['year']=$('.year').val();
-		data['user_id']=$('.employee_id').data("id");
+		data['user_id']=$('#employee_id').data("id");
 		data=prepareDataText(data, ['invoice_date','remarks'], par, f);
 		data=prepareDataDecimal(data, ['invoice_val'], par, f);
 		data=prepareDataHtml(data, ['id'], par, f);
@@ -49,9 +50,9 @@
 			setHtmlText(par, 'remainder', d['remainder'], f);
 			textToLabel(par, ['invoice_date','invoice_val','remarks'], f);
 			btnChange(par, ['edit','delete'], f);
-			
+			bindAll();
 		}
-		ajax('medical_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function Delete() {
 		if (!confirm("Are you sure to delete?")) return;
@@ -63,7 +64,7 @@
 			par.remove();
 			
 		}
-		ajax("medical_ajax",data, success);
+		ajax(ajaxPage,data, success);
 	}
 	function Edit() {
 		var par=$(this).closest("tr");
@@ -90,10 +91,10 @@
 			bindAll();
 			
 		}
-		ajax("medical_ajax",data, success);
+		ajax(ajaxPage,data, success);
 	}
 	function Print() {
-		window.open("print_medical_data?user_id="+$('#employee_id').data("id")+"&year="+$('.year:checked').val());
+		window.open("<?php _p($printPage)?>?user_id="+$('#employee_id').data("id")+"&year="+$('.year:checked').val());
 	}
 	function ChangeYear() {
 		var data={}
@@ -112,7 +113,7 @@
 			$('#employee_id').val('');
 			
 		}
-		ajax("medical_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 </script>
 

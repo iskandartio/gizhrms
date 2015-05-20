@@ -1,6 +1,6 @@
 <?php
 	if ($type=='search')  {
-		
+		$employee_id=shared::getId('employee_choice', $employee_id);
 		$limit=db::select_single('settings','setting_val v','setting_name=?','',array('Medical Checkup Limit'));
 		$last_invoice_date=db::select_single("employee_medical_checkup", "max(invoice_date) v", "user_id=? and paid_status=1", "", array($employee_id));
 		$rs=db::select_one("employee_medical_checkup", "*", "user_id=? and invoice_date=? and paid_status=1", "", array($employee_id,$last_invoice_date));
@@ -26,7 +26,7 @@
 
 	}
 	if ($type=='save') {
-		if (Employee::validateEmployee($user_id)==0) die("Failed");
+		$user_id=shared::getId('employee_choice', $user_id);
 		$last_invoice_date=db::select_single("employee_medical_checkup", "max(invoice_date) v", "user_id=? and paid_status=1", "", array($user_id));
 		if ($last_invoice_date!=null) {
 			if (shared::addYear($last_invoice_date,3)>$invoice_date) {

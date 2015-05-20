@@ -1,20 +1,27 @@
 	var nc=true;
 	$.fn.numeric = function(o, type, n) {			
-		$(o).data("type", "numeric");
-		$(o).focus(function() { 
-			numeric_focus(o[0]);
+		
+		$(o).each(function(idx) {
+			$(this).data("type", "numeric");
+			$(this).focus(function() { 
+				numeric_focus(this);
+			});
+			$(this).keydown(function(event) {				
+				numeric_keydown(event, type);
+			});
+			$(this).keyup(function(event) { 
+				numeric_keyup(this, event);
+			});
+			nc=n;
+			$(this).mouseup(function() { numeric_mouseup(event);});
+			$(this).blur(function() { 
+				numeric_blur(this, nc, 'blur');
+			});
 		});
 		
-		$(o).keydown(function(event) {
-			
-			numeric_keydown(event, type);
-		});
-		$(o).keyup(function(event) { 
-			numeric_keyup(o[0], event);
-		});
-		nc=n;
-		$(o).mouseup(function() { numeric_mouseup(event);});
-		$(o).blur(function() { numeric_blur(o[0], nc);});
+		
+		
+		
 		
 	}
 	function numeric_keydown(e, input_type) {
@@ -66,7 +73,7 @@
 		}
 	}
 	
-	function numeric_blur(o, not_count) {
+	function numeric_blur(o, not_count, blur) {
 		if (o.value=='') return;
 		if (o.value=='0') return;
 		var selStart=o.selectionStart;
@@ -102,9 +109,10 @@
 		o.value=r;
 		var after=r.length;
 		selStart=selStart+after-sellength;
-		o.selectionStart=selStart;
-		o.selectionEnd=selStart;
-		sellength2=o.value.length;
+		if (!blur) {
+			o.selectionStart=selStart;
+			o.selectionEnd=selStart;
+		}
 		if (!not_count) {
 			count_total();
 		}
@@ -119,9 +127,9 @@
 		numeric_focus_flag=true;
 	}
 
-	function numeric_mouseup(event) {
+	function numeric_mouseup(e) {
 		if (numeric_focus_flag) {
-			event.preventDefault();	
+			e.preventDefault ? e.preventDefault() : e.returnValue=false;
 			numeric_focus_flag=false;
 		}
 	}

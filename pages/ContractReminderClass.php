@@ -1,12 +1,14 @@
 <?php
 class ContractReminder {
 	static function getData() {
-		$res=db::DoQuery("select a.user_id, c.job_title, a.end_date, c.team_leader, c.project_name, c.project_number from (
+		$res=db::DoQuery("select a.user_id, c.job_title, a.end_date, d.team_leader, c.project_name, c.project_number from (
 select user_id, max(end_date) end_date from contract_history a
 left join settings b on b.setting_name='Contract Reminder'
 where DATE_ADD(curdate(),INTERVAL b.setting_val DAY)>=end_date and contract_reminder_email is null
 group by user_id) a
-left join contract_history c on c.user_id=a.user_id and c.end_date=a.end_date");
+left join contract_history c on c.user_id=a.user_id and c.end_date=a.end_date
+left join project_number d on d.project_number=c.project_number
+");
 		return $res;
 	}
 	static function forAdmin($res,  $params)  {
@@ -37,7 +39,7 @@ left join contract_history c on c.user_id=a.user_id and c.end_date=a.end_date");
 		}
 		
 		$list_def="<table border=1 cellpadding=3 cellspacing=0>";
-		$list_def.="<tr><th>First Name</th><th>Last Name</th><th>Job Title</th><th>End Date</th></tr>";
+		$list_def.="<tr><th>Name</th><th>Job Title</th><th>End Date</th></tr>";
 		
 		foreach ($res as $project_name=>$val_project_name) {
 			foreach ($val_project_name as $project_number=>$val_project_number) {

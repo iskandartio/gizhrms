@@ -1,11 +1,11 @@
 <?php
 	$res=db::select('vacancy_progress','*','','sort_id');
 	$signature=db::select_single('signature','signature v');
-	$tiny_script=shared::get_tinymce_script('.div_signature');
 ?>
 
-<?php _p($tiny_script)?>
 
+<script src="js/tinymce/tinymce.min.js"></script>
+<script src="js/tinymce/jquery.tinymce.min.js"></script>
 <script>
 	var fields=generate_assoc(['vacancy_progress_id','vacancy_progress_val','process_name','required','active','btn','email']);
 			
@@ -16,7 +16,7 @@
 			}
 		});
 		bindAll();
-		
+		tiny_setup('.div_signature');
 
 	});
 	function bindAll() {
@@ -68,6 +68,7 @@
 			$('#show_detail').html(msg);
 			$('#show_detail').dialog("open");
 			bindAll();
+			tiny_setup("#email_content");
 		}
 		
 		ajax('vacancy_progress_ajax', data, success);
@@ -153,7 +154,7 @@
 			setHtmlText(par, 'vacancy_progress_id', msg);
 			if (required==0) {
 				textToLabel(par,['vacancy_progress_val', 'process_name']);			
-				btnChange(par, ['edit','up','down']);
+				btnChange(par, ['edit','delete','up','down']);
 			} else {
 				textToLabel(par,['process_name']);			
 				btnChange(par, ['edit','up','down']);
@@ -191,10 +192,12 @@
 <?php foreach ($res as $row) {
 	_p("<tr><td>".$row['vacancy_progress_id']."</td><td>".$row['vacancy_progress_val']."</td><td>".$row['process_name']."</td><td>".$row['required']."</td>
 	<td><span style='display:none'>".$row['active']."</span>".($row['active']==1 ? 'Active' : '')."</td>
-	<td width='100px'>".($row['required']==1 ? getImageTags(array('edit','up','down')) : getImageTags(array('edit','delete','up','down')))."</td>
-	<td><button class='btn_invitation'>Invitation</button> <button class='btn_rejection'>Rejection</button> 
-	<button class='btn_interviewer'>Interviewer</button> <button class='btn_reference'>Reference</button></td>
-	</tr>");
+	<td width='100px'>".($row['required']==1 ? getImageTags(array('edit','up','down')) : getImageTags(array('edit','delete','up','down')))."</td>");
+	if ($row['vacancy_progress_val']!='Shortlist' && $row['vacancy_progress_val']!='Closing') {
+		_p("<td><button class='btn_invitation'>Invitation</button> <button class='btn_rejection'>Rejection</button> 
+		<button class='btn_interviewer'>Interviewer</button> <button class='btn_reference'>Reference</button></td>
+		</tr>");
+	}
 }?>
 
 </tbody></table>
@@ -202,6 +205,6 @@
 
 <div id='show_detail'></div>
 <h2>Signature</h2>
-
 <div class='div_signature' style='border-style:dotted'><?php _p($signature)?></div>
+<p>
 <button class='button_link btn_save_signature'>Save Signature</button>

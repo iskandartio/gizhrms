@@ -103,9 +103,10 @@
 			
 			if (obj['err']!='')  {
 				
-				
+				alert(obj['err']);
 				$('#captcha').html(obj['captcha_tag']);
 				bind('#change_captcha_text','click',ChangeCaptchaText);
+				
 				return;
 			}
 			
@@ -132,8 +133,8 @@
 				return;
 			}
 			already_registered();
-			send_email();
 			alert('Thank you for the registration. The activation link has been sent to your email.  You could login after you click confirmation link from your email to activate the account');
+			location.reload();
 		}		
 		ajax(ajaxPage, data, success);
 		
@@ -156,7 +157,6 @@
 				return;
 			}
 			already_registered();
-			send_email();
 			alert('Your resetted password will be sent to your email');
 		}
 		ajax(ajaxPage, data, success);

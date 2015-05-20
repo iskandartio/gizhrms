@@ -7,7 +7,7 @@ if ($type=='load_personal_data')  {
 	<tr><td>First Name *</td><td>:</td><td>"._lbl("first_name",$applicant)."</td></tr>
 	<tr><td>Last Name *</td><td>:</td><td>"._lbl("last_name", $applicant)."</td></tr>
 	<tr><td>Place of Birth *</td><td>:</td><td>"._lbl("place_of_birth", $applicant)."</td></tr>
-	<tr><td>Date of Birth *</td><td>:</td><td>"._lbl("date_of_birth", $applicant)."</td></tr>
+	<tr><td>Date of Birth *</td><td>:</td><td>".formatDate(_lbl("date_of_birth", $applicant))."</td></tr>
 	<tr><td>Gender</td><td>:</td><td>"._lbl("gender", $applicant)."</td></tr>
 	<tr><td>Marital Status</td><td>:</td><td>"._lbl("marital_status", $applicant)."</td></tr>
 	<tr><td>Nationality *</td><td>:</td><td>".shared::get_table_data('nationality_id', $applicant);
@@ -16,7 +16,7 @@ if ($type=='load_personal_data')  {
 	<tr><td valign='top'>Address *</td><td>:</td><td>"._lbl('address', $applicant)."<br/>
 	".shared::get_table_data("country_id", $applicant);
 	if (_lbl('country_id', $applicant)==-1) $result.=" "._lbl("country_name", $applicant)."<br/>";
-	$result.=shared::get_table_data("province_id", $applicant)." ".shared::get_table_data("city_id", $applicant)."
+	$result.=" ".shared::get_table_data("province_id", $applicant)." ".shared::get_table_data("city_id", $applicant)."
 	<tr><td>Post Code *</td><td>:</td><td>"._lbl("post_code", $applicant)."</td></tr>
 	<tr><td>Phone1 *</td><td>:</td><td>"._lbl("phone1", $applicant)."</td></tr>
 	<tr><td>Phone2</td><td>:</td><td>"._lbl("phone2", $applicant)."</td></tr>
@@ -36,11 +36,10 @@ if ($type=='load_personal_data')  {
 
 if ($type=='load_employee_project') {
 	$applicant=Employee::get_active_employee_one("a.user_id=?", array($_SESSION['user_id']));
+	
 	$combo_project_name_def=shared::select_combo_complete(Project::getProjectName(), 'project_name', '-Project Name-');
-	$project_view=Employee::getProjectView($applicant, $combo_project_name_def);
-	
+	$project_view=Employee::getProjectView($applicant, $combo_project_name_def, 'readonly');
 	$result=$project_view;
-	
 	$data['result']=$result;
 	die(json_encode($data));
 }
@@ -73,7 +72,7 @@ if ($type=='load_language') {
 	
 	$result.="<table class='tbl' id='tbl_language'>
 	<thead>
-	<tr>Language</th><th>Skill Level</th><th></th></tr>
+	<tr><th>Language</th><th>Skill Level</th></tr>
 	</thead>
 	<tbody>";
 	foreach($language as $row) {

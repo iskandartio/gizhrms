@@ -37,9 +37,8 @@ where ifnull(c.vacancy_progress_val,'') !='Closing'";
 		}
 		array_push($applicants[$row['vacancy_id']], array("name"=>$row['name'],"user_id"=>$row['user_id']));
 	}
-	
 	$res=db::DoQuery("select distinct a.vacancy_id, concat(b.vacancy_name,' (',b.vacancy_code,'-',b.vacancy_code2,')') vacancy, c.process_name from vacancy_employee a
-left join vacancy b on a.vacancy_id=b.vacancy_id 
+inner join vacancy b on a.vacancy_id=b.vacancy_id 
 left join vacancy_progress c on c.vacancy_progress_id=b.vacancy_progress_id 
 where ifnull(c.vacancy_progress_val,'') !='Closing' and a.employee_id=?", array($_SESSION['uid']));
 	$result="<table class='tbl' id='tbl'>";

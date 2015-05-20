@@ -85,7 +85,7 @@ function ajax(url, data, Func, type) {
 		success: function(msg) {
 			$('#freeze').hide();
 			if (!jQuery.isArray(msg)) {
-				if (msg.startsWith("Error : ")) {
+				if (msg.indexOf("Error : ")==0) {
 					alert(msg);
 					return;
 				}
@@ -121,7 +121,10 @@ function getChildSelect(par, name, f) {
 	var obj=getChildObj(par, name, f);
 	return htmlDecode(obj.children("span").html());
 }
-
+function getChildAutoComplete(par, name, f) {
+	var obj=getChildObj(par, name, f);
+	return obj.children("."+name).data("id");
+}
 /*
 function getChild(par, name, f, name2) {
 	if (!f) {
@@ -837,5 +840,28 @@ function bindEnter() {
 			e.preventDefault();
 			$('input,select,textarea')[$('input,select,textarea').index(this)+1].focus();
 		}
+	});
+}
+function tiny_setup(obj) {
+	tinymce.remove();
+	tinymce.init({
+		selector: obj,
+		inline:true,
+		fontsize_formats: "8pt 9pt 10pt 11pt 12pt 26pt 36pt",
+		theme: "modern",
+		plugins: [
+			"advlist autolink lists link image charmap print preview hr anchor pagebreak",
+			"searchreplace wordcount visualblocks visualchars code fullscreen",
+			"insertdatetime media nonbreaking save table contextmenu directionality",
+			"emoticons template paste textcolor colorpicker textpattern"
+		],
+		toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+		toolbar2: "preview | forecolor backcolor emoticons",
+		image_advtab: true,
+		paste_retain_style_properties : "color background text-align font-size display",
+		forced_root_block : false,
+		force_br_newlines : true,
+		force_p_newlines : false,
+
 	});
 }

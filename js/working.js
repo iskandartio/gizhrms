@@ -63,7 +63,7 @@ function working(div, ajaxPage, afterSave) {
 		ajax(ajaxPage, data, success);
 	}
 	self.SaveWorking=function()  {
-		if (!validate_empty_col(div, ['month_from','year_from','month_to','year_to','employer','job_title','business_id'])) return;
+		if (!validate_empty_col(div, ['month_from','year_from','month_to','year_to','employer','job_title','countries_id','business_id'], ['From Month','From Year','To Month','To Year','Employer','Job Title','Country','Nature of Business'])) return;
 		var data={};
 		data['type']='save_working';
 		data['tbl']=self.tbl;

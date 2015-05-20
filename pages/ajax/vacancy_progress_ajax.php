@@ -1,11 +1,11 @@
 <?php
 	if ($type=='delete') {
-		die(db::delete('vacancy_progress','vacancy_progress_id=? and ifnull(required,0)=0', array($vacancy_progress_id)));
+		die(db::delete('vacancy_progress','vacancy_progress_id=? and ifnull(required,0)=?', array($vacancy_progress_id,0)));
 	}
 	if ($type=='save') {
 		$con=db::beginTrans();
 		if ($vacancy_progress_id=='') {
-			$_POST['sort_id']=db::select_single('vacancy_progress', 'max(sort_id)+1 v','','',array(),$con);
+			$_POST['sort_id']=db::select_single('vacancy_progress', 'ifnull(max(sort_id),0)+1 v','','',array(),$con);
 			$_POST['required']=0;
 			$vacancy_progress_id=db::insertEasy('vacancy_progress', $_POST);
 		} else {
@@ -40,7 +40,6 @@
 	
 		$row=db::select_one('email_setup','*','email_type=?', '', array($email_type));
 		$result="";
-		$result.=shared::get_tinymce_script('#email_content');
 		
 		$result.="<h1>".$vacancy_progress_val." $invitereject</h1>";
 		$result.="<input type='hidden' value='".$email_type."' id='email_type'/>";

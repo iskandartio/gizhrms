@@ -57,9 +57,6 @@ if (endsWith($page_name,'_ajax')) {
 
 	header('Content-Type: text/html; charset=utf-8');
 	
-	if ($_SESSION['page_name']=='outpatient') $medical_type='employee_outpatient';
-	if ($_SESSION['page_name']=='pregnancy') $medical_type='employee_pregnancy';
-
 	foreach ($_POST as $key=>$value) {
 		if (startsWith($key,'date')||endsWith($key,'date')) {
 			if (!is_array($value)) {
@@ -102,7 +99,7 @@ $_SESSION['activation_email']="";
 
 $_SESSION['page_name']=$page_name;
 
-if ($page_name=='activate'||$page_name=='upload_ajax'||$page_name=='show_picture_ajax') {
+if ($page_name=='activate'||$page_name=='upload_ajax'||$page_name=='show_picture_ajax'||$page_name=='downloadcv') {
 	include("pages/$page_name.php");	
 	die;
 }
@@ -113,10 +110,12 @@ if ($page_name=='login') {
 	unset($_SESSION['allowed_module']);
 	unset($_SESSION['employee']);
 	unset($_SESSION['project_location']);
+	unset($_SESSION['in_project_location']);
+	unset($_SESSION['project_name']);
+	unset($_SESSION['in_project_name']);
 } else {
 	shared::contract_reminder_email();
 }
-
 
 header('Content-Type: text/html; charset=utf-8');
 ?><!DOCTYPE html>
@@ -124,15 +123,16 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <title><?php _p("GIZ HRMS");?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-
-    <link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css"/>
+    <link rel="stylesheet" href="css/jquery-ui.css">
 	<link rel="stylesheet" href="css/default.css"/>
 	
 	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/store.min.js"></script>
+	
 	<script src="js/general.js"></script>
 	<script src="js/numeric.js"></script>
-
-	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+	
 	<script>
 		$(function() {
 			$('#freeze').hide();
@@ -140,14 +140,15 @@ header('Content-Type: text/html; charset=utf-8');
 		});
 	</script>
 <?php if ($page_name!="login") {?>
-	<script src="js/store.min.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/store.js/1.3.14/store.min.js" type="text/javascript"></script>
+	
 	<script src="js/jquery-idleTimeout.min.js"></script>
 <?php } ?>
 <?php if ($page_name!="login") {?>
 	<script src='js/menu.js'></script>
 	<script>
 		$(function() {
-			var a=menu(<?php _p($home_dir)?>, <?php _p($maxWidth)?>);
+			var a=menu('<?php _p($home_dir)?>', '<?php _p($maxWidth)?>', '<?php _p($page_name)?>');
 		});
 		
 	</script>

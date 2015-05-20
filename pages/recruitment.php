@@ -4,6 +4,7 @@
 <script>
 	var fields=generate_assoc(['vacancy_id','vacancy_progress_id','vacancy','vacancy_progress','#applicants','btn']);
 	var fields_detail=generate_assoc(['user_id','first_name','last_name','dtl','ranking_id','user_comment','btn']);
+	var ajaxPage='recruitment_ajax';
 	$(function() {
 		loadData();
 	});
@@ -18,7 +19,7 @@
 			$('.vacancy_list').html(msg);
 			bindHeader();
 		}
-		ajax('recruitment_ajax',data, success);
+		ajax(ajaxPage,data, success);
 	}
 	function bindTblDetail() {
 		bind('.btn_detail','click', PopupDetail);
@@ -41,7 +42,7 @@
 			$('.applicant_list').html(msg);
 			bindTblDetail();
 		}
-		ajax('recruitment_ajax',data, success);
+		ajax(ajaxPage,data, success);
 	}
 	function PopupDetail() {
 		var data={};
@@ -54,7 +55,7 @@
 			$('#popup_detail').dialog("open");
 			
 		};
-		ajax("filter_applicant_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 	function Save() {
 		var f=fields_detail;
@@ -68,7 +69,7 @@
 		var success=function(msg) {
 			if (msg!='') alert(msg);
 		}
-		ajax("recruitment_ajax", data, success);
+		ajax(ajaxPage, data, success);
 	}
 </script>
 <div class='vacancy_list'></div>

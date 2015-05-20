@@ -6,9 +6,9 @@
 		$result.="<thead><tr><th></th><th>Project Name</th><th>Principal Advisor</th><th>Financial Controller</th><th>&nbsp;</th></tr></thead><tbody>";
 		foreach ($res as $rs) {
 			$result.="<tr><td>".$rs['project_name_id']."</td><td>".$rs['project_name']."</td>
-			<td><span class='principal_advisor hidden'>".$rs['principal_advisor']."</span>
+			<td><span class='principal_advisor hidden'>".shared::getKeyFromValue($_SESSION['employee_choice'], $rs['principal_advisor'])."</span>
 			<span class='principal_advisor_name'>"._name($rs['principal_advisor'])."</span></td>
-			<td><span class='financial_controller hidden'>".$rs['financial_controller']."</span>
+			<td><span class='financial_controller hidden'>".shared::getKeyFromValue($_SESSION['employee_choice'], $rs['financial_controller'])."</span>
 			<span class='financial_controller_name'>"._name($rs['financial_controller'])."</span></td>
 			<td>".getImageTags(['edit','delete'])."</td></tr>";
 		}
@@ -21,6 +21,8 @@
 		die;
 	}
 	if ($type=='save_project_name') {
+		$_POST['principal_advisor']=shared::getId('employee_choice', $_POST['principal_advisor']);
+		$_POST['financial_controller']=shared::getId('employee_choice', $_POST['financial_controller']);
 		if ($project_name_id=='') {
 			$project_name_id=db::insertEasy('project_name',$_POST);
 		} else {
@@ -36,7 +38,7 @@
 		$result.="<thead><tr><th></th><th>Project Number</th><th>Team Leader</th><th>Project Name</th><th>&nbsp;</th></tr></thead><tbody>";
 		foreach ($res as $rs) {
 			$result.="<tr><td>".$rs['project_number_id']."</td><td>".$rs['project_number']."</td>
-			<td><span class='team_leader hidden'>".$rs['team_leader']."</span>
+			<td><span class='team_leader hidden'>".shared::getKeyFromValue($_SESSION['employee_choice'], $rs['team_leader'])."</span>
 			<span class='team_leader_name'>"._name($rs['team_leader'])."</span></td>
 			<td>".$rs['project_name']."</td>
 			<td>".getImageTags(['edit','delete'])."</td></tr>";
@@ -50,6 +52,7 @@
 		die;
 	}
 	if ($type=='save_project_number') {
+		$_POST['team_leader']=shared::getId('employee_choice', $_POST['team_leader']);
 		if ($project_number_id=='') {
 			$project_number_id=db::insertEasy('project_number',$_POST);
 		} else {
@@ -65,7 +68,7 @@
 		$result.="<thead><tr><th></th><th>Project Location</th><th>Office Manager</th><th>Project Name</th><th>&nbsp;</th></tr></thead><tbody>";
 		foreach ($res as $rs) {
 			$result.="<tr><td>".$rs['project_location_id']."</td><td>".$rs['project_location']."</td>
-			<td><span class='office_manager hidden'>".$rs['office_manager']."</span>
+			<td><span class='office_manager hidden'>".shared::getKeyFromValue($_SESSION['employee_choice'], $rs['office_manager'])."</span>
 			<span class='office_manager_name'>"._name($rs['office_manager'])."</span></td>
 			<td>".$rs['project_name']."</td>
 			<td>".getImageTags(['edit','delete'])."</td></tr>";
@@ -79,6 +82,7 @@
 		die;
 	}
 	if ($type=='save_project_location') {
+		$_POST['office_manager']=shared::getId('employee_choice', $_POST['office_manager']);
 		if ($project_location_id=='') {
 			$project_location_id=db::insertEasy('project_location',$_POST);
 		} else {

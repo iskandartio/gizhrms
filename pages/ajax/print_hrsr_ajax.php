@@ -5,14 +5,19 @@ function checkSalaryBand($salary_band, $check) {
 	$currentDate= date('d-M-y');
 
 	
-	$res=db::select_one('contract_history a left join employee b on a.user_id=b.user_id','a.*
+	$res=db::select_one('contract_history a left join employee b on a.user_id=b.user_id
+		left join project_name d on d.project_name=a.project_name
+		left join project_number e on e.project_number=a.project_number
+		left join project_location f on f.project_location=a.project_location
+		','a.*, d.principal_advisor, d.financial_controller, e.team_leader, f.office_manager
 		, b.address, b.contract1_start_date, b.contract1_end_date, b.am1_start_date, b.am1_end_date
 		, b.contract2_start_date, b.contract2_end_date, b.am2_start_date, b.am2_end_date'
 		,'contract_history_id=?','', array($_SESSION['contract_history_id']));
 	$resBefore=db::select_one("contract_history a
 inner join (select max(end_date) end_date from contract_history where user_id=? and contract_history_id!=?) b
 on a.user_id=? and a.end_date=b.end_date
-left join employee c on c.user_id=a.user_id", "a.*", "", "", array($res['user_id'], $res['contract_history_id'], $res['user_id']));
+left join employee c on c.user_id=a.user_id
+", "a.*", "", "", array($res['user_id'], $res['contract_history_id'], $res['user_id']));
 	$salary_sharing=db::select('salary_sharing','*','contract_history_id=?','', array($res['contract_history_id']));
 	$further_info="";
 	

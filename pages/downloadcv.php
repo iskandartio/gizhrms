@@ -1,11 +1,10 @@
 <?php 
-require_once "pages/startup.php";
 $type=$_GET['type'];
 
 if (isset($_GET['user_id'])) {
 	$user_id=$_GET['user_id'];
 	
-	$user_id=shared::validate_download($user_id, $_SESSION['uid'], $_SESSION['role_name']);
+	$user_id=shared::validate_download($user_id, $_SESSION['uid']);
 	
 } else {
 	$user_id=$_SESSION['uid'];
@@ -17,7 +16,6 @@ $file=$user_id."-$type".$ext;
 
 
 if (file_exists("pages/uploads/$file")) {
-		
 	header('Content-Disposition: attachment; filename="'.basename($file).'"');
 	ob_clean();
     flush();

@@ -1,6 +1,7 @@
 <script>
 	var f=generate_assoc(['id','employee','invoice_date','invoice_val','paid','remarks','btn']);
 	var f2=generate_assoc(['id','employee','claim_type','invoice_date','invoice_val','paid','remarks','btn']);
+	var ajaxPage='pay_medical_ajax';
 	$(function() {
 		
 		loadData();
@@ -20,7 +21,7 @@
 			$('#div_result').html(msg);
 			bindAll();
 		}
-		ajax('medical_ajax', data, success);
+		ajax(ajaxPage, data, success);
 		
 	}
 	function Paid() {
@@ -42,7 +43,7 @@
 			}
 			bindAll();
 		}
-		ajax('medical_ajax', data, success);
+		ajax(ajaxPage, data, success);
 	}
 </script>
 <div id='div_result'></div>

@@ -62,7 +62,8 @@ if ($type=='login') {
 	$_SESSION['time']=microtime();
 	$_SESSION['check_abused']=$_SESSION['check_abused']+1;
 	shared::generate_key("gizhrms");
-	if (count($res)==0) {
+	
+	if ($res==null || count($res)==0) {
 		$data['err']='Wrong User Name or Password or Not Activated!';			
 		$data['captcha_tag']=shared::get_captcha_text();
 		die (json_encode($data));
@@ -81,7 +82,10 @@ if ($type=='login') {
 	$res=db::DoQuery('select b.role_name from m_user_role a
 	left join m_role b on a.role_id=b.role_id
 	where a.user_id=?',array($_SESSION['uid']));
-	$_SESSION['role_name']=$res;
+	$_SESSION['role_name']=array();
+	foreach ($res as $rs) {
+		array_push($_SESSION['role_name'], $rs['role_name']);
+	}
 	$res=db::DoQuery('select distinct c.module_name, c.module_description, c.sub_module, d.category_name from m_user_role a 
 		inner join m_role_module b on a.role_id=b.role_id
 		inner join m_module c on c.module_id=b.module_id

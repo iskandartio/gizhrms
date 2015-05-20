@@ -30,7 +30,7 @@ where curdate() between b.vacancy_startdate and b.vacancy_enddate and a.user_id=
 		}
 	}
 	if (db::select_with_count('applicants_language','user_id=? and language_skill_id>0', array($_SESSION['uid']))<3) {
-		$err.="<li>Language (You must fill 3 language)</li>";
+		$err.="<li>Language (You must fill 3 languages)</li>";
 	}
 	if (db::select_with_count('applicants_reference','user_id=?', array($_SESSION['uid']))<1) {
 		$err.="<li>Reference</li>";

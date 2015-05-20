@@ -35,7 +35,7 @@
 	function Save() {
 		
 		var par=$(this).closest("tr");
-		if (!validate_empty_tbl(par, ['education_id','place','year_from','year_to','countries_id'], fields)) {
+		if (!validate_empty_tbl(par, ['education_id','place','year_from','year_to','countries_id'], ['Education Level','Name of Institution','From Year','To Year','Country'], fields)) {
 			
 			return;
 		}

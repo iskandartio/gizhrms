@@ -35,13 +35,12 @@ if ($type=='load_personal_data')  {
 	</div> 
 	</form>";
 		$result.="<table>
-	<tr style='display:none'><td>employee ID</td><td>:</td><td>"._t2("employee_id",$applicant)."</td></tr>
 	<tr><td>Title *</td><td>:</td><td>".$combo_title."</td></tr>
 	<tr><td>First Name *</td><td>:</td><td>"._t2("first_name",$applicant)."</td></tr>
 	<tr><td>Last Name *</td><td>:</td><td>"._t2("last_name", $applicant)."</td></tr>
 	<tr><td>Place of Birth *</td><td>:</td><td>"._t2("place_of_birth", $applicant)."</td></tr>
 	<tr><td>Date of Birth *</td><td>:</td><td>"._t2("date_of_birth", $applicant)."</td></tr>
-	<tr><td>Gender</td><td>:</td><td>".$combo_gender."</td></tr>
+	<tr><td>Gender *</td><td>:</td><td>".$combo_gender."</td></tr>
 	<tr><td>Marital Status</td><td>:</td><td>".$combo_marital_status."</td></tr>
 	<tr><td>Nationality *</td><td>:</td><td>".$combo_nationality." "._t2("nationality_val", $applicant)."</td></tr>
 	<tr><td valign='top'>Address *</td><td>:</td><td><textarea class='address' cols='30' rows='3'>".$applicant['address']."</textarea><br/>
@@ -68,6 +67,7 @@ if ($type=='load_personal_data')  {
 if ($type=='save_personal_data') {
 	
 	$_POST['user_id']=$_SESSION['user_id'];
+	
 	$user_id=$_POST['user_id'];
 	unset($_POST['user_name']);
 	$rs=db::select_one('m_user','user_id, user_name','user_name=? and user_id!=?', '', array($user_name,$user_id));
@@ -76,20 +76,24 @@ if ($type=='save_personal_data') {
 		die(json_encode($data));
 	}
 	$con=db::beginTrans();
+	
 	$activation_code="";
 	if ($user_id==0) {
 		$data['is_new']=1;
 		$activation_code=shared::random(30);
 		$password=shared::random(10);
 		$user_id=db::ExecMe('insert into m_user(user_name, pwd, activation_code) values(?,sha2(?,512),?)', array($user_name, $password, $activation_code), $con);
-		$_POST['user_id']=$user_id;
-		$_SESSION['user_id']=$user_id;
+		
 		$contract_history_id=db::insert('contract_history','user_id, start_date, end_date', array($user_id, '1900-01-01', '3000-01-01'), $con);
 		$_SESSION['contract_history_id']=$contract_history_id;
 		$_POST['contract1_end_date']='3000-01-01';
+		$_POST['user_id']=$user_id;
 		$i=db::insertEasy('employee', $_POST,$con);
+		$_SESSION['user_id']=$user_id;
+		
 	} else {
 		$data['is_new']=0;
+		
 		$rs=db::select_one('m_user', 'user_name','user_id=?','', array($user_id), $con);
 		if ($rs['user_name']!=$user_name) {
 			$password=shared::random(10);
@@ -98,7 +102,7 @@ if ($type=='save_personal_data') {
 			db::ExecMe('update m_user set user_name=?, pwd=?, activation_code=?, status_id=null 
 				where user_id=?', array($user_name, $password_hash, $activation_code, $user_id), $con);
 		}
-		$i=db::updateEasy('employee', $_POST,$con);
+		$i=db::updateShort('employee', 'user_id', $_POST,$con);
 	}
 	if ($activation_code!="") {
 		$role_id=db::select_single('m_role','role_id v','role_name=?','',array('employee'), $con);
@@ -117,14 +121,13 @@ if ($type=='save_personal_data') {
 		die(json_encode($data));
 	}
 	$data['type']='edit_employee';
-	unset($_SESSION['employee']);
 	die(json_encode($data));
 }
 
 if ($type=='load_employee_project') {
 	$applicant=Employee::get_active_employee_one("a.user_id=?", array($_SESSION['user_id']));
 	$combo_project_name_def=shared::select_combo_complete(Project::getProjectName(), 'project_name', '-Project Name-');
-	$project_view=Employee::getProjectView($applicant, $combo_project_name_def);
+	$project_view=Employee::getProjectView($applicant, $combo_project_name_def, isset($om) ? 'readonly':'');
 	
 	$result=$project_view;
 	
@@ -138,7 +141,7 @@ if ($type=='load_project_history') {
 	$result="";
 	$result.="<h1>Salary History</h1>
 <table id='tbl_salary_history' class='tbl'>
-<thead><tr><th>id</th><th>Date</th><th>Project</th><th>Leader</th><th>Position</th><th>Salary</th><th></th></tr></thead><tbody>";
+<thead><tr><th>id</th><th>Date</th><th>Project</th><th>Leader</th><th>Position</th><th>Salary</th><th>HRSR</th></tr></thead><tbody>";
 	$result.=Employee::get_salary_history_tbl($salary_history);
 	$result.="</tbody></table>";
 	$data['result']=$result;

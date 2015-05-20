@@ -45,7 +45,7 @@ function personal_data(div, ajaxPage) {
 		
 	}
 	self.Save=function() {
-		if (!validate_empty_col(div, ['first_name','last_name', 'place_of_birth','date_of_birth','nationality_id','address','country_id','post_code','phone1'])) return;
+		if (!validate_empty_col(div, ['title','first_name','last_name', 'place_of_birth','date_of_birth','nationality_id','address','country_id','post_code','phone1','gender'])) return;
 		if ($('#country_id',div).val()==-1) {
 			if (!validate_empty_col(div,['country_name'])) return;
 		} else {
@@ -53,7 +53,7 @@ function personal_data(div, ajaxPage) {
 		}
 		var data ={};
 		data['type']='save_personal_data';
-		data=prepareDataMultiInput(data, ['employee_id','title','user_name','email','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','marital_status'
+		data=prepareDataMultiInput(data, ['title','user_name','email','first_name','last_name', 'place_of_birth','date_of_birth', 'gender','marital_status'
 		,'nationality_id','nationality_val','address','country_id','country_name','province_id','city_id'
 		,'post_code','phone1','phone2','computer_skills','professional_skills','account_bank','account_number','emergency_phone','emergency_email'], div);
 		var success=function(msg) {			
@@ -62,10 +62,6 @@ function personal_data(div, ajaxPage) {
 				alert(d['err']);
 				return;
 			}
-			if (d['type']=='register') {
-				ajax("send_email");
-			}
-			$('#employee_id',div).val(d['id']);
 			$('#btn_upload').trigger('click');
 			
 		}

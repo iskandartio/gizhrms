@@ -5,7 +5,9 @@
 		$last_lens=array();
 		$current_lens=array();
 		$limit=db::select_single('settings','setting_val v','setting_name=?','',array('Frame Limit'));
+		$employee_id=shared::getId('employee_choice', $employee_id);
 		$last_invoice_date=db::select_single("employee_eyeglasses", "max(invoice_date) v", "user_id=? and claim_type='Frame' and paid_status=1", "", array($employee_id));
+		
 		$rs=db::select_one("employee_eyeglasses", "claim, paid, remarks", "user_id=? and claim_type='Frame' and invoice_date=?", "", array($employee_id,$last_invoice_date));
 		
 		if (count($rs)>0) {
@@ -43,10 +45,7 @@
 
 	}
 	if ($type=='save_frame') {
-		if (Employee::validateEmployee($user_id)==0) {
-			die("Failed");
-		}
-		
+		$user_id=shared::getId('employee_choice', $user_id);
 		$last_invoice_date=db::select_single("employee_eyeglasses", "max(invoice_date) v", "user_id=? and claim_type='Frame' and paid_status=1", "", array($user_id));
 		if ($last_invoice_date!=null) {
 			if (shared::addYear($last_invoice_date,3)>$frame_invoice_date) {
@@ -64,6 +63,7 @@
 		die;
 	}
 	if ($type=='save_lens') {
+		$user_id=shared::getId('employee_choice', $user_id);
 		if (Employee::validateEmployee($user_id)==0) {
 			die("Failed");
 		}

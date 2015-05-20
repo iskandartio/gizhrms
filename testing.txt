@@ -1,0 +1,14 @@
+1. Failed Login
+2. Register
+	- Email
+	- Activate (fail, fixed)
+3. Add Personal Data, Edit
+4. Education
+	* validate_empty err (fixed)
+5. Reference
+6. Upload/Download Letter
+7. Apply job
+8. Filter Applicant, next recruitment gak tampil(karena data, fixed)
+	Filter Applicant for closing
+9. Setup email fixed
+10.

@@ -1,7 +1,6 @@
 <script src='js/others.js'></script>
 <script>
-
-	var tabs=['gender','relation','title','job_title','job_position','language_skill','vacancy_type'];
+	var tabs=['gender','relation','title','job_title','job_position','language_skill','vacancy_type','filter_choice'];
 	$(function() {
 		var a="<ul>";
 		for (i in tabs) {
