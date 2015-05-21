@@ -99,8 +99,8 @@
 			showTooltips: true,
 
 			// Array - Array of string names to attach tooltip events
-			//tooltipEvents: ["mousemove", "touchstart", "touchmove", "mouseout"],
-			tooltipEvents: [],
+			tooltipEvents: ["mousemove", "touchstart", "touchmove", "mouseout"],
+			
 			
 			// String - Tooltip background colour
 			tooltipFillColor: "rgba(0,0,0,0.8)",
@@ -158,7 +158,7 @@
 
 			// Function - Will fire on animation completion.
 			onAnimationComplete: function(){
-				this.showTooltip(this.segments, true);
+				//this.showTooltip(this.segments, true);
 			}
 
 		}

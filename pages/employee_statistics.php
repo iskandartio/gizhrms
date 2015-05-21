@@ -26,6 +26,7 @@
 	
 	function BasedOnChange() {
 		$('#tabular').html("");
+		$('#tbl_result').empty();
 		$('#tbl_statistics tbody tr:gt(3)').each(function(idx) {
 			$(this).remove();
 		});
@@ -59,25 +60,7 @@
 			ajax('employee_statistics_ajax',data, success);
 			return;
 		}
-		if ($(this).val()=='Salary Expectation') {
-			
-			$('#other_category').html("<?php _t("range")?>");
-			
-			$('#range').show();
-			numeric($('#range'));
-			
-			$('#range').blur(function(e) {
-				var data={}
-				data['type']='salary_expectation';
-				data['range']=cNum($(this).val());
-				data['vacancy_id']=$('#vacancy_id').val();
-				
-				ajax('statistics_ajax',data, success);
-				fixSelect();	
-			});
-			fixSelect();	
-			return;
-		}
+
 		if ($(this).val()=='Age') {
 			$('#range').show();
 			$('#other_category').html("<?php _t("range")?>");
@@ -96,21 +79,18 @@
 			fixSelect();	
 			return;
 		}
-		if ($(this).val()=='Questions') {
-			$('#range').hide();
-			var data={}
-			data['type']="questions";
-			data['vacancy_id']=$('#vacancy_id').val();
-			ajax('statistics_ajax',data, success);
-			fixSelect();
-			return;
-		}
 		if ($(this).val()=='Education Background') {
 			$('#range').hide();
 			var data={}
 			data['type']='education';
-			data['vacancy_id']=$('#vacancy_id').val();
-			ajax('statistics_ajax',data, success);
+			ajax('employee_statistics_ajax',data, success);
+			fixSelect();
+		}
+		if ($(this).val()=='Salary Band') {
+			$('#range').hide();
+			var data={}
+			data['type']='salary_band';
+			ajax('employee_statistics_ajax',data, success);
 			fixSelect();
 		}
 	}
@@ -169,6 +149,8 @@
 		<option value=''>- Base On -</option>
 		<option>Gender</option>
 		<option>Age</option>
+		<option>Education Background</option>
+		<option>Salary Band</option>
 	</select>
 </td></tr>
 <tr><td colspan="3">

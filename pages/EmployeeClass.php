@@ -45,7 +45,7 @@ where a.job_title='Senior Advisor' and a.project_name=?";
 		return null;
 	}
 	
-	static function get_active_employee_simple($filter="", $params=array()) {
+	static function get_active_employee_simple($filter="", $params=array(), $order="") {
 		if ($filter!='') $filter=" and $filter";
 		$sql="select a.*, contract1_start_date start_date
 			, coalesce(am2_end_date, contract2_end_date, am1_end_date, contract1_end_date) end_date, b.user_name from employee a
@@ -59,14 +59,18 @@ where a.job_title='Senior Advisor' and a.project_name=?";
 				and coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date)=c.end_date and c.user_id=a.user_id";
 			$params=array_merge($_SESSION['project_name'], $params );
 		}
-		$sql.=" where ifnull(contract_state,'')!='Terminate'".$filter."
-			order by a.first_name, a.last_name";
+		$sql.=" where ifnull(contract_state,'')!='Terminate'".$filter;
+		if ($order=="") {
+			$sql.=" order by a.first_name, a.last_name";
+		} else {
+			$sql.=" order by ".$order;
+		}
 		$res=db::DoQuery($sql, $params);
 		
 		return $res;
 	}
 
-	static function get_active_employee($filter="", $params=array()) {
+	static function get_active_employee($filter="", $params=array(), $order="") {
 		if ($filter!='') $filter=" and $filter";
 		$sql="select a.*, c.*, b.user_name, coalesce(a.am2_start_date, a.contract2_start_date, a.am1_start_date, a.contract1_start_date) current_start_date
 , coalesce(a.am2_end_date, a.contract2_end_date, a.am1_end_date, a.contract1_end_date) current_end_date
@@ -85,7 +89,12 @@ inner join contract_history c on c.user_id=a.user_id ".shared::joinContractHisto
 			left join project_number e on e.project_number=c.project_number
 			left join project_location f on f.project_location=c.project_location";
 		$sql.=" where ifnull(a.contract_state,'')!='Terminate'".$filter;
-		$sql.=" order by a.first_name, a.last_name";
+		if ($order=="") {
+			$sql.=" order by a.first_name, a.last_name";
+		} else {
+			$sql.=" order by ".$order;
+		}
+		
 		$res=db::DoQuery($sql, $params);
 		$res=shared::fixSalary($res);
 		$res=shared::fixSalary($res,'adj_salary');
