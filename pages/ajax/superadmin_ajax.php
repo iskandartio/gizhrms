@@ -165,22 +165,24 @@
 			
 			$temp="";
 			$th="";
+			$table="";
 			foreach ($res as $rs) {
 				if ($last!=$rs['category_id']) {
+					
 					if ($field_count==4) {
 						if ($temp!="") {
 							$temp=substr($temp, 5)."</td>";
-							$th=substr($th, 5)."</th></tr><tr>";
+							$th=substr($th, 5)."</th>";
 						}
 						
-						$result.=$th.$temp."</tr></table>";
+						$result.="<p><table class='tbl'><tr>$th</tr><tr>$temp</tr></table></p>";
 						$temp="";
 						$th="";
 						$field_count=0;
 					}
-					$result.="<p><table class='tbl'><tr>";
+					
 					$temp.="</td><td style='vertical-align:top!important'>";
-					$th.="</th><th>".$rs['category_name'];
+					$th.="</th><th width='200px'>".$rs['category_name'];
 					$last=$rs['category_id'];
 					$field_count++;
 				}
@@ -190,9 +192,9 @@
 			}
 			if ($temp!="") {
 				$temp=substr($temp, 5)."</td>";
-				$th=substr($th, 5)."</th></tr><tr>";
-			}
-			$result.=$th.$temp."</tr></table>";
+				$th=substr($th, 5)."</th>";
+			}	
+			$result.="<p><table class='tbl'><tr>$th</tr><tr>$temp</tr></table></p>";
 			
 		}
 		$result.="<button class='button_link' id='btn_save'>Save</button></p>";

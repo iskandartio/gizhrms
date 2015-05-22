@@ -115,7 +115,7 @@ class db {
 			$con=db::beginTrans();
 			$flag=1;
 		}
-		$s="insert into $tbl($fields, updated_by, created_at) values(".substr(str_repeat(',?', count($params)),1).", now())";
+		$s="insert into $tbl($fields, updated_by) values(".substr(str_repeat(',?', count($params)),1).")";
 		$retValue= db::ExecMe($s, $params, $con);
 		if ($tbl!='change_log') {
 			$changes=array();

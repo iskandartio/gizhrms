@@ -117,3 +117,6 @@ save:
 563420727
 3745
 
+Employee: waktu search kalau No Data Export to Excel jangan keluar
+Copy Menu Data
+

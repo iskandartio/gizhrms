@@ -164,4 +164,3 @@
 </table> 
 <div id="div_datatable">
 </div>
-<img id ='test' src="">
