@@ -1,17 +1,18 @@
 <?php 
 require "pages/startup.php";
+$page_name="";
 
 if (isset($_SESSION['home_dir'])) {
 	$home_dir=$_SESSION['home_dir'];
+	
 	$page_name=str_replace($home_dir, "", $_SERVER['REQUEST_URI']);
 	if (strpos($page_name,'?')>0) {
 		$page_name=substr($page_name,0,strpos($page_name, "?"));	
 	}
-} else {
-	$page_name="";
 }
 $flag=0;
 $title='';
+
 
 if ($page_name=='') {
 	$_SESSION['home']=$_SERVER['REQUEST_SCHEME']."://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
@@ -24,6 +25,7 @@ if ($page_name=='') {
 	$p=str_replace("_ajax","",$page_name);
 	
 	if (!in_array($p, $general_menu)) {
+	
 		if (isset($_SESSION['allowed_module']) && count($_SESSION['allowed_module'])>0) {
 			if (isset($_SESSION['allowed_module'][$p])) {				
 				$title=key($_SESSION['allowed_module'][$p]);

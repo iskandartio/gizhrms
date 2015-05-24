@@ -135,6 +135,7 @@
 		data['question_id']=getChildHtml(par, 'question_id', fields);
 		var success=function(msg) {
 			par.remove();
+			Add();
 		}
 		ajax("question_ajax", data, success);
 	}

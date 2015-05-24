@@ -48,17 +48,19 @@
 				$choices[$row['choice_id']]=1;
 			}
 			$i=0;
-			foreach ($_POST['choice_id'] as $choice) {
-				$choice_id=$_POST['choice_id'][$i];
-				if ($choice_id=='') {
-					db::insert('choice','choice_val, question_id, sort_id', array($_POST['choice_val'][$i], $question_id, $i), $con);
-				} else {
-					db::update('choice','choice_val, sort_id', 'choice_id=?', array($_POST['choice_val'][$i], $i, $choice_id), $con);
+			if (isset($_POST['choice_id'])) {
+				foreach ($_POST['choice_id'] as $choice) {
+					$choice_id=$_POST['choice_id'][$i];
+					if ($choice_id=='') {
+						db::insert('choice','choice_val, question_id, sort_id', array($_POST['choice_val'][$i], $question_id, $i), $con);
+					} else {
+						db::update('choice','choice_val, sort_id', 'choice_id=?', array($_POST['choice_val'][$i], $i, $choice_id), $con);
+					}
+					if (isset($choices[$choice_id])) {
+						unset($choices[$choice_id]);
+					}
+					$i++;
 				}
-				if (isset($choices[$choice_id])) {
-					unset($choices[$choice_id]);
-				}
-				$i++;
 			}
 			foreach ($choices as $key=>$val) {
 				db::delete('choice','choice_id=?',array($key));
