@@ -36,7 +36,13 @@
 			die;
 		}
 		if ($type=='save') {
-			$res=db::select_one('vacancy','vacancy_id, vacancy_description','vacancy_id=?','', array($vacancy_id));
+			$con=db::beginTrans();
+			$res=db::select_one('vacancy','vacancy_id, vacancy_description','vacancy_id=?','', array($vacancy_id), $con);
+			if (count($res)==0) {
+				$vacancy_id=db::insertEasy('vacancy', $_POST, $con);
+			} else {
+				db::updateEasy('vacancy', $_POST, $con);
+			}
 			if (count($res)==0 || $res['vacancy_description']!=$vacancy_description) {
 				include("pages/MPDF/mpdf.php");
 				$mpdf=new mPDF('c'); 
@@ -45,14 +51,9 @@
 				//mkdir('pages/vacancy', 0755, true);
 				$mpdf->Output("pages/vacancy/".$vacancy_code."_".$vacancy_id.".pdf");
 			}
-			$con=db::beginTrans();
-			if (count($res)==0) {
-				$vacancy_id=db::insertEasy('vacancy', $_POST, $con);
-			} else {
-				db::updateEasy('vacancy', $_POST, $con);
-			}
+			
 			$i=0;
-			$res=db::select('vacancy_question','question_id','vacancy_id=?','',array($vacancy_id));
+			$res=db::select('vacancy_question','question_id','vacancy_id=?','',array($vacancy_id), $con);
 			$questions=array();
 			foreach ($res as $row) {
 				$questions[$row['question_id']]=1;
@@ -73,7 +74,7 @@
 			
 			foreach ($questions as $key=>$val) {
 				
-				db::delete('vacancy_question','question_id=? and vacancy_id=?',array($key, $vacancy_id));
+				db::delete('vacancy_question','question_id=? and vacancy_id=?',array($key, $vacancy_id), $con);
 			}
 			db::commitTrans($con);
 			die($vacancy_id);
